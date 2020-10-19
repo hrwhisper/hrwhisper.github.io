@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode 数据结构 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-datastructure"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode 数据结构
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-datastructure/" class="article-date">
+  <time datetime="2015-03-08T02:07:38.000Z" itemprop="datePublished">2015-03-08</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">50 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本次题解包括</p>
+<ul>
+<li><strong>20</strong>. Valid Parentheses</li>
+<li><strong>146</strong> LRU Cache</li>
+<li><strong>150</strong> Evaluate Reverse Polish Notation</li>
+<li><strong>155</strong> Min Stack</li>
+<li><strong>187</strong> Repeated DNA Sequences</li>
+<li><strong>208</strong> Implement Trie (Prefix Tree)</li>
+<li><strong>211</strong> Add and Search Word - Data structure design</li>
+<li><strong>218</strong> The Skyline Problem</li>
+<li><strong>232</strong> Implement Queue using Stacks</li>
+<li><strong>239</strong> Sliding Window Maximum</li>
+<li><strong>341</strong> Flatten Nested List Iterator</li>
+<li><strong>352</strong> Data Stream as Disjoint Intervals</li>
+<li><strong>432</strong> All O’one Data Structure</li>
+</ul>
+<a id="more"></a>
+<h3 id="20-valid-parentheses">20. Valid Parentheses</h3>
+<blockquote>
+<p>Given a string containing just the characters <code>'('</code>, <code>')'</code>, <code>'&#123;'</code>, <code>'&#125;'</code>, <code>'['</code> and <code>']'</code>, determine if the input string is valid.</p>
+<p>The brackets must close in the correct order, <code>&quot;()&quot;</code> and <code>&quot;()[]&#123;&#125;&quot;</code> are all valid but <code>&quot;(]&quot;</code> and <code>&quot;([)]&quot;</code> are not.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/valid-parentheses/">leetcode Valid Parentheses</a></p>
+<p>题目大意 给定三种括号组成的字符串，让你判断是否合法</p>
+<p>思路</p>
+<p>用栈判断即可。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">	bool isValid(string s) &#123;</span><br><span class="line">		stack&lt;char&gt; q;</span><br><span class="line">		for (char c : s) &#123;</span><br><span class="line">			if (c &#x3D;&#x3D; &#39;[&#39; || c &#x3D;&#x3D; &#39;&#123;&#39; || c &#x3D;&#x3D; &#39;(&#39;)</span><br><span class="line">				q.push(c);</span><br><span class="line">			else &#123;</span><br><span class="line">				if (q.empty()) return false;</span><br><span class="line">				char top &#x3D; q.top();</span><br><span class="line">				q.pop();</span><br><span class="line">				if (c &#x3D;&#x3D; &#39;)&#39; &amp;&amp; top !&#x3D; &#39;(&#39; || c &#x3D;&#x3D; &#39;&#125;&#39; &amp;&amp; top !&#x3D; &#39;&#123;&#39; || c &#x3D;&#x3D; &#39;]&#39; &amp;&amp; top !&#x3D; &#39;[&#39;)</span><br><span class="line">					return false;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return q.empty();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def isValid(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        q &#x3D; []</span><br><span class="line">        for c in s:</span><br><span class="line">            if c in [&#39;(&#39;,&#39;&#123;&#39;,&#39;[&#39;]:</span><br><span class="line">                q.append(c)</span><br><span class="line">            else:</span><br><span class="line">                if not q: return False</span><br><span class="line">                top &#x3D; q.pop()</span><br><span class="line">                if c &#x3D;&#x3D; &#39;)&#39; and top !&#x3D; &#39;(&#39; or c &#x3D;&#x3D; &#39;&#125;&#39; and top !&#x3D; &#39;&#123;&#39; or c &#x3D;&#x3D; &#39;]&#39; and top !&#x3D; &#39;[&#39;:</span><br><span class="line">                    return False</span><br><span class="line">        return not q</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="146-lru-cache">146. LRU Cache</h3>
+<blockquote>
+<p>Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: <code>get</code> and <code>set</code>.</p>
+<p><code>get(key)</code> - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.<br>
+<code>set(key, value)</code> - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/lru-cache/">传送门</a></p>
+<p>题意：设计一个数据结构，要求实现LRU（Least Recently Used 即最近最不常使用）功能</p>
+<ul>
+<li>get(key)： 获取Key对应的值，如果不存在返回-1</li>
+<li>set(key, value) ： 设置key的值为value，超过容量，那么应先删除最近最不常使用的元素，再插入</li>
+</ul>
+<p>思路：</p>
+<p>LRU是在OS课上有讲过。当我们访问过一个元素，设置一个元素的时候，都应该标记一下刚使用过。</p>
+<p>我是用字典+链表实现的。要点如下</p>
+<ul>
+<li>构造函数中创建一个list q和一个字典dic</li>
+<li>get时候，如果元素存在，将q中对应的key删除，并将其插入队尾</li>
+<li>set时候，如果元素不存在且容量过大，删除队首元素，将新插入队尾和字典。如果元素存在，只需要设置字典，和将q中对应的调到队尾即可。（先删除后插入）</li>
+</ul>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">struct DoubleListNode &#123;</span><br><span class="line">	DoubleListNode *pre;</span><br><span class="line">	DoubleListNode *next;</span><br><span class="line">    int key;</span><br><span class="line">	int val;</span><br><span class="line">	DoubleListNode(int k, int v) : key(k), val(v), pre(nullptr), next(nullptr) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class DoubleLinkList &#123;</span><br><span class="line">	DoubleListNode *head;</span><br><span class="line">	DoubleListNode *tail;</span><br><span class="line">public:</span><br><span class="line">	DoubleLinkList()&#123;</span><br><span class="line">		head &#x3D; new DoubleListNode(-1, -1);</span><br><span class="line">		tail &#x3D; new DoubleListNode(-1, -1);</span><br><span class="line">		head-&gt;next &#x3D; tail;</span><br><span class="line">		tail-&gt;pre &#x3D; head;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	DoubleListNode* removeHead() &#123;</span><br><span class="line">		return remove(head-&gt;next);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	DoubleListNode* remove(DoubleListNode *t) &#123;</span><br><span class="line">		if (t &#x3D;&#x3D; head || t &#x3D;&#x3D; tail) return nullptr;</span><br><span class="line">		DoubleListNode *pre &#x3D; t-&gt;pre;</span><br><span class="line">		DoubleListNode *next &#x3D; t-&gt;next;</span><br><span class="line">		pre-&gt;next &#x3D; next;</span><br><span class="line">		next-&gt;pre &#x3D; pre;</span><br><span class="line">		return t;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	void insertTail(DoubleListNode *t) &#123;</span><br><span class="line">		DoubleListNode *pre &#x3D; tail-&gt;pre;</span><br><span class="line">		t-&gt;pre &#x3D; pre;</span><br><span class="line">		t-&gt;next &#x3D; tail;</span><br><span class="line">		pre-&gt;next &#x3D; t;</span><br><span class="line">		tail-&gt;pre &#x3D; t;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class LRUCache &#123;</span><br><span class="line">	int capacity;</span><br><span class="line">	unordered_map&lt;int, DoubleListNode*&gt; hashmap;</span><br><span class="line">	DoubleLinkList list;</span><br><span class="line">public:</span><br><span class="line">	LRUCache(int capacity) : capacity(capacity) &#123;&#125;</span><br><span class="line"></span><br><span class="line">	int get(int key) &#123;</span><br><span class="line">		if (hashmap.find(key) &#x3D;&#x3D; hashmap.end())</span><br><span class="line">			return -1;</span><br><span class="line">		DoubleListNode *t &#x3D; hashmap[key];</span><br><span class="line">		list.remove(t);</span><br><span class="line">		list.insertTail(t);</span><br><span class="line">		return t-&gt;val;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	void put(int key, int value) &#123;</span><br><span class="line">		if (hashmap.find(key) !&#x3D; hashmap.end()) &#123;</span><br><span class="line">			DoubleListNode *t &#x3D; hashmap[key];</span><br><span class="line">			list.remove(t);</span><br><span class="line">			list.insertTail(t);</span><br><span class="line">			t-&gt;val &#x3D; value;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			if (hashmap.size() &gt;&#x3D; capacity) &#123;</span><br><span class="line">				DoubleListNode *t &#x3D; list.removeHead();</span><br><span class="line">                hashmap.erase(t-&gt;key);</span><br><span class="line">                delete t;</span><br><span class="line">			&#125;</span><br><span class="line">			DoubleListNode *t &#x3D; new DoubleListNode(key, value);</span><br><span class="line">			hashmap[key] &#x3D; t;</span><br><span class="line">			list.insertTail(t);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">class Node(object):</span><br><span class="line">    def __init__(self, key, value):</span><br><span class="line">        self.key &#x3D; key</span><br><span class="line">        self.value &#x3D; value</span><br><span class="line">        self.next &#x3D; None</span><br><span class="line">        self.pre &#x3D; None</span><br><span class="line"></span><br><span class="line">class DoubleLinkList(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.head &#x3D; None</span><br><span class="line">        self.tail &#x3D; None</span><br><span class="line"></span><br><span class="line">    def pop(self, node&#x3D;None):</span><br><span class="line">        if not node:</span><br><span class="line">            node &#x3D; self.tail</span><br><span class="line">        pre, next &#x3D; node.pre, node.next</span><br><span class="line">        if pre and next:</span><br><span class="line">            pre.next &#x3D; next</span><br><span class="line">            next.pre &#x3D; pre</span><br><span class="line">        </span><br><span class="line">        if node &#x3D;&#x3D; self.tail:</span><br><span class="line">            self.tail &#x3D; self.tail.pre</span><br><span class="line">        if node &#x3D;&#x3D; self.head:</span><br><span class="line">            self.head &#x3D; self.head.next</span><br><span class="line">        return node</span><br><span class="line"></span><br><span class="line">    def insert_head(self, node):</span><br><span class="line">        if not self.head:</span><br><span class="line">            self.head &#x3D; self.tail &#x3D; node</span><br><span class="line">        else:</span><br><span class="line">            node.next &#x3D; self.head</span><br><span class="line">            node.pre &#x3D; self.tail</span><br><span class="line">            self.head.pre &#x3D; node</span><br><span class="line">            self.tail.next &#x3D; node</span><br><span class="line">            self.head &#x3D; node</span><br><span class="line"></span><br><span class="line">class LRUCache(object):</span><br><span class="line">    def __init__(self, capacity):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type capacity: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.capacity &#x3D; capacity</span><br><span class="line">        self.map &#x3D; &#123;&#125;</span><br><span class="line">        self.linklist &#x3D; DoubleLinkList()</span><br><span class="line"></span><br><span class="line">    def get(self, key):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type key: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        node &#x3D; self.map.get(key)</span><br><span class="line">        if not node: return -1</span><br><span class="line">        self.linklist.pop(node)</span><br><span class="line">        self.linklist.insert_head(node)</span><br><span class="line">        return node.value</span><br><span class="line"></span><br><span class="line">    def put(self, key, value):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type key: int</span><br><span class="line">        :type value: int</span><br><span class="line">        :rtype: void</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if key in self.map:</span><br><span class="line">            node &#x3D; self.linklist.pop(self.map[key])</span><br><span class="line">            node.value &#x3D; value</span><br><span class="line">        else:</span><br><span class="line">            if len(self.map) &#x3D;&#x3D; self.capacity:</span><br><span class="line">                node &#x3D; self.linklist.pop()</span><br><span class="line">                del self.map[node.key]</span><br><span class="line">            node &#x3D; Node(key, value)</span><br><span class="line">            self.map[key] &#x3D; node</span><br><span class="line">        self.linklist.insert_head(node)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">class LinkedListNode &#123;</span><br><span class="line">    int key;</span><br><span class="line">    int value;</span><br><span class="line">    LinkedListNode pre;</span><br><span class="line">    LinkedListNode next;</span><br><span class="line"></span><br><span class="line">    LinkedListNode(int key, int value) &#123;</span><br><span class="line">        this.key &#x3D; key;</span><br><span class="line">        this.value &#x3D; value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DoubleLinkedList &#123;</span><br><span class="line">    LinkedListNode head &#x3D; null;</span><br><span class="line">    LinkedListNode tail &#x3D; null;</span><br><span class="line"></span><br><span class="line">    LinkedListNode removeTail() &#123;</span><br><span class="line">        return remove(tail);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    LinkedListNode remove(final LinkedListNode node) &#123;</span><br><span class="line">        LinkedListNode pre &#x3D; node.pre, next &#x3D; node.next;</span><br><span class="line">        if (pre !&#x3D; null)</span><br><span class="line">            pre.next &#x3D; next;</span><br><span class="line">        if (next !&#x3D; null)</span><br><span class="line">            next.pre &#x3D; pre;</span><br><span class="line">        if (node &#x3D;&#x3D; head) head &#x3D; head.next;</span><br><span class="line">        if (node &#x3D;&#x3D; tail) tail &#x3D; tail.pre;</span><br><span class="line">        return node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void insertHead(LinkedListNode node) &#123;</span><br><span class="line">        if (head &#x3D;&#x3D; null)</span><br><span class="line">            head &#x3D; tail &#x3D; node;</span><br><span class="line">        else &#123;</span><br><span class="line">            node.next &#x3D; head;</span><br><span class="line">            node.pre &#x3D; tail;</span><br><span class="line">            head.pre &#x3D; node;</span><br><span class="line">            tail.next &#x3D; node;</span><br><span class="line">            head &#x3D; node;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class LRUCache &#123;</span><br><span class="line">    int capacity;</span><br><span class="line">    DoubleLinkedList list;</span><br><span class="line">    HashMap&lt;Integer, LinkedListNode&gt; map &#x3D; new HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public LRUCache(int capacity) &#123;</span><br><span class="line">        this.capacity &#x3D; capacity;</span><br><span class="line">        this.list &#x3D; new DoubleLinkedList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int get(int key) &#123;</span><br><span class="line">        LinkedListNode node &#x3D; map.get(key);</span><br><span class="line">        if (node &#x3D;&#x3D; null) return -1;</span><br><span class="line">        list.insertHead(list.remove(node));</span><br><span class="line">        return node.value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void put(int key, int value) &#123;</span><br><span class="line">        LinkedListNode node &#x3D; map.get(key);</span><br><span class="line">        if (node !&#x3D; null) &#123;</span><br><span class="line">            node.value &#x3D; value;</span><br><span class="line">            list.insertHead(list.remove(node));</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if(map.size() &#x3D;&#x3D; capacity)&#123;</span><br><span class="line">                node &#x3D; list.removeTail();</span><br><span class="line">                map.remove(node.key);</span><br><span class="line">            &#125;</span><br><span class="line">            node &#x3D; new LinkedListNode(key,value);</span><br><span class="line">            map.put(key,node);</span><br><span class="line">            list.insertHead(node);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="150-evaluate-reverse-polish-notation">150. Evaluate Reverse Polish Notation</h3>
+<blockquote>
+<p>Evaluate the value of an arithmetic expression in <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">Reverse Polish Notation</a>.</p>
+<p>Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>. Each operand may be an integer or another expression.</p>
+<p>Some examples:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;] -&gt; ((2 + 1) * 3) -&gt; 9</span><br><span class="line">[&quot;4&quot;, &quot;13&quot;, &quot;5&quot;, &quot;&#x2F;&quot;, &quot;+&quot;] -&gt; (4 + (13 &#x2F; 5)) -&gt; 6</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/evaluate-reverse-polish-notation/">传送门</a></p>
+<p>题意：给定一个字符串数组（后缀表达式）求其计算结果</p>
+<p>思路：遇到四则运算符时候，从栈中取出两个元素进行计算。然后入栈。</p>
+<p>我巧妙的运用了异常处理，代码更简洁、更优雅。</p>
+<p>还有就是Python负数除法需要注意。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param tokens, a list of string</span><br><span class="line">    # @return an integer</span><br><span class="line">    def evalRPN(self, tokens):</span><br><span class="line">        stack  &#x3D; [] </span><br><span class="line">        for i in tokens:</span><br><span class="line">            try:</span><br><span class="line">                temp &#x3D; int(i)</span><br><span class="line">                stack.append(temp)</span><br><span class="line">            except Exception, e:         </span><br><span class="line">                b,a&#x3D;stack[-1],stack[-2]</span><br><span class="line">                stack.pop()</span><br><span class="line">                stack.pop()</span><br><span class="line">                if i &#x3D;&#x3D; &#39;+&#39;:    a &#x3D; a+b</span><br><span class="line">                elif i&#x3D;&#x3D;&#39;-&#39;:    a &#x3D; a-b</span><br><span class="line">                elif i&#x3D;&#x3D;&#39;*&#39;:    a &#x3D; a*b</span><br><span class="line">                elif i&#x3D;&#x3D;&#39;&#x2F;&#39;:    a &#x3D; int(a*1.0&#x2F;b)</span><br><span class="line">                stack.append(a)</span><br><span class="line">        return stack[-1]</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="155-min-stack">155. Min Stack</h3>
+<blockquote>
+<p>Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.</p>
+<ul>
+<li>push(x) – Push element x onto stack.</li>
+<li>pop() – Removes the element on top of the stack.</li>
+<li>top() – Get the top element.</li>
+<li>getMin() – Retrieve the minimum element in the stack.</li>
+</ul>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/min-stack/">传送门</a></p>
+<p>题意：设计一个数据结构，要求实现如下功能</p>
+<ul>
+<li>push(x) – 把x入栈</li>
+<li>pop() – 删除栈顶</li>
+<li>top() – 获取top元素</li>
+<li>getMin() – 返回栈中最小元素</li>
+</ul>
+<p>思路：双栈，用另一个栈来维护到当前位置最小的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class MinStack(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        initialize your data structure here.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.stack &#x3D; []</span><br><span class="line">        self.min &#x3D; []</span><br><span class="line"></span><br><span class="line">    def push(self, x):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type x: int</span><br><span class="line">        :rtype: void</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.stack.append(x)</span><br><span class="line">        if not self.min or x &lt;&#x3D; self.min[-1]: self.min.append(x)</span><br><span class="line"></span><br><span class="line">    def pop(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: void</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        x &#x3D; self.stack.pop()</span><br><span class="line">        if x &#x3D;&#x3D; self.min[-1]: self.min.pop()</span><br><span class="line"></span><br><span class="line">    def top(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return self.stack[-1]</span><br><span class="line"></span><br><span class="line">    def getMin(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return self.min[-1]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="187-repeated-dna-sequences">187. Repeated DNA Sequences</h3>
+<blockquote>
+<p>All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: “ACGAATTCCG”. When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.</p>
+<p>Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.</p>
+<p>For example,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given s &#x3D; &quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&quot;,</span><br><span class="line"></span><br><span class="line">Return:</span><br><span class="line">[&quot;AAAAACCCCC&quot;, &quot;CCCCCAAAAA&quot;].</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/repeated-dna-sequences/">传送门</a></p>
+<p>题意：给定一个DNA字符串，返回不只出现过一次的10个字符长的子串</p>
+<p>思路：枚举所有10字符的子串，直接用哈希表即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param s, a string</span><br><span class="line">    # @return a list of strings</span><br><span class="line">    def findRepeatedDnaSequences(self, s):</span><br><span class="line">        dic ,ans, n&#x3D;set(),set(),len(s)</span><br><span class="line">        for i in xrange(n-9):</span><br><span class="line">            cur &#x3D; s[i:i+10]</span><br><span class="line">            if cur in dic:</span><br><span class="line">                ans.add(cur)</span><br><span class="line">            else: dic.add(cur)</span><br><span class="line">        return list(ans)</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="208-implement-trie-prefix-tree">208. Implement Trie (Prefix Tree)</h3>
+<blockquote>
+<p>Implement a trie with <code>insert</code>, <code>search</code>, and <code>startsWith</code> methods.</p>
+<p><strong>Note:</strong><br>
+You may assume that all inputs are consist of lowercase letters <code>a-z</code>.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/implement-trie-prefix-tree/">传送门</a></p>
+<p>题意：要求实现前缀树。</p>
+<p>思路：直接写呗。。。</p>
+<p>我是用结点上的end判断是否有以这个字母作为结束的单词。因为相同单词路径唯一。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">class TrieNode &#123;</span><br><span class="line">public:</span><br><span class="line">	static const int c_size &#x3D; 26;</span><br><span class="line">	bool end;</span><br><span class="line">	TrieNode *child[26];</span><br><span class="line">	&#x2F;&#x2F; Initialize your data structure here.</span><br><span class="line">	TrieNode() &#123;</span><br><span class="line">		end &#x3D; false;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; c_size; i++) child[i] &#x3D; NULL;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class Trie &#123;</span><br><span class="line">public:</span><br><span class="line">	Trie() &#123;</span><br><span class="line">		root &#x3D; new TrieNode();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	inline int index(const char &amp;c)&#123;</span><br><span class="line">		return c - &#39;a&#39;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; Inserts a word into the trie.</span><br><span class="line">	void insert(string word) &#123;</span><br><span class="line">		TrieNode *p &#x3D; root;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; word.length(); i++)&#123;</span><br><span class="line">			int id &#x3D; index(word[i]);</span><br><span class="line">			if (!p-&gt;child[id])&#123;</span><br><span class="line">				TrieNode *t &#x3D; new TrieNode();</span><br><span class="line">				p-&gt;child[id] &#x3D; t;</span><br><span class="line">			&#125;</span><br><span class="line">			p &#x3D; p-&gt;child[id];</span><br><span class="line">		&#125;</span><br><span class="line">		p-&gt;end &#x3D; true;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; Returns if the word is in the trie.</span><br><span class="line">	bool search(string word) &#123;</span><br><span class="line">		TrieNode *p &#x3D; match_word(word);</span><br><span class="line">		return p &amp;&amp; p-&gt;end;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; Returns if there is any word in the trie</span><br><span class="line">	&#x2F;&#x2F; that starts with the given prefix.</span><br><span class="line">	bool startsWith(string prefix) &#123;</span><br><span class="line">		return match_word(prefix);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~Trie() &#123;</span><br><span class="line">		deleteNode(root);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	void deleteNode(TrieNode *root)&#123;</span><br><span class="line">		if (!root) return;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; TrieNode::c_size; i++)&#123;</span><br><span class="line">			deleteNode(root-&gt;child[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		delete root;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">	TrieNode* root;</span><br><span class="line"></span><br><span class="line">	TrieNode*  match_word(const string &amp;word)&#123;</span><br><span class="line">		TrieNode *p &#x3D; root;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; word.length(); i++)&#123;</span><br><span class="line">			int id &#x3D; index(word[i]);</span><br><span class="line">			if (!p-&gt;child[id])	return NULL;</span><br><span class="line">			p &#x3D; p-&gt;child[id];</span><br><span class="line">		&#125;</span><br><span class="line">		return p;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="211-add-and-search-word-data-structure-design">211. Add and Search Word - Data structure design</h3>
+<blockquote>
+<p>Design a data structure that supports the following two operations:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void addWord(word)</span><br><span class="line">bool search(word)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>search(word) can search a literal word or a regular expression string containing only letters <code>a-z</code> or <code>.</code>. A <code>.</code> means it can represent any one letter.</p>
+<p>For example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">addWord(&quot;bad&quot;)</span><br><span class="line">addWord(&quot;dad&quot;)</span><br><span class="line">addWord(&quot;mad&quot;)</span><br><span class="line">search(&quot;pad&quot;) -&gt; false</span><br><span class="line">search(&quot;bad&quot;) -&gt; true</span><br><span class="line">search(&quot;.ad&quot;) -&gt; true</span><br><span class="line">search(&quot;b..&quot;) -&gt; true</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong><br>
+You may assume that all words are consist of lowercase letters <code>a-z</code>.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/add-and-search-word-data-structure-design/">传送门</a></p>
+<p>题意：和上一题一样，实现个数据结构，有插入和查找功能。查找的时候’.'可以代替任意字符。</p>
+<p>思路：就是search的时候需要注意.的情况需要遍历当前层所有的点</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">class TrieNode &#123;</span><br><span class="line">public:</span><br><span class="line">	static const int c_size &#x3D; 26;</span><br><span class="line">	bool end;</span><br><span class="line">	TrieNode *child[26];</span><br><span class="line">	&#x2F;&#x2F; Initialize your data structure here.</span><br><span class="line">	TrieNode() &#123;</span><br><span class="line">		end &#x3D; false;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; c_size; i++) child[i] &#x3D; NULL;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class WordDictionary &#123;</span><br><span class="line">public:</span><br><span class="line">	WordDictionary() &#123;</span><br><span class="line">		root &#x3D; new TrieNode();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	inline int index(const char &amp;c)&#123;</span><br><span class="line">		return c - &#39;a&#39;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; Adds a word into the data structure.</span><br><span class="line">	void addWord(string word) &#123;</span><br><span class="line">		TrieNode *p &#x3D; root;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; word.length(); i++)&#123;</span><br><span class="line">			int id &#x3D; index(word[i]);</span><br><span class="line">			if (!p-&gt;child[id])&#123;</span><br><span class="line">				TrieNode *t &#x3D; new TrieNode();</span><br><span class="line">				p-&gt;child[id] &#x3D; t;</span><br><span class="line">			&#125;</span><br><span class="line">			p &#x3D; p-&gt;child[id];</span><br><span class="line">		&#125;</span><br><span class="line">		p-&gt;end &#x3D; true;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; Returns if the word is in the data structure. A word could</span><br><span class="line">	&#x2F;&#x2F; contain the dot character &#39;.&#39; to represent any one letter.</span><br><span class="line">	bool search(string word) &#123;</span><br><span class="line">		return match_word(root,0,word);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~WordDictionary() &#123;</span><br><span class="line">		deleteNode(root);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	void deleteNode(TrieNode *root)&#123;</span><br><span class="line">		if (!root) return;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; TrieNode::c_size; i++)&#123;</span><br><span class="line">			deleteNode(root-&gt;child[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		delete root;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">	TrieNode* root;</span><br><span class="line">	bool match_word(TrieNode *p ,int k,const string &amp;word)&#123;</span><br><span class="line">		if (!p || k &gt; word.length()) return false;</span><br><span class="line">		if (k &#x3D;&#x3D; word.length() &amp;&amp; p-&gt;end) return true;</span><br><span class="line">		for (; k &lt; word.length(); k++)&#123;</span><br><span class="line">			if (word[k] &#x3D;&#x3D; &#39;.&#39;) &#123;</span><br><span class="line">				for (int j &#x3D; 0; j &lt; TrieNode::c_size; j++)&#123;</span><br><span class="line">					if (match_word(p-&gt;child[j], k + 1, word))</span><br><span class="line">						return true;</span><br><span class="line">				&#125;</span><br><span class="line">				return false;</span><br><span class="line">			&#125;</span><br><span class="line">			else&#123;</span><br><span class="line">				int id &#x3D; index(word[k]);</span><br><span class="line">				if (!p-&gt;child[id])	return false;</span><br><span class="line">				p &#x3D; p-&gt;child[id];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return p-&gt;end;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="212-word-search-ii">212. Word Search II</h3>
+<blockquote>
+<p>Given a 2D board and a list of words from the dictionary, find all words in the board.</p>
+<p>Each word must be constructed from letters of sequentially adjacent cell, where “adjacent” cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.</p>
+<p>For example,<br>
+Given <strong>words</strong> = <code>[&quot;oath&quot;,&quot;pea&quot;,&quot;eat&quot;,&quot;rain&quot;]</code> and <strong>board</strong> =</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [&#39;o&#39;,&#39;a&#39;,&#39;a&#39;,&#39;n&#39;],</span><br><span class="line">  [&#39;e&#39;,&#39;t&#39;,&#39;a&#39;,&#39;e&#39;],</span><br><span class="line">  [&#39;i&#39;,&#39;h&#39;,&#39;k&#39;,&#39;r&#39;],</span><br><span class="line">  [&#39;i&#39;,&#39;f&#39;,&#39;l&#39;,&#39;v&#39;]</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Return <code>[&quot;eat&quot;,&quot;oath&quot;]</code>.</p>
+<p><strong>Note:</strong><br>
+You may assume that all inputs are consist of lowercase letters <code>a-z</code>.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/word-search-ii/">传送门</a></p>
+<p>题意：给定一个矩阵和一些单词，求能在矩阵中找到的所有单词。（通过上下、左右相邻拼接，但是每个字符只能使用一次）</p>
+<p>思路：和79题的DFS方法差不多，就是要求效率更高。所以可以使用前缀树！看看当前路径上前缀树是否有，若没有，则直接剪枝了。</p>
+<p>79 Word Search的题解： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/?p=523">https://www.hrwhisper.me/?p=523</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">class TrieNode &#123;</span><br><span class="line">public:</span><br><span class="line">	static const int c_size &#x3D; 26;</span><br><span class="line">	bool end;</span><br><span class="line">	TrieNode *child[26];</span><br><span class="line">	&#x2F;&#x2F; Initialize your data structure here.</span><br><span class="line">	TrieNode() &#123;</span><br><span class="line">		end &#x3D; false;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; c_size; i++) child[i] &#x3D; NULL;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class Trie &#123;</span><br><span class="line">	TrieNode* root;</span><br><span class="line">public:</span><br><span class="line">	Trie() &#123; root &#x3D; new TrieNode();	&#125;</span><br><span class="line">	inline TrieNode * getRoot()&#123; return root; &#125;</span><br><span class="line">	inline int index(const char &amp;c)&#123; return c - &#39;a&#39;;&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; Inserts a word into the trie.</span><br><span class="line">	void insert(string word) &#123;</span><br><span class="line">		TrieNode *p &#x3D; root;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; word.length(); i++)&#123;</span><br><span class="line">			int id &#x3D; index(word[i]);</span><br><span class="line">			if (!p-&gt;child[id])&#123;</span><br><span class="line">				TrieNode *t &#x3D; new TrieNode();</span><br><span class="line">				p-&gt;child[id] &#x3D; t;</span><br><span class="line">			&#125;</span><br><span class="line">			p &#x3D; p-&gt;child[id];</span><br><span class="line">		&#125;</span><br><span class="line">		p-&gt;end &#x3D; true;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~Trie() &#123;</span><br><span class="line">		deleteNode(root);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	void deleteNode(TrieNode *root)&#123;</span><br><span class="line">		if (!root) return;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; TrieNode::c_size; i++)&#123;</span><br><span class="line">			deleteNode(root-&gt;child[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		delete root;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const int dx[4] &#x3D; &#123; 1, -1, 0, 0 &#125;;</span><br><span class="line">const int dy[4] &#x3D; &#123; 0, 0, 1, -1 &#125;;</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">	unordered_set&lt;string&gt; ans;</span><br><span class="line">	vector&lt;string&gt; findWords(vector&lt;vector&lt;char&gt;&gt;&amp; board, vector&lt;string&gt;&amp; words) &#123;</span><br><span class="line">		vector&lt;vector&lt;bool&gt; &gt; vis(board.size(), vector&lt;bool&gt;(board[0].size(), 0));</span><br><span class="line">		Trie wordTrie;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; words.size(); i++)	wordTrie.insert(words[i]);</span><br><span class="line">		for (int i &#x3D; 0; i &lt; board.size(); i++)&#123;</span><br><span class="line">			for (int j &#x3D; 0; j &lt; board[0].size(); j++)&#123;</span><br><span class="line">				if (wordTrie.getRoot()-&gt;child[board[i][j] - &#39;a&#39;])&#123;</span><br><span class="line">					vis[i][j] &#x3D; true;</span><br><span class="line">					string cur; cur.push_back(board[i][j]);</span><br><span class="line">					dfs(i, j, cur, board, vis, wordTrie.getRoot()-&gt;child[board[i][j] - &#39;a&#39;]);</span><br><span class="line">					vis[i][j] &#x3D; false;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		vector&lt;string&gt; res;</span><br><span class="line">		for (auto it &#x3D; ans.begin(); it !&#x3D; ans.end(); it++)&#123;</span><br><span class="line">			res.push_back(*it);</span><br><span class="line">		&#125;</span><br><span class="line">		return res;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	void dfs(int x, int y, string cur, vector&lt;vector&lt;char&gt; &gt;&amp; board, vector&lt;vector&lt;bool&gt; &gt;&amp;vis, TrieNode* p)&#123;</span><br><span class="line">		if (p-&gt;end) 	ans.insert(cur);</span><br><span class="line">		for (int i &#x3D; 0; i &lt; 4; i++)&#123;</span><br><span class="line">			int nx &#x3D; x + dx[i];</span><br><span class="line">			int ny &#x3D; y + dy[i];</span><br><span class="line">			if (ok(nx, ny, board.size(), board[0].size()) &amp;&amp; !vis[nx][ny] &amp;&amp; p-&gt;child[board[nx][ny] - &#39;a&#39;])&#123;</span><br><span class="line">				vis[nx][ny] &#x3D; true;</span><br><span class="line">				dfs(nx, ny, cur + board[nx][ny], board, vis, p-&gt;child[board[nx][ny] - &#39;a&#39;]);</span><br><span class="line">				vis[nx][ny] &#x3D; false;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	inline bool ok(int nx, int ny, int m, int n)&#123;</span><br><span class="line">		if (nx &lt; 0 || nx &gt;&#x3D; m || ny &lt; 0 || ny &gt;&#x3D; n) return false;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="218-the-skyline-problem">218. The Skyline Problem</h3>
+<blockquote>
+<p>A city’s skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Now suppose you are<strong>given the locations and height of all the buildings</strong> as shown on a cityscape photo (Figure A), write a program to <strong>output the skyline</strong> formed by these buildings collectively (Figure B).</p>
+<p>[<img src="https://leetcode.com/static/images/problemset/skyline1.jpg" alt="Buildings"></p>
+<p>The geometric information of each building is represented by a triplet of integers <code>[Li, Ri, Hi]</code>, where <code>Li</code> and <code>Ri</code> are the x coordinates of the left and right edge of the ith building, respectively, and <code>Hi</code> is its height. It is guaranteed that <code>0 ≤ Li, Ri ≤ INT_MAX</code>, <code>0 &lt; Hi ≤ INT_MAX</code>, and <code>Ri - Li &gt; 0</code>. You may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height 0.</p>
+<p>For instance, the dimensions of all buildings in Figure A are recorded as: <code>[ [2 9 10], [3 7 15], [5 12 12], [15 20 10], [19 24 8] ]</code> .</p>
+<p>The output is a list of “<strong>key points</strong>” (red dots in Figure B) in the format of <code>[ [x1,y1], [x2, y2], [x3, y3], ... ]</code> that uniquely defines a skyline. <strong>A key point is the left endpoint of a horizontal line segment</strong>. Note that the last key point, where the rightmost building ends, is merely used to mark the termination of the skyline, and always has zero height. Also, the ground in between any two adjacent buildings should be considered part of the skyline contour.</p>
+<p>For instance, the skyline in Figure B should be represented as:<code>[ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24, 0] ]</code>.</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>The number of buildings in any input list is guaranteed to be in the range <code>[0, 10000]</code>.</li>
+<li>The input list is already sorted in ascending order by the left x position <code>Li</code>.</li>
+<li>The output list must be sorted by the x position.</li>
+<li>There must be no consecutive horizontal lines of equal height in the output skyline. For instance, <code>[...[2 3], [4 5], [7 5], [11 5], [12 7]...]</code> is not acceptable; the three lines of height 5 should be merged into one in the final output as such: <code>[...[2 3], [4 5], [12 7], ...]</code></li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/the-skyline-problem/">leetcode The Skyline Problem</a></p>
+<p>题意：给定一些[L,R,H]这样的数组，L,R分别表示矩形起始和终点，H表示高度。 让你求这些矩形的外轮廓中的左端点</p>
+<p>思路：</p>
+<p>我觉得写不出比 <a target="_blank" rel="noopener" href="https://briangordon.github.io/2014/08/the-skyline-problem.html">https://briangordon.github.io/2014/08/the-skyline-problem.html</a> 更好的分析了。</p>
+<p>我简单的说下大概内容。</p>
+<p>就是朴素的方法枚举所有可能的点（每个矩形的左边和右边），然后再枚举包括当前点的所有矩形。 当前的轮廓线取最高的那点。复杂度O(n^2)</p>
+<p>更进一步的做法是用堆来看当前最高的高度。</p>
+<p>此外由于C++的heap不能删除特定的点，因此用个map标记一下。</p>
+<p>还有就是一开始预处理的时候，把左边的高度设为负数，这样就区分开了左右端点。</p>
+<p>详见代码。</p>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">bool cmp(const pair&lt;int, int&gt; &amp;a, const pair&lt;int, int&gt; &amp;b) &#123;</span><br><span class="line">	return a.first !&#x3D; b.first ? a.first &lt; b.first : a.second &lt; b.second;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">	vector&lt;pair&lt;int, int&gt;&gt; getSkyline(vector&lt;vector&lt;int&gt;&gt;&amp; buildings) &#123;</span><br><span class="line">		vector&lt;pair&lt;int,int&gt;&gt; heigtht;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; buildings.size(); i++) &#123;</span><br><span class="line">			heigtht.push_back(make_pair(buildings[i][0], -buildings[i][2]));</span><br><span class="line">			heigtht.push_back(make_pair(buildings[i][1], buildings[i][2]));</span><br><span class="line">		&#125;</span><br><span class="line">		sort(heigtht.begin(), heigtht.end(), cmp);</span><br><span class="line">		vector&lt;pair&lt;int, int&gt;&gt; ans;</span><br><span class="line">		unordered_map&lt;int, int&gt; m;</span><br><span class="line">		priority_queue&lt;int&gt; q;</span><br><span class="line">		int pre &#x3D; 0;</span><br><span class="line">		q.push(pre);</span><br><span class="line">		for (int i &#x3D; 0; i &lt; heigtht.size(); i++) &#123;</span><br><span class="line">			if (heigtht[i].second &lt; 0) &#123;</span><br><span class="line">				q.push(-heigtht[i].second);</span><br><span class="line">			&#125;</span><br><span class="line">			else &#123;</span><br><span class="line">				++m[heigtht[i].second];</span><br><span class="line">				while (!q.empty() &amp;&amp; m[q.top()] &gt; 0) &#123;</span><br><span class="line">					--m[q.top()];</span><br><span class="line">					q.pop();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			int cur &#x3D; q.top();</span><br><span class="line">			if (cur !&#x3D; pre) &#123;</span><br><span class="line">				pre &#x3D; cur;</span><br><span class="line">				ans.push_back(make_pair(heigtht[i].first,cur));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="232-implement-queue-using-stacks">232. Implement Queue using Stacks</h3>
+<blockquote>
+<p>Implement the following operations of a queue using stacks.</p>
+<ul>
+<li>push(x) – Push element x to the back of queue.</li>
+<li>pop() – Removes the element from in front of queue.</li>
+<li>peek() – Get the front element.</li>
+<li>empty() – Return whether the queue is empty.</li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>You must use <em>only</em> standard operations of a stack – which means only <code>push to top</code>, <code>peek/pop from top</code>, <code>size</code>, and <code>is empty</code> operations are valid.</li>
+<li>Depending on your language, stack may not be supported natively. You may simulate a stack by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.</li>
+<li>You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).</li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/implement-queue-using-stacks/">leetcode Implement Queue using Stacks</a></p>
+<p>题意：要求你用栈来实现队列。</p>
+<p>思路：栈和队列可以说恰好是相反的，栈是后进先出(LIFO)，而队列是先进先出(FIFO)。</p>
+<p>所以，这题可以进行push的时候，可以把其中一个栈的元素放到个临时的栈里，然后把新的元素push，接着把放到临时的栈里的数弄回来。比如1234（最右边的为top，这里是4） 放到临时栈为4321，然后原来栈放入5，接着把临时栈的放回来，就是51234</p>
+<p>更好的方法是，用两个栈来做，一个负责输入input，一个负责输出output。</p>
+<ul>
+<li>push:放入input即可</li>
+<li>peek / pop : 若output为空，则把input中的移入output</li>
+<li>empty: input 和 output 均为空</li>
+</ul>
+<p>对于21354，我们先按顺序放入input，栈为：21354（右边栈顶）</p>
+<p>如果要输出，则都放入output，  栈就变成了 45312 （直接反过来了）</p>
+<p>接着如果有新的数push,也只要到input即可。直到output为空了，才继续从input拿</p>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class Queue &#123;</span><br><span class="line">    stack&lt;int&gt; input,output;</span><br><span class="line">public:</span><br><span class="line">    &#x2F;&#x2F; Push element x to the back of queue.</span><br><span class="line">    void push(int x) &#123;</span><br><span class="line">        input.push(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Removes the element from in front of queue.</span><br><span class="line">    void pop(void) &#123;</span><br><span class="line">        peek();</span><br><span class="line">        output.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Get the front element.</span><br><span class="line">    int peek(void) &#123;</span><br><span class="line">        if(output.empty())&#123;</span><br><span class="line">            while(!input.empty())&#123;</span><br><span class="line">                output.push(input.top());</span><br><span class="line">                input.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return output.top();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Return whether the queue is empty.</span><br><span class="line">    bool empty(void) &#123;</span><br><span class="line">        return input.empty() and output.empty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class Queue(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        initialize your data structure here.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self._input &#x3D; []</span><br><span class="line">        self._output &#x3D; []</span><br><span class="line"></span><br><span class="line">    def push(self, x):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type x: int</span><br><span class="line">        :rtype: nothing</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self._input.append(x)</span><br><span class="line"></span><br><span class="line">    def pop(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: nothing</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.peek()</span><br><span class="line">        self._output.pop()</span><br><span class="line"></span><br><span class="line">    def peek(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not self._output:</span><br><span class="line">            while self._input:</span><br><span class="line">                self._output.append(self._input[-1])</span><br><span class="line">                self._input.pop()</span><br><span class="line">        return self._output[-1]</span><br><span class="line"></span><br><span class="line">    def empty(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return not self._input and not self._output</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="239-sliding-window-maximum">239. Sliding Window Maximum</h3>
+<blockquote>
+<p>Given an array <em>nums</em>, there is a sliding window of size <em>k</em> which is moving from the very left of the array to the very right. You can only see the _k_numbers in the window. Each time the sliding window moves right by one position.</p>
+<p>For example,<br>
+Given <em>nums</em> = <code>[1,3,-1,-3,5,3,6,7]</code>, and <em>k</em> = 3.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Window position                Max</span><br><span class="line">---------------               -----</span><br><span class="line">[1  3  -1] -3  5  3  6  7       3</span><br><span class="line"> 1 [3  -1  -3] 5  3  6  7       3</span><br><span class="line"> 1  3 [-1  -3  5] 3  6  7       5</span><br><span class="line"> 1  3  -1 [-3  5  3] 6  7       5</span><br><span class="line"> 1  3  -1  -3 [5  3  6] 7       6</span><br><span class="line"> 1  3  -1  -3  5 [3  6  7]      7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Therefore, return the max sliding window as <code>[3,3,5,5,6,7]</code>.</p>
+<p><strong>Note:</strong><br>
+You may assume <em>k</em> is always valid, ie: 1 ≤ k ≤ input array’s size for non-empty array.</p>
+<p><strong>Follow up:</strong><br>
+Could you solve it in linear time?</p>
+<p><strong>Hint:</strong></p>
+<ol>
+<li>How about using a data structure such as deque (double-ended queue)?</li>
+<li>The queue size need not be the same as the window’s size.</li>
+<li>Remove redundant elements and the queue should store only elements that need to be considered.</li>
+</ol>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-maximum/">leetcode Sliding Window Maximum</a></p>
+<p>题意：给定一个数组和一个窗口大小K，要你从数组中按顺序将所有相邻的K个数中最大值输出。</p>
+<p>思路：最暴力的方法当然是枚举起点和接下来的K个数，复杂度O(nk) 这题涉及RMQ等，有方法可以做到O(nlogn)的预处理，然后O(1)的查询，总复杂度O(nlogn) 当然这题用堆也可以。。</p>
+<p>线性的时间怎么办？ 那肯定是要观察窗口移动过程中，移出了一个数，然后加入了一个数，我也想到了双端队列。 然而感觉一个长度为K的双端队列没啥用啊？点开hint看到hint2我就醒悟了。</p>
+<p>我们维护一个双端队列，第一个元素为最大值，对于窗口移动过程中，新加进来的元素x从队尾向前比较，把小于它的数抛弃掉。（因为x不但大而且在后面，前面的而且小的数是不会为窗口内的最大值的）。此外，若第一个元素已经在窗口外了，那么抛弃第一个即可。</p>
+<p>由于队列的长度不可能超过n个，因此复杂度为O(n)。</p>
+<p>Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def maxSlidingWindow(self, nums, k):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type k: int</span><br><span class="line">        :rtype: List[int]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not nums: return []</span><br><span class="line">        if k &#x3D;&#x3D; 1: return nums</span><br><span class="line">        ans &#x3D; []</span><br><span class="line">        q &#x3D; []</span><br><span class="line">        for i in xrange(len(nums)):</span><br><span class="line">            if q and q[0] &lt;&#x3D; i - k:</span><br><span class="line">                q.pop(0)</span><br><span class="line">            while q and nums[q[-1]] &lt;&#x3D; nums[i]:</span><br><span class="line">                q.pop()</span><br><span class="line">            q.append(i)</span><br><span class="line">            if i &gt;&#x3D; k - 1:</span><br><span class="line">                ans.append(nums[q[0]])</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="341-flatten-nested-list-iterator">341. Flatten Nested List Iterator</h3>
+<blockquote>
+<p>Given a nested list of integers, implement an iterator to flatten it.</p>
+<p>Each element is either an integer, or a list – whose elements may also be integers or other lists.</p>
+<p><strong>Example 1:</strong><br>
+Given the list <code>[[1,1],2,[1,1]]</code>,</p>
+<p>By calling <em>next</em> repeatedly until <em>hasNext</em> returns false, the order of elements returned by <em>next</em> should be: <code>[1,1,2,1,1]</code>.</p>
+<p><strong>Example 2:</strong><br>
+Given the list <code>[1,[4,[6]]]</code>,</p>
+<p>By calling <em>next</em> repeatedly until <em>hasNext</em> returns false, the order of elements returned by <em>next</em> should be: <code>[1,4,6]</code>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/flatten-nested-list-iterator/">leetcode Flatten Nested List Iterator</a></p>
+<p>题意：给定一个NestedInteger 列表，要求把它展开。 比如[[1,1],2,[1,1]] （里面每一项均为NestedInteger类型）展开为[1,1,2,1,1].</p>
+<p>思路：</p>
+<p>首先来看看定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># &quot;&quot;&quot;</span><br><span class="line"># This is the interface that allows for creating nested lists.</span><br><span class="line"># You should not implement it, or speculate about its implementation</span><br><span class="line"># &quot;&quot;&quot;</span><br><span class="line">#class NestedInteger(object):</span><br><span class="line">#    def isInteger(self):</span><br><span class="line">#        &quot;&quot;&quot;</span><br><span class="line">#        @return True if this NestedInteger holds a single integer, rather than a nested list.</span><br><span class="line">#        :rtype bool</span><br><span class="line">#        &quot;&quot;&quot;</span><br><span class="line">#</span><br><span class="line">#    def getInteger(self):</span><br><span class="line">#        &quot;&quot;&quot;</span><br><span class="line">#        @return the single integer that this NestedInteger holds, if it holds a single integer</span><br><span class="line">#        Return None if this NestedInteger holds a nested list</span><br><span class="line">#        :rtype int</span><br><span class="line">#        &quot;&quot;&quot;</span><br><span class="line">#</span><br><span class="line">#    def getList(self):</span><br><span class="line">#        &quot;&quot;&quot;</span><br><span class="line">#        @return the nested list that this NestedInteger holds, if it holds a nested list</span><br><span class="line">#        Return None if this NestedInteger holds a single integer</span><br><span class="line">#        :rtype List[NestedInteger]</span><br></pre></td></tr></table></figure>
+<p>发现该类有3个函数，是否整数、整数就取整数、列表就取列表。</p>
+<p>这题要实现 NestedIterator类要实现3个接口，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class NestedIterator(object):</span><br><span class="line"></span><br><span class="line">    def __init__(self, nestedList):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Initialize your data structure here.</span><br><span class="line">        :type nestedList: List[NestedInteger]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">    def next(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">    def hasNext(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>调用方式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Your NestedIterator object will be instantiated and called as such:</span><br><span class="line"># i, v &#x3D; NestedIterator(nestedList), []</span><br><span class="line"># while i.hasNext(): v.append(i.next())</span><br></pre></td></tr></table></figure>
+<p>确保你已经明白题意在往下看。</p>
+<p>看到待展开的表达式时嵌套的，就想到，可以用递归开挂~ 水水的1A。</p>
+<p>思想是初始化先处理好全部，接下来只要从结果集合中拿就好了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class NestedIterator(object):</span><br><span class="line">    def __init__(self, nestedList):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Initialize your data structure here.</span><br><span class="line">        :type nestedList: List[NestedInteger]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        def solve(nestedList):</span><br><span class="line">            res &#x3D; []</span><br><span class="line">            for x in nestedList:</span><br><span class="line">                if x.isInteger():</span><br><span class="line">                    res.append(x.getInteger())</span><br><span class="line">                else:</span><br><span class="line">                    res.extend(solve(x.getList()))</span><br><span class="line">            return res</span><br><span class="line"></span><br><span class="line">        self.ans &#x3D; solve(nestedList)[::-1]</span><br><span class="line"></span><br><span class="line">    def next(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return self.ans.pop()</span><br><span class="line"></span><br><span class="line">    def hasNext(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return len(self.ans) !&#x3D; 0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>但其实递归的方法把所有的解都存起来了，严格的说，不是迭代Iterator，不过给我们实现Iterator提供了思路，就是把递归改成迭代。</p>
+<p>怎么改呢~ 用栈啊，当 现在的栈顶的不是整形(那就是List，调用getList)，就把List取出，在压入栈，循环即可。</p>
+<p>而实现上，比刚才的递归还要优雅：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class NestedIterator(object):</span><br><span class="line">    def __init__(self, nestedList):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Initialize your data structure here.</span><br><span class="line">        :type nestedList: List[NestedInteger]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        self.stack &#x3D; nestedList[::-1]</span><br><span class="line"></span><br><span class="line">    def next(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return self.stack.pop().getInteger()</span><br><span class="line"></span><br><span class="line">    def hasNext(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        while self.stack and not self.stack[-1].isInteger():</span><br><span class="line">            self.stack.extend(self.stack.pop().getList()[::-1])</span><br><span class="line">        return len(self.stack) !&#x3D; 0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="352-data-stream-as-disjoint-intervals">352. Data Stream as Disjoint Intervals</h3>
+<blockquote>
+<p>Given a data stream input of non-negative integers a1, a2, …, an, …, summarize the numbers seen so far as a list of disjoint intervals.</p>
+<p>For example, suppose the integers from the data stream are 1, 3, 7, 2, 6, …, then the summary will be:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[1, 1]</span><br><span class="line">[1, 1], [3, 3]</span><br><span class="line">[1, 1], [3, 3], [7, 7]</span><br><span class="line">[1, 3], [7, 7]</span><br><span class="line">[1, 3], [6, 7]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Follow up:</strong><br>
+What if there are lots of merges and the number of disjoint intervals are small compared to the data stream’s size?</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/data-stream-as-disjoint-intervals/">leetcode Data Stream as Disjoint Intervals</a></p>
+<p>题意：要求实现一个数据结构，可以满足不断添加数字，并进行区间的更新。</p>
+<p>思路：</p>
+<p>这题貌似二分查找也可以，手写BST也可以，不过还是用java的TreeMap实现起来比较方便。</p>
+<p>我们根据区间起始位置（就是start）作为BST 的key，对于要添加的数val，查找其左右区间。。  ceil 满足 val &lt; key , floor 满足 key &lt;= val</p>
+<p>然后判断其范围进行合并。 感觉没啥好说的。。</p>
+<p>PS: C++只有lower_bound和upper_bound， 不像java treemap那么爽 ( ╯□╰ ) Python好像没看过平衡树的样子？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class SummaryRanges &#123;</span><br><span class="line"></span><br><span class="line">    TreeMap&lt;Integer, Interval&gt; map;</span><br><span class="line"></span><br><span class="line">    public SummaryRanges() &#123;</span><br><span class="line">        map &#x3D; new TreeMap&lt;Integer, Interval&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void addNum(int val) &#123;</span><br><span class="line">        Integer ceil &#x3D; map.higherKey(val); &#x2F;&#x2F; val &lt; key</span><br><span class="line">        Integer floor &#x3D; map.floorKey(val); &#x2F;&#x2F; key &lt;&#x3D; val</span><br><span class="line">        if (floor !&#x3D; null &amp;&amp; map.get(floor).end + 1 &gt;&#x3D; val) &#123;</span><br><span class="line">            if (ceil !&#x3D; null &amp;&amp; ceil &#x3D;&#x3D; val + 1) &#123;</span><br><span class="line">                map.get(floor).end &#x3D; map.get(ceil).end;</span><br><span class="line">                map.remove(ceil);</span><br><span class="line">            &#125; else</span><br><span class="line">                map.get(floor).end &#x3D; Math.max(map.get(floor).end, val);</span><br><span class="line">        &#125; else if (ceil !&#x3D; null &amp;&amp; ceil &#x3D;&#x3D; val + 1) &#123;</span><br><span class="line">            map.put(val, new Interval(val, map.get(ceil).end));</span><br><span class="line">            map.remove(ceil);</span><br><span class="line">        &#125; else</span><br><span class="line">            map.put(val, new Interval(val, val));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;Interval&gt; getIntervals() &#123;</span><br><span class="line">        return new ArrayList&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="432-all-o-one-data-structure">432. All O’one Data Structure</h3>
+<blockquote>
+<p>Implement a data structure supporting the following operations:</p>
+<ol>
+<li>Inc(Key) - Inserts a new key with value 1. Or increments an existing key by 1. Key is guaranteed to be a <strong>non-empty</strong> string.</li>
+<li>Dec(Key) - If Key’s value is 1, remove it from the data structure. Otherwise decrements an existing key by 1. If the key does not exist, this function does nothing. Key is guaranteed to be a <strong>non-empty</strong> string.</li>
+<li>GetMaxKey() - Returns one of the keys with maximal value. If no element exists, return an empty string <code>&quot;&quot;</code>.</li>
+<li>GetMinKey() - Returns one of the keys with minimal value. If no element exists, return an empty string <code>&quot;&quot;</code>.</li>
+</ol>
+<p>Challenge: Perform all these in O(1) time complexity.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/all-oone-data-structure/">leetcode All O’one Data Structure</a></p>
+<p>题目大意：要求实现一个数据结构，四个接口都需要在O(1)的时间内执行。</p>
+<p>思路：</p>
+<p>双向链表+hash</p>
+<p>链表中每个节点保存对应的val，以及相应的key。</p>
+<p>求最大和最小key只需要从头或者尾巴拿即可。</p>
+<p>C++</p>
+<p>由于c++有双向链表的接口，因此可以直接用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">class AllOne &#123;</span><br><span class="line">private:</span><br><span class="line">	struct LinkListNode &#123;</span><br><span class="line">		const int val;</span><br><span class="line">		unordered_set&lt;string&gt; keys;</span><br><span class="line">	&#125;;</span><br><span class="line">	list&lt;LinkListNode&gt; linklist;</span><br><span class="line">	unordered_map&lt;string, list&lt;LinkListNode&gt;::iterator&gt; keyToNode;</span><br><span class="line"></span><br><span class="line">	void removeNodeKey(string key,list&lt;LinkListNode&gt;::iterator node) &#123;</span><br><span class="line">		node-&gt;keys.erase(key);</span><br><span class="line">		if (!node-&gt;keys.size())</span><br><span class="line">			linklist.erase(node);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">	&#x2F;** Inserts a new key &lt;Key&gt; with value 1. Or increments an existing key by 1. *&#x2F;</span><br><span class="line">	void inc(string key) &#123;</span><br><span class="line">		auto it &#x3D; keyToNode.find(key);</span><br><span class="line">		int val &#x3D; 0;</span><br><span class="line">		if (it !&#x3D; keyToNode.end()) &#123;</span><br><span class="line">			auto next &#x3D; it-&gt;second, node &#x3D; next++;</span><br><span class="line">			if (next &#x3D;&#x3D; linklist.end() || next-&gt;val !&#x3D; node-&gt;val + 1)</span><br><span class="line">				next &#x3D; linklist.insert(next, &#123; node-&gt;val + 1,&#123; key &#125; &#125;);</span><br><span class="line">			else</span><br><span class="line">				next-&gt;keys.insert(key);</span><br><span class="line">			removeNodeKey(key, node);</span><br><span class="line">			keyToNode[key] &#x3D; next;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			auto node &#x3D; linklist.begin() !&#x3D; linklist.end() &amp;&amp; linklist.begin()-&gt;val &#x3D;&#x3D; 1 ? linklist.begin() : linklist.end();</span><br><span class="line">			if (node &#x3D;&#x3D; linklist.end())</span><br><span class="line">				node &#x3D; linklist.insert(linklist.begin(), &#123; 1,&#123; key &#125; &#125;);</span><br><span class="line">			else</span><br><span class="line">				linklist.begin()-&gt;keys.insert(key);</span><br><span class="line">			keyToNode[key] &#x3D; node;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;** Decrements an existing key by 1. If Key&#39;s value is 1, remove it from the data structure. *&#x2F;</span><br><span class="line">	void dec(string key) &#123;</span><br><span class="line">		auto it &#x3D; keyToNode.find(key);</span><br><span class="line">		if (it &#x3D;&#x3D; keyToNode.end()) return;</span><br><span class="line">		auto pre &#x3D; it-&gt;second, node &#x3D; pre !&#x3D; linklist.begin() ? pre-- : pre;</span><br><span class="line">		if (node-&gt;val &#x3D;&#x3D; 1) &#123;</span><br><span class="line">			keyToNode.erase(key);</span><br><span class="line">			removeNodeKey(key, node);</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			if (node &#x3D;&#x3D; linklist.begin() || pre-&gt;val !&#x3D; node-&gt;val - 1)</span><br><span class="line">				pre &#x3D; linklist.insert(node, &#123; node-&gt;val - 1,&#123; key &#125; &#125;);</span><br><span class="line">			else</span><br><span class="line">				pre-&gt;keys.insert(key);</span><br><span class="line">			keyToNode[key] &#x3D; pre;</span><br><span class="line">			removeNodeKey(key, node);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;** Returns one of the keys with maximal value. *&#x2F;</span><br><span class="line">	string getMaxKey() &#123;</span><br><span class="line">		return linklist.empty() ? &quot;&quot; : *(linklist.rbegin()-&gt;keys.begin());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;** Returns one of the keys with Minimal value. *&#x2F;</span><br><span class="line">	string getMinKey() &#123;</span><br><span class="line">		return linklist.empty() ? &quot;&quot; : *(linklist.begin()-&gt;keys.begin());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>自己写的双向链表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line">struct LinkListNode &#123;</span><br><span class="line">	LinkListNode *next, *pre;</span><br><span class="line">	const int val;</span><br><span class="line">	unordered_set&lt;string&gt; keys;</span><br><span class="line">	LinkListNode(int val, string key) :val(val)</span><br><span class="line">	&#123;</span><br><span class="line">		if (!key.empty())</span><br><span class="line">			keys.insert(key);</span><br><span class="line">		next &#x3D; pre &#x3D; NULL;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class LinkList &#123;</span><br><span class="line">private:</span><br><span class="line">	LinkListNode *head, *tail;</span><br><span class="line"></span><br><span class="line">	void insertNode(LinkListNode *pre, LinkListNode *node, LinkListNode *next) &#123;</span><br><span class="line">		pre-&gt;next &#x3D; node;</span><br><span class="line">		node-&gt;pre &#x3D; pre;</span><br><span class="line">		node-&gt;next &#x3D; next;</span><br><span class="line">		next-&gt;pre &#x3D; node;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">	LinkList() &#123;</span><br><span class="line">		head &#x3D; new LinkListNode(0, &quot;&quot;);</span><br><span class="line">		tail &#x3D; new LinkListNode(0, &quot;&quot;);</span><br><span class="line">		head-&gt;next &#x3D; tail;</span><br><span class="line">		tail-&gt;pre &#x3D; head;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~LinkList() &#123;</span><br><span class="line">		while (head !&#x3D; NULL) &#123;</span><br><span class="line">			LinkListNode *p &#x3D; head;</span><br><span class="line">			head &#x3D; head-&gt;next;</span><br><span class="line">			delete p;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	LinkListNode * removeKey(string key, LinkListNode *node, bool isDec) &#123;</span><br><span class="line">		node-&gt;keys.erase(key);</span><br><span class="line">		if (!node-&gt;keys.size()) &#123;</span><br><span class="line">			LinkListNode *pre &#x3D; node-&gt;pre, *next &#x3D; node-&gt;next;</span><br><span class="line">			pre-&gt;next &#x3D; next;</span><br><span class="line">			next-&gt;pre &#x3D; pre;</span><br><span class="line">			delete node;</span><br><span class="line">			return pre;</span><br><span class="line">		&#125;</span><br><span class="line">		return isDec ? node-&gt;pre : node;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	LinkListNode * inc(string key, int val, LinkListNode * node) &#123;</span><br><span class="line">		if (node &#x3D;&#x3D; NULL)</span><br><span class="line">			node &#x3D; head;</span><br><span class="line"></span><br><span class="line">		if (node-&gt;next-&gt;val &#x3D;&#x3D; val + 1) &#123;</span><br><span class="line">			node &#x3D; node-&gt;next;</span><br><span class="line">			node-&gt;keys.insert(key);</span><br><span class="line">			return node;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			LinkListNode *newNode &#x3D; new LinkListNode(val + 1, key);</span><br><span class="line">			insertNode(node, newNode, node-&gt;next);</span><br><span class="line">			return newNode;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	LinkListNode * dec(string key, int val, LinkListNode * node) &#123;</span><br><span class="line">		if (node &#x3D;&#x3D; NULL)</span><br><span class="line">			node &#x3D; head;</span><br><span class="line"></span><br><span class="line">		if (node !&#x3D; head &amp;&amp; node-&gt;val &#x3D;&#x3D; val - 1) &#123;</span><br><span class="line">			node-&gt;keys.insert(key);</span><br><span class="line">			return node;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			LinkListNode *newNode &#x3D; new LinkListNode(val - 1, key);</span><br><span class="line">			insertNode(node, newNode, node-&gt;next);</span><br><span class="line">			return newNode;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	string getMinKey() &#123;</span><br><span class="line">		if (head-&gt;next &#x3D;&#x3D; tail) return &quot;&quot;;</span><br><span class="line">		return *head-&gt;next-&gt;keys.begin();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	string getMaxKey() &#123;</span><br><span class="line">		if (head-&gt;next &#x3D;&#x3D; tail) return &quot;&quot;;</span><br><span class="line">		return *tail-&gt;pre-&gt;keys.begin();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class AllOne &#123;</span><br><span class="line">private:</span><br><span class="line">	LinkList *linklist;</span><br><span class="line">	unordered_map&lt;string, LinkListNode*&gt; keyToNode;</span><br><span class="line">public:</span><br><span class="line">	&#x2F;** Initialize your data structure here. *&#x2F;</span><br><span class="line">	AllOne() &#123;</span><br><span class="line">		linklist &#x3D; new LinkList();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;** Inserts a new key &lt;Key&gt; with value 1. Or increments an existing key by 1. *&#x2F;</span><br><span class="line">	void inc(string key) &#123;</span><br><span class="line">		auto it &#x3D; keyToNode.find(key);</span><br><span class="line">		int val &#x3D; 0;</span><br><span class="line">		LinkListNode * node &#x3D; NULL;</span><br><span class="line">		if (it !&#x3D; keyToNode.end()) &#123;</span><br><span class="line">			node &#x3D; it-&gt;second;</span><br><span class="line">			val &#x3D; node-&gt;val;</span><br><span class="line">			node &#x3D; linklist-&gt;removeKey(key, node, false);</span><br><span class="line">		&#125;</span><br><span class="line">		keyToNode[key] &#x3D; linklist-&gt;inc(key, val, node);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;** Decrements an existing key by 1. If Key&#39;s value is 1, remove it from the data structure. *&#x2F;</span><br><span class="line">	void dec(string key) &#123;</span><br><span class="line">		auto it &#x3D; keyToNode.find(key);</span><br><span class="line">		if (it &#x3D;&#x3D; keyToNode.end()) return;</span><br><span class="line">		LinkListNode * node &#x3D; it-&gt;second;</span><br><span class="line">		int val &#x3D; node-&gt;val;</span><br><span class="line">		node &#x3D; linklist-&gt;removeKey(key, node, true);</span><br><span class="line">		if (val &#x3D;&#x3D; 1) &#123;</span><br><span class="line">			keyToNode.erase(key);</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			keyToNode[key] &#x3D; linklist-&gt;dec(key, val, node);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;** Returns one of the keys with maximal value. *&#x2F;</span><br><span class="line">	string getMaxKey() &#123;</span><br><span class="line">		return linklist-&gt;getMaxKey();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;** Returns one of the keys with Minimal value. *&#x2F;</span><br><span class="line">	string getMinKey() &#123;</span><br><span class="line">		return linklist-&gt;getMinKey();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>Java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">class AllOne &#123;</span><br><span class="line"></span><br><span class="line">    private LinkList linklist &#x3D; new LinkList();</span><br><span class="line">    private HashMap&lt;String, LinkListNode&gt; keyToNode &#x3D; new HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public AllOne() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Inserts a new key &lt;Key&gt; with value 1. Or increments an existing key by 1.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public void inc(String key) &#123;</span><br><span class="line">        LinkListNode node &#x3D; keyToNode.getOrDefault(key, null);</span><br><span class="line">        int val &#x3D; 0;</span><br><span class="line">        if (node !&#x3D; null) &#123;</span><br><span class="line">            val &#x3D; node.val;</span><br><span class="line">            node &#x3D; linklist.removeKey(key, node, false);</span><br><span class="line">        &#125;</span><br><span class="line">        keyToNode.put(key, linklist.inc(key, val, node));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Decrements an existing key by 1. If Key&#39;s value is 1, remove it from the data structure.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public void dec(String key) &#123;</span><br><span class="line">        LinkListNode node &#x3D; keyToNode.getOrDefault(key, null);</span><br><span class="line">        if (node &#x3D;&#x3D; null) return;</span><br><span class="line">        int val &#x3D; node.val;</span><br><span class="line">        node &#x3D; linklist.removeKey(key, node, true);</span><br><span class="line">        if (val &#x3D;&#x3D; 1) &#123;</span><br><span class="line">            keyToNode.remove(key);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            keyToNode.put(key, linklist.dec(key, val, node));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Returns one of the keys with maximal value.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public String getMaxKey() &#123;</span><br><span class="line">        return linklist.getMaxKey();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Returns one of the keys with Minimal value.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public String getMinKey() &#123;</span><br><span class="line">        return linklist.getMinKey();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class LinkListNode &#123;</span><br><span class="line">    HashSet&lt;String&gt; keys &#x3D; new HashSet&lt;&gt;();</span><br><span class="line">    final int val;</span><br><span class="line">    LinkListNode next &#x3D; null, pre &#x3D; null;</span><br><span class="line"></span><br><span class="line">    public LinkListNode(int val, String key) &#123;</span><br><span class="line">        this.val &#x3D; val;</span><br><span class="line">        if (key !&#x3D; null)</span><br><span class="line">            keys.add(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class LinkList &#123;</span><br><span class="line">    private LinkListNode head &#x3D; new LinkListNode(0, null);</span><br><span class="line">    private LinkListNode tail &#x3D; new LinkListNode(0, null);</span><br><span class="line"></span><br><span class="line">    public LinkList() &#123;</span><br><span class="line">        head.next &#x3D; tail;</span><br><span class="line">        tail.pre &#x3D; head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LinkListNode removeKey(String key, LinkListNode node, boolean isDec) &#123;</span><br><span class="line">        node.keys.remove(key);</span><br><span class="line">        if (node.keys.size() &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            LinkListNode pre &#x3D; node.pre, next &#x3D; node.next;</span><br><span class="line">            pre.next &#x3D; next;</span><br><span class="line">            next.pre &#x3D; pre;</span><br><span class="line">            return pre;</span><br><span class="line">        &#125;</span><br><span class="line">        return isDec ? node.pre : node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void insertNode(LinkListNode pre, LinkListNode node, LinkListNode next) &#123;</span><br><span class="line">        pre.next &#x3D; node;</span><br><span class="line">        node.pre &#x3D; pre;</span><br><span class="line">        node.next &#x3D; next;</span><br><span class="line">        next.pre &#x3D; node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LinkListNode inc(String key, int val, LinkListNode node) &#123;</span><br><span class="line">        if (node &#x3D;&#x3D; null)</span><br><span class="line">            node &#x3D; head;</span><br><span class="line"></span><br><span class="line">        if (node.next.val &#x3D;&#x3D; val + 1) &#123;</span><br><span class="line">            node &#x3D; node.next;</span><br><span class="line">            node.keys.add(key);</span><br><span class="line">            return node;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            LinkListNode newNode &#x3D; new LinkListNode(val + 1, key);</span><br><span class="line">            insertNode(node, newNode, node.next);</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LinkListNode dec(String key, int val, LinkListNode node) &#123;</span><br><span class="line">        if (node &#x3D;&#x3D; null)</span><br><span class="line">            node &#x3D; head;</span><br><span class="line"></span><br><span class="line">        if (node !&#x3D; head &amp;&amp; node.val &#x3D;&#x3D; val - 1) &#123;</span><br><span class="line">            node.keys.add(key);</span><br><span class="line">            return node;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            LinkListNode newNode &#x3D; new LinkListNode(val - 1, key);</span><br><span class="line">            insertNode(node, newNode, node.next);</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getMinKey() &#123;</span><br><span class="line">        for (String key : head.next.keys) return key;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getMaxKey() &#123;</span><br><span class="line">        for (String key : tail.pre.keys) return key;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line">class LinkListNode(object):</span><br><span class="line">    def __init__(self, val):</span><br><span class="line">        self.val &#x3D; val</span><br><span class="line">        self.keys &#x3D; set()</span><br><span class="line">        self.pre &#x3D; self.next &#x3D; None</span><br><span class="line"></span><br><span class="line">class LinkList(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.head &#x3D; LinkListNode(0)</span><br><span class="line">        self.tail &#x3D; LinkListNode(0)</span><br><span class="line">        self.head.next &#x3D; self.tail</span><br><span class="line">        self.tail.pre &#x3D; self.head</span><br><span class="line"></span><br><span class="line">    def remove_key(self, node, key, is_dec&#x3D;False):</span><br><span class="line">        node.keys.remove(key)</span><br><span class="line">        if not node.keys:</span><br><span class="line">            _pre, _next &#x3D; node.pre, node.next</span><br><span class="line">            _pre.next &#x3D; _next</span><br><span class="line">            _next.pre &#x3D; _pre</span><br><span class="line">            del node</span><br><span class="line">            return _pre</span><br><span class="line">        return node if not is_dec else node.pre</span><br><span class="line"></span><br><span class="line">    def _insert_node(self, _pre, new_node, _next):</span><br><span class="line">        _pre.next &#x3D; new_node</span><br><span class="line">        new_node.pre &#x3D; _pre</span><br><span class="line">        _next.pre &#x3D; new_node</span><br><span class="line">        new_node.next &#x3D; _next</span><br><span class="line"></span><br><span class="line">    def inc_key(self, key, val, node&#x3D;None):</span><br><span class="line">        if not node:</span><br><span class="line">            node &#x3D; self.head</span><br><span class="line">        if node.next.val &#x3D;&#x3D; val + 1:</span><br><span class="line">            node &#x3D; node.next</span><br><span class="line">            node.keys.add(key)</span><br><span class="line">            return node</span><br><span class="line">        else:</span><br><span class="line">            new_node &#x3D; LinkListNode(val + 1)</span><br><span class="line">            new_node.keys.add(key)</span><br><span class="line">            self._insert_node(node, new_node, node.next)</span><br><span class="line">            return new_node</span><br><span class="line"></span><br><span class="line">    def dec_key(self, key, val, node&#x3D;None):</span><br><span class="line">        if not node:</span><br><span class="line">            node &#x3D; self.head</span><br><span class="line"></span><br><span class="line">        if node !&#x3D; self.head and node.val &#x3D;&#x3D; val - 1:</span><br><span class="line">            node.keys.add(key)</span><br><span class="line">            return node</span><br><span class="line">        else:</span><br><span class="line">            new_node &#x3D; LinkListNode(val - 1)</span><br><span class="line">            new_node.keys.add(key)</span><br><span class="line">            self._insert_node(node, new_node, node.next)</span><br><span class="line">            return new_node</span><br><span class="line"></span><br><span class="line">    def get_max_key(self):</span><br><span class="line">        for key in self.tail.pre.keys:</span><br><span class="line">            return key</span><br><span class="line">        return &quot;&quot;</span><br><span class="line"></span><br><span class="line">    def get_min_key(self):</span><br><span class="line">        for key in self.head.next.keys:</span><br><span class="line">            return key</span><br><span class="line">        return &quot;&quot;</span><br><span class="line"></span><br><span class="line">class AllOne(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.key_to_node &#x3D; &#123;&#125;</span><br><span class="line">        self.linklist &#x3D; LinkList()</span><br><span class="line"></span><br><span class="line">    def inc(self, key):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Inserts a new key &lt;Key&gt; with value 1. Or increments an existing key by 1.</span><br><span class="line">        :type key: str</span><br><span class="line">        :rtype: void</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        node &#x3D; self.key_to_node.get(key, None)</span><br><span class="line">        if node:  # exists</span><br><span class="line">            val &#x3D; node.val</span><br><span class="line">            node &#x3D; self.linklist.remove_key(node, key)</span><br><span class="line">        else:</span><br><span class="line">            val &#x3D; 0</span><br><span class="line">        self.key_to_node[key] &#x3D; self.linklist.inc_key(key, val, node)</span><br><span class="line"></span><br><span class="line">    def dec(self, key):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Decrements an existing key by 1. If Key&#39;s value is 1, remove it from the data structure.</span><br><span class="line">        :type key: str</span><br><span class="line">        :rtype: void</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        node &#x3D; self.key_to_node.get(key, None)</span><br><span class="line">        if not node: return</span><br><span class="line">        val &#x3D; node.val</span><br><span class="line">        node &#x3D; self.linklist.remove_key(node, key,is_dec&#x3D;True)</span><br><span class="line">        if val &#x3D;&#x3D; 1:</span><br><span class="line">            del self.key_to_node[key]</span><br><span class="line">        else:</span><br><span class="line">            self.key_to_node[key] &#x3D; self.linklist.dec_key(key, val, node)</span><br><span class="line"></span><br><span class="line">    def getMaxKey(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Returns one of the keys with maximal value.</span><br><span class="line">        :rtype: str</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return self.linklist.get_max_key()</span><br><span class="line"></span><br><span class="line">    def getMinKey(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Returns one of the keys with Minimal value.</span><br><span class="line">        :rtype: str</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return self.linklist.get_min_key()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-datastructure/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/" rel="tag">Data Structure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/leetcode-dynamic-programming/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            leetcode 动态规划（DP）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/leetcode-string/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode 字符串</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

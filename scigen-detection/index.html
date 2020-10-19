@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    scigen detection |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-scigen-detection"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  scigen detection
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/scigen-detection/" class="article-date">
+  <time datetime="2015-06-19T11:46:49.000Z" itemprop="datePublished">2015-06-19</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/study/">study</a> / <a class="article-category-link" href="/categories/study/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/">课程设计</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">13 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>SCIgen is a program that generates random Computer Science research papers, including graphs, figures, and citations. It uses a hand-written context-free grammar to form all elements of the papers. Our aim here is to maximize amusement, rather than coherence.</p>
+<p>One useful purpose for such a program is to auto-generate submissions to conferences that you suspect might have very low submission standards. A prime example, which you may recognize from spam in your inbox, is SCI/IIIS and its dozens of co-located conferences (check out the very broad conference description on the WMSCI 2005 website). There’s also a list of known bogus conferences. Using SCIgen to generate submissions for conferences like this gives us pleasure to no end. In fact, one of our papers was accepted to SCI 2005! See Examples for more details.</p>
+</blockquote>
+<a id="more"></a>
+<p>scigen 是一个自动的论文生成软件，利用上下文无关文法自动生成无意义的英文科学研究论文，内容包含图片、表格、流程图和参考文献等。有的scigen生成的论文在竟然被权威机构给收录！（如WMSCI 2005）本博文探讨如何进行对scigen生成的伪论文进行判别。即类似于 scigen detection 的工作</p>
+<h1>一、任务目标</h1>
+<p>给定一篇（些）论文，判断其是否为真论文，即非scigen生成的论文。</p>
+<h1>二、数据预处理</h1>
+<h2 id="一-获取训练样本">(一) 获取训练样本</h2>
+<ul>
+<li>
+<p>正样本来源：由老师给定的各种论文样本</p>
+</li>
+<li>
+<p>负样本来源：于MIT scigen上爬取下来的论文</p>
+</li>
+</ul>
+<p>Python爬虫爬取的代码如下：(保存在j://unrealpdf/文件夹中，每次捕获200篇)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8 -*-</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">author:  hrwhipser</span><br><span class="line">功能    ： 下载scigen生成的论文</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">import requests</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">def download_file(url,local_filename):</span><br><span class="line">    r &#x3D; requests.get(url, stream&#x3D;True)</span><br><span class="line">    with open(local_filename, &#39;wb&#39;) as f:</span><br><span class="line">        for chunk in r.iter_content(chunk_size&#x3D;1024):</span><br><span class="line">            if chunk: # filter out keep-alive new chunks</span><br><span class="line">                f.write(chunk)</span><br><span class="line">                f.flush()</span><br><span class="line">    return local_filename</span><br><span class="line"></span><br><span class="line">savePath &#x3D; &#39;j:&#x2F;&#x2F;unrealpdf&#x2F;&#39;</span><br><span class="line">url &#x3D; &#39;http:&#x2F;&#x2F;pdos.csail.mit.edu&#x2F;cgi-bin&#x2F;sciredirect.cgi?author&#x3D;&amp;author&#x3D;&amp;author&#x3D;&amp;author&#x3D;&amp;author&#x3D;&#39;</span><br><span class="line">for i in xrange(200):</span><br><span class="line">    try:</span><br><span class="line">        r&#x3D;requests.get(url)</span><br><span class="line">        if r.status_code&#x3D;&#x3D;200:</span><br><span class="line">            soup&#x3D;BeautifulSoup(r.text)   </span><br><span class="line">            link &#x3D; soup.find_all(&#39;a&#39;)[1]</span><br><span class="line">            new_link&#x3D;&#39;http:&#x2F;&#x2F;scigen.csail.mit.edu&#39;+link.get(&#39;href&#39;)</span><br><span class="line">            filename &#x3D; r.url.split(&#39;&#x2F;&#39;)[-1][:-4]+&#39;pdf&#39;</span><br><span class="line">            file_path&#x3D;download_file(new_link,savePath + filename)</span><br><span class="line">            print str(i+1) + &#39;  downloading: &#39;+filename</span><br><span class="line">        else:</span><br><span class="line">            print &#39;errors: &#39; +str(i)</span><br><span class="line">    except Exception,e:</span><br><span class="line">        print e</span><br><span class="line"></span><br><span class="line">print &#39;ok&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h2 id="二-将pdf转化为txt">(二)将pdf转化为txt</h2>
+<p>该步骤仍是预处理的阶段，目的是便于处理相应的论文。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8 -*-</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">author:  hrwhipser</span><br><span class="line">功能    ： 下载scigen生成的论文</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">import requests</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">def download_file(url,local_filename):</span><br><span class="line">    r &#x3D; requests.get(url, stream&#x3D;True)</span><br><span class="line">    with open(local_filename, &#39;wb&#39;) as f:</span><br><span class="line">        for chunk in r.iter_content(chunk_size&#x3D;1024):</span><br><span class="line">            if chunk: # filter out keep-alive new chunks</span><br><span class="line">                f.write(chunk)</span><br><span class="line">                f.flush()</span><br><span class="line">    return local_filename</span><br><span class="line"></span><br><span class="line">savePath &#x3D; &#39;j:&#x2F;&#x2F;unrealpdf&#x2F;&#39;</span><br><span class="line">url &#x3D; &#39;http:&#x2F;&#x2F;pdos.csail.mit.edu&#x2F;cgi-bin&#x2F;sciredirect.cgi?author&#x3D;&amp;author&#x3D;&amp;author&#x3D;&amp;author&#x3D;&amp;author&#x3D;&#39;</span><br><span class="line">for i in xrange(200):</span><br><span class="line">    try:</span><br><span class="line">        r&#x3D;requests.get(url)</span><br><span class="line">        if r.status_code&#x3D;&#x3D;200:</span><br><span class="line">            soup&#x3D;BeautifulSoup(r.text)   </span><br><span class="line">            link &#x3D; soup.find_all(&#39;a&#39;)[1]</span><br><span class="line">            new_link&#x3D;&#39;http:&#x2F;&#x2F;scigen.csail.mit.edu&#39;+link.get(&#39;href&#39;)</span><br><span class="line">            filename &#x3D; r.url.split(&#39;&#x2F;&#39;)[-1][:-4]+&#39;pdf&#39;</span><br><span class="line">            file_path&#x3D;download_file(new_link,savePath + filename)</span><br><span class="line">            print str(i+1) + &#39;  downloading: &#39;+filename</span><br><span class="line">        else:</span><br><span class="line">            print &#39;errors: &#39; +str(i)</span><br><span class="line">    except Exception,e:</span><br><span class="line">        print e</span><br><span class="line"></span><br><span class="line">print &#39;ok&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>转化结果还是十分不错的。</p>
+<h2 id="三-文档预处理：">(三) 文档预处理：</h2>
+<p>我将文档的去除分为以下几个方面：</p>
+<ul>
+<li>
+<p><strong>去除图和表格</strong></p>
+<ol>
+<li>论文的图和表格主要是起解释说明的作用，而且难以进行判断</li>
+<li>去除方法：在pdf转化为txt已经自动进行了“去除”</li>
+</ol>
+</li>
+<li>
+<p><strong>去除标题和作者信息</strong></p>
+<ol>
+<li>至于作者只是署名文章的所有权，对文意并不会产生影响</li>
+<li>去除方法：论文读取从“Abstract”开始</li>
+</ol>
+</li>
+<li>
+<p><strong>去除Reference</strong> <strong>信息</strong></p>
+<ol>
+<li>参考文献，由于大部分是人名/书名等，去除其对论文判别几乎不会产生任何影响（毕竟scigen也可以加入这些信息）。</li>
+<li>去除方法：读取到reference时候该论文不再读取</li>
+</ol>
+</li>
+<li>
+<p><strong>去除论文引用的标号 []</strong></p>
+<ol>
+<li>文章的一些[]括号主要是标注了参考文献的信息，可以删去</li>
+<li>去除方法： 正则表达式</li>
+</ol>
+</li>
+<li>
+<p><strong>将其他括号，标点符号替换为空</strong></p>
+<ol>
+<li>（）主要是起到解释说明的作用，去除这些符号对原文大意几乎无影响。而其他的标点符号主要用于断句，也可考虑去除。</li>
+<li>去除方法： 正则表达式</li>
+</ol>
+</li>
+<li>
+<p><strong>所有单词转化为小写</strong></p>
+<ol>
+<li>大小写其实是一个单词，只有是是否位于句首的区别而已。若不统一，可能会出现Smart 和 smart 被认为是两个单词。</li>
+<li>解决方法：用python内置函数转化为小写字母</li>
+</ol>
+</li>
+<li>
+<p><strong>数字归一化处理</strong></p>
+<ol>
+<li>论文中的数字可能只是表示数量多少，大小等等，可以将其统一转为某个表明其为数字的符号，或者用某个具体的数来替代，减少一些重复。</li>
+<li>解决方法：正则表达式</li>
+</ol>
+</li>
+</ul>
+<p></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8 -*-</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">author:  hrwhipser</span><br><span class="line">功能    :  对pdf转化成的txt进行预处理，如删除作者信息</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">import re, os</span><br><span class="line">refer &#x3D; re.compile(r&#39;\[\d*\]&#39;)</span><br><span class="line">other &#x3D; re.compile(r&#39;[(),&lt;&gt;-_&quot;]&#39;)</span><br><span class="line">num &#x3D; re.compile(r&#39;\d+(.\d+)?&#39;)</span><br><span class="line">txtpath &#x3D; r&#39;.&#x2F;testpaper&#x2F;&#39;</span><br><span class="line">outpath &#x3D; r&#39;.&#x2F;testpaper&#x2F;&#39;</span><br><span class="line"></span><br><span class="line">files &#x3D; os.walk(txtpath).next()[-1]</span><br><span class="line">for file in files:</span><br><span class="line">    print file</span><br><span class="line">    with open(txtpath+file,&#39;r&#39;) as f:</span><br><span class="line">        content &#x3D; f.read().lower()</span><br><span class="line">        #去除作者信息</span><br><span class="line">        temp_index &#x3D; content.find(&#39;abstract&#39;) </span><br><span class="line">        if temp_index !&#x3D; -1: content &#x3D; content[temp_index+8:]</span><br><span class="line">        #去除参考文献信息</span><br><span class="line">        temp_index &#x3D; content.rfind(&#39;references&#39;)    </span><br><span class="line">        if temp_index !&#x3D; -1: content &#x3D; content[:temp_index]</span><br><span class="line">        f.close()</span><br><span class="line">        with open(outpath+file, &#39;w&#39;) as wf:   </span><br><span class="line">            wf.write(num.sub(&#39;1&#39;,other.sub(&#39; &#39;,refer.sub(&#39;&#39;,content))))</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h1>三、识别方法探究</h1>
+<p>判别scigen可以说就是一个二分类问题，给定一篇论文，判断其是否为scigen生成的。</p>
+<p>在以上的几个步骤中，已经完成了样本从PDF转为TXT纯文本形式，并对其进行了预处理。</p>
+<p>接下来主要在于进行提取文档的特征，来加以区分真假论文。</p>
+<h2 id="一-词同现网络">(一)词同现网络</h2>
+<h3 id="1-词同现网络简介及网络构建">1.词同现网络简介及网络构建</h3>
+<p>词同现网络：若两个词汇在同一单元（如邻接、段落）中共现，则认为它们存在关联关系。</p>
+<p>词同现网络的思想是：对于每一个单词，对应词同现网络中的一个节点。若一个句子中的两个词之间间隔为n时存在词同现关系，即在网络中有边相连。</p>
+<p>而大量的实践表明，n=2是比较合适的。两个词在句子中相邻出现是比较常见的。</p>
+<p>如：lovely girl 间距为1，buy an apple的buy 和apple间距为2。</p>
+<p>而如果n取过大，会引入大量的无关的词语，增加模型的复杂度。</p>
+<p>在我构建的词同现网络中，段和段之间相对是独立的，而一个段落里说明的内容是相关的。即一个段落中的两个相邻句子之间是有关联的。对于一个段落中相邻的两个句子，将其处理为第一个句子的最后一个词和第二个句子的第一个词之间的间距为2。</p>
+<p>对于一篇论文的词同现网络，我们可以计算出它的：计算出它的<strong>结点数、边数、平均度数、平均路径长度、网络直径、聚集系数</strong>，并且用这六个特征来表示这个网络。</p>
+<h3 id="2-分类器的选择">2.分类器的选择</h3>
+<p>我分别尝试了SVM和KNN进行训练和识别，结果如下：</p>
+<p>[<img src="../images/scigen-detection/scigen-detection-svm.png" alt="scigen-detection-svm"></p>
+<p>▲SVM</p>
+<p><img src="../images/scigen-detection/scigen-detection-knn.png" alt="scigen-detection-knn"></p>
+<p>▲KNN</p>
+<p>在测试样本一共894篇的情况下，SVM有97.87%的准确率，而KNN有99.33%的准确率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8 -*-</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">author:  hrwhipser</span><br><span class="line">功能    ： 使用knn&#x2F;svm进行判别</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">from sklearn import svm</span><br><span class="line">from sklearn.neighbors import KNeighborsClassifier</span><br><span class="line"></span><br><span class="line">knn &#x3D; False</span><br><span class="line">realPath &#x3D; &#39;.&#x2F;data&#x2F;paper.data&#39;</span><br><span class="line">unRealPath &#x3D; &#39;.&#x2F;data&#x2F;scigen.data&#39;</span><br><span class="line">testPath &#x3D; &#39;.&#x2F;data&#x2F;test.data&#39;</span><br><span class="line">realNum &#x3D; 176</span><br><span class="line">unrealNum &#x3D; 176</span><br><span class="line"></span><br><span class="line">def getTestCase(path,isReal):</span><br><span class="line">    test_input ,fileNames &#x3D; [],[] </span><br><span class="line">    with open(path,&#39;r&#39;) as f:</span><br><span class="line">        for line in f:</span><br><span class="line">            line &#x3D; line.strip()</span><br><span class="line">            content &#x3D; line.split(&#39; &#39;)</span><br><span class="line">            fileName &#x3D; content[0]</span><br><span class="line">            fileNames.append(fileName)</span><br><span class="line">            temp &#x3D; []</span><br><span class="line">            for i in content[1:-1]:</span><br><span class="line">                temp.append(float(i))</span><br><span class="line">            test_input.append(temp)</span><br><span class="line">    return fileNames,test_input, [isReal for i in xrange(len(test_input))]</span><br><span class="line"></span><br><span class="line">fileNames,input1,output1 &#x3D; getTestCase(realPath,True)</span><br><span class="line">fileNames,input2 , output2 &#x3D; getTestCase(unRealPath,False)</span><br><span class="line">train_input , train_output &#x3D; input1[:realNum] + input2[:unrealNum] ,output1[:realNum]+output2[:unrealNum]</span><br><span class="line">fileNames,test_input , test_output &#x3D; getTestCase(testPath,True)</span><br><span class="line"></span><br><span class="line">clf &#x3D; KNeighborsClassifier(n_neighbors&#x3D;3) if knn else svm.SVC(gamma&#x3D;0.4,C&#x3D;2)</span><br><span class="line">clf.fit(train_input,train_output)</span><br><span class="line">predicted &#x3D; clf.predict(test_input)</span><br><span class="line">for filename,result in zip(fileNames,predicted):</span><br><span class="line">    print filename,result</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h2 id="二-层次聚类">(二) 层次聚类</h2>
+<h3 id="1-文档距离描述">1.文档距离描述</h3>
+<p>[<img src="../images/scigen-detection/scigen-bow-distance.png" alt="scigen-bow-distance"></p>
+<h3 id="2-层次聚类-hierarchical-clustering">2. 层次聚类（Hierarchical clustering）</h3>
+<p>层次聚类通过不断的将最为相似的群组两两合并，来构造出一个群组的层级结构。具体的可以由如下图表示：</p>
+<p><img src="../images/scigen-detection/Hierarchical-clustering.png" alt="Hierarchical-clustering"></p>
+<p>同样的，我用上述的距离描述方法，对正负样本进行了层次聚类，结果如下（200个的也是同样的效果显著）</p>
+<p><img src="../images/scigen-detection/scigen-detection-hierarchical-clustering-result.png" alt="scigen-detection-hierarchical-clustering-result"></p>
+<p>可以看出的是，scigen生成的伪论文都聚在一起。</p>
+<p>证明这个距离的度量方法还是可靠的。</p>
+<h3 id="3-判别方法">3. 判别方法</h3>
+<p>对于一篇论文直接找最近距离的效果并不是很好，于是我想到了类似KNN的思想，求出距离后，进行排序，看更接近哪个类。</p>
+<p>结果如图：</p>
+<p><img src="../images/scigen-detection/scigen-detection-bow.png" alt="scigen-detection-bow"></p>
+<p>识别率高达99.55%</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8 -*-</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">author:  hrwhipser</span><br><span class="line">功能    ： 使用bag of words测试</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">import os</span><br><span class="line">import re</span><br><span class="line">from math import fabs</span><br><span class="line"></span><br><span class="line">truePath &#x3D; r&#39;.&#x2F;data&#x2F;true&#39;</span><br><span class="line">falsePath &#x3D; r&#39;.&#x2F;data&#x2F;false&#39;</span><br><span class="line">testPaper &#x3D; r&#39;.&#x2F;testpaper&#x2F;&#39;</span><br><span class="line">separator &#x3D; re.compile(r&#39;[!?.\n\t\r]&#39;)</span><br><span class="line"></span><br><span class="line">def calFrequent(path,num,isTrain&#x3D;True):</span><br><span class="line">    frequencies &#x3D; &#123;&#125;</span><br><span class="line">    files &#x3D; os.walk(path).next()[-1][:num] if isTrain else os.walk(path).next()[-1]</span><br><span class="line">    for fileName in files:</span><br><span class="line">        content &#x3D; &#39;&#39;</span><br><span class="line">        with open(path + &#39;&#x2F;&#39; + fileName, &#39;r&#39;) as f:</span><br><span class="line">            content &#x3D; f.read()</span><br><span class="line">        content &#x3D; separator.sub(&#39; &#39;, content)</span><br><span class="line">        words &#x3D; content.split(&#39; &#39;)</span><br><span class="line">        curDic &#x3D; &#123;&#125;</span><br><span class="line">        for word in words:</span><br><span class="line">            if word:</span><br><span class="line">                curDic.setdefault(word, 0)</span><br><span class="line">                curDic[word] +&#x3D; 1</span><br><span class="line">                </span><br><span class="line">        frequencies[fileName] &#x3D; curDic</span><br><span class="line">    # dic&#123; filename dic&#123;word:wordCnt&#125; &#125;</span><br><span class="line">    return frequencies</span><br><span class="line"></span><br><span class="line">def calPaperDistance(dicA, dicB):</span><br><span class="line">    NA &#x3D; sum([cnt for word, cnt in dicA.items()])</span><br><span class="line">    NB &#x3D; sum([cnt for word, cnt in dicB.items()])</span><br><span class="line">    #if NA&#x3D;&#x3D;0 or NB&#x3D;&#x3D;0:return 0x7ffffff</span><br><span class="line">    rate &#x3D; NA * 1.0 &#x2F; NB</span><br><span class="line">    dis &#x3D; 0</span><br><span class="line">    for word in dicA:</span><br><span class="line">        if word  in dicB: dis &#x3D; dis + fabs(dicA[word] - dicB[word] * rate)</span><br><span class="line">        elif (dicA[word] &gt;&gt; 1) !&#x3D; 0: dis &#x3D; dis + dicA[word]</span><br><span class="line">    for word in dicB:</span><br><span class="line">        if word not in dicA : dis &#x3D; dis + dicB[word]</span><br><span class="line">    return dis * 1.0 &#x2F; (NA &lt;&lt; 1)</span><br><span class="line"></span><br><span class="line">trainNum &#x3D; 176</span><br><span class="line">trueFre &#x3D; calFrequent(truePath,trainNum,isTrain&#x3D;True)</span><br><span class="line">falseFre &#x3D; calFrequent(falsePath,trainNum,isTrain&#x3D;True)</span><br><span class="line">train_data &#x3D; dict(trueFre , **falseFre)</span><br><span class="line">train_fileName &#x3D; [name[0] for i , name in enumerate(train_data.items())]</span><br><span class="line"></span><br><span class="line">test_data &#x3D; calFrequent(testPaper,trainNum,isTrain&#x3D;False)</span><br><span class="line">test_fileName &#x3D; [name[0] for i , name in enumerate(train_data.items())]</span><br><span class="line"></span><br><span class="line">k &#x3D; 3</span><br><span class="line">for fileName , wordCnt in test_data.items():</span><br><span class="line">    distances  &#x3D; [(fileTrain,calPaperDistance(wordCnt, wordCntTrain)) for  fileTrain,wordCntTrain in train_data.items()]</span><br><span class="line">    distances.sort(key&#x3D;lambda x:x[1])</span><br><span class="line">    truePaper &#x3D; falsePaper &#x3D; 0</span><br><span class="line">    for name , dis in distances[:k]:</span><br><span class="line">        temp_tag &#x3D; False if name.find(&#39;scimakelatex&#39;)!&#x3D;-1 else True</span><br><span class="line">        if temp_tag: truePaper+&#x3D;1</span><br><span class="line">        else: falsePaper+&#x3D;1</span><br><span class="line">    print fileName,True if truePaper &gt; falsePaper else False</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h1>四、小结</h1>
+<p>本次通过分类器的方法，对论文的真假进行了判断，是在前两次实验的基础上建立的。</p>
+<p>第一次实验进行了scigen源代码的解读，了解了其生成论文的方法(上下文无关法)</p>
+<p>第二次主要是对样本的收集及数据的预处理。</p>
+<p>无论是用词同现网络还是分层聚类，能得出良好结果的根本原因都在于scigen生成的论文词汇量有限，与自然语言还存在着一定的区别。</p>
+<p>本文 所有代码详见github : <a target="_blank" rel="noopener" href="https://github.com/hrwhisper/scigen-detection">https://github.com/hrwhisper/scigen-detection</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/scigen-detection/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bow/" rel="tag">bow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/knn/" rel="tag">knn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svm/" rel="tag">svm</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/ocr-procedure/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            ocr 识别
+          
+        </div>
+      </a>
+    
+    
+      <a href="/crawling-12306-verification-code/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">12306 验证码 爬取</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

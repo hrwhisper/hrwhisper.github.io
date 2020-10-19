@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode 数组 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-arrays"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode 数组
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-arrays/" class="article-date">
+  <time datetime="2016-10-10T06:11:49.000Z" itemprop="datePublished">2016-10-10</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">19 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本次题解包括</p>
+<ul>
+<li><strong>26</strong>. Remove Duplicates from Sorted Array</li>
+<li><strong>27</strong>. Remove Element</li>
+<li><strong>88</strong>. Merge Sorted Array</li>
+<li><strong>209</strong>. Minimum Size Subarray Sum</li>
+<li><strong>238</strong>. Product of Array Except Self</li>
+<li><strong>713</strong>. Subarray Product Less Than K</li>
+<li><strong>717</strong>. 1-bit and 2-bit Characters</li>
+<li><strong>798</strong>. Smallest Rotation with Highest Score</li>
+</ul>
+<a id="more"></a>
+<h3 id="26-remove-duplicates-from-sorted-array">26. Remove Duplicates from Sorted Array</h3>
+<blockquote>
+<p>Given a sorted array, remove the duplicates in-place such that each element appear only once and return the new length.</p>
+<p>Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.</p>
+<p>Example:</p>
+<p>Given nums = [1,1,2],</p>
+<p>Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively.<br>
+It doesn’t matter what you leave beyond the new length.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/">leetcode Remove Duplicates from Sorted Array</a></p>
+<p>题目大意： 给定一个排好序的数组，让你用O(1)的空间在原数组上删掉重复的元素，并返回新的长度。修改后的数组在新的长度后面可以为任意的字符。</p>
+<p>思路：</p>
+<p>其实就是双指针，一个指向当前不重复的位置len，另一个不断向后看不重复的就写到len的位置。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">        if(nums.empty()) return 0;</span><br><span class="line">        int len &#x3D; 1;</span><br><span class="line">        for(int i &#x3D; 1; i &lt; nums.size(); i++)&#123;</span><br><span class="line">            if(nums[i] !&#x3D; nums[i - 1])</span><br><span class="line">                nums[len++] &#x3D; nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def removeDuplicates(self, nums):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        j &#x3D; 1 if nums else 0</span><br><span class="line">        for i in range(1, len(nums)):</span><br><span class="line">            if nums[i] !&#x3D; nums[i - 1]:</span><br><span class="line">                nums[j] &#x3D; nums[i]</span><br><span class="line">                j +&#x3D; 1</span><br><span class="line">        return j</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="27-remove-element">27. Remove Element</h3>
+<blockquote>
+<p>Given an array and a value, remove all instances of that value in-place and return the new length.</p>
+<p>Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.</p>
+<p>The order of elements can be changed. It doesn’t matter what you leave beyond the new length.</p>
+<p>Example:</p>
+<p>Given nums = [3,2,2,3], val = 3,</p>
+<p>Your function should return length = 2, with the first two elements of nums being 2.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/remove-element/">leetcode Remove Element</a></p>
+<p>题目大意：和26题差不多，给定一个数组和一个数val，要求删除数组中值为val的，并返回新的数组长度。</p>
+<p>思路：和上题一样，双指针。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;</span><br><span class="line">        int len &#x3D; 0;</span><br><span class="line">        for(int i &#x3D; 0; i &lt; nums.size(); i++)&#123;</span><br><span class="line">            if(nums[i] !&#x3D; val)</span><br><span class="line">                nums[len++] &#x3D; nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def removeElement(self, nums, val):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type val: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        j &#x3D; 0</span><br><span class="line">        for i in range(len(nums)):</span><br><span class="line">            if nums[i] !&#x3D; val:</span><br><span class="line">                nums[j] &#x3D; nums[i]</span><br><span class="line">                j +&#x3D; 1</span><br><span class="line">        return j</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="88-merge-sorted-array">88. Merge Sorted Array</h3>
+<blockquote>
+<p>Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.</p>
+<p>Note:<br>
+You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/merge-sorted-array/">leetcode Merge Sorted Array</a></p>
+<p>题目大意：给定两个排好序的数组num1(长度m)和nums2(长度n)，让你合并到nums1，nums1的容量&gt;= m + n</p>
+<p>思路：开一个额外的空间，类似归并排序合并过去，空间占用O(m+n)，很简单。但是要in-place呢？不适用额外空间的话，可以倒着来。从m-1和n-1的位置比较，nums1[m-1]&gt; nums2[n-1]就把nums1[m-1]放在m + n -1的位置即可，依次类推。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">void merge(vector&lt;int&gt;&amp; nums1, int m, vector&lt;int&gt;&amp; nums2, int n) &#123;</span><br><span class="line">int i &#x3D; m - 1, j &#x3D; n - 1, cur &#x3D; m + n - 1;</span><br><span class="line">for (; j &gt;&#x3D; 0; --cur) &#123;</span><br><span class="line">nums1[cur] &#x3D; i &gt;&#x3D; 0 &amp;&amp; nums1[i] &gt; nums2[j] ? nums1[i--] : nums2[j--];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def merge(self, nums1, m, nums2, n):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums1: List[int]</span><br><span class="line">        :type m: int</span><br><span class="line">        :type nums2: List[int]</span><br><span class="line">        :type n: int</span><br><span class="line">        :rtype: void Do not return anything, modify nums1 in-place instead.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        i, j &#x3D; m - 1, n - 1</span><br><span class="line">        cur &#x3D; m + n - 1</span><br><span class="line">        while j &gt;&#x3D; 0:</span><br><span class="line">            if i &gt;&#x3D; 0 and nums1[i] &gt; nums2[j]:</span><br><span class="line">                nums1[cur] &#x3D; nums1[i]</span><br><span class="line">                i -&#x3D; 1</span><br><span class="line">            else:</span><br><span class="line">                nums1[cur] &#x3D; nums2[j]</span><br><span class="line">                j -&#x3D; 1</span><br><span class="line">            cur -&#x3D; 1</span><br></pre></td></tr></table></figure>
+<h3 id="209-minimum-size-subarray-sum">209. Minimum Size Subarray Sum</h3>
+<blockquote>
+<p>Given an array of <strong>n</strong> positive integers and a positive integer <strong>s</strong>, find the minimal length of a <strong>contiguous</strong> subarray of which the sum ≥ <strong>s</strong>. If there isn’t one, return 0 instead.</p>
+<p>For example, given the array <code>[2,3,1,2,4,3]</code> and <code>s = 7</code>,<br>
+the subarray <code>[4,3]</code> has the minimal length under the problem constraint.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-size-subarray-sum/">leetcode Minimum Size Subarray Sum</a></p>
+<p>题目大意: 给定一个正数组成的数组和一个整数s，求一个最小长度最小的子序列使得它的和&gt;=s</p>
+<p>思路</p>
+<p>双指针法。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int minSubArrayLen(int s, vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">int start &#x3D; 0;</span><br><span class="line">int cur_sum &#x3D; 0;</span><br><span class="line">int ans &#x3D; nums.size() + 1;</span><br><span class="line">for (int i &#x3D; 0; i &lt; nums.size(); i++) &#123;</span><br><span class="line">cur_sum +&#x3D; nums[i];</span><br><span class="line"></span><br><span class="line">while (cur_sum &gt;&#x3D; s &amp;&amp; cur_sum - nums[start] &gt;&#x3D; s &amp;&amp; start &lt;&#x3D; i ) &#123;</span><br><span class="line">cur_sum -&#x3D; nums[start++];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (cur_sum &gt;&#x3D; s &amp;&amp; ans &gt; i - start + 1)</span><br><span class="line">ans &#x3D; i - start + 1;</span><br><span class="line">&#125;</span><br><span class="line">return ans &#x3D;&#x3D; nums.size() + 1? 0 : ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int minSubArrayLen(int s, int[] nums) &#123;</span><br><span class="line">        int start &#x3D; 0;</span><br><span class="line">        int curSum &#x3D; 0;</span><br><span class="line">        int ans &#x3D; nums.length + 1;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; nums.length; i++) &#123;</span><br><span class="line">            curSum +&#x3D; nums[i];</span><br><span class="line">            while (curSum &gt;&#x3D; s &amp;&amp; curSum - nums[start] &gt;&#x3D; s &amp;&amp; start &lt;&#x3D; i) &#123;</span><br><span class="line">                curSum -&#x3D; nums[start++];</span><br><span class="line">            &#125;</span><br><span class="line">            if (curSum &gt;&#x3D; s &amp;&amp; ans &gt; i - start + 1)</span><br><span class="line">                ans &#x3D; i - start + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans &#x3D;&#x3D; nums.length + 1 ? 0 : ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def minSubArrayLen(self, s, nums):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: int</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        ans &#x3D; len(nums) + 1</span><br><span class="line">        cur_sum &#x3D; start &#x3D; 0</span><br><span class="line">        for i in range(len(nums)):</span><br><span class="line">            cur_sum +&#x3D; nums[i]</span><br><span class="line">            while cur_sum &gt;&#x3D; s and cur_sum - nums[start] &gt;&#x3D; s and start &lt;&#x3D; i:</span><br><span class="line">                cur_sum -&#x3D; nums[start]</span><br><span class="line">                start +&#x3D; 1</span><br><span class="line">            if cur_sum &gt;&#x3D; s and i - start + 1 &lt; ans:</span><br><span class="line">                ans &#x3D; i - start + 1</span><br><span class="line">        return ans if ans !&#x3D; len(nums) + 1 else 0</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="238-product-of-array-except-self">238. Product of Array Except Self</h3>
+<blockquote>
+<p>Given an array of <em>n</em> integers where <em>n</em> &gt; 1, <code>nums</code>, return an array <code>output</code> such that <code>output[i]</code> is equal to the product of all the elements of <code>nums</code> except <code>nums[i]</code>.</p>
+<p>Solve it <strong>without division</strong> and in O(<em>n</em>).</p>
+<p>For example, given <code>[1,2,3,4]</code>, return <code>[24,12,8,6]</code>.</p>
+<p><strong>Follow up:</strong><br>
+Could you solve it with constant space complexity? (Note: The output array <strong>does not</strong> count as extra space for the purpose of space complexity analysis.)</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/product-of-array-except-self/">leetcode Product of Array Except Self</a></p>
+<p>题目大意：</p>
+<ul>
+<li>给定一个数组，对于每个元素求除了该元素的其他数的乘积。要求不用除法、时间复杂度O(1)</li>
+<li>follow up: 要求空间复杂度O(1) ，这里不包括返回的数组空间。</li>
+</ul>
+<p>思路</p>
+<p>容易想到就是所有数的乘积然后除以每个数，就得到了答案。但是要求不用除法，因此可以：</p>
+<p>分为left和right。left[i]代表i左边乘积（不包括i），right[i]代表i右边乘积（不包括i）。</p>
+<p>容易写出：</p>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">vector&lt;int&gt; productExceptSelf(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">if (nums.empty()) return nums;</span><br><span class="line">vector&lt;int&gt; ans(nums.size(), 0),left(nums.size(), 1),right(nums.size(), 1);</span><br><span class="line">for (int i &#x3D; 1; i &lt; nums.size(); i++)</span><br><span class="line">left[i] &#x3D; nums[i - 1] * left[i - 1];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; nums.size() - 2; i &gt;&#x3D; 0; i--)</span><br><span class="line">right[i] &#x3D; nums[i + 1] * right[i + 1];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 1; i &lt; nums.size() - 1; i++)</span><br><span class="line">ans[i] &#x3D; left[i] * right[i];</span><br><span class="line">ans[0] &#x3D; right[0];</span><br><span class="line">ans[nums.size() - 1] &#x3D; left[nums.size() - 1];</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>但可以做得更好。</p>
+<p>我们可以用一个数组搞定，而这个数组就是答案，不计算额外的空间。</p>
+<p>首先ans[i]代表i左边元素的乘积，遍历一遍后。然后从右向左遍历。每次用一个变量t * nums[i]，得到右边的乘积。</p>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">vector&lt;int&gt; productExceptSelf(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">if (nums.empty()) return nums;</span><br><span class="line">vector&lt;int&gt; ans(nums.size(), 1);</span><br><span class="line">for (int i &#x3D; 1; i &lt; nums.size(); i++)</span><br><span class="line">ans[i] &#x3D; nums[i - 1] * ans[i - 1];</span><br><span class="line"></span><br><span class="line">int t &#x3D; nums[nums.size()-1];</span><br><span class="line">for (int i &#x3D; nums.size() - 2; i &gt;&#x3D; 0; i--) &#123;</span><br><span class="line">ans[i] *&#x3D; t;</span><br><span class="line">t *&#x3D; nums[i];</span><br><span class="line">&#125;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int[] productExceptSelf(int[] nums) &#123;</span><br><span class="line">        if (nums.length &#x3D;&#x3D; 0) return nums;</span><br><span class="line">        int[] ans &#x3D; new int[nums.length];</span><br><span class="line">        Arrays.fill(ans, 1);</span><br><span class="line">        for (int i &#x3D; 1; i &lt; nums.length; i++)</span><br><span class="line">            ans[i] &#x3D; ans[i-1] * nums[i-1];</span><br><span class="line"></span><br><span class="line">        int t &#x3D; nums[nums.length-1];</span><br><span class="line">        for(int i&#x3D; nums.length-2;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            ans[i] *&#x3D; t;</span><br><span class="line">            t *&#x3D; nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def productExceptSelf(self, nums):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :rtype: List[int]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not nums: return nums</span><br><span class="line">        ans &#x3D; [1] * len(nums)</span><br><span class="line">        for i in range(1, len(nums)):</span><br><span class="line">            ans[i] &#x3D; ans[i - 1] * nums[i - 1]</span><br><span class="line"></span><br><span class="line">        t &#x3D; nums[-1]</span><br><span class="line">        for i in range(len(nums) - 2, -1, -1):</span><br><span class="line">            ans[i] *&#x3D; t</span><br><span class="line">            t *&#x3D; nums[i]</span><br><span class="line">        return ans</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="713-subarray-product-less-than-k">713. Subarray Product Less Than K</h3>
+<blockquote>
+<p>Your are given an array of positive integers <code>nums</code>.</p>
+<p>Count and print the number of (contiguous) subarrays where the product of all the elements in the subarray is less than <code>k</code>.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">**Input:** nums &#x3D; [10, 5, 2, 6], k &#x3D; 100</span><br><span class="line">**Output:** 8</span><br><span class="line">**Explanation:** The 8 subarrays that have product less than 100 are: [10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6].</span><br><span class="line">Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong></p>
+<ul>
+<li><code>0 &lt; nums.length &lt;= 50000</code>.</li>
+<li><code>0 &lt; nums[i] &lt; 1000</code>.</li>
+<li><code>0 &lt;= k &lt; 10^6</code>.</li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/subarray-product-less-than-k/">leetcode Subarray Product Less Than K</a></p>
+<p>题目大意: 给定一个正数组成的数组，求有多少个乘积小于k的连续的子数组。</p>
+<p>思路：</p>
+<p>滑动窗口O(n)</p>
+<p>我的做法是，start到第一个不满足乘积小于k的位置i，则[start,i-1]以start开头有i - start个子数组，然后/ nums[start]，start+=1，继续看是不是满足条件。</p>
+<p>注意需要看nums[i] 是否已经&gt;= k了。</p>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int numSubarrayProductLessThanK(vector&lt;int&gt;&amp; nums, int k) &#123;</span><br><span class="line">        if(nums.empty()) return 0;</span><br><span class="line">        int mul &#x3D; 1, start &#x3D; 0, ans &#x3D; 0;</span><br><span class="line">        for( int i &#x3D; 0; i &lt; nums.size(); i++)&#123;</span><br><span class="line">            if(nums[i] &gt;&#x3D; k)&#123;</span><br><span class="line">                ans +&#x3D; ((i - start + 1) * (i - start)) &gt;&gt; 1;</span><br><span class="line">                start &#x3D; i + 1;</span><br><span class="line">                mul &#x3D; 1;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            while(mul * nums[i] &gt;&#x3D; k &amp;&amp; start &lt;&#x3D; i)&#123;</span><br><span class="line">                ans +&#x3D; i - start;</span><br><span class="line">                mul &#x2F;&#x3D; nums[start++];</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            mul *&#x3D; nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        for( ; mul &lt; k &amp;&amp; start &lt; nums.size(); start++)&#123;</span><br><span class="line">            ans +&#x3D; nums.size() - start;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>官方的Solution思路类似，但是写得更好：</p>
+<p>我上面的其实是以start开头的有多少种，而官方的是以end结尾的有多少种。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int numSubarrayProductLessThanK(vector&lt;int&gt;&amp; nums, int k) &#123;</span><br><span class="line">        if(nums.empty()  k &lt;&#x3D; 1) return 0;</span><br><span class="line">        int mul &#x3D; 1, start &#x3D; 0, ans &#x3D; 0;</span><br><span class="line">        for( int end &#x3D; 0; end &lt; nums.size(); end++)&#123;</span><br><span class="line">            mul *&#x3D; nums[end];</span><br><span class="line">            while(mul &gt;&#x3D; k) mul &#x2F;&#x3D; nums[start++];</span><br><span class="line">            ans +&#x3D; end - start + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int numSubarrayProductLessThanK(int[] nums, int k) &#123;</span><br><span class="line">        if(k &lt;&#x3D; 1) return 0;</span><br><span class="line">        int mul &#x3D; 1, start &#x3D; 0, ans &#x3D; 0;</span><br><span class="line">        for(int end &#x3D; 0; end &lt; nums.length; end++)&#123;</span><br><span class="line">            mul *&#x3D; nums[end];</span><br><span class="line">            while(mul &gt;&#x3D; k) mul &#x2F;&#x3D; nums[start++];</span><br><span class="line">            ans +&#x3D; end - start + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def numSubarrayProductLessThanK(self, nums, k):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type k: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if k &lt;&#x3D; 1: return 0</span><br><span class="line">        start &#x3D; ans &#x3D; 0</span><br><span class="line">        mul &#x3D; 1</span><br><span class="line">        for end in range(len(nums)):</span><br><span class="line">            mul *&#x3D; nums[end]</span><br><span class="line">            while mul &gt;&#x3D; k:</span><br><span class="line">                mul &#x2F;&#x3D; nums[start]</span><br><span class="line">                start +&#x3D; 1</span><br><span class="line">            ans +&#x3D; end - start + 1</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="717-1-bit-and-2-bit-characters">717. 1-bit and 2-bit Characters</h3>
+<blockquote>
+<p>We have two special characters. The first character can be represented by one bit <code>0</code>. The second character can be represented by two bits (<code>10</code> or <code>11</code>).</p>
+<p>Now given a string represented by several bits. Return whether the last character must be a one-bit character or not. The given string will always end with a zero.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">**Input:** </span><br><span class="line">bits &#x3D; [1, 0, 0]</span><br><span class="line">**Output:** True</span><br><span class="line">**Explanation:** </span><br><span class="line">The only way to decode it is two-bit character and one-bit character. So the last character is one-bit character.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">**Input:** </span><br><span class="line">bits &#x3D; [1, 1, 1, 0]</span><br><span class="line">**Output:** False</span><br><span class="line">**Explanation:** </span><br><span class="line">The only way to decode it is two-bit character and two-bit character. So the last character is NOT one-bit character.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong></p>
+<ul>
+<li><code>1 &lt;= len(bits) &lt;= 1000</code>.</li>
+<li><code>bits[i]</code> is always <code>0</code> or <code>1</code>.</li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/1-bit-and-2-bit-characters/">leetcode 1-bit and 2-bit Characters</a></p>
+<p>题目大意： 给定一个数组，只能由0、 10或者11组成，问最后一个字符是否只能是单个字符组成的</p>
+<p>思路：从前往后扫描，碰到1的+2，碰到0的+1，到倒数第二个字符看是否为1即可。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool isOneBitCharacter(vector&lt;int&gt;&amp; bits) &#123;</span><br><span class="line">        int i &#x3D; 0;</span><br><span class="line">        for(; i &lt; bits.size(); i++)&#123;</span><br><span class="line">            if(bits[i] &#x3D;&#x3D; 1)&#123;</span><br><span class="line">                if(i &#x3D;&#x3D; bits.size() - 2) return false;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="798-smallest-rotation-with-highest-score">798. Smallest Rotation with Highest Score</h3>
+<blockquote>
+<p>Given an array A, we may rotate it by a non-negative integer K so that the array becomes A[K], A[K+1], A{K+2], … A[A.length - 1], A[0], A[1], …, A[K-1].  Afterward, any entries that are less than or equal to their index are worth 1 point.</p>
+<p>For example, if we have [2, 4, 1, 3, 0], and we rotate by K = 2, it becomes [1, 3, 0, 2, 4].  This is worth 3 points because 1 &gt; 0 [no points], 3 &gt; 1 [no points], 0 &lt;= 2 [one point], 2 &lt;= 3 [one point], 4 &lt;= 4 [one point].</p>
+<p>Over all possible rotations, return the rotation index K that corresponds to the highest score we could receive.  If there are multiple answers, return the smallest such index K.</p>
+<p>Example 1:<br>
+Input: [2, 3, 1, 4, 0]<br>
+Output: 3<br>
+Explanation:<br>
+Scores for each K are listed below:<br>
+K = 0, A = [2,3,1,4,0], score 2<br>
+K = 1, A = [3,1,4,0,2], score 3<br>
+K = 2, A = [1,4,0,2,3], score 3<br>
+K = 3, A = [4,0,2,3,1], score 4<br>
+K = 4, A = [0,2,3,1,4], score 3</p>
+<p>So we should choose K = 3, which has the highest score.</p>
+<p>Example 2:<br>
+Input: [1, 3, 0, 2, 4]<br>
+Output: 0<br>
+Explanation: A will always have 3 points no matter how it shifts.<br>
+So we will choose the smallest K, which is 0.</p>
+<p>Note:</p>
+<p>A will have length at most 20000.<br>
+A[i] will be in the range [0, A.length].</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/smallest-rotation-with-highest-score/">leetcode Smallest Rotation with Highest Score</a></p>
+<p>题目大意：给定一个数组A，当A[i] &lt;= i的时候得一分。现在让你进行循环左移，求能获得的最高分的次数。</p>
+<p>思路：</p>
+<ul>
+<li>
+<p>当我们进行循环左移的时候，原本下标为0的元素变到n - 1，因为所有元素都&lt;=N - 1，因此肯定有分数+1</p>
+</li>
+<li>
+<p>而我们需要做的事就是记录各个元素移动多少步之后分数-1</p>
+<ul>
+<li>k = (i - A[i] + n) % n可以算出A[i]==i的元素下标，要是移动超过k步，就说明score应该-1</li>
+<li>统计各个数字的k即可</li>
+</ul>
+</li>
+<li>
+<p>PS: 我们并不关心一开始是多少分，只关心最后谁最大即可。因此对于每个元素不用看最开始是否能得分，就看什么时候加分什么时候减分就行了。</p>
+</li>
+</ul>
+<p>参考https://leetcode.com/problems/smallest-rotation-with-highest-score/discuss/118725/Easy-and-Concise-5-lines-Solution-C++JavaPython</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int bestRotation(vector&lt;int&gt;&amp; A) &#123;</span><br><span class="line">int n &#x3D; A.size();</span><br><span class="line">vector&lt;int&gt; score(n, 0);</span><br><span class="line">for (int i &#x3D; 0; i &lt; n; ++i) </span><br><span class="line">--score[(i + n - A[i] + 1) % n];</span><br><span class="line">for (int i &#x3D; 1; i &lt; n; ++i)</span><br><span class="line">score[i] +&#x3D; score[i - 1] + 1;</span><br><span class="line">return distance(score.begin(), max_element(score.begin(), score.end()));</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def bestRotation(self, A):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type A: List[int]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        n &#x3D; len(A)</span><br><span class="line">        score &#x3D; [0] * n</span><br><span class="line">        for i in range(n):</span><br><span class="line">            score[(i + n - A[i] + 1) % n] -&#x3D; 1</span><br><span class="line">        for i in range(1, n):</span><br><span class="line">            score[i] +&#x3D; score[i - 1] + 1</span><br><span class="line">        return score.index(max(score))</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-arrays/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/say-goodbye-to-the-past/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            往事如烟
+          
+        </div>
+      </a>
+    
+    
+      <a href="/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">C语言函数调用过程 | 缓冲区溢出攻击</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

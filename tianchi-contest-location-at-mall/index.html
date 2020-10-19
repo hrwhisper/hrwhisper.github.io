@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    天池比赛-商场中精确定位用户所在店铺 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-tianchi-contest-location-at-mall"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  天池比赛-商场中精确定位用户所在店铺
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/tianchi-contest-location-at-mall/" class="article-date">
+  <time datetime="2018-02-17T15:04:53.000Z" itemprop="datePublished">2018-02-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/%E6%AF%94%E8%B5%9B/">比赛</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">12 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>第一次打天池的比赛（其实这比赛也是CCF的）~</p>
+<p>初赛排名 13 / 2845，复赛是平台赛，没怎么做</p>
+<a id="more"></a>
+<h2 id="题目回顾">题目回顾</h2>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/introduction.htm?spm=5176.100066.0.0.2bb92a2cJq6kDm&amp;raceId=231620">商场中精确定位用户所在店铺</a></p>
+<p>题目要求给定一条用户的消费记录，求该用户当前所在的店铺</p>
+<p>下面介绍题目数据和评测方式</p>
+<h4 id="1-店铺和商场信息表-mall">1. 店铺和商场信息表(mall)</h4>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shop_id</td>
+<td>String</td>
+<td>店铺ID</td>
+<td>已脱敏</td>
+</tr>
+<tr>
+<td>category_id</td>
+<td>String</td>
+<td>店铺类型ID</td>
+<td>共40种左右类型，已脱敏</td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Double</td>
+<td>店铺位置-经度</td>
+<td>已脱敏，但相对距离依然可信</td>
+</tr>
+<tr>
+<td>latitude</td>
+<td>Double</td>
+<td>店铺位置-纬度</td>
+<td>已脱敏，但相对距离依然可信</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Bigint</td>
+<td>人均消费指数</td>
+<td>从人均消费额脱敏而来，越高表示本店的人均消费额越高</td>
+</tr>
+<tr>
+<td>mall_id</td>
+<td>String</td>
+<td>店铺所在商场ID</td>
+<td>已脱敏</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>部分样例如:</p>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>shop_id</th>
+<th>category_id</th>
+<th>longitude</th>
+<th>latitude</th>
+<th>price</th>
+<th>mall_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s_26</td>
+<td>c_4</td>
+<td>122.3467</td>
+<td>31.83351</td>
+<td>57</td>
+<td>m_690</td>
+</tr>
+<tr>
+<td>s_133</td>
+<td>c_6</td>
+<td>121.1344</td>
+<td>31.19751</td>
+<td>58</td>
+<td>m_6587</td>
+</tr>
+<tr>
+<td>s_251</td>
+<td>c_38</td>
+<td>121.0005</td>
+<td>30.90767</td>
+<td>34</td>
+<td>m_5892</td>
+</tr>
+<tr>
+<td>s_372</td>
+<td>c_30</td>
+<td>119.865</td>
+<td>26.65988</td>
+<td>44</td>
+<td>m_625</td>
+</tr>
+<tr>
+<td>s_456</td>
+<td>c_26</td>
+<td>122.5942</td>
+<td>31.5815</td>
+<td>44</td>
+<td>m_3839</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="2-用户店铺内交易表-train">2. 用户店铺内交易表(train)</h4>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_id</td>
+<td>String</td>
+<td>用户ID</td>
+<td>已脱敏</td>
+</tr>
+<tr>
+<td>shop_id</td>
+<td>String</td>
+<td>用户所在店铺ID</td>
+<td>已脱敏。这里是用户当前所在的店铺，可以做训练的正样本。（此商场的所有其他店铺可以作为训练的负样本）</td>
+</tr>
+<tr>
+<td>time_stamp</td>
+<td>String</td>
+<td>行为时间戳</td>
+<td>粒度为10分钟级别。例如：2017-08-06 21:20</td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Double</td>
+<td>行为发生时位置-经度</td>
+<td>已脱敏，但相对距离依然可信</td>
+</tr>
+<tr>
+<td>latitude</td>
+<td>Double</td>
+<td>行为发生时位置-纬度</td>
+<td>已脱敏，但相对距离依然可信</td>
+</tr>
+<tr>
+<td>wifi_infos</td>
+<td>String</td>
+<td>行为发生时Wifi环境，包括bssid（wifi唯一识别码），signal（强度），flag（是否连接）</td>
+<td>例子：b_6396480|-67|false;b_41124514|-86|false;b_28723327|-90|false;解释：以分号隔开的WIFI列表。对每个WIFI数据包含三项：b_6396480是脱敏后的bssid，-67是signal强度，数值越大表示信号越强，false表示当前用户没有连接此WIFI（true表示连接）。</td>
+</tr>
+</tbody>
+</table>
+</div>
+前四行数据如下：（每一行为一条用户记录）
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>user_id</th>
+<th>shop_id</th>
+<th>time_stamp</th>
+<th>longitude</th>
+<th>latitude</th>
+<th>wifi_infos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u_376</td>
+<td>s_2871718</td>
+<td>2017/8/6 21:20</td>
+<td>122.3083</td>
+<td>32.08804</td>
+<td>b_6396480|-67|false;b_41124514|-86|false;b_28723327|-90|false;b_6396479|-55|false;b_8764723|-90|false;b_32053319|-74|false;b_5857370|-68|false;b_56326644|-89|false;b_56328155|-77|false;b_5857369|-55|false</td>
+</tr>
+<tr>
+<td>u_376</td>
+<td>s_2871718</td>
+<td>2017/8/6 21:20</td>
+<td>122.3082</td>
+<td>32.08797</td>
+<td>b_6396480|-67|false;b_56328155|-73|false;b_41124514|-88|false;b_56328154|-73|false;b_56326319|-84|false;b_32053319|-83|false;b_5857370|-68|false;b_6396479|-57|false;b_31100514|-89|false;b_5857369|-57|false</td>
+</tr>
+<tr>
+<td>u_1041</td>
+<td>s_181637</td>
+<td>2017/8/2 13:10</td>
+<td>117.3653</td>
+<td>40.63821</td>
+<td>b_8006367|-78|false;b_2485110|-52|false;b_30058118|-69|false;b_8006442|-71|false;b_33503892|-56|false;b_33503917|-63|false;b_27390312|-72|false;b_8006521|-74|false;b_35013153|-56|false;b_37608251|-84|false</td>
+</tr>
+<tr>
+<td>u_1158</td>
+<td>s_609470</td>
+<td>2017/8/13 12:30</td>
+<td>121.1345</td>
+<td>31.19742</td>
+<td>b_26250579|-73|false;b_26250580|-64|false;b_26250581|-64|false;b_26250516|-77|false;b_52934996|-79|false;b_26250593|-81|false;b_26250517|-76|false;b_30424471|-60|false;b_26250578|-72|false;b_29510856|-80|false</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="3-评测集-test">3. 评测集(test)</h4>
+<p>评测集和和表2差不多，只是把shop_id改为了mall_id</p>
+<p>我们的模型需要预测出该数据每一行用户记录的shop_id，并进行提交。</p>
+<p>比赛分为A B榜，A榜数据是9月份第一周数据，B榜数据是9月份第二周数据。</p>
+<h4 id="4-评测方法">4. 评测方法</h4>
+<p>比赛的评测方法采用的是<strong>accuracy</strong></p>
+<h2 id="比赛历程">比赛历程</h2>
+<p>开始做题的时候是10月21号。比赛已经开始了一周。</p>
+<p>拿到这个赛题，第一个想法就是利用经纬度信息，首先水了个经纬度的KNN版本，准确率大概在0.66左右吧。太低。</p>
+<p>然后把每条记录的wifi分开，看成一个个的词，类似于NLP中的BOW模型，展开，跑RandomForest多分类，然而内存炸了，果断分mall，就到了0.90。 加上经纬度特征就0.905。 挖到强特就是爽哈哈哈~ 要注意的是wifi强度是负数，我修正为正数了（直接+120）。</p>
+<p>此时为了日后能方便的增删特征，尝试不同分类器，于是我重构了代码：</p>
+<ul>
+<li>新特征只要继承<code>XXToVec</code>纯虚类，实现<code>fit_transform</code> 和<code>transform</code>结构就行（模仿sklearn的接口）</li>
+<li>抽象测试类。<code> ModelBase</code>，可以设置使用什么分类器、保存模型。最棒的是关于特征只需要传一个list。如</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task &#x3D; ModelTest(save_model&#x3D;False, use_multiprocess&#x3D;False, save_result_proba&#x3D;True)</span><br><span class="line">vecs &#x3D; [LocationToVec2(), WifiToVec(), WifiStrongToVec(), WifiKStrongToVec(), PriceToVec(), CategoryToVec2()  ]</span><br><span class="line">task.train_test(vecs)</span><br></pre></td></tr></table></figure>
+<p>上述的代码使用vecs里的特征，就可以进行训练并评价。（内部就是遍历vecs，然后对每个vec直接调用fit_transform和transform即可）</p>
+<p>我感觉我代码写的很好~有了这个框架，之后挖特征写代码就很容易啦。非常松的耦合~代码还不会乱七八糟的。</p>
+<p>之后开始进行数据的查看，比如同一商场多个bssid如何处理，不同商场有同一个bssid。有的商场得分特别低画出雷达图查看可能是强度普遍偏弱照成的。</p>
+<p><img src="../images/tianchi-contest-location-at-mall/tianchi-wifi-position-wifi-frequency-count.png" alt="tianchi-wifi-position-wifi-frequency-count"></p>
+<p>然后画出了全部商场的location信息和各个商场中用户和商店的经纬度信息。下图是某mall的可视化结果：</p>
+<p><img src="../images/tianchi-contest-location-at-mall/tianchi-wifi-position-wifi-mall_location.png" alt="tianchi-wifi-position-wifi-frequency-count"></p>
+<p>圆形为商家自己提供的经纬度坐标。而三角形是交易发生时的经纬度。中间的矩形则是算出来的商场中心。可以看出，很多用户偏离商店非常远。这和室内GPS信号不好有很大关系。</p>
+<p>看到这个我自然就想到要“修正”那些离群点。我的做法是： 如果一个用户a距离商店中心过远，超过商店的长度（用最远商店距离算）一定倍数，那么需要修正。通过wifi信号来计算最近的那个用户b，将b的经纬度写成a的即可。这个修正后有小幅提升。</p>
+<p>然后联想到wifi空值处理，取最近经纬度用户的wifi来填充。</p>
+<p>队友超超弄了个wifi强度和时间特征，只取最强的那个给我，然后我忘记加时间特征，一交0.9116，下午才发现要是加了时间特征反而更低。然后把wifi空值处理、经纬度修正加上去，立马升到了0.9139嘿嘿，上分美滋滋。</p>
+<p>接着队友wqs调参成功，rf的个数400，0.9144。 原来都100的跑。。。</p>
+<p>然后我去新中关还有欧美汇实地考察商场，哈哈哈，其实是去吃东西，顺便下了个APP记录wifi信息。</p>
+<p>期间超超说做到了0.96，我问怎么做到的，就是他把训练数据中每一条记录对应的shop_id对应的类别作为特征，之后又把price也作为特征，到了0.99几乎全对。然而这个做法是错误的，因为测试数据不知道shop_id，因此也不知道每一条记录对应的category和price。但给我启发：假如我预测出category和price呢？会因为累积误差炸了么？</p>
+<p>预测类别一开始失败了，但是回归预测price成功了，提交price的特征版本线上0.9161.</p>
+<p>接着看群里影帝的表演，从言语中观察他们应该用的是二分类的方法，于是我也做简单的尝试，采用OneVsRest，线上0.9175，线下0.915269.</p>
+<p>这期间麦芽开源了多分类的xgboost版本的baseline，这个baseline线上0.91左右，方法和我们的类似，感觉药丸。 后面的追分真可怕。</p>
+<p>然后超超发现bootstrap = false,再跑二分类 线上0.9196，线下0.9174。期间我在试stacking，以及 wifi的tf-idf特征、lightgbm（可能参数没有调好）、PCA等，但是都没啥用。去除了移动热点有小幅提升。然后为了提高代码效率，尝试并行化 data_to_vec和predict，但是Python GIL真是坑，线程不快，进程大量数据传输反而拖慢。然后用生产者、消费者模式加速data_to_vec和predict过程（predict的传递classifier内存会炸，服务器大内存会说太大之类的）。 感觉Python效率真的是卧槽。xgboost跑了几个grid search，太慢了都要放弃了。队友新特征也木有挖出有用的。</p>
+<p>没办法了，我上融合把，稳住第一页，用的是比例融合的方式（rf, binary rf， binary xgboost），线上到了0.9234！</p>
+<p>这时候我又重新跑了十则的price和category，category终于有用，0.9243！</p>
+<p>然后期间还试二分类候选集的，效果不好。接着统计用户特征，做用户偏好，没有考虑冷启动问题，最简单的直接计数法。。。线上0.9264！</p>
+<p>这时候开始B榜了，被df的小哥骗了，说会自动抓取之前最好的A榜来计算B榜的。结果木有，浪费了一次机会。提交掉了快6个千，0.9207…</p>
+<p>最后融了一个新的多分类xgboost，到了0.92115. 排名13</p>
+<p>最后模型如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; [&#39;random forest not price 0.9199&#39;, &#39;binary random forest not price 0.91998&#39;, &#39;binary xgb 0.9149&#39;,&#39;xgb 0.9123&#39;]</span><br><span class="line">weights &#x3D; [78, 80, 34, 5]  # Mean: 0.9240684683620611</span><br></pre></td></tr></table></figure>
+<p>第二赛季就没怎么打了，线上赛用的PAI平台太坑了。。Create table都要十几分钟。资源限制太不合理了。都没法玩。。对hive也不熟，UDF也不会，分wifi都搞了半天，特征也限制列数不能超过1200好像。也就是BOW wifi会GG。最后水了各个mall取了wifi top 1000，加上经纬度，直接RF多分类，（ps: 用python生成的各个mall的代码）。排45名，挺差的，不过也不怎么在意。</p>
+<h2 id="冠军队的做法对比">冠军队的做法对比</h2>
+<p>候选集直接选取目标mall中所有的shop作为候选，为了避免训练集数据量过大，在训练集中进行样本抽样。具体方法是，保留全部正样本，负样本中随机抽取一定比例加入训练集。实际测试，抽样对于模型的精度影响不大。而预测的时候没有抽样，因为速度快。PS: 多分类用商店的特征得展开，二分类就不用。</p>
+<p>训练集和测试集的构造方法图示如下：</p>
+<p><strong>训练</strong>：</p>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th><strong>row_id</strong></th>
+<th><strong>候选</strong></th>
+<th><strong>特征</strong></th>
+<th><strong>label</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>shop_1</td>
+<td>…</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>shop_2</td>
+<td>…</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>shop_3</td>
+<td>…</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>shop_1</td>
+<td>…</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>shop_2</td>
+<td>…</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>shop_3</td>
+<td>…</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>测试</strong>：</p>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th><strong>row_id</strong></th>
+<th><strong>候选</strong></th>
+<th><strong>特征</strong></th>
+<th><strong>输出概率</strong></th>
+<th><strong>预测</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>shop_1</td>
+<td>…</td>
+<td>0.6</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>shop_2</td>
+<td>…</td>
+<td>0.8</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>shop_3</td>
+<td>…</td>
+<td>0.9</td>
+<td>√</td>
+</tr>
+<tr>
+<td>4</td>
+<td>shop_1</td>
+<td>…</td>
+<td>0.1</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>shop_2</td>
+<td>…</td>
+<td>0.9</td>
+<td>√</td>
+</tr>
+<tr>
+<td>4</td>
+<td>shop_3</td>
+<td>…</td>
+<td>0.2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+特征的差异不说，多分类的输出概率作为二分类的特征。
+<p>复赛中不一样的，记录如下：</p>
+<blockquote>
+<p>分离信号强度为null的数据。对于信号强度为null的那些数据，强度不论填成多少，对于模型都是个干扰。所以直接去除这一部分数据，用剩下的数据来训练。（我们没有排除。。。）</p>
+<p>分区表存储训练数据。如果为每个mall都单独生成一张训练数据表，那么表会太多，而且不断的生成、删除表，会增加任务提交的排队时间。我们的解决方案是用分区表存储所有mall的训练数据，以mall_id作为分区列。模型训练时可以直接指定分区，这样避免了反复的生成表、删除表。</p>
+</blockquote>
+<p></p>
+<h2 id="一点感想">一点感想</h2>
+<p>第一次打数据挖掘的比赛，得了13名感觉还可以。初赛基本都保持在第一页，每次掉出第一页马上又能冲回去。</p>
+<p>不过也犯了一些错误：比如线下的数据集划分不是很好，一开始直接排序取后20%作为验证集，其实最好还是按照线上的取最后一周这样比较好。特征感觉不够多啊。</p>
+<p>还有模型的建立缺乏经验，本题确实多分类不如二分类的好。</p>
+<p>这比赛学到了很多东西, 原来都木有用过xgboost，lightgbm，stacking等~</p>
+<p>比赛经验很重要，对业务理解很重要。前者可以看看别人的比赛的经验学习学习。这比赛中商家提供的经纬度某商场竟然有40多个一样的！ （这题给的经纬度精度都达到了分米的级别了！) 不可能49楼大商场把。。我也实地逛了几个商场，感觉是有那种移动的摊位，今天这个，明天那个。然后一开始拿到题目就想到了经纬度肯定有一样的，还想要把商店进行上下分层，为此采集了新中关和欧美汇部分商店的wifi信息。不过我没有时间实践这个想法了，队友后面也没啥激情做这比赛，放弃这想法挺可惜的。后面听经验分享觉得很有道理，不要太早组队，因为你不能确定你的队友到后面是不是很努力，已经组队了都不好意思踢，而且比较后面组队大家想法不太一样，模型融合起来也会比较好。</p>
+<p>还有就是机器性能也很重要。实验室两台机器，女票那还有服务器，感觉美滋滋~</p>
+<p>还是要多学习才能更厉害~</p>
+<h2 id="开源代码">开源代码</h2>
+<ul>
+<li>我的代码： <a target="_blank" rel="noopener" href="https://github.com/hrwhisper/LocationAtMall">天池-wifi定位</a></li>
+</ul>
+<p></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/tianchi-contest-location-at-mall/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-mining/" rel="tag">Data mining</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%B1%A0/" rel="tag">天池</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/machine-learning-perceptron/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            『我爱机器学习』感知机
+          
+        </div>
+      </a>
+    
+    
+      <a href="/leetcode-contest-54-solution/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode contest 54 solution</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

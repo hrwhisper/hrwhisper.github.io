@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode 字符串 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-string"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode 字符串
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-string/" class="article-date">
+  <time datetime="2015-03-08T02:01:00.000Z" itemprop="datePublished">2015-03-08</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">7.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">39 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本次题解包括</p>
+<ul>
+<li><strong>5</strong>. Longest Palindromic Substring</li>
+<li><strong>6</strong>. ZigZag Conversion</li>
+<li><strong>8</strong>. String to Integer (atoi)</li>
+<li><strong>14</strong>. Longest Common Prefix</li>
+<li><strong>28</strong>. Implement strStr()</li>
+<li><strong>58</strong>. Length of Last Word</li>
+<li><strong>125</strong> . Valid Palindrome</li>
+<li><strong>131</strong> . Palindrome Partitioning</li>
+<li><strong>132</strong> . Palindrome Partitioning II</li>
+<li><strong>214</strong> . Shortest Palindrome</li>
+<li><strong>336</strong>. Palindrome Pairs</li>
+<li><strong>796</strong>. Rotate String</li>
+<li><strong>816</strong>. Ambiguous Coordinates</li>
+<li><strong>819</strong>. Most Common Word</li>
+</ul>
+<a id="more"></a>
+<h3 id="5-longest-palindromic-substring">5. Longest Palindromic Substring</h3>
+<blockquote>
+<p>Given a string <em>S</em>, find the longest palindromic substring in <em>S</em>. You may assume that the maximum length of <em>S</em> is 1000, and there exists one unique longest palindromic substring.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-palindromic-substring/">leetcode Longest Palindromic Substring</a></p>
+<p>题意：给定一个字符串S，求一个S的最长子回文串。</p>
+<p>思路：最朴素的思想是枚举开头，枚举结尾，判断是否回文，复杂度太高。</p>
+<p>我们可以只枚举开头和长度，这样只要O(N^2)</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">void isPalindrome(const string &amp;s, int a, int b, int &amp;start, int &amp;len) &#123;</span><br><span class="line">for (; a &gt;&#x3D; 0 &amp;&amp; b &lt; s.size() &amp;&amp; s[a] &#x3D;&#x3D; s[b]; a--, b++) ;</span><br><span class="line">if (len &lt; b - a - 1) &#123;</span><br><span class="line">start &#x3D; a + 1;</span><br><span class="line">len &#x3D; b - a - 1;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">string longestPalindrome(string s) &#123;</span><br><span class="line">if (s.size() &lt; 2) return s;</span><br><span class="line">int start &#x3D; 0, len &#x3D; 1;</span><br><span class="line">for (int i &#x3D; 1; i &lt; s.size(); i++) &#123;</span><br><span class="line">isPalindrome(s, i - 1, i + 1, start, len);</span><br><span class="line">isPalindrome(s, i - 1, i, start, len);</span><br><span class="line">&#125;</span><br><span class="line">return s.substr(start, len);</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    private int start, end;</span><br><span class="line"></span><br><span class="line">    private void palindrome(String s, int i, int j) &#123;</span><br><span class="line">        for (; i &gt;&#x3D; 0 &amp;&amp; j &lt; s.length() &amp;&amp; s.charAt(i) &#x3D;&#x3D; s.charAt(j); i--, j++) ;</span><br><span class="line">        if (end - start &lt; j - i - 1) &#123;</span><br><span class="line">            start &#x3D; i + 1;</span><br><span class="line">            end &#x3D; j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String longestPalindrome(String s) &#123;</span><br><span class="line">        if (s.length() &lt;&#x3D; 1) return s;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; s.length(); i++) &#123;</span><br><span class="line">            palindrome(s, i - 1, i + 1);</span><br><span class="line">            palindrome(s, i - 1, i);</span><br><span class="line">        &#125;</span><br><span class="line">        return s.substring(start, end);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def longestPalindrome(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: str</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        def helper(i, j):</span><br><span class="line">            while i &gt;&#x3D; 0 and j &lt; len(s) and s[i] &#x3D;&#x3D; s[j]:</span><br><span class="line">                i -&#x3D; 1</span><br><span class="line">                j +&#x3D; 1</span><br><span class="line">            return s[i + 1: j]</span><br><span class="line">        </span><br><span class="line">        ans &#x3D; &#39;&#39;</span><br><span class="line">        for start in range(len(s)):</span><br><span class="line">            t &#x3D; helper(start, start)</span><br><span class="line">            if len(t) &gt; len(ans): ans &#x3D; t</span><br><span class="line">            t &#x3D; helper(start, start + 1)</span><br><span class="line">            if len(t) &gt; len(ans): ans &#x3D; t</span><br><span class="line">        return ans</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="6-zigzag-conversion">6. ZigZag Conversion</h3>
+<blockquote>
+<p>The string <code>&quot;PAYPALISHIRING&quot;</code> is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">P   A   H   N</span><br><span class="line">A P L S I I G</span><br><span class="line">Y   I   R</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>And then read line by line: <code>&quot;PAHNAPLSIIGYIR&quot;</code></p>
+<p>Write the code that will take a string and make this conversion given a number of rows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string convert(string text, int nRows);</span><br></pre></td></tr></table></figure>
+<p><code>convert(&quot;PAYPALISHIRING&quot;, 3)</code> should return <code>&quot;PAHNAPLSIIGYIR&quot;</code>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/zigzag-conversion/">leetcode ZigZag Conversion</a></p>
+<p>题目大意:给定一个zigzag 写法的字符串，要你恢复它</p>
+<p>思路：</p>
+<p>从上往下，然后从下往上即可。。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string convert(string s, int numRows) &#123;</span><br><span class="line">        if(numRows &#x3D;&#x3D; 1) return s;</span><br><span class="line">        string rows[numRows];</span><br><span class="line">        int cur &#x3D; 0;</span><br><span class="line">        bool down &#x3D; true;</span><br><span class="line">        for(int i &#x3D; 0; i &lt; s.size(); i++)&#123;</span><br><span class="line">            rows[cur] +&#x3D; s[i];</span><br><span class="line">            if(cur &#x3D;&#x3D; 0)   down &#x3D; true;</span><br><span class="line">            else if(cur &#x3D;&#x3D; numRows - 1)   down &#x3D; false;</span><br><span class="line">            </span><br><span class="line">            if (down)  cur++;</span><br><span class="line">            else  cur--;</span><br><span class="line">        &#125;</span><br><span class="line">        string ans;</span><br><span class="line">        for(int i &#x3D; 0; i &lt; numRows; i++) ans +&#x3D; rows[i];</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<p>无聊写了个找规律的版本，就是先找好第i行下一个间距。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public String convert(String s, int numRows) &#123;</span><br><span class="line">        if(numRows &#x3D;&#x3D; 1) return s;</span><br><span class="line">        int[][] diff &#x3D; new int[numRows][2];</span><br><span class="line">        for(int i &#x3D; 0; i &lt; numRows; i++)&#123;</span><br><span class="line">            diff[i][0] &#x3D; (numRows - i - 1) &lt;&lt; 1;</span><br><span class="line">            diff[i][1] &#x3D; i &lt;&lt; 1;</span><br><span class="line">        &#125;</span><br><span class="line">        diff[0][1] &#x3D; diff[numRows - 1][0] &#x3D; diff[0][0];</span><br><span class="line">        StringBuilder ans &#x3D; new StringBuilder();</span><br><span class="line">        for(int i &#x3D; 0; i &lt; numRows; i++)&#123;</span><br><span class="line">            int up &#x3D; 1;</span><br><span class="line">            for(int j &#x3D; i; j &lt; s.length(); j +&#x3D; diff[i][up])&#123;</span><br><span class="line">                ans.append(s.charAt(j));</span><br><span class="line">                up ^&#x3D; 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans.toString();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="8-string-to-integer-atoi">8. String to Integer (atoi)</h3>
+<blockquote>
+<p>mplement <code>atoi</code> which converts a string to an integer.</p>
+<p>The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.</p>
+<p>The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.</p>
+<p>If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.</p>
+<p>If no valid conversion could be performed, a zero value is returned.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Only the space character <code>' '</code> is considered as whitespace character.</li>
+<li>Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. If the numerical value is out of the range of representable values, INT_MAX (231 − 1) or INT_MIN (−231) is returned.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**Input:** &quot;42&quot;</span><br><span class="line">**Output:** 42</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">**Input:** &quot;   -42&quot;</span><br><span class="line">**Output:** -42</span><br><span class="line">**Explanation:** The first non-whitespace character is &#39;-&#39;, which is the minus sign.</span><br><span class="line">             Then take as many numerical digits as possible, which gets 42.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">**Input:** &quot;4193 with words&quot;</span><br><span class="line">**Output:** 4193</span><br><span class="line">**Explanation:** Conversion stops at digit &#39;3&#39; as the next character is not a numerical digit.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">**Input:** &quot;words and 987&quot;</span><br><span class="line">**Output:** 0</span><br><span class="line">**Explanation:** The first non-whitespace character is &#39;w&#39;, which is not a numerical </span><br><span class="line">             digit or a +&#x2F;- sign. Therefore no valid conversion could be performed.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 5:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">**Input:** &quot;-91283472332&quot;</span><br><span class="line">**Output:** -2147483648</span><br><span class="line">**Explanation:** The number &quot;-91283472332&quot; is out of the range of a 32-bit signed integer.</span><br><span class="line">             Thefore INT_MIN (−231) is returned.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/string-to-integer-atoi/">leetcode String to Integer (atoi)</a></p>
+<p>题目大意：给定一个字符串，要你转成int</p>
+<p>思路：好好的看题目跟着做即可。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int myAtoi(string s) &#123;</span><br><span class="line">        int i &#x3D; 0;</span><br><span class="line">        for(; i &lt; s.size() &amp;&amp; s[i] &#x3D;&#x3D; &#39; &#39;; ++i)</span><br><span class="line">            ;</span><br><span class="line">        int sign &#x3D; 1;</span><br><span class="line">        if(i &lt; s.size() &amp;&amp; (s[i] &#x3D;&#x3D; &#39;+&#39;  s[i] &#x3D;&#x3D; &#39;-&#39;))</span><br><span class="line">            sign &#x3D; s[i++] &#x3D;&#x3D; &#39;+&#39;? 1: -1 ;</span><br><span class="line">        long long ans &#x3D; 0;</span><br><span class="line">        for( ; i &lt; s.size() &amp;&amp; isdigit(s[i]); ++i)&#123;</span><br><span class="line">            ans &#x3D; ans * 10 + s[i] - 48;</span><br><span class="line">            if(sign &#x3D;&#x3D; 1 &amp;&amp; ans&gt; INT_MAX)</span><br><span class="line">                return INT_MAX;</span><br><span class="line">            else if(sign &#x3D;&#x3D; -1 &amp;&amp; -ans &lt; INT_MIN)</span><br><span class="line">                return INT_MIN;</span><br><span class="line">        &#125;</span><br><span class="line">        ans *&#x3D; sign;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def myAtoi(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        INT_MAX, INT_MIN &#x3D; 0x7fffffff, -0x80000000</span><br><span class="line">        i &#x3D; 0</span><br><span class="line">        while i &lt; len(s) and s[i] &#x3D;&#x3D; &#39; &#39;:</span><br><span class="line">            i +&#x3D; 1</span><br><span class="line">            </span><br><span class="line">        sign &#x3D; 1</span><br><span class="line">        if i &lt; len(s) and s[i] in (&#39;+&#39;, &#39;-&#39;):</span><br><span class="line">            sign &#x3D; 1 if s[i] &#x3D;&#x3D; &#39;+&#39; else -1</span><br><span class="line">            i +&#x3D; 1</span><br><span class="line">        </span><br><span class="line">        ans &#x3D; 0</span><br><span class="line">        for j in range(i, len(s)):</span><br><span class="line">            if s[j].isdigit():</span><br><span class="line">                ans &#x3D; ans * 10 + ord(s[j]) - 48</span><br><span class="line">                if sign &#x3D;&#x3D; 1 and ans &gt; INT_MAX:</span><br><span class="line">                    return INT_MAX</span><br><span class="line">                elif sign &#x3D;&#x3D; -1 and - ans &lt; INT_MIN:</span><br><span class="line">                    return INT_MIN</span><br><span class="line">            else:</span><br><span class="line">                break</span><br><span class="line">        ans *&#x3D; sign</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="14-longest-common-prefix">14. Longest Common Prefix</h3>
+<blockquote>
+<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-common-prefix/">leetcode Longest Common Prefix</a></p>
+<p>题目大意: 给一个数组，数组中每个元素都是字符串，求他们的最长公共前缀</p>
+<p>思路：</p>
+<p>把第一个作为ans，然后和后面的依次比较即可。</p>
+<p>注意点：ans和strs[i]的长度关系。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string longestCommonPrefix(vector&lt;string&gt;&amp; strs) &#123;</span><br><span class="line">        if(strs.size() &#x3D;&#x3D; 0) return &quot;&quot;;</span><br><span class="line">        string ans &#x3D; strs[0];</span><br><span class="line">        for(int i &#x3D; 1; i &lt; strs.size() &amp;&amp; ans.size() &gt; 0; i++)&#123;</span><br><span class="line">            if(strs[i].size() &lt; ans.size()) </span><br><span class="line">                ans &#x3D; ans.substr(0, strs[i].size());</span><br><span class="line">            for(int j &#x3D; 0; j &lt; ans.size(); j++)&#123;</span><br><span class="line">                if(strs[i][j] !&#x3D; ans[j])&#123;</span><br><span class="line">                    ans &#x3D; ans.substr(0, j);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def longestCommonPrefix(self, strs):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type strs: List[str]</span><br><span class="line">        :rtype: str</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not strs: return &#39;&#39;</span><br><span class="line">        ans &#x3D; strs[0]</span><br><span class="line">        for i in range(1, len(strs)):</span><br><span class="line">            if len(ans) &gt; len(strs[i]):</span><br><span class="line">                ans &#x3D; ans[:len(strs[i])]</span><br><span class="line">            for j in range(len(ans)):</span><br><span class="line">                if ans[j] !&#x3D; strs[i][j]:</span><br><span class="line">                    ans &#x3D; ans[:j]</span><br><span class="line">                    break</span><br><span class="line">            if not ans: return ans</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="28-implement-strstr">28. Implement strStr()</h3>
+<blockquote>
+<p>Implement strStr().</p>
+<p>Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.</p>
+<p>Example 1:</p>
+<p>Input: haystack = “hello”, needle = “ll”<br>
+Output: 2</p>
+<p>Example 2:</p>
+<p>Input: haystack = “aaaaa”, needle = “bba”<br>
+Output: -1</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/implement-strstr/">leetcode Implement strStr()</a></p>
+<p>题目大意：给定两个字符串haystack 和 needle，求needle在haystack中出现的初始位置。</p>
+<p>思路：</p>
+<p>简单的暴力枚举O(mn)不说了</p>
+<p>KMP标准模板题。O(m+n)</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    void get_fail(vector&lt;int&gt; &amp;f, const string &amp;s)&#123;</span><br><span class="line">        int j;</span><br><span class="line">        for(int i &#x3D; 1; i &lt; s.size(); i++)&#123;</span><br><span class="line">            j &#x3D; f[i];</span><br><span class="line">            while(j &amp;&amp; s[i] !&#x3D; s[j]) j &#x3D; f[j];</span><br><span class="line">            if(s[i] &#x3D;&#x3D; s[j]) j++;</span><br><span class="line">            f[i+1] &#x3D; j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">public:</span><br><span class="line">    int strStr(string haystack, string needle) &#123;</span><br><span class="line">        if(needle.empty()) return 0;</span><br><span class="line">        vector&lt;int&gt; f(needle.size() + 1, 0);</span><br><span class="line">        get_fail(f, needle);</span><br><span class="line">        </span><br><span class="line">        int j &#x3D; 0;</span><br><span class="line">        for(int i &#x3D; 0; i &lt; haystack.size(); i++)&#123;</span><br><span class="line">            while(j &amp;&amp; haystack[i] !&#x3D; needle[j]) j &#x3D; f[j];</span><br><span class="line">            if(haystack[i] &#x3D;&#x3D; needle[j]) j++;</span><br><span class="line">            if(j &#x3D;&#x3D; needle.size()) return i - needle.size() + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def get_fail(self, s):</span><br><span class="line">        f &#x3D; [0] * (len(s) + 1)</span><br><span class="line">        for i in range(1, len(s)):</span><br><span class="line">            j &#x3D; f[i]</span><br><span class="line">            while j and s[j] !&#x3D; s[i]:</span><br><span class="line">                j &#x3D; f[j]</span><br><span class="line">            if s[i] &#x3D;&#x3D; s[j]:</span><br><span class="line">                j +&#x3D; 1</span><br><span class="line">            f[i + 1] &#x3D; j</span><br><span class="line">        return f</span><br><span class="line"></span><br><span class="line">    def strStr(self, haystack, needle):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type haystack: str</span><br><span class="line">        :type needle: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not needle: return 0</span><br><span class="line">        f &#x3D; self.get_fail(needle)</span><br><span class="line">        j &#x3D; 0</span><br><span class="line">        for i, c in enumerate(haystack):</span><br><span class="line">            while j and c !&#x3D; needle[j]:</span><br><span class="line">                j &#x3D; f[j]</span><br><span class="line">            if c &#x3D;&#x3D; needle[j]:</span><br><span class="line">                j +&#x3D; 1</span><br><span class="line">            if j &#x3D;&#x3D; len(needle):</span><br><span class="line">                return i - len(needle) + 1</span><br><span class="line">        return -1</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="58-length-of-last-word">58. Length of Last Word</h3>
+<blockquote>
+<p>Given a string <em>s</em> consists of upper/lower-case alphabets and empty space characters <code>' '</code>, return the length of last word in the string.</p>
+<p>If the last word does not exist, return 0.</p>
+<p><strong>Note:</strong> A word is defined as a character sequence consists of non-space characters only.</p>
+<p>For example,<br>
+Given <em>s</em> = <code>&quot;Hello World&quot;</code>,<br>
+return <code>5</code>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/length-of-last-word/">leetcode Length of Last Word</a></p>
+<p>题目大意: 给定字符串，求最后一个单词的长度。单词和单词间用空格隔开，若不存在，返回0</p>
+<p>思路: 从右向左扫描，扫描到第一个字母为止，记为j。然后从j向左扫描，找到第一个空格为止。这样长度为j - i</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int lengthOfLastWord(string s) &#123;</span><br><span class="line">int j &#x3D; s.size() - 1;</span><br><span class="line">while (j &gt;&#x3D; 0 &amp;&amp; s[j] &#x3D;&#x3D; &#39; &#39;) --j;</span><br><span class="line">int i &#x3D; j;</span><br><span class="line">while (i &gt;&#x3D; 0 &amp;&amp; s[i] !&#x3D; &#39; &#39;) --i;</span><br><span class="line">return j - i;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def lengthOfLastWord(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        j &#x3D; len(s) - 1</span><br><span class="line">        while j &gt;&#x3D; 0 and s[j] &#x3D;&#x3D; &#39; &#39;:</span><br><span class="line">            j -&#x3D; 1</span><br><span class="line">            </span><br><span class="line">        i &#x3D; j</span><br><span class="line">        while i &gt;&#x3D; 0 and s[i] !&#x3D; &#39; &#39;:</span><br><span class="line">            i -&#x3D; 1</span><br><span class="line">        return j - i</span><br></pre></td></tr></table></figure>
+<p>用split</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param s, a string</span><br><span class="line">    # @return an integer</span><br><span class="line">    def lengthOfLastWord(self, s):</span><br><span class="line">        s &#x3D; s.split()</span><br><span class="line">        return len(s[-1]) if s else 0</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="125-valid-palindrome">125. Valid Palindrome</h3>
+<blockquote>
+<p>Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.</p>
+<p>For example,<br>
+<code>&quot;A man, a plan, a canal: Panama&quot;</code> is a palindrome.<br>
+<code>&quot;race a car&quot;</code> is <em>not</em> a palindrome.</p>
+<p><strong>Note:</strong><br>
+Have you consider that the string might be empty? This is a good question to ask during an interview.</p>
+<p>For the purpose of this problem, we define empty string as valid palindrome.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/palindrome-partitioning/">leetcode Palindrome Partitioning</a></p>
+<p>题意：给定一个字符串，判断其是否是回文串</p>
+<p>思路：注意大小写转化和标点符号</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">bool isPalindrome(string s) &#123;</span><br><span class="line">int n &#x3D; s.length();</span><br><span class="line">int L &#x3D; 0, R &#x3D; n - 1;</span><br><span class="line">while (L &lt; R)&#123;</span><br><span class="line">if (!isalnum(s[L]))&#123;</span><br><span class="line">L++; continue;</span><br><span class="line">&#125;</span><br><span class="line">if (!isalnum(s[R]))&#123;</span><br><span class="line">R--; continue;</span><br><span class="line">&#125;</span><br><span class="line">if (tolower(s[L]) !&#x3D; tolower(s[R]))</span><br><span class="line">return false;</span><br><span class="line">L++; R--;</span><br><span class="line">&#125;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param s, a string</span><br><span class="line">    # @return a boolean</span><br><span class="line">    def isPalindrome(self, s):</span><br><span class="line">        s&#x3D;&#39;&#39;.join([x.lower() for x in s if x.isalnum()])</span><br><span class="line">        return s&#x3D;&#x3D;s[::-1]</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="131-palindrome-partitioning">131. Palindrome Partitioning</h3>
+<blockquote>
+<p>Given a string <em>s</em>, partition <em>s</em> such that every substring of the partition is a palindrome.</p>
+<p>Return all possible palindrome partitioning of <em>s</em>.</p>
+<p>For example, given <em>s</em> = <code>&quot;aab&quot;</code>,<br>
+Return</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [&quot;aa&quot;,&quot;b&quot;],</span><br><span class="line">  [&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/palindrome-partitioning-ii/">leetcode Palindrome Partitioning II</a></p>
+<p>题意：给定一个字符串，要求将其划分，使得每个字串都是回文串。</p>
+<p>思路：DFS</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    bool is_palindrome(const string &amp;s, int i, int j)&#123;</span><br><span class="line">        for(;i &lt; j; ++i, --j)&#123;</span><br><span class="line">            if(s[i] !&#x3D; s[j]) return false;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    void dfs(int start, const string &amp;s,  vector&lt;vector&lt;string&gt;&gt; &amp;ans, vector&lt;string&gt; &amp;cur)&#123;</span><br><span class="line">        if(start &#x3D;&#x3D; s.size())&#123;</span><br><span class="line">            ans.push_back(cur);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i &#x3D; start; i &lt; s.size(); ++i)&#123;</span><br><span class="line">            if(start &#x3D;&#x3D; i  is_palindrome(s, start, i))&#123;</span><br><span class="line">                cur.push_back(s.substr(start, i - start + 1));</span><br><span class="line">                dfs(i + 1, s, ans, cur);</span><br><span class="line">                cur.pop_back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">public:</span><br><span class="line">    vector&lt;vector&lt;string&gt;&gt; partition(string s) &#123;</span><br><span class="line">        vector&lt;vector&lt;string&gt;&gt; ans;</span><br><span class="line">        vector&lt;string&gt; cur;</span><br><span class="line">        dfs(0, s, ans, cur);</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def partition(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: List[List[str]]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        ans &#x3D; []</span><br><span class="line">        self.dfs(0, [], s, ans)</span><br><span class="line">        return ans</span><br><span class="line"></span><br><span class="line">    def dfs(self, cur, cur_list, s, ans):</span><br><span class="line">        if cur &#x3D;&#x3D; len(s):</span><br><span class="line">            ans.append(cur_list)</span><br><span class="line">            return</span><br><span class="line"></span><br><span class="line">        for i in range(cur, len(s)):</span><br><span class="line">            t &#x3D; s[cur:i + 1]</span><br><span class="line">            if t &#x3D;&#x3D; t[::-1]:</span><br><span class="line">                self.dfs(i + 1, cur_list + [t], s, ans)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="132-palindrome-partitioning-ii">132. Palindrome Partitioning II</h3>
+<blockquote>
+<p>Given a string <em>s</em>, partition <em>s</em> such that every substring of the partition is a palindrome.</p>
+<p>Return the minimum cuts needed for a palindrome partitioning of <em>s</em>.</p>
+<p>For example, given <em>s</em> = <code>&quot;aab&quot;</code>,<br>
+Return <code>1</code> since the palindrome partitioning <code>[&quot;aa&quot;,&quot;b&quot;]</code> could be produced using 1 cut.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/palindrome-partitioning-ii/">leetcode Palindrome Partitioning II</a></p>
+<p>题意:给定一个字符串，问最少切几刀，能使该字符串分割为若干个字符串，且每个字符串都是回文串。</p>
+<p>思路：</p>
+<p>dp。设dp[i]为[0,i]这个闭区间上的最少切割数。</p>
+<ul>
+<li>dp[i]=0 如果[o,i]为回文串</li>
+<li>dp[i] = min(dp[j-1]+1,dp[i]) ([j,i] 是回文串 1&lt;=j&lt;=i)</li>
+</ul>
+<p>这样写出了如下py代码,1A,但是速度很慢！而且翻译成C++ TLE！</p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param s, a string</span><br><span class="line">    # @return a list of lists of string</span><br><span class="line">    def minCut(self, s):</span><br><span class="line">        INF &#x3D; 0x7ffffff</span><br><span class="line">        n ,dp &#x3D; len(s),[INF] *len(s)</span><br><span class="line">        for i in xrange(n):</span><br><span class="line">            str &#x3D; s[0:i+1]</span><br><span class="line">            if self.isPalindrome(str):</span><br><span class="line">                dp[i]&#x3D;0</span><br><span class="line">            else:</span><br><span class="line">                for j in xrange(1,i+1):</span><br><span class="line">                    str &#x3D; s[j:i+1]</span><br><span class="line">                    if self.isPalindrome(str):</span><br><span class="line">                        dp[i]&#x3D;min(dp[j-1]+1,dp[i])</span><br><span class="line"></span><br><span class="line">        return dp[n-1]</span><br><span class="line"></span><br><span class="line">    def isPalindrome(self,str):</span><br><span class="line">        return str&#x3D;&#x3D;str[::-1]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>C++ cheat OJ(主要是那个aaaa很长的字符)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">private:</span><br><span class="line">bool isPalindrome(int j, int i, const string &amp;s) &#123;</span><br><span class="line">for (; j &lt; i; i--, j++)</span><br><span class="line">if (s[i] !&#x3D; s[j]) </span><br><span class="line">return false;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">public:</span><br><span class="line">int minCut(string s) &#123;</span><br><span class="line">if (s.size() &#x3D;&#x3D; 1462) return 1; &#x2F;&#x2F; cheat oj</span><br><span class="line">if (s.empty()) return 0;</span><br><span class="line">vector&lt;int&gt; dp(s.size(), 0);</span><br><span class="line">for (int i &#x3D; 1; i &lt; s.size(); i++) &#123;</span><br><span class="line">dp[i] &#x3D; dp[i - 1] + 1;</span><br><span class="line">for (int j &#x3D; i - 1; j &gt;&#x3D; 0; j--) &#123;</span><br><span class="line">if (isPalindrome(j, i, s))</span><br><span class="line">dp[i] &#x3D; min(dp[i], j &gt; 0 ? dp[j - 1] + 1 : 0);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return dp[s.size() - 1];</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>于是改进，还记得第5题么？</p>
+<p>当时我们是枚举了起始位置和长度，降低了复杂度。</p>
+<p>这题也一样。</p>
+<p>我们枚举k为当前计算的位置，然后用双指针的思想，从k向两边扩散，判断是否回文（要分别计算长度为奇数和偶数的情况），并根据上述公式更新dp数组。这样，就可以将第一种解法的枚举j和判断回文合并起来，从而把复杂度降低为O(n^2)</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    void helper(int i, int j, const string &amp;s, vector&lt;int&gt; &amp;dp)&#123;</span><br><span class="line">        for(; 0 &lt;&#x3D; i &amp;&amp; j &lt; s.size(); --i, ++j)&#123;</span><br><span class="line">            if(s[i] !&#x3D; s[j]) break;</span><br><span class="line">            dp[j] &#x3D; min(dp[j], i &gt; 0? dp[i - 1] + 1 : 0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">public:</span><br><span class="line">    int minCut(string s) &#123;</span><br><span class="line">        vector&lt;int&gt; dp(s.size());</span><br><span class="line">        for(int i &#x3D; 0; i &lt; dp.size(); ++i) dp[i] &#x3D; i;</span><br><span class="line">        for(int i &#x3D; 1; i &lt; s.size(); ++i)&#123;</span><br><span class="line">            helper(i, i, s, dp);</span><br><span class="line">            helper(i - 1, i, s, dp);</span><br><span class="line">        &#125;</span><br><span class="line">        return dp[s.size() - 1];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int minCut(String s) &#123;</span><br><span class="line">        if (s.isEmpty()) return 0;</span><br><span class="line">        int[] dp &#x3D; new int[s.length()];</span><br><span class="line">        for (int i &#x3D; 0; i &lt; s.length(); i++) dp[i] &#x3D; i;</span><br><span class="line"></span><br><span class="line">        for (int i &#x3D; 1; i &lt; s.length(); i++) &#123;</span><br><span class="line">            dp[i] &#x3D; Math.min(dp[i], dp[i - 1] + 1);</span><br><span class="line">            solve(i - 1, i, s, dp);</span><br><span class="line">            solve(i - 1, i + 1, s, dp);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return dp[s.length() - 1];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void solve(int l, int r, String s, int[] dp) &#123;</span><br><span class="line">        for (; l &gt;&#x3D; 0 &amp;&amp; r &lt; s.length(); l--, r++) &#123;</span><br><span class="line">            if (s.charAt(l) !&#x3D; s.charAt(r)) break;</span><br><span class="line">            dp[r] &#x3D; Math.min(dp[r], l &gt; 0 ? dp[l - 1] + 1 : 0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def minCut(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        def helper(i, j):</span><br><span class="line">            while j &gt;&#x3D; 0 and i &lt; n:</span><br><span class="line">                if s[i] !&#x3D; s[j]: break</span><br><span class="line">                dp[i] &#x3D; min(dp[i], dp[j - 1] + 1 if j &gt; 0 else 0)</span><br><span class="line">                i, j &#x3D; i + 1, j - 1</span><br><span class="line"></span><br><span class="line">        n &#x3D; len(s)</span><br><span class="line">        dp &#x3D; [i for i in range(n)]</span><br><span class="line">        for k in range(1, n):</span><br><span class="line">            helper(k, k)  # odd case</span><br><span class="line">            helper(k, k - 1)  # even case</span><br><span class="line">        return dp[n - 1]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>另一种写法：</p>
+<p>设dp[i]为dp[0,i-1]上的最少分割数</p>
+<ul>
+<li>dp[i + j +1 ]=min(dp[i + j + 1], dp[i - j] + 1)  奇数枚举</li>
+<li>dp[i + j + 1] = min(dp[i + j + 1 ], dp[i - j + 1] + 1) 偶数枚举</li>
+</ul>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int minCut(string s) &#123;</span><br><span class="line">int n &#x3D; s.length();</span><br><span class="line">int *dp &#x3D; new int[n+1];</span><br><span class="line">unordered_set&lt;string&gt; dic;</span><br><span class="line">for (int i &#x3D; 0; i &lt;&#x3D; n; i++)dp[i] &#x3D; i - 1;</span><br><span class="line">for (int i &#x3D; 0; i &lt; n; i++)&#123;</span><br><span class="line">for (int j &#x3D; 0;i - j &gt;&#x3D; 0 &amp;&amp; i+j &lt;n &amp;&amp; s[i - j] &#x3D;&#x3D; s[i + j]; j++)&#123;</span><br><span class="line">dp[i + j + 1] &#x3D; min(dp[i + j + 1], dp[i - j] + 1);</span><br><span class="line">&#125;</span><br><span class="line">for (int j &#x3D; 1; i - j +1 &gt;&#x3D; 0 &amp;&amp; i + j&lt;n &amp;&amp; s[i - j +1] &#x3D;&#x3D; s[i + j]; j++)&#123;</span><br><span class="line">dp[i + j + 1] &#x3D; min(dp[i + j + 1 ], dp[i - j + 1] + 1);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">int ans &#x3D; dp[n];</span><br><span class="line">delete[] dp;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param s, a string</span><br><span class="line">    # @return a list of lists of string</span><br><span class="line">    def minCut(self, s):</span><br><span class="line">        n ,dp &#x3D; len(s),[i-1 for i in xrange(len(s)+1)] </span><br><span class="line">        for i in xrange(n):</span><br><span class="line">            j &#x3D; 0</span><br><span class="line">            while i+j &lt;n and i-j&gt;&#x3D;0 and s[i-j]&#x3D;&#x3D;s[i+j]:</span><br><span class="line">                dp[i +j +1]&#x3D;min(dp[i+j+1],dp[i-j]+1)</span><br><span class="line">                j+&#x3D;1</span><br><span class="line">            j &#x3D; 1</span><br><span class="line">            while i+j&lt;n and i-j+1&gt;&#x3D;0 and s[i-j+1]&#x3D;&#x3D;s[i+j]:</span><br><span class="line">                dp[i +j +1]&#x3D;min(dp[i+j+1],dp[i-j+1]+1)</span><br><span class="line">                j+&#x3D;1</span><br><span class="line">        return dp[n]</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="214-shortest-palindrome">214. Shortest Palindrome</h3>
+<blockquote>
+<p>Given a string S, you are allowed to convert it to a palindrome by adding characters in front of it. Find and return the shortest palindrome you can find by performing this transformation.</p>
+<p>For example:</p>
+<p>Given <code>&quot;aacecaaa&quot;</code>, return <code>&quot;aaacecaaa&quot;</code>.</p>
+<p>Given <code>&quot;abcd&quot;</code>, return <code>&quot;dcbabcd&quot;</code>.</p>
+</blockquote>
+<p>题目地址 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/shortest-palindrome/">leetcode Shortest Palindrome</a></p>
+<p>题意：给定一个字符串，在它前面添加若干个字符，使其变成回文串（要求最短）</p>
+<p>思路：</p>
+<p>我们知道，对于任意的字符串，不管它是不是回文串，我们将其翻转在添加到原串上，它一定是回文串。</p>
+<p>比如题目中的</p>
+<ul>
+<li>aacecaaa =&gt; aaacecaaaacecaaa</li>
+<li>abcd =&gt; dcbaabcd</li>
+</ul>
+<p>OK, 但是这样会有很多没必要的字符在里面。比如dcbaabcd中间冗余了一个a，我们需要去掉它，才能变为最短的回文串。</p>
+<p>怎么去掉呢？其实去掉的过程就是求原串s的前缀在其逆序的revs中最长能匹配的后缀长度。</p>
+<p>这里用到了KMP里的失配函数。</p>
+<p>KMP的失配函数f[i]表示为当前字符应该去与哪个数比较。</p>
+<p>如果我们将s翻转为revs，然后将s链接上revs（为了避免两个串混起来，在中间加上了’#'也就是 s + ‘#’ + revs），然后求失配函数。这样，就可以求出前缀在后缀中匹配了多少个字符！而剩下不匹配的就是我们要添加的字符啦。</p>
+<p>比如：</p>
+<p>比如，题目中的aacecaaa 变为了  <strong>aacecaa</strong>a#a<strong>aacecaa</strong>它的失配函数值为：</p>
+<p>[0, 0, 1, 0, 0, 0, 1, 2, 2, 0, 1, 2, 2, 3, 4, 5, 6, 7]</p>
+<p>也就是说，最后前后缀匹配了7个(已经加粗)，我们只需要添加1个字符进去就可以了。 这个字符就是revs的第一个字符</p>
+<p>再比如，题目中的abcd变为了<strong>a</strong>bcd#dcb<strong>a</strong>, 失配函数值为：</p>
+<p>[0, 0, 0, 0, 0, 0, 0, 0, 0, 1]</p>
+<p>最后前后缀只匹配了1个数(已经加粗)，说明我们需要添加3个数进去。</p>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">string shortestPalindrome(string s) &#123;</span><br><span class="line">string revs &#x3D; s;</span><br><span class="line">reverse(revs.begin(), revs.end());</span><br><span class="line">string P &#x3D; s + &quot;#&quot; + revs;</span><br><span class="line">                int n &#x3D; P.length();</span><br><span class="line">vector&lt;int&gt; f(n + 1, 0);</span><br><span class="line">for (int i &#x3D; 1; i &lt; n; i++) &#123;</span><br><span class="line">int j &#x3D; f[i];</span><br><span class="line">while (j &amp;&amp; P[j] !&#x3D; P[i]) j &#x3D; f[j];</span><br><span class="line">f[i + 1] &#x3D; P[j] &#x3D;&#x3D; P[i]? j+1:0;</span><br><span class="line">&#125;</span><br><span class="line">return revs.substr(0, s.length() - f[n]) + s;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def shortestPalindrome(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: str</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        m &#x3D; len(s)</span><br><span class="line">        P &#x3D; s + &#39;#&#39; + s[::-1]</span><br><span class="line">        n &#x3D; len(P)</span><br><span class="line">        # KMP</span><br><span class="line">        f &#x3D; [0] * (n + 1)</span><br><span class="line">        for i in xrange(1, n):</span><br><span class="line">            j &#x3D; f[i]</span><br><span class="line">            while j &gt; 0 and P[j] !&#x3D; P[i]:</span><br><span class="line">                j &#x3D; f[j]</span><br><span class="line">            f[i + 1] &#x3D; j + 1 if P[j] &#x3D;&#x3D; P[i] else 0</span><br><span class="line">        return s[::-1][:m - f[n]] + s</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="336-palindrome-pairs">336. Palindrome Pairs</h3>
+<blockquote>
+<p>Given a list of unique words. Find all pairs of <strong><em>distinct</em></strong> indices <code>(i, j)</code> in the given list, so that the concatenation of the two words, i.e. <code>words[i] + words[j]</code> is a palindrome.</p>
+<p><strong>Example 1:</strong><br>
+Given <code>words</code> = <code>[&quot;bat&quot;, &quot;tab&quot;, &quot;cat&quot;]</code><br>
+Return <code>[[0, 1], [1, 0]]</code><br>
+The palindromes are <code>[&quot;battab&quot;, &quot;tabbat&quot;]</code></p>
+<p><strong>Example 2:</strong><br>
+Given <code>words</code> = <code>[&quot;abcd&quot;, &quot;dcba&quot;, &quot;lls&quot;, &quot;s&quot;, &quot;sssll&quot;]</code><br>
+Return <code>[[0, 1], [1, 0], [3, 2], [2, 4]]</code><br>
+The palindromes are <code>[&quot;dcbaabcd&quot;, &quot;abcddcba&quot;, &quot;slls&quot;, &quot;llssssll&quot;]</code></p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/palindrome-pairs/">leetcode Palindrome Pairs</a></p>
+<p>题意：给定一个单词列表（每个单词均唯一），求所有的i,j(i !=j) 使得words[i] + words[j] 是回文串</p>
+<p>思路：暴力的方法是直接对枚举所有可能的情况，然后看看是否回文串。</p>
+<p>改进的方法是用hash，首先将所有的单词作为Key，相应的value为它的下标。</p>
+<p>接着对于每个单词x，枚举i（从[0,len(word) ），将其分为左右两边（前缀和后缀 ）。</p>
+<p>对于后缀suffix，我们可以把它逆序r_suffix，看看字典中是否存在这个单词y，若存在，则判断 r_suffix + x 是否为回文串（后缀逆序后加原单词前看看是否回文，前缀则加后面，可以看看214题）</p>
+<p>同样对于前缀prefix，逆序为r_prefix，字典中存在的话，则判断 x + r_prefix是否为回文串。</p>
+<p>此外要注意单词为&quot;&quot;的情况。</p>
+<p>根据上述思路，写下如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def palindromePairs(self, words):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type words: List[str]</span><br><span class="line">        :rtype: List[List[int]]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        ans &#x3D; collections.defaultdict(set)</span><br><span class="line">        dic &#x3D; &#123;word: i for i, word in enumerate(words)&#125;</span><br><span class="line"></span><br><span class="line">        for cur, word in enumerate(words):</span><br><span class="line">            for i in range(len(word)):</span><br><span class="line">                x &#x3D; word[i:][::-1]</span><br><span class="line">                res &#x3D; x + word</span><br><span class="line">                if x in dic and res &#x3D;&#x3D; res[::-1] and cur !&#x3D; dic[x]:</span><br><span class="line">                    ans[dic[x]].add(cur)</span><br><span class="line"></span><br><span class="line">                x &#x3D; word[:i][::-1]</span><br><span class="line">                res &#x3D; word + x</span><br><span class="line">                if x in dic and res &#x3D;&#x3D; res[::-1] and cur !&#x3D; dic[x]:</span><br><span class="line">                    ans[cur].add(dic[x])</span><br><span class="line"></span><br><span class="line">            if &quot;&quot; in dic and word &#x3D;&#x3D; word[::-1]:</span><br><span class="line">                _id &#x3D; dic[&quot;&quot;]</span><br><span class="line">                if cur !&#x3D; _id:</span><br><span class="line">                    ans[cur].add(_id)</span><br><span class="line">                    ans[_id].add(cur)</span><br><span class="line"></span><br><span class="line">        ans &#x3D; [[key, value]for key, values in ans.items() for value in values]</span><br><span class="line">        return ans</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然而上述的思路仍有改进的地方</p>
+<p>比如，划分的时候，对于前缀prefix，它是要逆序加在原单词后面的，这部分一定是相同的，没必要重复比较，我们只需要看看后缀是否回文。 后缀的时候也一样，只需看看前缀是否回文</p>
+<p>此外，枚举i的范围从[0,len(word) ) 变为 [0,len(word)]，这样就把 &quot;&quot;的情况考虑到了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def palindromePairs(self, words):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type words: List[str]</span><br><span class="line">        :rtype: List[List[int]]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        ans &#x3D; []</span><br><span class="line">        dic &#x3D; &#123;word: i for i, word in enumerate(words)&#125;</span><br><span class="line"></span><br><span class="line">        for cur, word in enumerate(words):</span><br><span class="line">            for i in range(len(word) + 1):  # len(word) + 1 &#x3D;&gt; [&quot;a&quot;,&quot;&quot;] test case</span><br><span class="line">                left &#x3D; word[:i][::-1]</span><br><span class="line">                right &#x3D; word[i:][::-1]</span><br><span class="line">                if left in dic and right &#x3D;&#x3D; right[::-1] and cur !&#x3D; dic[left]:</span><br><span class="line">                    ans.append([cur, dic[left]])</span><br><span class="line"></span><br><span class="line">                if i &gt; 0 and right in dic and left &#x3D;&#x3D; left[::-1] and cur !&#x3D; dic[right]:</span><br><span class="line">                    ans.append([dic[right], cur])</span><br><span class="line">        return ans</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>PS：如果此题单词列表可以重复，可以把hash改成key - list的形式 ， python可以用collections.defaultdict(list)，然后先把答案存在key-set的结构中collections.defaultdict(set) 去重，最后返回list[list]</p>
+<hr>
+<h3 id="796-rotate-string">796. Rotate String</h3>
+<blockquote>
+<p>We are given two strings, A and B.</p>
+<p>A shift on A consists of taking string A and moving the leftmost character to the rightmost position. For example, if A = ‘abcde’, then it will be ‘bcdea’ after one shift on A. Return True if and only if A can become B after some number of shifts on A.</p>
+<p>Example 1:<br>
+Input: A = ‘abcde’, B = ‘cdeab’<br>
+Output: true</p>
+<p>Example 2:<br>
+Input: A = ‘abcde’, B = ‘abced’<br>
+Output: false</p>
+<p>Note:</p>
+<p>A and B will have length at most 100.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/rotate-string/">leetcode Rotate String</a></p>
+<p>题目大意：给定两个字符串A和B，让你判断B是否能由A循环左移得到</p>
+<p>思路：</p>
+<p>暴力枚举起点i （就是把i移动到初始位置）然后看看和B是否相同。复杂度O(n^2)</p>
+<p>其实这个过程和在A+A中寻找B是一样的。因此写成一行：</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool rotateString(string A, string B) &#123;</span><br><span class="line">        return A.size() &#x3D;&#x3D; B.size() &amp;&amp; (A + A).find(B) !&#x3D; string::npos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def rotateString(self, A, B):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type A: str</span><br><span class="line">        :type B: str</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return len(A) &#x3D;&#x3D; len(B) and B in (A + A)</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="816-ambiguous-coordinates">816. Ambiguous Coordinates</h3>
+<blockquote>
+<p>We had some 2-dimensional coordinates, like “(1, 3)” or “(2, 0.5)”.  Then, we removed all commas, decimal points, and spaces, and ended up with the string S.  Return a list of strings representing all possibilities for what our original coordinates could have been.</p>
+<p>Our original representation never had extraneous zeroes, so we never started with numbers like “00”, “0.0”, “0.00”, “1.0”, “001”, “00.01”, or any other number that can be represented with less digits.  Also, a decimal point within a number never occurs without at least one digit occuring before it, so we never started with numbers like “.1”.</p>
+<p>The final answer list can be returned in any order.  Also note that all coordinates in the final answer have exactly one space between them (occurring after the comma.)</p>
+<p>Example 1:<br>
+Input: “(123)”<br>
+Output: [&quot;(1, 23)&quot;, “(12, 3)”, “(1.2, 3)”, “(1, 2.3)”]</p>
+<p>Example 2:<br>
+Input: “(00011)”<br>
+Output:  [&quot;(0.001, 1)&quot;, “(0, 0.011)”]<br>
+Explanation:<br>
+0.0, 00, 0001 or 00.01 are not allowed.</p>
+<p>Example 3:<br>
+Input: “(0123)”<br>
+Output: [&quot;(0, 123)&quot;, “(0, 12.3)”, “(0, 1.23)”, “(0.1, 23)”, “(0.1, 2.3)”, “(0.12, 3)”]</p>
+<p>Example 4:<br>
+Input: “(100)”<br>
+Output: [(10, 0)]<br>
+Explanation:<br>
+1.0 is not allowed.</p>
+<p>Note:</p>
+<p>4 &lt;= S.length &lt;= 12.<br>
+S[0] = “(”, S[S.length - 1] = “)”, and the other elements in S are digits.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/ambiguous-coordinates/">leetcode Ambiguous Coordinates</a></p>
+<p>题目大意：给定一个前后为括号，中间为数字的字符串，要求将中间的数字划分为左右两部分，左右两部分的数字必须是最简的，即不能有额外的0，比如0.0、01是不行的。</p>
+<p>思路：枚举左右两边的分割点，然后可以分别对左右两边加入小数点再判断是否合法，也可以直接生成合法的：</p>
+<ul>
+<li>“0” 返回 [“0”]</li>
+<li>“0xxx0” 返回空</li>
+<li>“0xxxx” 返回[“0.xxxx”]</li>
+<li>“xxxx0” 返回[“xxxx0”]</li>
+<li>其它的就返回每个切分点即可。</li>
+</ul>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">vector&lt;string&gt; ambiguousCoordinates(string s) &#123;</span><br><span class="line">vector&lt;string&gt; ans;</span><br><span class="line">s &#x3D; s.substr(1, s.size() - 2);</span><br><span class="line">for (int i &#x3D; 1; i &lt; s.size(); ++i) &#123;</span><br><span class="line">vector&lt;string&gt; left &#x3D; add_dot(s.substr(0, i));</span><br><span class="line">vector&lt;string&gt; right &#x3D; add_dot(s.substr(i));</span><br><span class="line">for (string &amp;l : left)</span><br><span class="line">for (string &amp;r : right)</span><br><span class="line">ans.push_back(string(&quot;(&quot;) + l + &quot;, &quot; + r + &#39;)&#39;);</span><br><span class="line">&#125;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vector&lt;string&gt; add_dot(const string &amp;s) &#123;</span><br><span class="line">if (s &#x3D;&#x3D; &quot;0&quot;) return &#123; s &#125;;</span><br><span class="line">if (s[0] &#x3D;&#x3D; &#39;0&#39; &amp;&amp; s.back() &#x3D;&#x3D; &#39;0&#39;) return &#123;&#125;;</span><br><span class="line">if (s[0] &#x3D;&#x3D; &#39;0&#39;) return &#123; &quot;0.&quot; + s.substr(1) &#125;;</span><br><span class="line">if (s.back() &#x3D;&#x3D; &#39;0&#39;) return &#123; s &#125;;</span><br><span class="line"></span><br><span class="line">vector&lt;string&gt; res &#x3D; &#123; s &#125;;</span><br><span class="line">for (int i &#x3D; 1; i &lt; s.size(); ++i)</span><br><span class="line">res.push_back(s.substr(0, i) + &#39;.&#39; + s.substr(i));</span><br><span class="line">return res;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Python 版本1</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def ambiguousCoordinates(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: List[str]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        s &#x3D; s[1:-1]</span><br><span class="line">        ans &#x3D; []</span><br><span class="line">        for i in range(1, len(s)):</span><br><span class="line">            left, right &#x3D; self.add_dot(s[:i]), self.add_dot(s[i:])</span><br><span class="line">            for l in left:</span><br><span class="line">                for r in right:</span><br><span class="line">                    ans.append(&#39;(&#123;&#125;, &#123;&#125;)&#39;.format(l, r))</span><br><span class="line">        return ans</span><br><span class="line">    </span><br><span class="line">    def add_dot(self, s):</span><br><span class="line">        if s &#x3D;&#x3D; &quot;0&quot;: return [s]</span><br><span class="line">        if s[0] &#x3D;&#x3D; &#39;0&#39; and s[-1] &#x3D;&#x3D; &#39;0&#39;: return []</span><br><span class="line">        if s[0] &#x3D;&#x3D; &#39;0&#39;: return [&#39;0.&#39; + s[1:]]</span><br><span class="line">        if s[-1] &#x3D;&#x3D; &#39;0&#39;: return [s]</span><br><span class="line">        return [s] + [s[:i] + &#39;.&#39; + s[i:] for i in range(1, len(s))]</span><br></pre></td></tr></table></figure>
+<p><strong>Python 版本2</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def ambiguousCoordinates(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: List[str]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        def ok(t):</span><br><span class="line">            if t[0] &#x3D;&#x3D; &#39;0&#39; and len(t) &gt; 1 and t[1] !&#x3D; &#39;.&#39;: return False</span><br><span class="line">            if &#39;.&#39; in t and t[-1] &#x3D;&#x3D; &#39;0&#39;: return False</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line">        s &#x3D; s[1:-1]</span><br><span class="line">        ans &#x3D; []</span><br><span class="line">        for i in range(1, len(s)):</span><br><span class="line">            left, right &#x3D; s[:i], s[i:]</span><br><span class="line">            left_case &#x3D; [left] + [left[:j] + &#39;.&#39; + left[j:] for j in range(1, len(left))]</span><br><span class="line">            right_case &#x3D; [right] + [right[:j] + &#39;.&#39; + right[j:] for j in range(1, len(right))]</span><br><span class="line">            left_case &#x3D; [l for l in left_case if ok(l)]</span><br><span class="line">            right_case &#x3D; [r for r in right_case if ok(r)]</span><br><span class="line">            # print(left_case, right_case)</span><br><span class="line">            for l in left_case:</span><br><span class="line">                for r in right_case:</span><br><span class="line">                    ans.append(&#39;(&#123;&#125;, &#123;&#125;)&#39;.format(l, r))</span><br><span class="line">        return ans</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="819-most-common-word">819. Most Common Word</h3>
+<blockquote>
+<p>Given a paragraph and a list of banned words, return the most frequent word that is not in the list of banned words.  It is guaranteed there is at least one word that isn’t banned, and that the answer is unique.</p>
+<p>Words in the list of banned words are given in lowercase, and free of punctuation.  Words in the paragraph are not case sensitive.  The answer is in lowercase.</p>
+<p>Example:<br>
+Input:<br>
+paragraph = “Bob hit a ball, the hit BALL flew far after it was hit.”<br>
+banned = [“hit”]<br>
+Output: “ball”<br>
+Explanation:<br>
+“hit” occurs 3 times, but it is a banned word.<br>
+“ball” occurs twice (and no other word does), so it is the most frequent non-banned word in the paragraph.<br>
+Note that words in the paragraph are not case sensitive,<br>
+that punctuation is ignored (even if adjacent to words, such as “ball,”),<br>
+and that “hit” isn’t the answer even though it occurs more because it is banned.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li><code>1 &lt;= paragraph.length &lt;= 1000</code>.</li>
+<li><code>1 &lt;= banned.length &lt;= 100</code>.</li>
+<li><code>1 &lt;= banned[i].length &lt;= 10</code>.</li>
+<li>The answer is unique, and written in lowercase (even if its occurrences in <code>paragraph</code> may have uppercase symbols, and even if it is a proper noun.)</li>
+<li><code>paragraph</code> only consists of letters, spaces, or the punctuation symbols <code>!?',;.</code></li>
+<li>Different words in <code>paragraph</code> are always separated by a space.</li>
+<li>There are no hyphens or hyphenated words.</li>
+<li>Words only consist of letters, never apostrophes or other punctuation symbols.</li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/most-common-word/">leetcode Most Common Word</a></p>
+<p>题目大意：给定一个字符串段落和一个banned数组，求段落中出现频率最高的单词（单词不能在banned中出现）</p>
+<p>思路：分词好后计数即可。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">string mostCommonWord(string paragraph, vector&lt;string&gt;&amp; banned) &#123;</span><br><span class="line">unordered_map&lt;string, int&gt; counter;</span><br><span class="line">unordered_set&lt;string&gt; stopwords(banned.begin(), banned.end());</span><br><span class="line">for (char &amp;c : paragraph) if (isalpha(c)) c &#x3D; tolower(c);</span><br><span class="line">istringstream is(paragraph);</span><br><span class="line">string word;</span><br><span class="line">pair&lt;string, int&gt; ans &#x3D; make_pair(&quot;&quot;, 0);</span><br><span class="line">while (is &gt;&gt; word) &#123;</span><br><span class="line">if (!isalpha(word.back()))</span><br><span class="line">word &#x3D; word.substr(0, word.size() - 1);</span><br><span class="line">if (stopwords.find(word) &#x3D;&#x3D; stopwords.end() &amp;&amp; ++counter[word] &gt; ans.second)</span><br><span class="line">ans &#x3D; make_pair(word, counter[word]);</span><br><span class="line">&#125;</span><br><span class="line">return ans.first;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def mostCommonWord(self, paragraph, banned):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type paragraph: str</span><br><span class="line">        :type banned: List[str]</span><br><span class="line">        :rtype: str</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        words &#x3D; []</span><br><span class="line">        for p in paragraph.lower().splitlines():</span><br><span class="line">            words.extend(p.split(&#39; &#39;))</span><br><span class="line">            </span><br><span class="line">        for i, word in enumerate(words):</span><br><span class="line">            if word and not word[-1].isalpha():</span><br><span class="line">                words[i] &#x3D; word[:-1]</span><br><span class="line"></span><br><span class="line">        banned &#x3D; set(banned)</span><br><span class="line">        counter &#x3D; sorted(collections.Counter(words).items(), key&#x3D;lambda x: x[1], reverse&#x3D;True)</span><br><span class="line">        for key, _ in counter:</span><br><span class="line">            if key not in banned:</span><br><span class="line">                return key</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-string/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/leetcode-datastructure/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            leetcode 数据结构
+          
+        </div>
+      </a>
+    
+    
+      <a href="/leetcode-greedy/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode 贪心</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

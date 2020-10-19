@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode 全排列详解 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-permutations"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode 全排列详解
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-permutations/" class="article-date">
+  <time datetime="2015-02-07T15:31:49.000Z" itemprop="datePublished">2015-02-07</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">13 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本文为leetcode 全排列的详解，包括：</p>
+<ul>
+<li><strong>31</strong> Next Permutation</li>
+<li><strong>46</strong> Permutations</li>
+<li><strong>47</strong> Permutations II</li>
+<li><strong>60</strong> Permutation Sequence</li>
+</ul>
+<a id="more"></a>
+<h2 id="一-stl-next-permutation剖析">一、STL next_permutation剖析</h2>
+<p>C++ STL中，有next_permutation可以直接调用，但是这样做题就没意思啦。</p>
+<p>那么STL的next_permutation是怎么实现的呢？</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/w/index.php?title=Permutation&amp;redirect=no#Systematic_generation_of_all_permutations">下面的摘自wiki百科：</a></p>
+<blockquote>
+<ol>
+<li>Find the largest index k such that a[k] &lt; a[k + 1]. If no such index exists, the permutation is the last permutation.</li>
+<li>Find the largest index l such that a[k] &lt; a[l]. Since k+1 is such an index, l is well defined and satisfies k &lt; l.</li>
+<li>Swap a[k] with a[l].</li>
+<li>Reverse the sequence from a[k+1] up to and including the last element a[n].</li>
+</ol>
+</blockquote>
+<p>第一步找出一个k，使得k之后的为递减序列。（k之后的就没有全排列的结果了。想一下4321这种，都是逆序的）</p>
+<p>接下来，我们需要找到一个最大的下标L使得 a[k]&lt;a[L]，交换a[k]和a[L] （就是说递减序列中比a[k]大的最小的元素， 这样和位置k的进行交换，位置k之后的就又有全排列了）</p>
+<p>最后对k+1之后的逆置即可（在纸上试试），这样就变成了升序。</p>
+<p>eg: 1 4 3  2  k=0 L=3  swap-&gt; 2431 逆置-&gt; 2134</p>
+<h2 id="二-题解">二、题解</h2>
+<h3 id="31-next-permutation">31. Next Permutation</h3>
+<blockquote>
+<p>Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.</p>
+<p>If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).</p>
+<p>The replacement must be in-place, do not allocate extra memory.</p>
+<p>Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.<br>
+<code>1,2,3</code> → <code>1,3,2</code><br>
+<code>3,2,1</code> → <code>1,2,3</code><br>
+<code>1,1,5</code> → <code>1,5,1</code></p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/next-permutation/">leetcode Next Permutation</a></p>
+<p>题目大意：给定一串整数，要求求出它的下一个排列，如1,2,3-&gt;1,3,2    3,2,1-&gt;1,2,3</p>
+<p>思路：见上面的剖析</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void nextPermutation(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">        int i &#x3D; nums.size() - 2, j &#x3D; nums.size() - 1;</span><br><span class="line">        for(; i &gt;&#x3D; 0; --i)</span><br><span class="line">            if(nums[i] &lt; nums[i + 1])</span><br><span class="line">                break;</span><br><span class="line">        </span><br><span class="line">        if(i &lt; 0)&#123;</span><br><span class="line">            reverse(nums.begin(), nums.end());</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        for(; j &gt; i; --j)</span><br><span class="line">            if(nums[i] &lt; nums[j])</span><br><span class="line">                break;</span><br><span class="line">        </span><br><span class="line">        swap(nums[i], nums[j]);</span><br><span class="line">        reverse(nums.begin() + i + 1, nums.end());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    private void swap(int[] nums, int i, int j) &#123;</span><br><span class="line">        int t &#x3D; nums[i];</span><br><span class="line">        nums[i] &#x3D; nums[j];</span><br><span class="line">        nums[j] &#x3D; t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void reverse(int[] nums, int start) &#123;</span><br><span class="line">        for (int i &#x3D; start, j &#x3D; nums.length - 1; i &lt; j; i++, j--)</span><br><span class="line">            swap(nums, i, j);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void nextPermutation(int[] nums) &#123;</span><br><span class="line">        int i &#x3D; nums.length - 2, j &#x3D; i + 1;</span><br><span class="line">        for (; i &gt;&#x3D; 0 &amp;&amp; nums[i] &gt;&#x3D; nums[i + 1]; i--) ;</span><br><span class="line">        if (i &lt; 0) &#123;</span><br><span class="line">            Arrays.sort(nums);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        for (; j &gt;&#x3D; 0 &amp;&amp; nums[i] &gt;&#x3D; nums[j]; j--) ;</span><br><span class="line">        swap(nums, i, j);</span><br><span class="line">        reverse(nums, i + 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def nextPermutation(self, nums):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :rtype: void Do not return anything, modify nums in-place instead.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        i &#x3D; len(nums) - 2</span><br><span class="line">        while i &gt;&#x3D; 0:</span><br><span class="line">            if nums[i] &lt; nums[i + 1]: break</span><br><span class="line">            i -&#x3D; 1</span><br><span class="line">        if i &lt; 0:</span><br><span class="line">            nums.sort()</span><br><span class="line">            return</span><br><span class="line">        </span><br><span class="line">        j &#x3D; len(nums) - 1</span><br><span class="line">        while i &lt; j:</span><br><span class="line">            if nums[i] &lt; nums[j]:</span><br><span class="line">                break</span><br><span class="line">            j -&#x3D; 1</span><br><span class="line">        nums[i], nums[j] &#x3D; nums[j], nums[i]</span><br><span class="line">        nums[i + 1:] &#x3D; nums[i + 1:][::-1]</span><br></pre></td></tr></table></figure>
+<p></p>
+<p></p>
+<h3 id="46-permutations">46. Permutations</h3>
+<blockquote>
+<p>Given a collection of <strong>distinct</strong> numbers, return all possible permutations.</p>
+<p>For example,<br>
+<code>[1,2,3]</code> have the following permutations:<br>
+<code>[1,2,3]</code>, <code>[1,3,2]</code>, <code>[2,1,3]</code>, <code>[2,3,1]</code>, <code>[3,1,2]</code>, and <code>[3,2,1]</code>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/permutations/">leetcode Permutations</a></p>
+<p>题目大意: 给定一个不重复的数组，求全排列</p>
+<p>思路：</p>
+<p>可以用上面的STL next_permutation思想，也可以递归解决。</p>
+<p>递归的想法是：nums的全排列相当于：</p>
+<p>nums[0] + permute(nums \ nums[0])  # 表示除了0以外的数的全排列</p>
+<p>nums[1] + permute(nums \ nums[1])</p>
+<p>…</p>
+<p>nums[n-1] + permute(nums \ nums[n-1])</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">void dfs(int cur, vector&lt;int&gt;&amp; nums, vector&lt;vector&lt;int&gt;&gt; &amp;ans) &#123;</span><br><span class="line">if (cur &#x3D;&#x3D; nums.size() - 1) &#123;</span><br><span class="line">ans.push_back(nums);</span><br><span class="line">return;</span><br><span class="line">&#125;</span><br><span class="line">                &#x2F;&#x2F;0...cur - 1都固定了</span><br><span class="line">for (int i &#x3D; cur; i &lt; nums.size(); i++) &#123;</span><br><span class="line">swap(nums[cur], nums[i]);</span><br><span class="line">dfs(cur + 1, nums, ans);</span><br><span class="line">swap(nums[cur], nums[i]);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">vector&lt;vector&lt;int&gt;&gt; permute(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">vector&lt;vector&lt;int&gt;&gt; ans;</span><br><span class="line">dfs(0, nums, ans);</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    private void swap(int[] nums, int i, int j) &#123;</span><br><span class="line">        int t &#x3D; nums[i];</span><br><span class="line">        nums[i] &#x3D; nums[j];</span><br><span class="line">        nums[j] &#x3D; t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void dfs(int cur, int[] nums, List&lt;List&lt;Integer&gt;&gt; ans) &#123;</span><br><span class="line">        if (cur &#x3D;&#x3D; nums.length - 1) &#123;</span><br><span class="line">            List&lt;Integer&gt; res &#x3D; new ArrayList&lt;&gt;();</span><br><span class="line">            for (int num : nums) res.add(num);</span><br><span class="line">            ans.add(res);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        for (int i &#x3D; cur; i &lt; nums.length; i++) &#123;</span><br><span class="line">            swap(nums, i, cur);</span><br><span class="line">            dfs(cur + 1, nums, ans);</span><br><span class="line">            swap(nums, i, cur);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;List&lt;Integer&gt;&gt; permute(int[] nums) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans &#x3D; new ArrayList&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">        dfs(0, nums, ans);</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="47-permutations-ii">47. Permutations II</h3>
+<blockquote>
+<p>Given a collection of numbers that might contain duplicates, return all possible unique permutations.</p>
+<p>For example,<br>
+<code>[1,1,2]</code> have the following unique permutations:<br>
+<code>[1,1,2]</code>, <code>[1,2,1]</code>, and <code>[2,1,1]</code>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/permutations-ii/">leetcode Permutations II</a></p>
+<p>题目大意：给定一个可能包含重复数字的数组，求全排列，要求去重。</p>
+<p>思路</p>
+<p><strong>方法1</strong>，去重：</p>
+<p>什么时候会产生重复呢？</p>
+<p>注意，上面一题中，我们每次都让0…start - 1固定，然后交换nums[i]和nums[start]，接着继续递归下一层，然后恢复交换。</p>
+<p>比如nums[i]有重复的元素，它之前的重复元素已经交换到start这个位置，那么之后nums[i]也要交换到start这个位置的话，那必然是重复的，因此我们可以记录一个数是不是被交换到start这个位置了。</p>
+<p>只判断根据nums[i]和nums[start]是否相同判断是否重复是不够的，因为比如start的值为2，一开始交换到start的值为1，然后下一次交换过去的为1，两次都是判断2！=1.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    void dfs(int start, vector&lt;int&gt; &amp;nums, vector&lt;vector&lt;int&gt;&gt; &amp;ans)&#123;</span><br><span class="line">        if(start &#x3D;&#x3D; nums.size() - 1)&#123;</span><br><span class="line">            ans.push_back(nums);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        unordered_set&lt;int&gt; vis;</span><br><span class="line">        for(int i &#x3D; start; i &lt; nums.size(); ++i)&#123;</span><br><span class="line">            if(vis.find(nums[i]) !&#x3D; vis.end()) continue;</span><br><span class="line">            vis.insert(nums[i]);</span><br><span class="line">            swap(nums[i], nums[start]);</span><br><span class="line">            dfs(start + 1, nums, ans);</span><br><span class="line">            swap(nums[i], nums[start]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt; ans;</span><br><span class="line">        dfs(0, nums, ans);</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>方法2</strong>， STL的next_permutation思想：</p>
+<p>第一步找出一个k，使得k之后的为递减序列，如果k&lt;0说明已经都是递减的了，就是说最后一个，递推结束。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">bool next_permutation(vector&lt;int&gt; &amp;nums) &#123;</span><br><span class="line">int i &#x3D; nums.size() - 2;</span><br><span class="line">for (; i &gt;&#x3D; 0 &amp;&amp; nums[i] &gt;&#x3D; nums[i + 1]; i--);</span><br><span class="line">if (i &lt; 0) return false;</span><br><span class="line">int j &#x3D; nums.size() - 1;</span><br><span class="line">for (; j &gt;&#x3D; 0 &amp;&amp; nums[i] &gt;&#x3D; nums[j]; j--);</span><br><span class="line">swap(nums[i], nums[j]);</span><br><span class="line">reverse(nums.begin() + i + 1, nums.end());</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">public:</span><br><span class="line">vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">vector&lt;vector&lt;int&gt;&gt; ans;</span><br><span class="line">sort(nums.begin(), nums.end());</span><br><span class="line">do &#123;</span><br><span class="line">ans.push_back(nums);</span><br><span class="line">&#125; while (next_permutation(nums));</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    private void swap(int[] nums, int i, int j) &#123;</span><br><span class="line">        int t &#x3D; nums[i];</span><br><span class="line">        nums[i] &#x3D; nums[j];</span><br><span class="line">        nums[j] &#x3D; t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void reverse(int[] nums, int start) &#123;</span><br><span class="line">        for (int i &#x3D; start, j &#x3D; nums.length - 1; i &lt; j; i++, j--)</span><br><span class="line">            swap(nums, i, j);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private boolean next_permutation(int[] nums) &#123;</span><br><span class="line">        int i &#x3D; nums.length - 2, j &#x3D; i + 1;</span><br><span class="line">        for (; i &gt;&#x3D; 0 &amp;&amp; nums[i] &gt;&#x3D; nums[i + 1]; i--) ;</span><br><span class="line">        if (i &lt; 0) return false;</span><br><span class="line">        for (; j &gt;&#x3D; 0 &amp;&amp; nums[i] &gt;&#x3D; nums[j]; j--) ;</span><br><span class="line">        swap(nums, i, j);</span><br><span class="line">        reverse(nums, i + 1);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;List&lt;Integer&gt;&gt; permuteUnique(int[] nums) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans &#x3D; new ArrayList&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        do &#123;</span><br><span class="line">            List&lt;Integer&gt; res &#x3D; new ArrayList&lt;&gt;();</span><br><span class="line">            for (int num : nums) res.add(num);</span><br><span class="line">            ans.add(res);</span><br><span class="line">        &#125; while (next_permutation(nums));</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def next_permutation(self, nums):</span><br><span class="line">        i &#x3D; len(nums) - 2</span><br><span class="line">        while i &gt;&#x3D; 0 and nums[i] &gt;&#x3D; nums[i + 1]:</span><br><span class="line">            i -&#x3D; 1</span><br><span class="line">        if i &lt; 0: return False</span><br><span class="line">        j &#x3D; len(nums) - 1</span><br><span class="line">        while j &gt;&#x3D; 0 and nums[j] &lt;&#x3D; nums[i]:</span><br><span class="line">            j -&#x3D; 1</span><br><span class="line">        nums[i], nums[j] &#x3D; nums[j], nums[i]</span><br><span class="line">        nums[:] &#x3D; nums[:i + 1] + nums[:i:-1]</span><br><span class="line">        return True</span><br><span class="line"></span><br><span class="line">    def permuteUnique(self, nums):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :rtype: List[List[int]]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        nums.sort()</span><br><span class="line">        ans &#x3D; [nums[:]]</span><br><span class="line">        while self.next_permutation(nums):</span><br><span class="line">            ans.append(nums[:])</span><br><span class="line">        return ans</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="60-permutation-sequence">60. Permutation Sequence</h3>
+<blockquote>
+<p>The set [1,2,3,…,n] contains a total of n! unique permutations.</p>
+<p>By listing and labeling all of the permutations in order,<br>
+We get the following sequence (ie, for n = 3):</p>
+<p>“123”<br>
+“132”<br>
+“213”<br>
+“231”<br>
+“312”<br>
+“321”</p>
+<p>Given n and k, return the kth permutation sequence.</p>
+<p>Note: Given n will be between 1 and 9 inclusive.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/permutation-sequence/">leetcode Permutation Sequence</a></p>
+<p>题目大意：给定n和k，求1~n中能组成的排列中的第k个排列。</p>
+<p>思路：难道要像上面几题，不断都next_permutation？ 答案显然是否定的。</p>
+<p>其实对于每个排列，我们算得出来。</p>
+<p>1~n的排列数有n! ，但如果我们第一个位置上放1，那么有(n-1)!种排列。</p>
+<p>故，对于k，首先确定第一个数放几，然后第二个数……，一直到第n个数。</p>
+<p><strong>C++</strong></p>
+<p>对于放置的第cnt个数，我们有： j = k / (n - 1)! （算出应该放第几个） k = k %(n - 1)!（k剩余多少个）</p>
+<p>下面代码首先k -= 1， 这是为了让k是从0开始的，便于除法取mod。(比如k==（n-1)!，此时位置j应该恰好可以用，如k=2, (n-1)!= 2的时候，2/2=1，但其实第一个数就可以覆盖到了。)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">string getPermutation(int n, int k) &#123;</span><br><span class="line">vector&lt;int&gt; count(n + 1, 1);</span><br><span class="line">vector&lt;int&gt; nums(n, 1);</span><br><span class="line">for (int i &#x3D; 2; i &lt;&#x3D; n; ++i) &#123;</span><br><span class="line">count[i] &#x3D; i * count[i - 1];</span><br><span class="line">nums[i - 1] &#x3D; i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--k;</span><br><span class="line">string ans;</span><br><span class="line">for (int i &#x3D; n; i &gt;&#x3D; 1; --i) &#123; &#x2F;&#x2F;第i个位置</span><br><span class="line">int j &#x3D; k &#x2F; count[i - 1]; &#x2F;&#x2F;第j个数</span><br><span class="line">k &#x3D; k % count[i - 1];</span><br><span class="line">ans +&#x3D; nums[j] + &#39;0&#39;;</span><br><span class="line">nums.erase(nums.begin() + j);</span><br><span class="line">&#125;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def getPermutation(self, n, k):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type n: int</span><br><span class="line">        :type k: int</span><br><span class="line">        :rtype: str</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        nums &#x3D; [i for i in range(1, n + 1)]</span><br><span class="line">        count &#x3D; [1] * (n + 1)</span><br><span class="line">        for i in range(2, n + 1):</span><br><span class="line">            count[i] &#x3D; count[i - 1] * i</span><br><span class="line"></span><br><span class="line">        k -&#x3D; 1</span><br><span class="line">        ans &#x3D; []</span><br><span class="line">        for i in range(n, 0, -1):</span><br><span class="line">            pos &#x3D; k &#x2F;&#x2F; count[i - 1]</span><br><span class="line">            k &#x3D; k % count[i - 1]</span><br><span class="line">            ans.append(str(nums[pos]))</span><br><span class="line">            nums.pop(pos)</span><br><span class="line">        return &#39;&#39;.join(ans)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-permutations/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/leetcode-first-missing-positive/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            leetcode First Missing Positive
+          
+        </div>
+      </a>
+    
+    
+      <a href="/leetcode-jump-game/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode 55 Jump Game || 45 Jump Game II</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

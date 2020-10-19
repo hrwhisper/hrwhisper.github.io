@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    验证码简介 以及用tesseract -OCR识别验证码 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  验证码简介 以及用tesseract -OCR识别验证码
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/" class="article-date">
+  <time datetime="2017-01-27T15:50:14.000Z" itemprop="datePublished">2017-01-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/study/">study</a> / <a class="article-category-link" href="/categories/study/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">6 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本文内容：</p>
+<ul>
+<li>简单介绍验证码</li>
+<li>用tesseract -OCR识别验证码</li>
+</ul>
+<a id="more"></a>
+<h2 id="现在验证码">现在验证码</h2>
+<p>简单的验证码比如如下：</p>
+<ul>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/easy-code.jpg" alt=""></li>
+</ul>
+<p>百度的</p>
+<ul>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/baidu-verification-code.png" alt=""></li>
+</ul>
+<p>当然也有比较不一样的验证码：</p>
+<p>如知乎时让我们点击倒立的文字</p>
+<ul>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/zhihu-verification-code.png" alt=""></li>
+</ul>
+<p>比如geetest的滑动验证</p>
+<ul>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/geetest-verification-code.png" alt=""></li>
+</ul>
+<p>比如12306的被人吐槽的变态验证码：</p>
+<ul>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/12306-verification-code.png" alt=""></li>
+</ul>
+<p></p>
+<h2 id="验证码的作用">验证码的作用</h2>
+<p>验证码是一种较为粗暴的人机判别方式，通过识别提交的验证码是否正确来判断是否是正常的用户，而非机器。</p>
+<p>那么有什么用呢？正常来说，对于一个WEB应用，正常的用户会按照操作的流程来使用功能。而总有一些“刁民” 会采用其他的方法，比如直接用程序来模拟自己的行为来得到某些便利。如：选课的时候进行刷课，看看有没有剩余，有的话就选上，毕竟一直盯着费时费力；还有刷票，比如春运 。还有恶意的用户通过枚举密码来暴力破解其它用户的密码……</p>
+<p>而有了验证码之后呢？你必须要能够准确的识别出验证码才能实现你的目的。比如你要用程序以枚举的方式暴力破解别人的 ，要是你的程序识别不出验证码，那么你就无法完成这项工作。</p>
+<h2 id="验证码主要原理">验证码主要原理</h2>
+<p>验证码是如何实现的呢？</p>
+<p>首先，可以生成随机的字符串,然后保持在session中，然后通过各种绘图方式将文字输出到图片上（可以假如扭曲、变形、旋转等干扰）。用户提交时，服务器端验证用户提交的验证码是否和session中一致，若不一致返回验证码错误。此外，可能用到AJAX进行验证码更新（如点击换个验证码）</p>
+<h2 id="简单的验证码破解">简单的验证码破解</h2>
+<p>国科大教务处现在也有验证码了!</p>
+<p>老实说，上面那个说刷课啥的就是我 (→_→) 现在有了验证码，登录不上去怎么办！</p>
+<p>下面以UCAS的教务处的密码为例，来介绍用OCR识别的方式来识别验证码。</p>
+<h3 id="ucas的验证码">UCAS的验证码</h3>
+<p>UCAS的验证码如下：</p>
+<ul>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code1-.jpg" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code2.jpg" alt=""></li>
+</ul>
+<p>看上去挺简单的~</p>
+<p>经过观察发现，貌似只有小写和数字，然后看验证码2连两个r都长一样，说明其干扰其实挺弱的，就那么几种。</p>
+<p>我们直接用OCR（Optical Character Recognition，光学字符识别）即可，比如google的tesseract-OCR</p>
+<h3 id="安装ocr">安装ocr</h3>
+<ul>
+<li>
+<p>windows下安装：<a target="_blank" rel="noopener" href="http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe">http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe</a></p>
+<ul>
+<li>安装时候勾选 Registry settings</li>
+<li>安装后重起</li>
+</ul>
+</li>
+<li>
+<p>Linux\MACOSX安装见https://github.com/tesseract-ocr/tesseract/wiki</p>
+</li>
+</ul>
+<h3 id="使用">使用</h3>
+<p>其使用方式简单，命令行为：</p>
+<ul>
+<li>tesseract a.png result</li>
+</ul>
+<p>上述命令生成了result.txt文件，文件中为识别的结果</p>
+<p>要在屏幕中直接输出呢？</p>
+<ul>
+<li>tesseract a.png stdout</li>
+</ul>
+<h3 id="python代码">python代码</h3>
+<p>只需要几行即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def image_to_string(img):</span><br><span class="line">    res &#x3D; subprocess.check_output(&#39;tesseract &#39; + img + &#39; stdout&#39;).decode()</span><br><span class="line">    return (re.subn(&#39;\W&#39;, &#39;&#39;, res.strip()) if res else (&#39;&#39;, &#39;&#39;))[0].lower()</span><br></pre></td></tr></table></figure>
+<p>上述的代码使用了subprocess来调用tesseract，并获取返回结果。</p>
+<p>由于tesseract-OCR识别可能有非字母非数字的（比如空格），我们用正则表达式去除，然后最后小写并返回。</p>
+<h2 id="提高识别率">提高识别率</h2>
+<p>上面简单的调用可能有的处理不是很好，如上面的第一个例子识别为zgta，我们希望能去除背景等来让整个验证码更加的干净，以便于识别。</p>
+<p>于是先进行预处理，将其小于某个阈值的设为0，大于阈值的设为255,然后二值化，此外，把四周的黑框去除了。</p>
+<p>这里使用了python的装饰器（这是一种添加新功能很好的设计模式）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import re</span><br><span class="line">import subprocess</span><br><span class="line">from PIL import Image</span><br><span class="line"></span><br><span class="line">devnull &#x3D; open(os.devnull, &#39;w&#39;)</span><br><span class="line">cut_size &#x3D; 1</span><br><span class="line"></span><br><span class="line">def pre_process(func):</span><br><span class="line">    def _wrapper(filename):</span><br><span class="line">        image &#x3D; Image.open(filename).point(lambda p: 255 if p &gt; 127 else 0).convert(&quot;1&quot;)</span><br><span class="line">        w, h &#x3D; image.size</span><br><span class="line">        image &#x3D; image.crop((cut_size, cut_size, w - cut_size, h - cut_size))</span><br><span class="line">        save_name &#x3D; filename + &#39;1.jpg&#39;</span><br><span class="line">        image.save(save_name)</span><br><span class="line">        res &#x3D; func(save_name)</span><br><span class="line">        os.remove(save_name)</span><br><span class="line">        return res</span><br><span class="line">    return _wrapper</span><br><span class="line"></span><br><span class="line">@pre_process</span><br><span class="line">def image_to_string(img):</span><br><span class="line">    res &#x3D; subprocess.check_output(&#39;tesseract &#39; + img + &#39; stdout&#39;, stderr&#x3D;devnull).decode()  # tesseract a.png result</span><br><span class="line">    return (re.subn(&#39;\W&#39;, &#39;&#39;, res.strip()) if res else (&#39;&#39;, &#39;&#39;))[0].lower()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在我们可以正确的第一个样例啦。</p>
+<p>处理后效果如下:</p>
+<ul>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code1_after_pre_process.jpg" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code2_after_pre_process.jpg" alt=""></li>
+</ul>
+<h2 id="测试识别率">测试识别率</h2>
+<p>为了能更好的测试，于是使用如下的代码下载200张图，然后进行人工标注</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def download_verification_code(save_name):</span><br><span class="line">    r &#x3D; requests.get(&#39;http:&#x2F;&#x2F;sep.ucas.ac.cn&#x2F;changePic&#39;, stream&#x3D;True)</span><br><span class="line">    with open(&#39;.&#x2F;img&#x2F;&#39;+save_name+&#39;.jpg&#39;, &#39;wb&#39;) as f:</span><br><span class="line">        for chunk in r.iter_content(chunk_size&#x3D;1024):</span><br><span class="line">            if chunk:  # filter out keep-alive new chunks</span><br><span class="line">                f.write(chunk)</span><br><span class="line">                f.flush()</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    for i in range(200):</span><br><span class="line">        print(i)</span><br><span class="line">        download_verification_code(str(i))</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>测试代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">from ocr_test import image_to_string as img2str1</span><br><span class="line">from MyOCR import image_to_string as img2str2</span><br><span class="line">from multiprocessing import Pool</span><br><span class="line"></span><br><span class="line">def judge(name):</span><br><span class="line">    target &#x3D; name.split(&#39;.&#39;)[0]</span><br><span class="line">    predict1 &#x3D; img2str1(&#39;.&#x2F;img&#x2F;&#39; + name)  # pre</span><br><span class="line">    predict2 &#x3D; img2str2(&#39;.&#x2F;img&#x2F;&#39; + name)</span><br><span class="line">    return [predict1 &#x3D;&#x3D; target, predict2 &#x3D;&#x3D; target]</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    files &#x3D; next(os.walk(&#39;.&#x2F;img&#x2F;&#39;))[2]</span><br><span class="line">    with Pool(3) as pool:</span><br><span class="line">        res &#x3D; pool.map(judge, files)</span><br><span class="line"></span><br><span class="line">    total &#x3D; len(files)</span><br><span class="line">    c1 &#x3D; sum([x[0] for x in res])</span><br><span class="line">    c2 &#x3D; sum([x[1] for x in res])</span><br><span class="line">    print(c1, c1 &#x2F; total)  # 70 0.35</span><br><span class="line">    print(c2, c2 &#x2F; total)  # 63 0.315</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以看出有预处理的提升了不少。</p>
+<h2 id="小结">小结</h2>
+<p>上面我们偷懒使用tesseract-OCR，得到了33%左右的正确率。</p>
+<p>其实可以通过简单的训练应该就可以很好的正确率，因为标注的时候发现很多字母或者数字是长一样的。</p>
+<p>PS: 登录脚本的话可以进行优化，比如识别的需要4个字母或者数字，如果不是就重新获取验证码，这样能减少服务器说验证码错误的次数。</p>
+<p>目前登录成功一次平均需要<strong>2.6次</strong>的尝试，还算可以。</p>
+<p>其它</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.hrwhisper.me/ucas_course_ppt_auto_download/">自动下课件项目介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hrwhisper/Ucas_course_ppt_auto_download">UCAS 课件自动下载脚本(github)</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hrwhisper/ucas_course_helper">UCAS刷课脚本(github)</a></li>
+</ul>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/wordpress-comment-email-notice-and-wordpress-latex-and-wordpress-reward/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            三个 wordpress 技巧
+          
+        </div>
+      </a>
+    
+    
+      <a href="/ucas-auto-comment-course-script/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">国科大 UCAS 自动评价课程、教师</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

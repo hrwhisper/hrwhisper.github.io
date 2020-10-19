@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    『leetcode』二分搜索 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-binary-search"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  『leetcode』二分搜索
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-binary-search/" class="article-date">
+  <time datetime="2015-03-01T14:10:10.000Z" itemprop="datePublished">2015-03-01</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">5.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">28 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本次题解包括：</p>
+<ul>
+<li><strong>4</strong> Median of Two Sorted Arrays</li>
+<li><strong>33</strong> Search in Rotated Sorted Array</li>
+<li><strong>34</strong> Search for a Range</li>
+<li><strong>35</strong> Search Insert Position</li>
+<li><strong>69</strong> Sqrt(x)</li>
+<li><strong>74</strong> Search a 2D Matrix</li>
+<li><strong>81</strong> Search in Rotated Sorted Array II</li>
+<li><strong>153</strong> Find Minimum in Rotated Sorted Array</li>
+<li><strong>154</strong> Find Minimum in Rotated Sorted Array II</li>
+<li><strong>240</strong> Search a 2D Matrix II</li>
+</ul>
+<a id="more"></a>
+<h3 id="4-median-of-two-sorted-arrays">4. Median of Two Sorted Arrays</h3>
+<blockquote>
+<p>There are two sorted arrays <strong>nums1</strong> and <strong>nums2</strong> of size m and n respectively.</p>
+<p>Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nums1 &#x3D; [1, 3]</span><br><span class="line">nums2 &#x3D; [2]</span><br><span class="line"></span><br><span class="line">The median is 2.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nums1 &#x3D; [1, 2]</span><br><span class="line">nums2 &#x3D; [3, 4]</span><br><span class="line"></span><br><span class="line">The median is (2 + 3)&#x2F;2 &#x3D; 2.5</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/median-of-two-sorted-arrays/">leetcode Median of Two Sorted Arrays</a></p>
+<p>题意：</p>
+<p>给定两个排好序的数组，求它们的中位数。</p>
+<p>思路：</p>
+<p>首先，求中位数需要注意奇数偶数的情况。</p>
+<p><strong>方法一</strong></p>
+<p>设nums1长度为m，nums2的长度为n，将问题转化为在两个排好序的数组中找第k = (m + n + 1) / 2 小的元素（若总数是偶数还需要找第k+1大的元素）。</p>
+<p>为了方便说明，假设 m&lt;=n</p>
+<p>每次a_m= min(m, k/2)，b_mid = k - a_m，然后比较A中第a_m个元素和B中第b_m个元素，即A[a_m - 1]和B[b_m - 1]，</p>
+<ul>
+<li>若A[a_m - 1] &lt; B[b_m - 1]，则说明第k小的元素不可能出现在A中的前a_m个，也不可能出现在B中的b_m之后。即在A[a_m:]，B[:b_m + 1]中查找第k - a_m元素。（因为a_m + b_m = k，不可能出现在A的a_m个的话，B中的前b_m个元素已经足够k-a_m个了）</li>
+<li>若A[a_m - 1] &gt;B[b_m - 1]，则说明第k小的元素不可能出现在B中的前b_m个，也不会再A中的a_m之后，因此，在A[a_m + 1]，B[b_m:]中查找k - b_m元素</li>
+<li>若相等，则找到了</li>
+</ul>
+<p>复杂度O(log(m + n))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def findMedianSortedArrays(self, nums1, nums2):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums1: List[int]</span><br><span class="line">        :type nums2: List[int]</span><br><span class="line">        :rtype: float</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        def find_k_th(k, a, b):</span><br><span class="line">            m, n &#x3D; len(a), len(b)</span><br><span class="line">            if m &gt; n:</span><br><span class="line">                return find_k_th(k, b, a)</span><br><span class="line">            if m &#x3D;&#x3D; 0:</span><br><span class="line">                return b[k - 1]</span><br><span class="line">            if k &#x3D;&#x3D; 1:</span><br><span class="line">                return min(a[0], b[0])</span><br><span class="line"></span><br><span class="line">            a_mid &#x3D; min(k &gt;&gt; 1, m)</span><br><span class="line">            b_mid &#x3D; k - a_mid</span><br><span class="line">            if a[a_mid - 1] &lt; b[b_mid - 1]:</span><br><span class="line">                return find_k_th(k - a_mid, a[a_mid:], b[:b_mid + 1])</span><br><span class="line">            elif a[a_mid - 1] &gt; b[b_mid - 1]:</span><br><span class="line">                return find_k_th(k - b_mid, a[:a_mid + 1], b[b_mid:])</span><br><span class="line">            else:</span><br><span class="line">                return a[a_mid - 1]</span><br><span class="line"></span><br><span class="line">        m, n &#x3D; len(nums1), len(nums2)</span><br><span class="line">        k &#x3D; (m + n + 1) &gt;&gt; 1</span><br><span class="line">        ans &#x3D; find_k_th(k, nums1, nums2)</span><br><span class="line">        if (m + n) &amp; 1: return ans</span><br><span class="line">        ans &#x3D; ans + find_k_th(k + 1, nums1, nums2)</span><br><span class="line">        return ans &#x2F; 2.0</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>方法二：</strong></p>
+<p>同样假设m &lt;= n，我们需要找到的是一个i和一个j，这两个下标分别将两个数组划分为左右两部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      left_part                  right_part</span><br><span class="line">A[0], A[1], ..., A[i-1]    A[i], A[i+1], ..., A[m-1]</span><br><span class="line">B[0], B[1], ..., B[j-1]    B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
+<p>当然i未必和j相等。若能找到一个这样的i和j，满足：</p>
+<ul>
+<li>i + j = (m + n + 1) / 2</li>
+<li>并且a[i-1] &lt; a[j]， a[j-1] &lt; a[i]</li>
+</ul>
+<p>这两个条件使得a[i - 1], 和b[j - 1]恰好为在中间的数，谁大谁就是中位数，若m + n为，偶数，则还要考虑a[i]和a[j]中较小的数。（i=0或j=0或i = m或j = n的特殊情况之后讨论）</p>
+<p>因此，可以二分枚举i，起始范围left= 0, right  = m，则j = (m + n + 1) / 2 - i，</p>
+<ul>
+<li>若a[i] &lt; b[j - 1]，则说明i太小，要增大i，left = i + 1</li>
+<li>若a[i - 1] &gt; b[j]，说明i太大，要减小i，right = i - 1</li>
+<li>否则找到了i和j的正确位置，看m + n是奇数的话直接返回max(a[i - 1], b [j- 1])即可，否则为(max(a[i - 1], b [j- 1]) + min(a[i], b[j])) / 2</li>
+</ul>
+<p>现在讨论边界情况：</p>
+<ul>
+<li>i = 0时，此时j = (m + n + 1) / 2，此时即可假设a[i-1]必定小于b[j]，只需要看 a[i] &gt; b[j -1]即可</li>
+<li>i = m时，此时j = (n - m + 1) / 2 &gt; 0，也可以说a[i] &gt; b[j - 1]，只需要看a[i - 1] &lt; b[j]即可</li>
+<li>j = 0和j = n同理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    double findMedianSortedArrays(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;</span><br><span class="line">        int m &#x3D; nums1.size(), n &#x3D; nums2.size();</span><br><span class="line">        if(m &gt; n) return findMedianSortedArrays(nums2, nums1);</span><br><span class="line">        </span><br><span class="line">        int left &#x3D; 0, right &#x3D; m, half_len &#x3D; (m + n + 1) &gt;&gt; 1;</span><br><span class="line">        while(left &lt;&#x3D; right)&#123;</span><br><span class="line">            int i &#x3D; (left + right) &gt;&gt; 1;</span><br><span class="line">            int j &#x3D; half_len - i;</span><br><span class="line">            if(i &gt; 0 &amp;&amp; nums1[i - 1] &gt; nums2[j])</span><br><span class="line">                right &#x3D; i - 1;</span><br><span class="line">            else if(i &lt; m &amp;&amp; j &gt; 0 &amp;&amp; nums1[i] &lt; nums2[j - 1])</span><br><span class="line">                left &#x3D; i + 1;</span><br><span class="line">            else&#123;</span><br><span class="line">                int left_max &#x3D; i !&#x3D; 0? nums1[i - 1] : INT_MIN;</span><br><span class="line">                if(j !&#x3D; 0 &amp;&amp; nums2[j - 1] &gt; left_max)</span><br><span class="line">                    left_max &#x3D; nums2[j - 1];</span><br><span class="line">                if((m + n) &amp; 1) </span><br><span class="line">                    return left_max;</span><br><span class="line">                </span><br><span class="line">                int right_min &#x3D; i !&#x3D; m? nums1[i] : INT_MAX;</span><br><span class="line">                if(j !&#x3D; n &amp;&amp; nums2[j] &lt; right_min)</span><br><span class="line">                    right_min &#x3D; nums2[j];</span><br><span class="line">                return (left_max + right_min) &#x2F; 2.0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return -1.0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="33-search-in-rotated-sorted-array">33.  Search in Rotated Sorted Array</h3>
+<blockquote>
+<p>Suppose a sorted array is rotated at some pivot unknown to you beforehand.</p>
+<p>(i.e., <code>0 1 2 4 5 6 7</code> might become <code>4 5 6 7 0 1 2</code>).</p>
+<p>You are given a target value to search. If found in the array return its index, otherwise return -1.</p>
+<p>You may assume no duplicate exists in the array.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/search-in-rotated-sorted-array/">leetcode Search in Rotated Sorted Array</a></p>
+<p>题目大意给定一个排好序，但是经过旋转的数组（如0 1 2 4 5 6 7 变为 4 5 6 7 0 1 2），且该数组元素唯一。给定一个数，求其出现的下标，若不存在，返回-1</p>
+<p>思路：</p>
+<p>也是二分搜索。一个trick是A[L]  &lt;= A[R]说明 [L,R]为升序</p>
+<p><strong>方法一 O(log n)</strong></p>
+<ul>
+<li>
+<p>若nums[mid] == target 没什么好说的，返回mid</p>
+</li>
+<li>
+<p>若nums[mid] &lt; target</p>
+<ul>
+<li>
+<p>若nums[mid] &lt; nums[right] &amp;&amp; target &lt;= nums[right]   nums[mid] &gt; nums[right]</p>
+<ul>
+<li>即右边有序且target在右边的范围内或者右边非有序则 left = mid + 1</li>
+<li>因为nums[mid] &lt; target 所以若右边非有序，则左边一定有序，target一定大于左边的所有元素，只能在右边</li>
+</ul>
+</li>
+<li>
+<p>否则right = mid - 1</p>
+</li>
+</ul>
+</li>
+<li>
+<p>target  &lt; nums[mid]</p>
+<ul>
+<li>
+<p>若nums[left] &lt; nums[mid] &amp;&amp; nums[left] &lt;=target</p>
+<ul>
+<li>即左边有序且target在左边的范围内  或者 左边无序列  right = mid - 1;</li>
+<li>因为target  &lt; nums[mid] ，若左边无序则nums[mid]小于右边的所有元素，只能在左边。</li>
+</ul>
+</li>
+<li>
+<p>否则left = mid + 1</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">int left &#x3D; 0, right &#x3D; nums.size() - 1;</span><br><span class="line">while (left &lt;&#x3D; right) &#123;</span><br><span class="line">int mid &#x3D; (left + right) &gt;&gt; 1;</span><br><span class="line">if (nums[mid] &#x3D;&#x3D; target)</span><br><span class="line">return mid;</span><br><span class="line">else if (nums[mid] &lt; target) &#123;</span><br><span class="line">if (nums[mid] &lt; nums[right] &amp;&amp; target &lt;&#x3D; nums[right] </span><br><span class="line">nums[mid] &gt; nums[right])</span><br><span class="line">left &#x3D; mid + 1;</span><br><span class="line">else</span><br><span class="line">right &#x3D; mid - 1;</span><br><span class="line">&#125;</span><br><span class="line">else &#123; &#x2F;&#x2F; if (target &lt; nums[mid])</span><br><span class="line">if (nums[left] &lt; nums[mid] &amp;&amp; target &gt;&#x3D; nums[left] </span><br><span class="line">nums[left] &gt; nums[mid])</span><br><span class="line">right &#x3D; mid - 1;</span><br><span class="line">else</span><br><span class="line">left &#x3D; mid + 1;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return -1;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>方法二 O(log n)</strong></p>
+<p>直接看代码，很显然。。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">int l &#x3D; 0, r &#x3D; nums.size() - 1;</span><br><span class="line">while (l &lt;&#x3D; r) &#123;</span><br><span class="line">int mid &#x3D; (l + r) &gt;&gt; 1;</span><br><span class="line">if (nums[mid] &#x3D;&#x3D; target)</span><br><span class="line">return mid;</span><br><span class="line">            </span><br><span class="line">if (nums[l] &lt; nums[mid]) &#123; &#x2F;&#x2F;左边有序</span><br><span class="line">if (nums[l] &lt;&#x3D; target &amp;&amp; target &lt; nums[mid]) &#x2F;&#x2F;target在左边</span><br><span class="line">r &#x3D; mid - 1;</span><br><span class="line">else</span><br><span class="line">l &#x3D; mid + 1;</span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">if (mid + 1 &lt;&#x3D; r &amp;&amp; nums[mid + 1] &lt;&#x3D; target &amp;&amp; target &lt;&#x3D; nums[r])&#x2F;&#x2F;target在右边</span><br><span class="line">l &#x3D; mid + 1;</span><br><span class="line">else</span><br><span class="line">r &#x3D; mid - 1;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return -1;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def search(self, nums, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        left, right &#x3D; 0, len(nums) - 1</span><br><span class="line">        while left &lt;&#x3D; right:</span><br><span class="line">            mid &#x3D; (left + right) &gt;&gt; 1</span><br><span class="line">            if nums[mid] &#x3D;&#x3D; target: return mid</span><br><span class="line">            </span><br><span class="line">            if nums[left] &lt;&#x3D; nums[mid]:</span><br><span class="line">                if nums[left] &lt;&#x3D; target &lt; nums[mid]:</span><br><span class="line">                    right &#x3D; mid - 1</span><br><span class="line">                else:</span><br><span class="line">                    left &#x3D; mid + 1</span><br><span class="line">            else:</span><br><span class="line">                if nums[mid] &lt; target &lt;&#x3D; nums[right]:</span><br><span class="line">                    left &#x3D; mid + 1</span><br><span class="line">                else:</span><br><span class="line">                    right &#x3D; mid - 1</span><br><span class="line">        return -1</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="34-search-for-a-range">34. Search for a Range</h3>
+<blockquote>
+<p>Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.</p>
+<p>Your algorithm’s runtime complexity must be in the order of O(log n).</p>
+<p>If the target is not found in the array, return [-1, -1].</p>
+<p>For example,<br>
+Given [5, 7, 7, 8, 8, 10] and target value 8,<br>
+return [3, 4].</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/search-for-a-range/">leetcode Search for a Range</a></p>
+<p>题目大意：给定一个数组A，和一个要查找的数target,返回数组A中出现的位置（第一次出现和最后一次出现），如果不存在，为-1，-1</p>
+<p>思路： 就是二分搜索找上下界。（可以先做35题）水~</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">int binary_search(bool left, const vector&lt;int&gt; &amp;nums, const int target) &#123;</span><br><span class="line">int L &#x3D; 0, R &#x3D; nums.size();</span><br><span class="line">while (L &lt; R) &#123;</span><br><span class="line">int mid &#x3D; (L + R) &gt;&gt; 1;</span><br><span class="line">if (left ? nums[mid] &lt; target : nums[mid] &lt;&#x3D; target)</span><br><span class="line">L &#x3D; mid + 1;</span><br><span class="line">else</span><br><span class="line">R &#x3D; mid;</span><br><span class="line">&#125;</span><br><span class="line">return L;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">vector&lt;int&gt; searchRange(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">vector&lt;int&gt; ans&#123; -1, -1 &#125;;</span><br><span class="line">int L &#x3D; binary_search(true, nums, target);</span><br><span class="line">if (L &#x3D;&#x3D; nums.size()  nums[L] !&#x3D; target) return ans;</span><br><span class="line">int R &#x3D; binary_search(false, nums, target);</span><br><span class="line">ans &#x3D; &#123; L, R - 1 &#125;;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def binary_search(self, left, nums, target):</span><br><span class="line">        L, R &#x3D; 0, len(nums)</span><br><span class="line">        while L &lt; R:</span><br><span class="line">            mid &#x3D; (L + R) &gt;&gt; 1</span><br><span class="line">            if nums[mid] &lt; target or (not left and nums[mid] &lt;&#x3D; target):</span><br><span class="line">                L &#x3D; mid + 1</span><br><span class="line">            else:</span><br><span class="line">                R &#x3D; mid</span><br><span class="line">        return L</span><br><span class="line">    </span><br><span class="line">    def searchRange(self, nums, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: List[int]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        L &#x3D; self.binary_search(True, nums, target)</span><br><span class="line">        if L &#x3D;&#x3D; len(nums) or nums[L] !&#x3D; target: return [-1, -1]</span><br><span class="line">        R &#x3D; self.binary_search(False, nums, target)</span><br><span class="line">        return [L, R - 1]</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="35-search-insert-position">35 . Search Insert Position</h3>
+<blockquote>
+<p>Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>
+<p>You may assume no duplicates in the array.</p>
+<p>Here are few examples.<br>
+<code>[1,3,5,6]</code>, 5 → 2<br>
+<code>[1,3,5,6]</code>, 2 → 1<br>
+<code>[1,3,5,6]</code>, 7 → 4<br>
+<code>[1,3,5,6]</code>, 0 → 0</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/search-insert-position/">leetcode Search Insert Position</a></p>
+<p>题目大意: 给定一个排好序的数组和一个数，返回这个数插入的位置。</p>
+<p>思路：水~二分</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int searchInsert(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">        int L &#x3D; 0, R &#x3D; nums.size(); </span><br><span class="line">        while (L &lt; R) &#123; </span><br><span class="line">            int mid &#x3D; (L + R) &gt;&gt; 1; </span><br><span class="line">            if (nums[mid] &lt; target) </span><br><span class="line">                L &#x3D; mid + 1; </span><br><span class="line">            else </span><br><span class="line">                R &#x3D; mid; </span><br><span class="line">        &#125; </span><br><span class="line">        return L;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def searchInsert(self, nums, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        L, R &#x3D; 0, len(nums)</span><br><span class="line">        while L &lt; R:</span><br><span class="line">            mid &#x3D; (L + R) &gt;&gt; 1</span><br><span class="line">            if nums[mid] &lt; target:</span><br><span class="line">                L &#x3D; mid + 1</span><br><span class="line">            else:</span><br><span class="line">                R &#x3D; mid</span><br><span class="line">        return L</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="69-sqrt-x">69. Sqrt(x)</h3>
+<blockquote>
+<p>Implement <code>int sqrt(int x)</code>.</p>
+<p>Compute and return the square root of <em>x</em>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/sqrtx/">leetcode Sqrt(x)</a></p>
+<p>题目大意：实现根号n的计算</p>
+<p>思路：</p>
+<p><strong>方法一： 二分法</strong></p>
+<p>C++要用long long 防止越界，py弱类型好处体现出来了。。</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int mySqrt(int x) &#123;</span><br><span class="line">long long l &#x3D; 0, r &#x3D; x &gt;&gt; 1;</span><br><span class="line">while (l &lt;&#x3D; r) &#123;</span><br><span class="line">long long mid &#x3D; l + ((r - l) &gt;&gt; 1);</span><br><span class="line">long long mul &#x3D; mid * mid;</span><br><span class="line">if (mul &#x3D;&#x3D; x) return mid;</span><br><span class="line">if (mul &lt; x) l &#x3D; mid + 1;</span><br><span class="line">else r &#x3D; mid - 1;</span><br><span class="line">&#125;</span><br><span class="line">long long mul &#x3D; l * l;</span><br><span class="line">return mul &gt; x? l - 1: l;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def mySqrt(self, x):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type x: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        l, r &#x3D; 0, x &gt;&gt; 1</span><br><span class="line">        while l &lt;&#x3D; r:</span><br><span class="line">            mid &#x3D; (l + r) &gt;&gt; 1</span><br><span class="line">            mul &#x3D; mid ** 2</span><br><span class="line">            if mul &#x3D;&#x3D; x: return mid</span><br><span class="line">            if mul &lt; x:</span><br><span class="line">                l &#x3D; mid + 1</span><br><span class="line">            else:</span><br><span class="line">                r &#x3D; mid - 1</span><br><span class="line">        return l - 1 if l ** 2 &gt; x else l</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>方法二： 牛顿迭代法</strong></p>
+<p>可参考： <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Integer_square_root">https://en.wikipedia.org/wiki/Integer_square_root</a></p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int mySqrt(int x) &#123;</span><br><span class="line">long long ans &#x3D; x;</span><br><span class="line">while (ans * ans &gt; x)</span><br><span class="line">ans &#x3D; (ans + x &#x2F; ans) &gt;&gt; 1;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def mySqrt(self, x):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type x: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        ans &#x3D; x</span><br><span class="line">        while ans * ans &gt; x:</span><br><span class="line">            ans &#x3D; (ans + x &#x2F;&#x2F; ans) &gt;&gt; 1</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>方法三：位运算</strong></p>
+<p>猜测法，当前的 ans (1 &lt;&lt; i)的平方如果不大于x，那么说明当前的位数可以是1</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int mySqrt(int x) &#123;</span><br><span class="line">        long long ans &#x3D; 0;</span><br><span class="line">        for(int i &#x3D; 15; i &gt;&#x3D; 0; --i)&#123; &#x2F;&#x2F; i &#x3D; 15就可以，因为x最大为2^31 - 1</span><br><span class="line">            long long t &#x3D; ans  (1 &lt;&lt; i);</span><br><span class="line">            if(t * t &lt;&#x3D; x)</span><br><span class="line">                ans &#x3D; t;</span><br><span class="line">        &#125;</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def mySqrt(self, x):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type x: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        ans &#x3D; 0</span><br><span class="line">        for i in range(15, -1, -1):</span><br><span class="line">            t &#x3D; 1 &lt;&lt; i</span><br><span class="line">            if (ans  t) ** 2 &lt;&#x3D; x:</span><br><span class="line">                ans &#x3D; t</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="74-search-a-2d-matrix">74.  Search a 2D Matrix</h3>
+<blockquote>
+<p>Write an efficient algorithm that searches for a value in an <em>m</em> x <em>n</em> matrix. This matrix has the following properties:</p>
+<ul>
+<li>Integers in each row are sorted from left to right.</li>
+<li>The first integer of each row is greater than the last integer of the previous row.</li>
+</ul>
+<p>For example,</p>
+<p>Consider the following matrix:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [1,   3,  5,  7],</span><br><span class="line">  [10, 11, 16, 20],</span><br><span class="line">  [23, 30, 34, 50]</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Given <strong>target</strong> = <code>3</code>, return <code>true</code>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/search-a-2d-matrix/">leetcode Search a 2D Matrix</a></p>
+<p>题目大意: 给定一个矩阵，这个矩阵中，每一行的元素均从小到大排好序，且每一行第一个元素大于上一行最后一个元素。给定一个数target，判断target是否存在。</p>
+<p>思路：</p>
+<ol>
+<li>两次二分。一开始先确定行，取每行最后一个数进行查找。之后在这一行进行查找该元素。</li>
+<li>直接把矩阵看成一维的，即L=0,R=m*n-1，而每次matrix[mid/n][mid%n]即可。</li>
+</ol>
+<p></p>
+<p><strong>C++方法一</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">int search_row(const vector&lt;vector&lt;int&gt;&gt;&amp; matrix, const int target) &#123;</span><br><span class="line">int l &#x3D; 0, r &#x3D; matrix.size();</span><br><span class="line">while (l &lt; r) &#123;</span><br><span class="line">int mid &#x3D; l + ((r - l) &gt;&gt; 1);</span><br><span class="line">if (matrix[mid][0] &lt;&#x3D; target)</span><br><span class="line">l &#x3D; mid + 1;</span><br><span class="line">else</span><br><span class="line">r &#x3D; mid;</span><br><span class="line">&#125;</span><br><span class="line">return l;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">bool searchMatrix(vector&lt;vector&lt;int&gt;&gt;&amp; matrix, int target) &#123;</span><br><span class="line">if (matrix.empty()  matrix[0].empty()  matrix[0][0] &gt; target) return false;</span><br><span class="line">int row &#x3D; search_row(matrix, target) - 1;</span><br><span class="line">int l &#x3D; 0, r &#x3D; matrix[0].size() - 1;</span><br><span class="line">while (l &lt;&#x3D; r) &#123;</span><br><span class="line">int mid &#x3D; l + ((r - l) &gt;&gt; 1);</span><br><span class="line">if (matrix[row][mid] &#x3D;&#x3D; target)</span><br><span class="line">return true;</span><br><span class="line">else if (matrix[row][mid] &lt; target)</span><br><span class="line">l &#x3D; mid + 1;</span><br><span class="line">else</span><br><span class="line">r &#x3D; mid - 1;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>C++方法二</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">bool searchMatrix(vector&lt;vector&lt;int&gt;&gt; &amp;matrix, int target) &#123;</span><br><span class="line">if (matrix.empty()) return false;</span><br><span class="line">int m &#x3D; matrix.size(), n &#x3D; matrix[0].size(), L &#x3D; 0, R &#x3D; m*n - 1;</span><br><span class="line">while (L &lt;&#x3D; R) &#123;</span><br><span class="line">int mid &#x3D; (L + R) &gt;&gt; 1;</span><br><span class="line">if (matrix[mid &#x2F; n][mid % n] &#x3D;&#x3D; target)</span><br><span class="line">return true;</span><br><span class="line">else if (matrix[mid &#x2F; n][mid % n] &lt; target)</span><br><span class="line">L &#x3D; mid + 1;</span><br><span class="line">else</span><br><span class="line">R &#x3D; mid - 1;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>python方法二</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def searchMatrix(self, matrix, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type matrix: List[List[int]]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not matrix: return False</span><br><span class="line">        m, n, &#x3D; len(matrix), len(matrix[0])</span><br><span class="line">        L, R &#x3D; 0, m * n - 1</span><br><span class="line">        while L &lt;&#x3D; R:</span><br><span class="line">            mid &#x3D; (L + R) &gt;&gt; 1</span><br><span class="line">            if matrix[mid &#x2F; n][mid % n] &#x3D;&#x3D; target:</span><br><span class="line">                return True</span><br><span class="line">            elif matrix[mid &#x2F; n][mid % n] &lt; target:</span><br><span class="line">                L &#x3D; mid + 1</span><br><span class="line">            else:</span><br><span class="line">                R &#x3D; mid - 1</span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
+<p></p>
+<p></p>
+<h3 id="81-search-in-rotated-sorted-array-ii">81. Search in Rotated Sorted Array II</h3>
+<blockquote>
+<p>Follow up for “Search in Rotated Sorted Array”:<br>
+What if <em>duplicates</em> are allowed?</p>
+<p>Would this affect the run-time complexity? How and why?</p>
+<p>Write a function to determine if a given target is in the array.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/">leetcode Search in Rotated Sorted Array II</a></p>
+<p>题目大意: 把33题的数组改为元素可以重复出现，给定一个target，判断其是否存在。</p>
+<p>思路：</p>
+<p>和33题相比不同的是，这题元素是可重复的，可重复对于我们的有序判断产生了影响。</p>
+<p>原来我们直接A[L]  &lt;= A[R]说明 [L,R]为升序，现在不行了，比如11131.</p>
+<p>现在还是进行二分搜索。</p>
+<ul>
+<li>
+<p>若nums[mid] == target，返回true</p>
+</li>
+<li>
+<p>nums[left] &lt; nums[mid]:  左边有序，同33题处理。</p>
+<ul>
+<li>nums[left] &lt;= target &lt; nums[mid] : right = mid - 1</li>
+<li>否则left = mid + 1</li>
+</ul>
+</li>
+<li>
+<p>nums[left] &gt; nums[mid]:  右边有序，同33题处理。</p>
+<ul>
+<li>nums[mid] &lt; target &lt;= nums[right] : left = mid + 1</li>
+<li>否则right = mid - 1</li>
+</ul>
+</li>
+<li>
+<p>否则说明nums[left] == nums[mid]</p>
+<ul>
+<li>无法判断应该取左还是右。 如11311111和11111131</li>
+<li>因此left+=1</li>
+<li>正因为此，最坏情况复杂度为O(n)</li>
+</ul>
+</li>
+</ul>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">bool search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">int left &#x3D; 0, right &#x3D; nums.size() - 1;</span><br><span class="line">while (left &lt;&#x3D; right) &#123;</span><br><span class="line">int mid &#x3D; (left + right) &gt;&gt; 1;</span><br><span class="line">if (nums[mid] &#x3D;&#x3D; target) return true;</span><br><span class="line"></span><br><span class="line">if (nums[left] &lt; nums[mid]) &#123;</span><br><span class="line">if (nums[left] &lt;&#x3D; target &amp;&amp; target &lt; nums[mid])</span><br><span class="line">right &#x3D; mid - 1;</span><br><span class="line">else</span><br><span class="line">left &#x3D; mid + 1;</span><br><span class="line">&#125;</span><br><span class="line">else if (nums[left] &gt; nums[mid]) &#123;</span><br><span class="line">if (nums[mid] &lt; target &amp;&amp; target &lt;&#x3D; nums[right])</span><br><span class="line">left &#x3D; mid + 1;</span><br><span class="line">else</span><br><span class="line">right &#x3D; mid - 1;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">++left;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def search(self, nums, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        left, right &#x3D; 0, len(nums) - 1</span><br><span class="line">        while left &lt;&#x3D; right:</span><br><span class="line">            mid &#x3D; (left + right) &gt;&gt; 1</span><br><span class="line">            if nums[mid] &#x3D;&#x3D; target: return True</span><br><span class="line"></span><br><span class="line">            if nums[left] &lt; nums[mid]:  # 左边有序，同33题处理。</span><br><span class="line">                if nums[left] &lt;&#x3D; target &lt; nums[mid]:</span><br><span class="line">                    right &#x3D; mid - 1</span><br><span class="line">                else:</span><br><span class="line">                    left &#x3D; mid + 1</span><br><span class="line">            elif nums[left] &gt; nums[mid]:  # 右边有序，同33题处理</span><br><span class="line">                if nums[mid] &lt; target &lt;&#x3D; nums[right]:</span><br><span class="line">                    left &#x3D; mid + 1</span><br><span class="line">                else:</span><br><span class="line">                    right &#x3D; mid - 1</span><br><span class="line">            else:</span><br><span class="line">                left +&#x3D; 1</span><br><span class="line"></span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p></p>
+<h3 id="153-find-minimum-in-rotated-sorted-array">153. Find Minimum in Rotated Sorted Array</h3>
+<blockquote>
+<p>Suppose a sorted array is rotated at some pivot unknown to you beforehand.</p>
+<p>(i.e., <code>0 1 2 4 5 6 7</code> might become <code>4 5 6 7 0 1 2</code>).</p>
+<p>Find the minimum element.</p>
+<p>You may assume no duplicate exists in the array.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://oj.leetcode.com/problems/find-minimum-in-rotated-sorted-array/">传送门</a></p>
+<p>题意：给定一个排好序，但是经过旋转的数组（数组中无重复元素），求该数组的最小值。</p>
+<p>思路：类似前面的81题（排好序的旋转的数组中进行二分查找），这题也一样，A[L]&lt;=A[R]说明数组有序，直接返回A[L]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param num, a list of integer</span><br><span class="line">    # @return an integer</span><br><span class="line">    def findMin(self, num):</span><br><span class="line">        return self.search(num,0,len(num)-1)</span><br><span class="line"></span><br><span class="line">    def search(self,num,L,R):</span><br><span class="line">        if num[L] &lt;&#x3D; num[R]: #[L,R] are ordered</span><br><span class="line">            return num[L]</span><br><span class="line">        mid &#x3D; (L+R)&gt;&gt;1</span><br><span class="line">        return min(self.search(num,L,mid),self.search(num,mid+1,R))</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="154-find-minimum-in-rotated-sorted-array-ii">154. Find Minimum in Rotated Sorted Array II</h3>
+<blockquote>
+<p>Suppose a sorted array is rotated at some pivot unknown to you beforehand.</p>
+<p>(i.e., <code>0 1 2 4 5 6 7</code> might become <code>4 5 6 7 0 1 2</code>).</p>
+<p>Find the minimum element.</p>
+<p>The array may contain duplicates.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://oj.leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/">传送门</a></p>
+<p>题意：给定一个排好序，但是经过旋转的数组（数组中有重复元素），求该数组的最小值。</p>
+<p>思路：和上面一题不同在于这题有重复元素，仅有A[L]&lt;A[R]时，返回A[L]。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param num, a list of integer</span><br><span class="line">    # @return an integer</span><br><span class="line">    def findMin(self, num):</span><br><span class="line">        return self.search(num,0,len(num)-1)</span><br><span class="line"></span><br><span class="line">    def search(self,num,L,R):</span><br><span class="line">        if L &#x3D;&#x3D; R: return num[L]</span><br><span class="line">        if num[L] &lt; num[R]: #[L,R] are ordered</span><br><span class="line">            return num[L]</span><br><span class="line">        mid &#x3D; (L+R)&gt;&gt;1</span><br><span class="line">        return min(self.search(num,L,mid),self.search(num,mid+1,R))</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="240-search-a-2d-matrix-ii">240. Search a 2D Matrix II</h3>
+<blockquote>
+<p>Write an efficient algorithm that searches for a value in an <em>m</em> x <em>n</em> matrix. This matrix has the following properties:</p>
+<ul>
+<li>Integers in each row are sorted in ascending from left to right.</li>
+<li>Integers in each column are sorted in ascending from top to bottom.</li>
+</ul>
+<p>For example,</p>
+<p>Consider the following matrix:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [1,   4,  7, 11, 15],</span><br><span class="line">  [2,   5,  8, 12, 19],</span><br><span class="line">  [3,   6,  9, 16, 22],</span><br><span class="line">  [10, 13, 14, 17, 24],</span><br><span class="line">  [18, 21, 23, 26, 30]</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Given <strong>target</strong> = <code>5</code>, return <code>true</code>.</p>
+<p>Given <strong>target</strong> = <code>20</code>, return <code>false</code>.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/search-a-2d-matrix-ii/">leetcode Search a 2D Matrix II</a></p>
+<p>题目大意 : 给定一个矩阵，该矩阵满足：每一行和每一列均为升序。给定一个数target，让你判断这个数是否在矩阵中。</p>
+<p>思路：</p>
+<ul>
+<li>直接想到的是二分搜索，对每一行进行一次二分，复杂度为O(mlogn)</li>
+</ul>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool searchMatrix(vector&lt;vector&lt;int&gt;&gt;&amp; matrix, int target) &#123;</span><br><span class="line">        for(vector&lt;int&gt; &amp;row: matrix)&#123;</span><br><span class="line">            int l &#x3D; 0, r &#x3D; row.size() - 1;</span><br><span class="line">            while(l &lt;&#x3D; r)&#123;</span><br><span class="line">                int mid &#x3D; l + ((r - l) &gt;&gt; 1);</span><br><span class="line">                if(row[mid] &#x3D;&#x3D; target) return true;</span><br><span class="line">                else if(row[mid] &lt; target) l &#x3D; mid + 1;</span><br><span class="line">                else r &#x3D; mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    boolean binary_search(int[] a, int target) &#123;</span><br><span class="line">int L &#x3D; 0, R &#x3D; a.length - 1;</span><br><span class="line">while (L &lt;&#x3D; R) &#123;</span><br><span class="line">int mid &#x3D; (L + R) &gt;&gt; 1;</span><br><span class="line">if (a[mid] &#x3D;&#x3D; target) return true;</span><br><span class="line">else if (a[mid] &lt; target) L &#x3D; mid + 1;</span><br><span class="line">else R &#x3D; mid - 1;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">    public boolean searchMatrix(int[][] matrix, int target) &#123;</span><br><span class="line">        for(int i&#x3D;0;i&lt;matrix.length;i++)&#123;</span><br><span class="line">            if (binary_search(matrix[i], target)) return true;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def binary_search(self, a, target):</span><br><span class="line">        L, R &#x3D; 0, len(a) - 1</span><br><span class="line">        while L &lt;&#x3D; R:</span><br><span class="line">            mid &#x3D; (L + R) &gt;&gt; 1</span><br><span class="line">            if a[mid] &#x3D;&#x3D; target:</span><br><span class="line">                return True</span><br><span class="line">            elif a[mid] &lt; target:</span><br><span class="line">                L &#x3D; mid + 1</span><br><span class="line">            else:</span><br><span class="line">                R &#x3D; mid - 1</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">    def searchMatrix(self, matrix, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type matrix: List[List[int]]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        for row in matrix:</span><br><span class="line">            if self.binary_search(row,target):</span><br><span class="line">                return True</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>第二种思路是设定初始点为最左下角或者最右上角。以最左下角为例，</p>
+<ul>
+<li>当matrix[i][j] == target: 返回true不解释</li>
+<li>当matrix[i][j] &lt; target: 说明我们应该向右查找（行为升序）</li>
+<li>当matrix[i][j] &gt; target:：说明我们应该向上查找（列为降序）</li>
+<li>这样复杂度为O(m+n)</li>
+</ul>
+</li>
+</ul>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool searchMatrix(vector&lt;vector&lt;int&gt;&gt;&amp; matrix, int target) &#123;</span><br><span class="line">        if(matrix.empty()) return false;</span><br><span class="line">        int i &#x3D; matrix.size() - 1, j &#x3D; 0, n &#x3D; matrix[0].size();</span><br><span class="line">        while(i &gt;&#x3D; 0 &amp;&amp; j &lt; n)&#123;</span><br><span class="line">            if(matrix[i][j] &#x3D;&#x3D; target) return true;</span><br><span class="line">            else if(matrix[i][j] &lt; target) ++j;</span><br><span class="line">            else --i;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    public boolean searchMatrix(int[][] matrix, int target) &#123;</span><br><span class="line">        if (matrix.length &#x3D;&#x3D; 0) return false;</span><br><span class="line">int m &#x3D; matrix.length, n &#x3D; matrix[0].length;</span><br><span class="line">int i &#x3D; m - 1, j &#x3D; 0;</span><br><span class="line">while (i &gt;&#x3D; 0 &amp;&amp; j &lt; n) &#123;</span><br><span class="line">if (matrix[i][j] &#x3D;&#x3D; target) return true;</span><br><span class="line">else if (matrix[i][j] &lt; target) j++;</span><br><span class="line">else i--;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def searchMatrix(self, matrix, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type matrix: List[List[int]]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not matrix: return False</span><br><span class="line">        m, n &#x3D; len(matrix), len(matrix[0])</span><br><span class="line">        i, j &#x3D; m - 1, 0</span><br><span class="line">        while i &gt;&#x3D; 0 and j &lt; n:</span><br><span class="line">            if matrix[i][j] &#x3D;&#x3D; target:</span><br><span class="line">                return True</span><br><span class="line">            elif matrix[i][j] &gt; target:</span><br><span class="line">                i -&#x3D; 1</span><br><span class="line">            else:  # matrix[i][j] &lt; target</span><br><span class="line">                j +&#x3D; 1</span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
+<p>初始点为右上角的Python代码。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def searchMatrix(self, matrix, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type matrix: List[List[int]]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not matrix: return False</span><br><span class="line">        m, n &#x3D; len(matrix), len(matrix[0])</span><br><span class="line">        i, j &#x3D; 0, n-1</span><br><span class="line">        while i &lt; m and j&gt;&#x3D;0:</span><br><span class="line">            if matrix[i][j] &#x3D;&#x3D; target:</span><br><span class="line">                return True</span><br><span class="line">            elif matrix[i][j] &gt; target:</span><br><span class="line">                j -&#x3D; 1</span><br><span class="line">            else:  # matrix[i][j] &lt; target</span><br><span class="line">                i +&#x3D; 1</span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>这是leetcode 二分搜索的题解</p>
+<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-binary-search/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/leetcode-recursive-or-dfs/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            『leetcode』递归/DFS
+          
+        </div>
+      </a>
+    
+    
+      <a href="/who-i-will-see-when-i-open-my-eyes/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">睁开双眼又是谁</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

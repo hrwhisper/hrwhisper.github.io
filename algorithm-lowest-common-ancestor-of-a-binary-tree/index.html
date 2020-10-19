@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    二叉树最近公共祖先详解（LCA问题详解） |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-algorithm-lowest-common-ancestor-of-a-binary-tree"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  二叉树最近公共祖先详解（LCA问题详解）
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/algorithm-lowest-common-ancestor-of-a-binary-tree/" class="article-date">
+  <time datetime="2016-01-11T03:44:47.000Z" itemprop="datePublished">2016-01-11</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/study/">study</a> / <a class="article-category-link" href="/categories/study/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">9 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>Lowest Common Ancestor of a Binary Tree 问题描述</p>
+<blockquote>
+<p>Given a binary tree, find the lowest common ancestor of two given nodes in the tree.</p>
+<p>给定一棵二叉树，求最近公共祖先。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="二叉搜索树-bst">二叉搜索树 BST</h2>
+<p>先从最简单的二叉搜索树BST讲起，给定一棵 BST如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     _______6______</span><br><span class="line">    &#x2F;              \</span><br><span class="line"> ___2__          ___8__</span><br><span class="line">&#x2F;      \        &#x2F;      \</span><br><span class="line">0      _4       7       9</span><br><span class="line">      &#x2F;  \</span><br><span class="line">      3   5</span><br></pre></td></tr></table></figure>
+<p>比如如求2和8的LCA，那么为6，博主简单记为LCA(2,8) = 6</p>
+<p>更多例子：</p>
+<ul>
+<li>LCA(2,4) = 2</li>
+<li>LCA(0,5) = 2</li>
+</ul>
+<p>很简单的思路就是看两个值在root的哪边：</p>
+<ul>
+<li>两个值都在左边，则LCA在左边</li>
+<li>两个值都在右边，则LCA在右边</li>
+<li>一个在左一个在右，则说明LCA就是当前的root节点。</li>
+</ul>
+<p>用Python简单的实现如下，这里总是p &lt; q的，复杂度O(n)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def lowestCommonAncestor(self, root, p, q):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type root: TreeNode</span><br><span class="line">        :type p: TreeNode</span><br><span class="line">        :type q: TreeNode</span><br><span class="line">        :rtype: TreeNode</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not root:return root;</span><br><span class="line">        if p.val &gt; q.val:return self.lowestCommonAncestor(root, q, p)</span><br><span class="line">        if root.val &gt;&#x3D; p.val and root.val &lt;&#x3D; q.val: return root;</span><br><span class="line">        if root.val &lt; p.val:return self.lowestCommonAncestor(root.right, p, q)</span><br><span class="line">        if root.val &gt; q.val:return self.lowestCommonAncestor(root.left, p, q)</span><br></pre></td></tr></table></figure>
+<p>ps:其实这也是<a target="_blank" rel="noopener" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/">Lowest 235 Common Ancestor of a Binary Search Tree</a> 的解法</p>
+<h2 id="普通二叉树">普通二叉树</h2>
+<p>节点定义如下，有左右子节点：(用java貌似看起来清晰点)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class TreeNode &#123;</span><br><span class="line">     int val;</span><br><span class="line">     TreeNode left;</span><br><span class="line">     TreeNode right;</span><br><span class="line">     TreeNode(int x) &#123; val &#x3D; x; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>像刚才那样看左右子节点肯定不行的啦，看下面的树:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     _______3______</span><br><span class="line">    &#x2F;              \</span><br><span class="line"> ___5__          ___1__</span><br><span class="line">&#x2F;      \        &#x2F;      \</span><br><span class="line">6      _2       0       8</span><br><span class="line">      &#x2F;  \</span><br><span class="line">      7   4</span><br></pre></td></tr></table></figure>
+<p>在举个栗子</p>
+<p><img src="../images/algorithm-lowest-common-ancestor-of-a-binary-tree/for-example.jpg" alt="for example"></p>
+<ul>
+<li>LCA(5,2) = 5</li>
+<li>LCA(5,1) = 3</li>
+</ul>
+<p>思路：</p>
+<p>一种简单的方法是DFS分别寻找到两个节点p和q的路径，然后对比路径，查看他们的第一个分岔口，则为LCA。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    bool find_path(TreeNode *root, const TreeNode * const p, vector&lt;TreeNode *&gt; &amp;path)&#123;</span><br><span class="line">        if(!root) return false;</span><br><span class="line">        path.push_back(root);</span><br><span class="line">        if(root &#x3D;&#x3D; p)&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        int len &#x3D; path.size();</span><br><span class="line">        if(find_path(root-&gt;left, p, path))</span><br><span class="line">            return true;</span><br><span class="line">        path.resize(len);</span><br><span class="line">        return find_path(root-&gt;right, p, path);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">public:</span><br><span class="line">    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) &#123;</span><br><span class="line">        vector&lt;TreeNode *&gt; first, second;</span><br><span class="line">        find_path(root, p, first);</span><br><span class="line">        find_path(root, q, second);</span><br><span class="line">        int len &#x3D; min(first.size(), second.size());</span><br><span class="line">        for(int i &#x3D; 0; i &lt; len; ++i)&#123;</span><br><span class="line">            if(first[i] !&#x3D; second[i])</span><br><span class="line">                return first[i - 1];</span><br><span class="line">        &#125;</span><br><span class="line">        return first.size() &lt; second.size()? first.back() : second.back();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个思路比较简单，代码写起来不如下面这种方法优雅：</p>
+<blockquote>
+<p>Using a bottom-up approach, we can improve over the top-down approach by avoiding traversing the same nodes over and over again.</p>
+<p>We traverse from the bottom, and once we reach a node which matches one of the two nodes, we pass it up to its parent. The parent would then test its left and right subtree if each contain one of the two nodes. If yes, then the parent must be the LCA and we pass its parent up to the root. If not, we pass the lower node which contains either one of the two nodes (if the left or right subtree contains either p or q), or NULL (if both the left and right subtree does not contain either p or q) up.</p>
+<p>Sounds complicated? Surprisingly the code appears to be much simpler than the top-down one.</p>
+<p><em>from : <a target="_blank" rel="noopener" href="http://articles.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-i.html">http://articles.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-i.html</a></em></p>
+</blockquote>
+<p>我们仍然可以用递归来解决，递归寻找两个带查询LCA的节点p和q，当找到后，返回给它们的父亲。如果某个节点的左右子树分别包括这两个节点，那么这个节点必然是所求的解，返回该节点。否则，返回左或者右子树（哪个包含p或者q的就返回哪个）。</p>
+<p>复杂度O(n)</p>
+<p>代码很简单，也写得很漂亮：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def lowestCommonAncestor(self, root, p, q):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type root: TreeNode</span><br><span class="line">        :type p: TreeNode</span><br><span class="line">        :type q: TreeNode</span><br><span class="line">        :rtype: TreeNode</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not root or root &#x3D;&#x3D; p or root &#x3D;&#x3D; q: return root</span><br><span class="line">        left &#x3D; self.lowestCommonAncestor(root.left, p, q)</span><br><span class="line">        right &#x3D; self.lowestCommonAncestor(root.right, p, q)</span><br><span class="line">        if left and right:</span><br><span class="line">            return root</span><br><span class="line">        return left if left else right</span><br></pre></td></tr></table></figure>
+<p>ps:其实这也是<a target="_blank" rel="noopener" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/">leetcode 236 Lowest Common Ancestor of a Binary Tree</a> 的解法</p>
+<h2 id="带有父节点信息的二叉树">带有父节点信息的二叉树</h2>
+<p>扩展，如果带有父节点的信息呢？</p>
+<p>换句话说，树的定义为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class TreeNode &#123;</span><br><span class="line">     int val;</span><br><span class="line">     TreeNode left;</span><br><span class="line">     TreeNode right;</span><br><span class="line">     TreeNode parent;</span><br><span class="line">     TreeNode(int x) &#123; val &#x3D; x; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，一个简单的思路，对p和q向上走，用hashtable记录访问过的节点，</p>
+<p>如果某个节点已经被访问过了，那么返回该节点。</p>
+<p>复杂度O(h),h为树的高度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def LCA(root, p, q):</span><br><span class="line">    vis &#x3D; set()</span><br><span class="line">    while p or q:</span><br><span class="line">        if p:</span><br><span class="line">            if p in vis:</span><br><span class="line">                return p</span><br><span class="line">            vis.add(p)</span><br><span class="line">            p &#x3D; p.parent</span><br><span class="line">        if q:</span><br><span class="line">            if q in vis:</span><br><span class="line">                return q</span><br><span class="line">            vis.add(q)</span><br><span class="line">            q &#x3D; q.parent</span><br><span class="line">    return None</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>更好的方法是求出p和q的高度，高度比较高的向上移动，直到两个节点相遇。</p>
+<p>复杂度O(h),h为树的高度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">int getHeight(Node *p) &#123;</span><br><span class="line">  int height &#x3D; 0;</span><br><span class="line">  while (p) &#123;</span><br><span class="line">    height++;</span><br><span class="line">    p &#x3D; p-&gt;parent;</span><br><span class="line">  &#125;</span><br><span class="line">  return height;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; As root-&gt;parent is NULL, we don&#39;t need to pass root in.</span><br><span class="line">Node *LCA(Node *p, Node *q) &#123;</span><br><span class="line">  int h1 &#x3D; getHeight(p);</span><br><span class="line">  int h2 &#x3D; getHeight(q);</span><br><span class="line">  &#x2F;&#x2F; swap both nodes in case p is deeper than q.</span><br><span class="line">  if (h1 &gt; h2) &#123;</span><br><span class="line">    swap(h1, h2);</span><br><span class="line">    swap(p, q);</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; invariant: h1 &lt;&#x3D; h2.</span><br><span class="line">  int dh &#x3D; h2 - h1;</span><br><span class="line">  for (int h &#x3D; 0; h &lt; dh; h++)</span><br><span class="line">    q &#x3D; q-&gt;parent;</span><br><span class="line">  while (p &amp;&amp; q) &#123;</span><br><span class="line">    if (p &#x3D;&#x3D; q) return p;</span><br><span class="line">    p &#x3D; p-&gt;parent;</span><br><span class="line">    q &#x3D; q-&gt;parent;</span><br><span class="line">  &#125;</span><br><span class="line">  return NULL;  &#x2F;&#x2F; p and q are not in the same tree</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h2 id="多次查询的普通二叉树">多次查询的普通二叉树</h2>
+<p>如果是多次查询呢?每次都递归一次?</p>
+<p>这样有q次查询就要O(q * n) !</p>
+<p>显然这复杂度太高。</p>
+<p>我们可以用Tarjan离线算法来求LCA</p>
+<p>Tarjan算法基于DFS和并查集进行求解。</p>
+<p>我们知道，树的后序遍历顺序是：左子树，右子树，根节点。</p>
+<p>所以，如果LCA(p,q) = x ,那么，进行后续遍历的时候，必然先访问完x的左右子树，才会返回x所在的节点。</p>
+<p>嗯，所以我们进行如下操作：处理完一棵子树(root为x)的时候，把子树的节点放入x所在的集合，并设置祖先为x（并查集）</p>
+<p>这样做的话，当我们访问了一个节点的时候，如果该节点为待查节点q,且p已经被访问过了，那么，p的祖先就是LCA.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     _______3______</span><br><span class="line">    &#x2F;              \</span><br><span class="line"> ___5__          ___1__</span><br><span class="line">&#x2F;      \        &#x2F;      \</span><br><span class="line">6      _2       0       8</span><br><span class="line">      &#x2F;  \</span><br><span class="line">      7   4</span><br></pre></td></tr></table></figure>
+<p>以上面的树为例，假设求</p>
+<p>LCA(6,4) ,那么，由于是后续遍历，我们遍历到4的时候，6已经被访问过，且祖先设置为5，所以答案就是5 （后序遍历的是标志是否被访问~）</p>
+<p>再比如LCA(5,4),我们访问到4的时候，5还没被访问，返回上级，然后是2节点，把2的祖先与4合并为2，在返回上级，此时是节点5，把5节点的右子树祖先和5合并，接着发现2已经被访问了，答案就是2的祖先，就是5</p>
+<p>看到这里，你应该知道了用并查集的原因：可以快速的找到某个节点的祖先，这对多个查询是非常有利的。</p>
+<p>C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">struct UnionFindSet &#123;</span><br><span class="line">unordered_map&lt;TreeNode* , TreeNode*&gt; fa;</span><br><span class="line"></span><br><span class="line">TreeNode* find(TreeNode *p) &#123;</span><br><span class="line">return fa[p] &#x3D;&#x3D; NULL ? p : fa[p] &#x3D; find(fa[p]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void unionSet(TreeNode *p, TreeNode * q) &#123;</span><br><span class="line">TreeNode *root_p &#x3D; find(p);</span><br><span class="line">TreeNode *root_q &#x3D; find(q);</span><br><span class="line">fa[root_p] &#x3D; root_q;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class Solution &#123;</span><br><span class="line">unordered_set&lt;TreeNode *&gt; vis;</span><br><span class="line">TreeNode *p, *q,*ans;</span><br><span class="line">UnionFindSet unionFindSet;</span><br><span class="line">public:</span><br><span class="line"></span><br><span class="line">TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) &#123;</span><br><span class="line">this-&gt;p &#x3D; p;</span><br><span class="line">this-&gt;q &#x3D; q;</span><br><span class="line">Tarjan(root);</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void Tarjan(TreeNode * root) &#123;</span><br><span class="line">if (!root) return;</span><br><span class="line">unionFindSet.fa[root] &#x3D; NULL;</span><br><span class="line"></span><br><span class="line">if (root-&gt;left) &#123;</span><br><span class="line">Tarjan(root-&gt;left);</span><br><span class="line">unionFindSet.unionSet(root-&gt;left, root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (root-&gt;right) &#123;</span><br><span class="line">Tarjan(root-&gt;right);</span><br><span class="line">unionFindSet.unionSet(root-&gt;right, root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vis.insert(root);</span><br><span class="line">if (root &#x3D;&#x3D; p  &amp;&amp; vis.find(q) !&#x3D; vis.end())</span><br><span class="line">ans &#x3D; unionFindSet.find(q);</span><br><span class="line">else if (root &#x3D;&#x3D; q  &amp;&amp; vis.find(p) !&#x3D; vis.end())</span><br><span class="line">ans &#x3D; unionFindSet.find(p);</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>上面的代码只是单个查询的情况，多个查询的情况只需要把最后的改为：遍历与当前结点root相关联的查询即可。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://articles.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-ii.html">Lowest Common Ancestor of a Binary Tree Part II</a></li>
+<li><a target="_blank" rel="noopener" href="http://noalgo.info/476.html">LCA问题的Tarjan算法</a></li>
+</ul>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/algorithm-lowest-common-ancestor-of-a-binary-tree/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/centos-not-permit-root-login-and-use-rsa-public-key-authentication/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            服务器禁止root登录和使用RSA证书登录
+          
+        </div>
+      </a>
+    
+    
+      <a href="/leetcode-count-of-range-sum/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode Count of Range Sum</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

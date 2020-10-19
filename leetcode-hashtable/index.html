@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode hashtable |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-hashtable"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode hashtable
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-hashtable/" class="article-date">
+  <time datetime="2015-06-22T02:27:54.000Z" itemprop="datePublished">2015-06-22</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">12 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本题解包括：</p>
+<ul>
+<li>hashtable简洁即实现</li>
+<li><strong>3</strong> Longest Substring Without Repeating Characters</li>
+<li><strong>160</strong> Intersection of Two Linked Lists</li>
+<li><strong>202</strong> Happy Number</li>
+<li><strong>242</strong> Valid Anagram</li>
+</ul>
+<a id="more"></a>
+<h2 id="一-hashtable简介">一、hashtable简介</h2>
+<p>散列表（Hash table，也叫哈希表）,它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做散列函数，存放记录的数组叫做散列表。</p>
+<ul>
+<li>
+<p>若关键字为<strong>k</strong>，则其值存放在**f(k)**的存储位置上。由此，要查找k的位置直接去f(k)查找即可。</p>
+</li>
+<li>
+<p>对不同的关键字可能得到同一散列地址，即<strong>k1****≠k2</strong>，而<strong>f(k1)=f(k2)</strong>，这种现象称为冲突/碰撞（Collision）。可以说collision是不可避免的。但是有一些处理冲突的办法：</p>
+<ul>
+<li>开散列：相同的key 存于链中</li>
+<li>闭散列：相同key存于 不同的槽中</li>
+<li>多个hashtable ： 如果一个冲突的概率是0.1.。那么我们用两个不同的散列函数，可以大大冲突概率。（暴雪好像就是这么做的，用了三个散列表，使得冲突概率为几亿分之一）</li>
+</ul>
+</li>
+</ul>
+<p>对于数字，常见的散列函数可以为 % 一个数（经常是2的倍数-1 ，可以用位与来优化速度！）</p>
+<p>一个开散列的C实现如下（使用了静态的邻接表）：</p>
+<p>（C++可以把define改为const int N = 1&lt;&lt;7; ）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#define N (1&lt;&lt;7)</span><br><span class="line">int head[N], len &#x3D; 0, mod &#x3D; N - 1;</span><br><span class="line">struct node&#123;</span><br><span class="line">int val;</span><br><span class="line">int next;</span><br><span class="line">&#125;data[10000];</span><br><span class="line"></span><br><span class="line">void insert(int n)&#123;</span><br><span class="line">int pos &#x3D; n &amp; mod;</span><br><span class="line">data[len].val &#x3D; n;</span><br><span class="line">data[len].next &#x3D; head[pos]; &#x2F;&#x2F;插入第一个位置</span><br><span class="line">head[pos] &#x3D; len++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool found(int n)&#123;</span><br><span class="line">int pos &#x3D; n &amp; mod;</span><br><span class="line">for (int i &#x3D; head[pos]; i !&#x3D; -1; i &#x3D; data[i].next)</span><br><span class="line">if (data[i].val &#x3D;&#x3D; n) return true;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>什么你问python？乖乖的去用set吧（其实c++是用unordered_set，不要重复发明轮子）</p>
+<p>以<strong>leetcode 202 Happy Number</strong>为例，来演示一下他们的用法：</p>
+<h2 id="二-题解"><strong>二、题解</strong></h2>
+<h3 id="3-longest-substring-without-repeating-characters">3. Longest Substring Without Repeating Characters</h3>
+<blockquote>
+<p>Given a string, find the length of the <strong>longest substring</strong> without repeating characters.</p>
+<p><strong>Examples:</strong></p>
+<p>Given <code>&quot;abcabcbb&quot;</code>, the answer is <code>&quot;abc&quot;</code>, which the length is 3.</p>
+<p>Given <code>&quot;bbbbb&quot;</code>, the answer is <code>&quot;b&quot;</code>, with the length of 1.</p>
+<p>Given <code>&quot;pwwkew&quot;</code>, the answer is <code>&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a <strong>substring</strong>, <code>&quot;pwke&quot;</code> is a <em>subsequence</em> and not a substring.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">leetcode Longest Substring Without Repeating Characters</a></p>
+<p>题意：给定一个字符串s，求它最长的不重复字母的子串长度。</p>
+<p>思路：最naive的方法是，枚举起点和终点，O(n^2)，但是有很多重复的工作。</p>
+<p>进一步可以改进为双指针+哈希表。</p>
+<p>首先i指针指向字符串开头，而j指向结尾。每次扫描到一个字符s[j]，有：</p>
+<ol>
+<li>若该字符在hash表中，则说明s[j]在之前出现过，我们需要删除hash表中的字符s[i…vis[s[j]]]中的所有信息。并且将i 设置为 vis[s[j]] += 1（因为vis[s[j]]保存了上一个s[j]的下标，必须+1的位置才可能作为新的起点）</li>
+<li>将该字符的下表写进hash表。 就是vis[s[j]] = j</li>
+<li>看看能否更新最大长度。</li>
+</ol>
+<p>Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def lengthOfLongestSubstring(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not s: return 0</span><br><span class="line">        vis &#x3D; &#123;&#125;</span><br><span class="line">        i &#x3D; ans &#x3D; 0</span><br><span class="line">        for j in range(len(s)):</span><br><span class="line">            if s[j] in vis:</span><br><span class="line">                for x in range(i,vis[s[j]]):</span><br><span class="line">                    del vis[s[x]]</span><br><span class="line">                i &#x3D; vis[s[j]] + 1</span><br><span class="line">            ans &#x3D; max(ans, j - i + 1)</span><br><span class="line">            vis[s[j]] &#x3D; j</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p>当然，也可以直接用一个长度为128的数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def lengthOfLongestSubstring(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not s: return 0</span><br><span class="line">        vis &#x3D; [-1] * 128</span><br><span class="line">        i &#x3D; ans &#x3D; 0</span><br><span class="line">        for j in range(len(s)):</span><br><span class="line">            if vis[ord(s[j])] !&#x3D; - 1:</span><br><span class="line">                for x in range(i, vis[ord(s[j])]):</span><br><span class="line">                    vis[ord(s[x])] &#x3D; -1</span><br><span class="line">                i &#x3D; vis[ord(s[j])] + 1</span><br><span class="line">            ans &#x3D; max(ans, j - i + 1)</span><br><span class="line">            vis[ord(s[j])] &#x3D; j</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<p>或者直接Sliding window也行(其实都差不多，只是不记录下标，只记录访问过没有),复杂度也是O(n)</p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int lengthOfLongestSubstring(string s) &#123;</span><br><span class="line">        vector&lt;int&gt; vis(128, 0);</span><br><span class="line">        int start &#x3D; 0, max_len &#x3D; 0;</span><br><span class="line">        for(int i &#x3D; 0; i &lt; s.size(); i++)&#123;</span><br><span class="line">             if (vis[s[i]]) &#123;</span><br><span class="line">                for (; s[i] !&#x3D; s[start]; start++)</span><br><span class="line">                    vis[s[start]] &#x3D; 0;</span><br><span class="line">                vis[s[start++]] &#x3D; 0;</span><br><span class="line">            &#125;</span><br><span class="line">            vis[s[i]] &#x3D; 1;</span><br><span class="line">            max_len &#x3D; max(max_len, i - start + 1);</span><br><span class="line">        &#125;</span><br><span class="line">        return max_len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int lengthOfLongestSubstring(String s) &#123;</span><br><span class="line">        boolean[] vis &#x3D; new boolean[128];</span><br><span class="line">        int start &#x3D; 0, maxLen &#x3D; 0;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; s.length(); i++) &#123;</span><br><span class="line">            if (vis[s.charAt(i)]) &#123;</span><br><span class="line">                for (; s.charAt(i) !&#x3D; s.charAt(start); start++)</span><br><span class="line">                    vis[s.charAt(start)] &#x3D; false;</span><br><span class="line">                vis[s.charAt(start++)] &#x3D; false;</span><br><span class="line">            &#125;</span><br><span class="line">            vis[s.charAt(i)] &#x3D; true;</span><br><span class="line">            if (i - start + 1 &gt; maxLen)</span><br><span class="line">                maxLen &#x3D; i - start + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return maxLen;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def lengthOfLongestSubstring(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        </span><br><span class="line">        vis &#x3D; [False] * 128</span><br><span class="line">        start &#x3D; max_len &#x3D; 0</span><br><span class="line">        for i in range(len(s)):</span><br><span class="line">            if vis[ord(s[i])]:</span><br><span class="line">                while s[i] !&#x3D; s[start]:</span><br><span class="line">                    vis[ord(s[start])] &#x3D; False</span><br><span class="line">                    start +&#x3D; 1</span><br><span class="line">                vis[ord(s[start])] &#x3D; False</span><br><span class="line">                start +&#x3D; 1</span><br><span class="line">            vis[ord(s[i])] &#x3D; True</span><br><span class="line">            max_len &#x3D; max(max_len, i - start + 1)</span><br><span class="line">        return max_len</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="160-leetcode-intersection-of-two-linked-lists">160. leetcode Intersection of Two Linked Lists</h3>
+<blockquote>
+<p>Write a program to find the node at which the intersection of two singly linked lists begins.</p>
+<p>For example, the following two linked lists:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A:          a1 → a2</span><br><span class="line">                   ↘</span><br><span class="line">                     c1 → c2 → c3</span><br><span class="line">                   ↗            </span><br><span class="line">B:     b1 → b2 → b3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>begin to intersect at node c1.</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>If the two linked lists have no intersection at all, return <code>null</code>.</li>
+<li>The linked lists must retain their original structure after the function returns.</li>
+<li>You may assume there are no cycles anywhere in the entire linked structure.</li>
+<li>Your code should preferably run in O(n) time and use only O(1) memory.</li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/intersection-of-two-linked-lists/">leetcode Intersection of Two Linked Lists</a></p>
+<p>题意：给定两个链表，返回其重复的第一个位置。</p>
+<p>思路：</p>
+<ul>
+<li>用哈希表O(n+m) 空间为O(m)或者O(n)</li>
+<li>由于两个链表可能一长一短，故对其同时进行遍历时一定有一个先到达结尾。如果链表A先到结尾，则指向B的开头，如果B先到达结尾，则指向A的开头。然后继续进行遍历，这样两个链表一定同时到达结尾。当到达结尾时，如果之前最早出现过两个指针指向地址相同的，那么就是所求解。</li>
+</ul>
+<p></p>
+<p>这里只给出c的hash表代码，其他python什么的，见<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/?p=466">https://www.hrwhisper.me/?p=466</a></p>
+<p><strong>c 的hash表</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#define N (1&lt;&lt;14)</span><br><span class="line">int head[N], len &#x3D; 0, mod &#x3D; N - 1;</span><br><span class="line">struct node&#123;</span><br><span class="line">struct ListNode * val;</span><br><span class="line">int next;</span><br><span class="line">&#125;data[100000];</span><br><span class="line"></span><br><span class="line">void insert(struct ListNode *n)</span><br><span class="line">&#123;</span><br><span class="line">int pos &#x3D; ((int)n) &amp; mod;</span><br><span class="line">data[len].val &#x3D; n;</span><br><span class="line">data[len].next &#x3D; head[pos];</span><br><span class="line">head[pos] &#x3D; len++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool found(struct ListNode *n)&#123;</span><br><span class="line">int pos &#x3D; ((int)n) &amp; mod;</span><br><span class="line">for (int i &#x3D; head[pos]; i !&#x3D; -1;)&#123;</span><br><span class="line">if (data[i].val &#x3D;&#x3D; n)</span><br><span class="line">return true;</span><br><span class="line">i &#x3D; data[i].next;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) &#123;</span><br><span class="line">memset(head, -1, sizeof(head));</span><br><span class="line">for (; headA; headA &#x3D; headA-&gt;next)</span><br><span class="line">insert(headA);</span><br><span class="line">for (; headB; headB &#x3D; headB-&gt;next)</span><br><span class="line">if (found(headB)) return headB;</span><br><span class="line">return NULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="202-leetcode-happy-number"><strong>202 leetcode Happy Number</strong></h3>
+<blockquote>
+<p>Write an algorithm to determine if a number is “happy”.</p>
+<p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
+<p><strong>Example:</strong> 19 is a happy number</p>
+<ul>
+<li>12 + 92 = 82</li>
+<li>82 + 22 = 68</li>
+<li>62 + 82 = 100</li>
+<li>12 + 02 + 02 = 1</li>
+</ul>
+</blockquote>
+<p>题目地址： <a target="_blank" rel="noopener" href="https://leetcode.com/problems/happy-number/">leetcode Happy Number</a></p>
+<p>题意：给你一个数，判断是否为Happy number （对n每个字母求平方和，成为下一个n~若n为1，则为happy number）</p>
+<p>思路：</p>
+<ol>
+<li>用hash表判断是否循环，若循环则不是happy number</li>
+<li>4为非happy number循环必经点。所以可以判断n是否为4即可。（这个是看discuss的）</li>
+</ol>
+<p><strong>C</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#define N (1&lt;&lt;7)</span><br><span class="line">int head[N], len &#x3D; 0, mod &#x3D; N - 1;</span><br><span class="line">struct node&#123;</span><br><span class="line">int val;</span><br><span class="line">int next;</span><br><span class="line">&#125;data[10000];</span><br><span class="line"></span><br><span class="line">void insert(int n)&#123;</span><br><span class="line">int pos &#x3D; n &amp; mod;</span><br><span class="line">data[len].val &#x3D; n;</span><br><span class="line">data[len].next &#x3D; head[pos];</span><br><span class="line">head[pos] &#x3D; len++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool found(int n)&#123;</span><br><span class="line">int pos &#x3D; n &amp; mod;</span><br><span class="line">for (int i &#x3D; head[pos]; i !&#x3D; -1; i &#x3D; data[i].next)</span><br><span class="line">if (data[i].val &#x3D;&#x3D; n) return true;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line">int cal(int n)&#123;</span><br><span class="line">int ans &#x3D; 0;</span><br><span class="line">while (n)</span><br><span class="line">&#123;</span><br><span class="line">int t &#x3D; n % 10;</span><br><span class="line">n &#x2F;&#x3D; 10;</span><br><span class="line">ans +&#x3D; t * t;</span><br><span class="line">&#125;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool isHappy(int n) &#123;</span><br><span class="line">memset(head, -1, sizeof(head));</span><br><span class="line">while (true)&#123;</span><br><span class="line">n &#x3D; cal(n);</span><br><span class="line">if (n &#x3D;&#x3D; 1) return true;</span><br><span class="line">if (found(n)) return false;</span><br><span class="line">insert(n);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>C++</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">bool isHappy(int n) &#123;</span><br><span class="line">unordered_set&lt;int&gt; table;</span><br><span class="line">table.insert(n);</span><br><span class="line">while (true)&#123;</span><br><span class="line">n &#x3D; cal(n);</span><br><span class="line">if (n &#x3D;&#x3D; 1) return true;</span><br><span class="line">if (table.find(n) !&#x3D; table.end()) return false;</span><br><span class="line">table.insert(n);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">int cal(int n)&#123;</span><br><span class="line">int ans &#x3D; 0;</span><br><span class="line">while (n)</span><br><span class="line">&#123;</span><br><span class="line">int t &#x3D; n % 10;</span><br><span class="line">n &#x2F;&#x3D; 10;</span><br><span class="line">ans +&#x3D; t * t;</span><br><span class="line">&#125;</span><br><span class="line">return ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    # @param &#123;integer&#125; n</span><br><span class="line">    # @return &#123;boolean&#125;</span><br><span class="line">    def isHappy(self, n):</span><br><span class="line">        table &#x3D; set()</span><br><span class="line">        while True:</span><br><span class="line">            squere_sum &#x3D; sum(int(i) **2 for i in str(n))</span><br><span class="line">            if squere_sum &#x3D;&#x3D; 1: return True</span><br><span class="line">            elif squere_sum in table: return False</span><br><span class="line">            table.add(squere_sum)</span><br><span class="line">            n &#x3D; squere_sum</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="242-valid-anagram">242. Valid Anagram</h3>
+<blockquote>
+<p>Given two strings <em>s</em> and <em>t</em>, write a function to determine if <em>t</em> is an anagram of <em>s</em>.</p>
+<p>For example,<br>
+<em>s</em> = “anagram”, <em>t</em> = “nagaram”, return true.<br>
+<em>s</em> = “rat”, <em>t</em> = “car”, return false.</p>
+<p><strong>Note:</strong><br>
+You may assume the string contains only lowercase alphabets.</p>
+<p><strong>Follow up:</strong><br>
+What if the inputs contain unicode characters? How would you adapt your solution to such case?</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/valid-anagram/">leetcode Valid Anagram</a></p>
+<p>题意：给定两个字符串，判断他们是否是相同字母异序的串</p>
+<p>题意：</p>
+<p>看到这个，排序嘛！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def isAnagram(self, s, t):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :type t: str</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return sorted(s) &#x3D;&#x3D; sorted(t)</span><br></pre></td></tr></table></figure>
+<p>更快的呢？用hash表计算出现的次数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def isAnagram(self, s, t):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :type t: str</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if len(s) !&#x3D; len(t): return False</span><br><span class="line">        n &#x3D; len(s)</span><br><span class="line">        vis &#x3D; [0] * 26</span><br><span class="line">        for i in xrange(n):</span><br><span class="line">            vis[ord(s[i]) - 97] +&#x3D; 1</span><br><span class="line">            vis[ord(t[i]) - 97] -&#x3D; 1</span><br><span class="line">        return filter(lambda x: x !&#x3D; 0, vis) &#x3D;&#x3D; []</span><br></pre></td></tr></table></figure>
+<p>当然可以用Python的Counter类开挂- - 继续oneline</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def isAnagram(self, s, t):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :type t: str</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        return collections.Counter(s) &#x3D;&#x3D; collections.Counter(t)</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-hashtable/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/leetcode-linklist/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            leetcode 链表
+          
+        </div>
+      </a>
+    
+    
+      <a href="/ocr-procedure/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">ocr 识别</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

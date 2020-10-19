@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode contest 53 solution |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-contest-53-solution"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode contest 53 solution
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-contest-53-solution/" class="article-date">
+  <time datetime="2017-10-08T09:41:20.000Z" itemprop="datePublished">2017-10-08</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">11 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本次题解包括</p>
+<ul>
+<li>
+<ol start="691">
+<li>Stickers to Spell Word</li>
+</ol>
+</li>
+<li>
+<ol start="693">
+<li>Binary Number with Alternating Bits</li>
+</ol>
+</li>
+<li>
+<ol start="694">
+<li>Number of Distinct Islands</li>
+</ol>
+</li>
+<li>
+<ol start="695">
+<li>Max Area of Island</li>
+</ol>
+</li>
+</ul>
+<a id="more"></a>
+<h3 id="691-stickers-to-spell-word">691. Stickers to Spell Word</h3>
+<blockquote>
+<p>We are given N different types of stickers. Each sticker has a lowercase English word on it.</p>
+<p>You would like to spell out the given <code>target</code> string by cutting individual letters from your collection of stickers and rearranging them.</p>
+<p>You can use each sticker more than once if you want, and you have infinite quantities of each sticker.</p>
+<p>What is the minimum number of stickers that you need to spell out the <code>target</code>? If the task is impossible, return -1.</p>
+<p><strong>Example 1:</strong></p>
+<p>Input:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&quot;with&quot;, &quot;example&quot;, &quot;science&quot;], &quot;thehat&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Explanation:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">We can use 2 &quot;with&quot; stickers, and 1 &quot;example&quot; sticker.</span><br><span class="line">After cutting and rearrange the letters of those stickers, we can form the target &quot;thehat&quot;.</span><br><span class="line">Also, this is the minimum number of stickers necessary to form the target string.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<p>Input:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[&quot;notice&quot;, &quot;possible&quot;], &quot;basicbasic&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Explanation:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">We can&#39;t form the target &quot;basicbasic&quot; from cutting letters from the given stickers.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong></p>
+<ul>
+<li><code>stickers</code> has length in the range <code>[1, 50]</code>.</li>
+<li><code>stickers</code> consists of lowercase English words (without apostrophes).</li>
+<li><code>target</code> has length in the range <code>[1, 15]</code>, and consists of lowercase English letters.</li>
+<li>In all test cases, all words were chosen randomly from the 1000 most common US English words, and the target was chosen as a concatenation of two random words.</li>
+<li>The time limit may be more challenging than usual. It is expected that a 50 sticker test case can be solved within 35ms on average.</li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/stickers-to-spell-word/">leetcode Stickers to Spell Word</a></p>
+<p>题目大意：给定n个stickers，每个stickers可以使用无数次。现在要将stickers拼成target（就是拆分stickers中的字母来凑成target），求用最少的使用次数（使用同一个sticker两次次数算2）使得stickers可以组成target。</p>
+<p>思路：</p>
+<p>这题对时间要求很高。</p>
+<p>要注意剪枝。很重要的一点就是只保留target的字符，然后去除被包含的所有stickers.</p>
+<p>比如target为abc,stickers=[‘afg’,‘abf’]只保留stickers=[‘a’,‘ab’]，第一个被第二个包含，因此stickers=[‘ab’]，这样能保证结果不差，而需要搜索的空间大大减少。</p>
+<p>然后BFS即可。</p>
+<p>python BFS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def minStickers(self, stickers, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type stickers: List[str]</span><br><span class="line">        :type target: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        alphabet &#x3D; [chr(i) for i in range(ord(&#39;a&#39;), ord(&#39;z&#39;) + 1)]</span><br><span class="line">        target_cnt &#x3D; collections.Counter(target)</span><br><span class="line">        stickers &#x3D; [collections.Counter(s) &amp; target_cnt for s in stickers]</span><br><span class="line">        for i in range(len(stickers) - 1, -1, -1):</span><br><span class="line">            if any(stickers[i] &#x3D;&#x3D; (stickers[i] &amp; stickers[j]) for j in range(len(stickers)) if i !&#x3D; j):</span><br><span class="line">                stickers.pop(i)</span><br><span class="line"></span><br><span class="line">        q &#x3D; collections.deque()</span><br><span class="line">        q.append((0, target))</span><br><span class="line">        vis &#x3D; &#123;target&#125;</span><br><span class="line">        while q:</span><br><span class="line">            step, pre &#x3D; q.popleft()</span><br><span class="line">            pre_cnt &#x3D; collections.Counter(pre)</span><br><span class="line">            for sticker in stickers:</span><br><span class="line">                cur &#x3D; &#39;&#39;.join(c * max(0, pre_cnt.get(c, 0) - sticker.get(c, 0)) for c in alphabet)</span><br><span class="line">                if len(cur) &#x3D;&#x3D; len(target): continue  # the sticker should not use.</span><br><span class="line">                if not cur: return step + 1  # done</span><br><span class="line">                if cur not in vis:</span><br><span class="line">                    q.append((step + 1, cur))</span><br><span class="line">                    vis.add(cur)</span><br><span class="line">        return -1</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>DFS + 记忆化搜索超时了。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def minStickers(self, stickers, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type stickers: List[str]</span><br><span class="line">        :type target: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        def dfs(target, dp):</span><br><span class="line">            if not target: return 0</span><br><span class="line">            if target in dp: return dp[target]</span><br><span class="line">            target_cnt &#x3D; collections.Counter(target)</span><br><span class="line">            ans &#x3D; len(target) + 1</span><br><span class="line">            for sticker in stickers:</span><br><span class="line">                cur &#x3D; &#39;&#39;.join(c * max(0, target_cnt.get(c, 0) - sticker.get(c, 0)) for c in alphabet)</span><br><span class="line">                if len(cur) &#x3D;&#x3D; len(target): continue  # the sticker should not use.</span><br><span class="line">                cnt &#x3D; dfs(cur, dp)</span><br><span class="line">                if cnt !&#x3D; -1:</span><br><span class="line">                    ans &#x3D; min(ans, cnt + 1)</span><br><span class="line">            dp[target] &#x3D; ans if ans !&#x3D; len(target) + 1 else -1</span><br><span class="line">            return dp[target]</span><br><span class="line"></span><br><span class="line">        alphabet &#x3D; [chr(i) for i in range(ord(&#39;a&#39;), ord(&#39;z&#39;) + 1)]</span><br><span class="line">        target_cnt &#x3D; collections.Counter(target)</span><br><span class="line">        stickers &#x3D; [collections.Counter(s) &amp; target_cnt for s in stickers]</span><br><span class="line">        for i in range(len(stickers) - 1, -1, -1):</span><br><span class="line">            if any(stickers[i] &#x3D;&#x3D; (stickers[i] &amp; stickers[j]) for j in range(len(stickers)) if i !&#x3D; j):</span><br><span class="line">                stickers.pop(i)</span><br><span class="line">        dp &#x3D; &#123;&#125;</span><br><span class="line">        return dfs(target, dp)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="693-binary-number-with-alternating-bits">693. Binary Number with Alternating Bits</h3>
+<blockquote>
+<p>Given a positive integer, check whether it has alternating bits: namely, if two adjacent bits will always have different values.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: 5</span><br><span class="line">Output: True</span><br><span class="line">Explanation:</span><br><span class="line">The binary representation of 5 is: 101</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: 7</span><br><span class="line">Output: False</span><br><span class="line">Explanation</span><br><span class="line">The binary representation of 7 is: 111.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: 11</span><br><span class="line">Output: False</span><br><span class="line">Explanation:</span><br><span class="line">The binary representation of 11 is: 1011.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: 10</span><br><span class="line">Output: True</span><br><span class="line">Explanation:</span><br><span class="line">The binary representation of 10 is: 1010.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/binary-number-with-alternating-bits/">leetcode Binary Number with Alternating Bits</a></p>
+<p>题目大意：给定一个数字，判断其是否1和0交替出现</p>
+<p>思路</p>
+<p><strong>方法一</strong></p>
+<p>直接移位判断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def hasAlternatingBits(self, n):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type n: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        pre &#x3D; n &amp; 1</span><br><span class="line">        n &#x3D; n &gt;&gt; 1</span><br><span class="line">        while n:</span><br><span class="line">            if n &amp; 1 &#x3D;&#x3D; pre:</span><br><span class="line">                return False</span><br><span class="line">            pre &#x3D; n &amp; 1</span><br><span class="line">            n &gt;&gt;&#x3D; 1</span><br><span class="line">        return True</span><br></pre></td></tr></table></figure>
+<p><strong>方法二：</strong></p>
+<p>位运算，如果一个数是交替出现的，那么t = n ^ (n &gt;&gt; 1)必全部为1. 因此 如果(t + 1) &amp; t为0，那么说明为交替出现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def hasAlternatingBits(self, n):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type n: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        t &#x3D; n ^ (n &gt;&gt; 1)</span><br><span class="line">        return (t + 1) &amp; t &#x3D;&#x3D; 0</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="695-max-area-of-island">695. Max Area of Island</h3>
+<blockquote>
+<p>Given a non-empty 2D array <code>grid</code> of 0’s and 1’s, an <strong>island</strong> is a group of <code>1</code>'s (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.</p>
+<p>Find the maximum area of an island in the given 2D array. (If there is no island, the maximum area is 0.)</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[[0,0,1,0,0,0,0,1,0,0,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,1,1,0,1,0,0,0,0,0,0,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,0,1,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,1,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,0,0,0,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,0,0,0,0]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Given the above grid, return <code>6</code>. Note the answer is not 11, because the island must be connected 4-directionally.</p>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[0,0,0,0,0,0,0,0]]</span><br></pre></td></tr></table></figure>
+<p>Given the above grid, return <code>0</code>.</p>
+<p><strong>Note:</strong> The length of each dimension in the given <code>grid</code> does not exceed 50.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/max-area-of-island/">leetcode Max Area of Island</a></p>
+<p>题目大意：给你一个二维数组，小岛用1表示，求小岛的个数。</p>
+<p>思路</p>
+<p>dfs即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def maxAreaOfIsland(self, grid):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type grid: List[List[int]]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        def dfs(x, y, vis):</span><br><span class="line">            if vis[x][y]: return</span><br><span class="line">            vis[x][y] &#x3D; True</span><br><span class="line">            for i in range(4):</span><br><span class="line">                nx &#x3D; x + dx[i]</span><br><span class="line">                ny &#x3D; y + dy[i]</span><br><span class="line">                if 0 &lt;&#x3D; nx &lt; m and 0 &lt;&#x3D; ny &lt; n and not vis[nx][ny]:</span><br><span class="line">                    self.cur +&#x3D; 1</span><br><span class="line">                    dfs(nx, ny, vis)</span><br><span class="line">            self.ans &#x3D; max(self.ans, self.cur)</span><br><span class="line"></span><br><span class="line">        if not grid or not grid[0]: return 0</span><br><span class="line">        m &#x3D; len(grid)</span><br><span class="line">        n &#x3D; len(grid[0])</span><br><span class="line">        dx &#x3D; [1, -1, 0, 0]</span><br><span class="line">        dy &#x3D; [0, 0, 1, -1]</span><br><span class="line">        self.ans &#x3D; 0</span><br><span class="line">        vis &#x3D; [[False if grid[x][y] else True for y in range(n)] for x in range(m)]</span><br><span class="line">        for i in range(m):</span><br><span class="line">            for j in range(n):</span><br><span class="line">                if grid[i][j]:</span><br><span class="line">                    self.cur &#x3D; 1</span><br><span class="line">                    dfs(i, j, vis)</span><br><span class="line">        return self.ans</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="694-number-of-distinct-islands">694. Number of Distinct Islands</h3>
+<blockquote>
+<p>Given a non-empty 2D array <code>grid</code> of 0’s and 1’s, an <strong>island</strong> is a group of <code>1</code>'s (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.</p>
+<p>Count the number of <strong>distinct</strong> islands. An island is considered to be the same as another if and only if one island can be translated (and not rotated or reflected) to equal the other.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">11000</span><br><span class="line">11000</span><br><span class="line">00011</span><br><span class="line">00011</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Given the above grid map, return <code>1</code>.</p>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">11011</span><br><span class="line">10000</span><br><span class="line">00001</span><br><span class="line">11011</span><br></pre></td></tr></table></figure>
+<p>Given the above grid map, return <code>3</code>.</p>
+<p>Notice that:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">11</span><br><span class="line">1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>and</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> 1</span><br><span class="line">11</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>are considered different island shapes, because we do not consider reflection / rotation.</p>
+<p><strong>Note:</strong> The length of each dimension in the given <code>grid</code> does not exceed 50.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/number-of-distinct-islands/">leetcode Number of Distinct Islands</a></p>
+<p>题目大意：和上面一题差不多。求独特的小岛的个数。独特的为不能经过平移得到的（即形状不同）</p>
+<p>思路：</p>
+<p>DFS，然后hash记录小岛形状。</p>
+<p>平移的话可以记录各个小岛的每个点相对于该小岛的最左上角的偏移，然后最左上角移动到(0，0)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def numDistinctIslands(self, grid):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type grid: List[List[int]]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        def dfs(x, y, vis):</span><br><span class="line">            if vis[x][y]: return</span><br><span class="line">            self.cur.append([x, y])</span><br><span class="line">            vis[x][y] &#x3D; True</span><br><span class="line">            for i in range(4):</span><br><span class="line">                nx &#x3D; x + dx[i]</span><br><span class="line">                ny &#x3D; y + dy[i]</span><br><span class="line">                if 0 &lt;&#x3D; nx &lt; m and 0 &lt;&#x3D; ny &lt; n and not vis[nx][ny]:</span><br><span class="line">                    dfs(nx, ny, vis)</span><br><span class="line"></span><br><span class="line">        if not grid or not grid[0]: return 0</span><br><span class="line">        m &#x3D; len(grid)</span><br><span class="line">        n &#x3D; len(grid[0])</span><br><span class="line">        dx &#x3D; [1, -1, 0, 0]</span><br><span class="line">        dy &#x3D; [0, 0, 1, -1]</span><br><span class="line">        vis &#x3D; [[False if grid[x][y] else True for y in range(n)] for x in range(m)]</span><br><span class="line">        ans &#x3D; set()</span><br><span class="line">        for i in range(m):</span><br><span class="line">            for j in range(n):</span><br><span class="line">                if grid[i][j]:</span><br><span class="line">                    self.cur &#x3D; []</span><br><span class="line">                    dfs(i, j, vis)</span><br><span class="line">                    if self.cur:</span><br><span class="line">                        for k in range(1, len(self.cur)):</span><br><span class="line">                            self.cur[k][0] &#x3D; self.cur[k][0] - self.cur[0][0]</span><br><span class="line">                            self.cur[k][1] &#x3D; self.cur[k][1] - self.cur[0][1]</span><br><span class="line">                        self.cur[0] &#x3D; [0, 0]</span><br><span class="line">                        ans.add(&#39;:&#39;.join([str(x) + &#39;,&#39; + str(y) for x, y in self.cur]))</span><br><span class="line">        return len(ans)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>本文是leetcode如下的题解</p>
+<ul>
+<li>
+<ol start="691">
+<li>Stickers to Spell Word</li>
+</ol>
+</li>
+<li>
+<ol start="693">
+<li>Binary Number with Alternating Bits</li>
+</ol>
+</li>
+<li>
+<ol start="694">
+<li>Number of Distinct Islands</li>
+</ol>
+</li>
+<li>
+<ol start="695">
+<li>Max Area of Island</li>
+</ol>
+</li>
+</ul>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-contest-53-solution/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/leetcode-contest-54-solution/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            leetcode contest 54 solution
+          
+        </div>
+      </a>
+    
+    
+      <a href="/leetcode-contest-52-solution/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode contest 52 solution</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

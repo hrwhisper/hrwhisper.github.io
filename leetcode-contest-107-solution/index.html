@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode contest 107 solution |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-contest-107-solution"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode contest 107 solution
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-contest-107-solution/" class="article-date">
+  <time datetime="2018-10-21T04:35:18.000Z" itemprop="datePublished">2018-10-21</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">11 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本文是leetcode contest 107的题解:</p>
+<ul>
+<li><strong>925</strong>. Long Pressed Name</li>
+<li><strong>926</strong>. Flip String to Monotone Increasing</li>
+<li><strong>927</strong>. Three Equal Parts</li>
+<li><strong>928</strong>. Minimize Malware Spread II</li>
+</ul>
+<a id="more"></a>
+<h3 id="925-long-pressed-name">925. Long Pressed Name</h3>
+<blockquote>
+<p>Your friend is typing his name into a keyboard.  Sometimes, when typing a character c, the key might get long pressed, and the character will be typed 1 or more times.</p>
+<p>You examine the typed characters of the keyboard.  Return True if it is possible that it was your friends name, with some characters (possibly none) being long pressed.</p>
+<p>Example 1:</p>
+<p>Input: name = “alex”, typed = “aaleex”<br>
+Output: true<br>
+Explanation: ‘a’ and ‘e’ in ‘alex’ were long pressed.</p>
+<p>Example 2:</p>
+<p>Input: name = “saeed”, typed = “ssaaedd”<br>
+Output: false<br>
+Explanation: ‘e’ must have been pressed twice, but it wasn’t in the typed output.</p>
+<p>Example 3:</p>
+<p>Input: name = “leelee”, typed = “lleeelee”<br>
+Output: true</p>
+<p>Example 4:</p>
+<p>Input: name = “laiden”, typed = “laiden”<br>
+Output: true<br>
+Explanation: It’s not necessary to long press any character.</p>
+<p>Note:</p>
+<p>name.length &lt;= 1000<br>
+typed.length &lt;= 1000<br>
+The characters of name and typed are lowercase letters.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/long-pressed-name/">leetcode Long Pressed Name</a></p>
+<p>题目大意：给定一个name和一个typed的字符串，判断typed是否是由name中重复一些字母得到的</p>
+<p>思路：</p>
+<p>直接比较即可。。。遇到不相等的看typed[i] 是否等于name[j - 1]</p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def isLongPressedName(self, name, typed):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type name: str</span><br><span class="line">        :type typed: str</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not name: return not typed</span><br><span class="line">        i &#x3D; j &#x3D; 0</span><br><span class="line">        while i &lt; len(typed) and j &lt; len(name):</span><br><span class="line">            if name[j] &#x3D;&#x3D; typed[i]:</span><br><span class="line">                i +&#x3D; 1</span><br><span class="line">                j +&#x3D; 1</span><br><span class="line">            else:</span><br><span class="line">                if j &gt; 0 and typed[i] &#x3D;&#x3D; name[j - 1]:</span><br><span class="line">                    i +&#x3D; 1</span><br><span class="line">                else:</span><br><span class="line">                    return False</span><br><span class="line">        return j &#x3D;&#x3D; len(name)</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="926-flip-string-to-monotone-increasing">926. Flip String to Monotone Increasing</h3>
+<blockquote>
+<p>A string of '0’s and '1’s is monotone increasing if it consists of some number of '0’s (possibly 0), followed by some number of '1’s (also possibly 0.)</p>
+<p>We are given a string S of '0’s and '1’s, and we may flip any ‘0’ to a ‘1’ or a ‘1’ to a ‘0’.</p>
+<p>Return the minimum number of flips to make S monotone increasing.</p>
+<p>Example 1:</p>
+<p>Input: “00110”<br>
+Output: 1<br>
+Explanation: We flip the last digit to get 00111.</p>
+<p>Example 2:</p>
+<p>Input: “010110”<br>
+Output: 2<br>
+Explanation: We flip to get 011111, or alternatively 000111.</p>
+<p>Example 3:</p>
+<p>Input: “00011000”<br>
+Output: 2<br>
+Explanation: We flip to get 00000000.</p>
+<p>Note:</p>
+<p>1 &lt;= S.length &lt;= 20000<br>
+S only consists of ‘0’ and ‘1’ characters.</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/flip-string-to-monotone-increasing/">leetcode Flip String to Monotone Increasing</a></p>
+<p>题目大意：给定只由0和1组成的字符串，让你替换一些字符，使得字符串是单调上升的，即0000111这样，问最少替换几个字符。</p>
+<p>思路：</p>
+<p>双状态DP，设one[i]以1结尾的上升字符串最少替换次数，zero[i]为以0结尾的单调上升字符串的最少替换次数</p>
+<p>则s[i] == ‘0’：</p>
+<ul>
+<li>one[i] = min(one[i - 1] ,zero [i - 1]) + 1 即要替换当前的为1</li>
+<li>zero[i] = zero[i - 1]</li>
+</ul>
+<p>s[i] == ‘1’:</p>
+<ul>
+<li>one[i] = min(one[i - 1], zero[i - 1]) #不用替换</li>
+<li>zero[i] = zero[i - 1] + 1 # 替换为0</li>
+</ul>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def minFlipsMonoIncr(self, s):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type s: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if not s: return 0</span><br><span class="line">        one, zero &#x3D; [0] * len(s), [0] * len(s)</span><br><span class="line">        if s[0] &#x3D;&#x3D; &#39;0&#39;:</span><br><span class="line">            one[0] &#x3D; 1</span><br><span class="line">        else:</span><br><span class="line">            zero[0] &#x3D; 1</span><br><span class="line"></span><br><span class="line">        for i in range(1, len(s)):</span><br><span class="line">            if s[i] &#x3D;&#x3D; &#39;0&#39;:</span><br><span class="line">                one[i] &#x3D; min(one[i - 1], zero[i - 1]) + 1</span><br><span class="line">                zero[i] &#x3D; zero[i - 1]</span><br><span class="line">            else:  # s[i] is &#39;1&#39;</span><br><span class="line">                one[i] &#x3D; min(one[i - 1], zero[i - 1])</span><br><span class="line">                zero[i] &#x3D; zero[i - 1] + 1</span><br><span class="line">        return min(zero[-1], one[-1])</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="927-three-equal-parts">927. Three Equal Parts</h3>
+<blockquote>
+<p>Given an array A of 0s and 1s, divide the array into 3 non-empty parts such that all of these parts represent the same binary value.</p>
+<p>If it is possible, return any [i, j] with i+1 &lt; j, such that:</p>
+<p>A[0], A[1], …, A[i] is the first part;<br>
+A[i+1], A[i+2], …, A[j-1] is the second part, and<br>
+A[j], A[j+1], …, A[A.length - 1] is the third part.<br>
+All three parts have equal binary value.</p>
+<p>If it is not possible, return [-1, -1].</p>
+<p>Note that the entire part is used when considering what binary value it represents.  For example, [1,1,0] represents 6 in decimal, not 3.  Also, leading zeros are allowed, so [0,1,1] and [1,1] represent the same value.</p>
+<p>Example 1:</p>
+<p>Input: [1,0,1,0,1]<br>
+Output: [0,3]</p>
+<p>Example 2:</p>
+<p>Input: [1,1,0,1,1]<br>
+Output: [-1,-1]</p>
+<p>Note:</p>
+<p>3 &lt;= A.length &lt;= 30000<br>
+A[i] == 0 or A[i] == 1</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/three-equal-parts/">leetcode Three Equal Parts</a></p>
+<p>题目大意：给定只由0和1组成的数组，求两个下标[i, j]使得这个下标将数组划分为3个部分，每个部分的二进制相等。</p>
+<p>思路：这题的难点在于在哪里划分，因为有前导0比如[0,1,1]和[1,1]代表同一个二进制值。一个trick是只需要根据1划分就可以了。因为最后不管怎么划分，1的个数必然相等，也不用管最前面有几个0.</p>
+<p>因此，首先统计1的个数，然后看其是否能被3整除。</p>
+<p>然后设target = total_ones / 3，这样每部分需要的1的个数就确定了。</p>
+<p>接着，设一分点为first[0], first[1]，分别代表下标从first[0]到first[1]的位置中，1的个数都为target</p>
+<p>设二分点为second[0], second[1]，分别代表下标从second[0]到second[1]的位置中，1的个数都为target * 2</p>
+<p>其实也就是说明first[0] + 1…first[1]中都是0，这些0可能是第一部分也可能是第二部分的。</p>
+<p>同理second[0] + 1…second[1]都是0，这些0可能是第二部分也可能是第三部分的。</p>
+<p>这里可以用一个trick是划分后必然有他们的尾部是相等的，可以从最后一部分开始往前推。</p>
+<p>可以计算出最后尾部有多少个0，设为need_zero。那么second[0] + need_zero则为第二部分的结尾，first[0] + need_zero则为第一部分的结尾。</p>
+<p>最后判断三个部分是否相等即可。</p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def is_equal(self, A, s1, e1, s2, e2):</span><br><span class="line">        i &#x3D; e1</span><br><span class="line">        j &#x3D; e2</span><br><span class="line">        while i &gt;&#x3D; s1 and j &gt;&#x3D; s2:</span><br><span class="line">            if A[i] !&#x3D; A[j]:</span><br><span class="line">                return False</span><br><span class="line">            i -&#x3D; 1</span><br><span class="line">            j -&#x3D; 1</span><br><span class="line">        return True</span><br><span class="line"></span><br><span class="line">    def threeEqualParts(self, A):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type A: List[int]</span><br><span class="line">        :rtype: List[int]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if len(A) &lt; 3: return False</span><br><span class="line">        cnt &#x3D; [0] * len(A)</span><br><span class="line">        cnt[0] &#x3D; 1 if A[0] &#x3D;&#x3D; 1 else 0</span><br><span class="line">        for i in range(1, len(A)):</span><br><span class="line">            cnt[i] &#x3D; cnt[i - 1] + (A[i] &#x3D;&#x3D; 1)</span><br><span class="line"></span><br><span class="line">        if cnt[-1] % 3 !&#x3D; 0:</span><br><span class="line">            return [-1, -1]</span><br><span class="line"></span><br><span class="line">        if cnt[-1] &#x3D;&#x3D; 0:</span><br><span class="line">            return [0, len(A) - 1]</span><br><span class="line"></span><br><span class="line">        target &#x3D; cnt[-1] &#x2F;&#x2F; 3</span><br><span class="line">        first &#x3D; []</span><br><span class="line">        second &#x3D; []</span><br><span class="line">        for i in range(len(A)):</span><br><span class="line">            if cnt[i] &#x3D;&#x3D; target:</span><br><span class="line">                if not first:</span><br><span class="line">                    first &#x3D; [i, i]</span><br><span class="line">                else:</span><br><span class="line">                    first[1] &#x3D; i</span><br><span class="line">            elif cnt[i] &#x3D;&#x3D; target &lt;&lt; 1:</span><br><span class="line">                if not second:</span><br><span class="line">                    second &#x3D; [i, i]</span><br><span class="line">                else:</span><br><span class="line">                    second[1] &#x3D; i</span><br><span class="line"></span><br><span class="line">        j &#x3D; len(A) - 1</span><br><span class="line">        while A[j] &#x3D;&#x3D; 0:</span><br><span class="line">            j -&#x3D; 1</span><br><span class="line"></span><br><span class="line">        need_zero &#x3D; len(A) - j - 1</span><br><span class="line">        ans &#x3D; [-1, -1]</span><br><span class="line"></span><br><span class="line">        if second[1] - second[0] + 1 &lt; need_zero or first[1] - first[0] + 1 &lt; need_zero:</span><br><span class="line">            return ans</span><br><span class="line"></span><br><span class="line">        ans[1] &#x3D; second[0] + need_zero</span><br><span class="line">        ans[0] &#x3D; first[0] + need_zero</span><br><span class="line"></span><br><span class="line">        if self.is_equal(A, 0, ans[0], ans[0] + 1, ans[1]) and \</span><br><span class="line">                self.is_equal(A, 0, ans[0], ans[1] + 1, len(A) - 1):</span><br><span class="line">            return [ans[0], ans[1] + 1]</span><br><span class="line">        return [-1, -1]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="928-minimize-malware-spread-ii">928. Minimize Malware Spread II</h3>
+<blockquote>
+<p>(This problem is the same as Minimize Malware Spread, with the differences bolded.)</p>
+<p>In a network of nodes, each node i is directly connected to another node j if and only if graph[i][j] = 1.</p>
+<p>Some nodes initial are initially infected by malware.  Whenever two nodes are directly connected and at least one of those two nodes is infected by malware, both nodes will be infected by malware.  This spread of malware will continue until no more nodes can be infected in this manner.</p>
+<p>Suppose M(initial) is the final number of nodes infected with malware in the entire network, after the spread of malware stops.</p>
+<p>We will remove one node from the initial list, completely removing it and any connections from this node to any other node.  Return the node that if removed, would minimize M(initial).  If multiple nodes could be removed to minimize M(initial), return such a node with the smallest index.</p>
+<p>Example 1:</p>
+<p>Input: graph = [[1,1,0],[1,1,0],[0,0,1]], initial = [0,1]<br>
+Output: 0</p>
+<p>Example 2:</p>
+<p>Input: graph = [[1,1,0],[1,1,1],[0,1,1]], initial = [0,1]<br>
+Output: 1</p>
+<p>Example 3:</p>
+<p>Input: graph = [[1,1,0,0],[1,1,1,0],[0,1,1,1],[0,0,1,1]], initial = [0,1]<br>
+Output: 1</p>
+<p>Note:</p>
+<p>1 &lt; graph.length = graph[0].length &lt;= 300<br>
+0 &lt;= graph[i][j] == graph[j][i] &lt;= 1<br>
+graph[i][i] = 1<br>
+1 &lt;= initial.length &lt; graph.length<br>
+0 &lt;= initial[i] &lt; graph.length</p>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimize-malware-spread-ii/">leetcode Minimize Malware Spread II</a></p>
+<p>题目大意：和924. Minimize Malware Spread类似，给定一张电脑网络连接图，如果g[i][j] = 1，说明电脑i连接到电脑j。初始的时候initial中的电脑感染了病毒，感染病毒的电脑会传播到和它直接相连的电脑中。不断的进行传播，最后设M为最终感染的数目。现在要让你从initial中去掉某个电脑，去掉该电脑后，其边的关系也被去除。问去掉哪个电脑可以使得去掉后感染的电脑数最少。</p>
+<p>思路：和924题类似，那题可以贪心的计算出某个结点最大可达的结点个数，这题就计算去掉之后被感染的，然后找最小的即可。</p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def dfs(self, from_, g, vis, ini_):</span><br><span class="line">        vis[from_] &#x3D; True</span><br><span class="line">        for to in range(len(g[from_])):</span><br><span class="line">            if not g[from_][to] or vis[to] or to &#x3D;&#x3D; ini_:</span><br><span class="line">                continue</span><br><span class="line">            self.dfs(to, g, vis, ini_)</span><br><span class="line"></span><br><span class="line">    def minMalwareSpread(self, graph, initial):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type graph: List[List[int]]</span><br><span class="line">        :type initial: List[int]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        cnt &#x3D; [0] * len(graph)</span><br><span class="line">        initial.sort()</span><br><span class="line">        for ini_ in initial:</span><br><span class="line">            vis &#x3D; [False] * len(graph)</span><br><span class="line">            for i in initial:</span><br><span class="line">                if i !&#x3D; ini_:</span><br><span class="line">                    self.dfs(i, graph, vis, ini_)</span><br><span class="line">            cnt[ini_] &#x3D; sum(vis)</span><br><span class="line"></span><br><span class="line">        min_node &#x3D; initial[0]</span><br><span class="line">        for node in initial:</span><br><span class="line">            if cnt[node] &lt; cnt[min_node]:</span><br><span class="line">                min_node &#x3D; node</span><br><span class="line">        return min_node</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>本文是leetcode contest 107的题解:</p>
+<ul>
+<li><strong>925</strong>. Long Pressed Name</li>
+<li><strong>926</strong>. Flip String to Monotone Increasing</li>
+<li><strong>927</strong>. Three Equal Parts</li>
+<li><strong>928</strong>. Minimize Malware Spread II</li>
+</ul>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-contest-107-solution/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/machine-learning-em-algorithm/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            『我爱机器学习』EM算法
+          
+        </div>
+      </a>
+    
+    
+      <a href="/leetcode-contest-106-solution/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode contest 106 solution</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

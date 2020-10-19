@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    leetcode contest 106 solution |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-leetcode-contest-106-solution"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  leetcode contest 106 solution
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/leetcode-contest-106-solution/" class="article-date">
+  <time datetime="2018-10-14T03:33:04.000Z" itemprop="datePublished">2018-10-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a> / <a class="article-category-link" href="/categories/code/Leetcode/">Leetcode</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">10 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本文是leetcode contest 106的题解，包括：</p>
+<ul>
+<li><strong>921</strong>. Minimum Add to Make Parentheses Valid</li>
+<li><strong>922</strong>. Sort Array By Parity II</li>
+<li><strong>923</strong>. 3Sum With Multiplicity</li>
+<li><strong>924</strong>. Minimize Malware Spread</li>
+</ul>
+<p>好久没打比赛了，一个多小时AK。。</p>
+<a id="more"></a>
+<h3 id="921-minimum-add-to-make-parentheses-valid">921. Minimum Add to Make Parentheses Valid</h3>
+<blockquote>
+<p>Given a string <code>S</code> of <code>'('</code> and <code>')'</code> parentheses, we add the minimum number of parentheses ( <code>'('</code> or <code>')'</code>, and in any positions ) so that the resulting parentheses string is valid.</p>
+<p>Formally, a parentheses string is valid if and only if:</p>
+<ul>
+<li>It is the empty string, or</li>
+<li>It can be written as <code>AB</code> (<code>A</code> concatenated with <code>B</code>), where <code>A</code> and <code>B</code> are valid strings, or</li>
+<li>It can be written as <code>(A)</code>, where <code>A</code> is a valid string.</li>
+</ul>
+<p>Given a parentheses string, return the minimum number of parentheses we must add to make the resulting string valid.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;())&quot;</span><br><span class="line">Output: 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;(((&quot;</span><br><span class="line">Output: 3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;()&quot;</span><br><span class="line">Output:0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input:&quot;()))((&quot;</span><br><span class="line">Output:4</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/">leetcode Minimum Add to Make Parentheses Valid</a></p>
+<p>题目大意：给定一个只包含左右括号的字符串，求最小加入多少个括号能使得该字符串合法？</p>
+<p>思路：用一个变量left统计左括号的个数，遇到右括号则left–，如果left&lt;0，说明左括号个数不够，答案+1。 当遍历完之后，若left不为0，说明没有足够的右括号与左括号匹配，还需要加入left个。复杂度O(n)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def minAddToMakeValid(self, S):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type S: str</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        left &#x3D; ans &#x3D; 0</span><br><span class="line">        for c in S:</span><br><span class="line">            if c &#x3D;&#x3D; &#39;(&#39;:</span><br><span class="line">                left +&#x3D; 1</span><br><span class="line">            else:</span><br><span class="line">                left -&#x3D; 1</span><br><span class="line">                if left &lt; 0:</span><br><span class="line">                    ans +&#x3D; 1</span><br><span class="line">                    left &#x3D; 0</span><br><span class="line">        return ans + left</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="922-sort-array-by-parity-ii">922. Sort Array By Parity II</h3>
+<blockquote>
+<p>Given an array <code>A</code> of non-negative integers, half of the integers in A are odd, and half of the integers are even.</p>
+<p>Sort the array so that whenever <code>A[i]</code> is odd, <code>i</code> is odd; and whenever <code>A[i]</code> is even, <code>i</code> is even.</p>
+<p>You may return any answer array that satisfies this condition.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [4,2,5,7]</span><br><span class="line">Output: [4,5,2,7]</span><br><span class="line">Explanation: [4,7,2,5], [2,5,4,7], [2,7,4,5] would also have been accepted.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/sort-array-by-parity-ii/">leetcode Sort Array By Parity II</a></p>
+<p>题目大意：给定一个非负的数组A，A的长度为偶数。在A中，一半的数字是奇数，另一半数字是偶数，现在要让你排序，使得数组A满足对于所有的i</p>
+<ul>
+<li>如果A[i]是奇数，则i也要是奇数</li>
+<li>如果A[i]是偶数，则i也要是偶数</li>
+</ul>
+<p>思路：用一个even表示下标even应该放置偶数，但该位置目前放置的是奇数。然后用odd遍历奇数位置，遇到奇数的位置上放的是偶数就和even交换。复杂度O(n)</p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def sortArrayByParityII(self, A):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type A: List[int]</span><br><span class="line">        :rtype: List[int]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        even &#x3D; 0</span><br><span class="line">        for odd in range(1, len(A), 2):</span><br><span class="line">            if A[odd] &amp; 1:</span><br><span class="line">                continue</span><br><span class="line">            while even &lt; len(A):</span><br><span class="line">                if A[even] &amp; 1:</span><br><span class="line">                    break</span><br><span class="line">                even +&#x3D; 2</span><br><span class="line">            if even &#x3D;&#x3D; len(A): return A</span><br><span class="line">            A[even], A[odd] &#x3D; A[odd], A[even]</span><br><span class="line">        return A</span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="923-3sum-with-multiplicity">923. 3Sum With Multiplicity</h3>
+<blockquote>
+<p>Given an integer array <code>A</code>, and an integer <code>target</code>, return the number of tuples <code>i, j, k</code>  such that <code>i &lt; j &lt; k</code> and <code>A[i] + A[j] + A[k] == target</code>.</p>
+<p><strong>As the answer can be very large, return it modulo <code>10^9 + 7</code></strong>.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Input: A &#x3D; [1,1,2,2,3,3,4,4,5,5], target &#x3D; 8</span><br><span class="line">Output:20</span><br><span class="line">Explanation: </span><br><span class="line">Enumerating by the values (A[i], A[j], A[k]):</span><br><span class="line">(1, 2, 5) occurs 8 times;</span><br><span class="line">(1, 3, 4) occurs 8 times;</span><br><span class="line">(2, 2, 4) occurs 2 times;</span><br><span class="line">(2, 3, 3) occurs 2 times.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: A &#x3D; , target &#x3D; 5</span><br><span class="line">Output: 12</span><br><span class="line">Explanation: </span><br><span class="line">A[i] &#x3D; 1, A[j] &#x3D; A[k] &#x3D; 2 occurs 12 times:</span><br><span class="line">We choose one 1 from [1,1] in 2 ways,</span><br><span class="line">and two 2s from [2,2,2,2] in 6 ways.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ol>
+<li><code>3 &lt;= A.length &lt;= 3000</code></li>
+<li><code>0 &lt;= A[i] &lt;= 100</code></li>
+<li><code>0 &lt;= target &lt;= 300</code></li>
+</ol>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/3sum-with-multiplicity/">leetcode 3Sum With Multiplicity</a></p>
+<p>题目大意：给定数组A和一个数target，求所有的满足A[i] + A[j] + A[k] == target且i &lt; j &lt; k的i, j, k的个数。</p>
+<p>思路：和3sum问题类似，我们可以枚举第一个下标k，然后用双指针的方法查找i和j。</p>
+<p>但是有个问题就是当A[i] == A[j]的时候，下一次是应该i++？还是j–? 这里我是将相同数去掉，这种情况只会在i==j的时候出现，只需要判断cnt[i] &gt;= 2 然后计算组合数C(cnt[i], 2)。</p>
+<p>还有一个细节是i应该从k的位置开始，比如第一个example中的(2, 2, 4)。计算的时候要判断一下（比如还有i= j = k，相当于组合数C(cnt[i], 3)）</p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def combination_cal(self, n, k&#x3D;2):</span><br><span class="line">        t &#x3D; n</span><br><span class="line">        for i in range(1, k):</span><br><span class="line">            t *&#x3D; (n - i)</span><br><span class="line">        for x in range(2, k + 1):</span><br><span class="line">            t &#x2F;&#x2F;&#x3D; x</span><br><span class="line">        return t</span><br><span class="line"></span><br><span class="line">    def threeSumMulti(self, A, target):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type A: List[int]</span><br><span class="line">        :type target: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        temp &#x3D; sorted(collections.Counter(A).items())</span><br><span class="line">        A &#x3D; [i[0] for i in temp]</span><br><span class="line">        cnt &#x3D; [i[1] for i in temp]</span><br><span class="line"></span><br><span class="line">        ans &#x3D; 0</span><br><span class="line">        for k in range(len(A)):</span><br><span class="line">            t &#x3D; target - A[k]</span><br><span class="line">            i &#x3D; k</span><br><span class="line">            j &#x3D; len(A) - 1</span><br><span class="line">            while i &lt;&#x3D; j:</span><br><span class="line">                if A[i] + A[j] &lt; t:</span><br><span class="line">                    i +&#x3D; 1</span><br><span class="line">                elif A[i] + A[j] &gt; t:</span><br><span class="line">                    j -&#x3D; 1</span><br><span class="line">                else:</span><br><span class="line">                    if i &#x3D;&#x3D; j:</span><br><span class="line">                        if cnt[i] &gt;&#x3D; 2:</span><br><span class="line">                            if i &#x3D;&#x3D; k:</span><br><span class="line">                                ans +&#x3D; int(self.combination_cal(cnt[i], 3))</span><br><span class="line">                            else:</span><br><span class="line">                                ans +&#x3D; cnt[k] * int(self.combination_cal(cnt[i], 2))</span><br><span class="line">                    else:</span><br><span class="line">                        if i &#x3D;&#x3D; k:</span><br><span class="line">                            ans +&#x3D; int(self.combination_cal(cnt[i], 2)) * cnt[j]</span><br><span class="line">                        else:</span><br><span class="line">                            ans +&#x3D; cnt[k] * cnt[i] * cnt[j]</span><br><span class="line">                    i +&#x3D; 1</span><br><span class="line">                    j -&#x3D; 1</span><br><span class="line">        return ans % (10 ** 9 + 7)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<hr>
+<h3 id="924-minimize-malware-spread">924. Minimize Malware Spread</h3>
+<blockquote>
+<p>In a network of nodes, each node i is directly connected to another node j if and only if graph[i][j] = 1.</p>
+<p>Some nodes initial are initially infected by malware.  Whenever two nodes are directly connected and at least one of those two nodes is infected by malware, both nodes will be infected by malware.  This spread of malware will continue until no more nodes can be infected in this manner.</p>
+<p>Suppose M(initial) is the final number of nodes infected with malware in the entire network, after the spread of malware stops.</p>
+<p>We will remove one node from the initial list.  Return the node that if removed, would minimize M(initial).  If multiple nodes could be removed to minimize M(initial), return such a node with the smallest index.</p>
+<p>Note that if a node was removed from the initial list of infected nodes, it may still be infected later as a result of the malware spread.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: graph &#x3D;[[1,1,0],[1,1,0],[0,0,1]], initial &#x3D; [0,1]</span><br><span class="line">Output: 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: graph &#x3D; [[1,0,0],[0,1,0],[0,0,1]], initial &#x3D; [0,2]</span><br><span class="line">Output: 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Example 3:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: graph &#x3D; [[1,1,1],[1,1,1],[1,1,1]], initial &#x3D;[1,2]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>1 &lt; graph.length = graph[0].length &lt;= 300</li>
+<li>0 &lt;= graph[i][j] == graph[j][i] &lt;= 1</li>
+<li>graph[i][i] = 1</li>
+<li>1 &lt;= initial.length &lt; graph.length</li>
+<li>0 &lt;= initial[i] &lt; graph.length</li>
+</ul>
+</blockquote>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimize-malware-spread/">leetcode Minimize Malware Spread</a></p>
+<p>题目大意：给定一张电脑网络连接图，如果g[i][j] = 1，说明电脑i连接到电脑j。初始的时候initial中的电脑感染了病毒，感染病毒的电脑会传播到和它直接相连的电脑中。不断的进行传播，最后设M为最终感染的数目。现在要让你从initial中去掉某个电脑，使得去掉后感染的电脑数最少。</p>
+<p>思路：</p>
+<p>直接dfs对Initial数组中每一个求可到的结点数，去掉最高的就行了。</p>
+<p><strong>Python</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def dfs(self, from_, g, vis, ini_):</span><br><span class="line">        vis[from_] &#x3D; True</span><br><span class="line">        for to in range(len(g[from_])):</span><br><span class="line">            if not g[from_][to] or vis[to]:</span><br><span class="line">                continue</span><br><span class="line">            self.dfs(to, g, vis, ini_)</span><br><span class="line"></span><br><span class="line">    def minMalwareSpread(self, graph, initial):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type graph: List[List[int]]</span><br><span class="line">        :type initial: List[int]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        cnt &#x3D; [0] * len(graph)</span><br><span class="line">        initial.sort()</span><br><span class="line">        for ini_ in initial:</span><br><span class="line">            vis &#x3D; [False] * len(graph)</span><br><span class="line">            self.dfs(ini_, graph, vis, ini_)</span><br><span class="line">            cnt[ini_] &#x3D; sum(vis)</span><br><span class="line">        max_node &#x3D; initial[0]</span><br><span class="line">        for node in initial:</span><br><span class="line">            if cnt[node] &gt; cnt[max_node]:</span><br><span class="line">                max_node &#x3D; node</span><br><span class="line">        return max_node</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>上面的方法可以进行优化：假如a能到b，由于是无向图，那么b也能到达a，那么只需要先对initial数组排序，然后对没有访问的结点dfs就行了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def dfs(self, cur, g, vis, source, cnt):</span><br><span class="line">        vis[cur] &#x3D; True</span><br><span class="line">        cnt[source] +&#x3D; 1</span><br><span class="line">        for to in range(len(g[cur])):</span><br><span class="line">            if not g[cur][to] or vis[to]:</span><br><span class="line">                continue</span><br><span class="line">            self.dfs(to, g, vis, source, cnt)</span><br><span class="line"></span><br><span class="line">    def minMalwareSpread(self, graph, initial):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type graph: List[List[int]]</span><br><span class="line">        :type initial: List[int]</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        cnt &#x3D; [0] * len(graph)</span><br><span class="line">        vis &#x3D; [False] * len(graph)</span><br><span class="line">        initial.sort()</span><br><span class="line">        for from_ in initial:</span><br><span class="line">            self.dfs(from_, graph, vis, from_, cnt)</span><br><span class="line">        max_node &#x3D; initial[0]</span><br><span class="line">        for node in initial:</span><br><span class="line">            if cnt[node] &gt; cnt[max_node]:</span><br><span class="line">                max_node &#x3D; node</span><br><span class="line">        return max_node</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>本文是leetcode如下的题解</p>
+<ul>
+<li><strong>921</strong>. Minimum Add to Make Parentheses Valid</li>
+<li><strong>922</strong>. Sort Array By Parity II</li>
+<li><strong>923</strong>. 3Sum With Multiplicity</li>
+<li><strong>924</strong>. Minimize Malware Spread</li>
+</ul>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/leetcode-contest-106-solution/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/leetcode-contest-107-solution/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            leetcode contest 107 solution
+          
+        </div>
+      </a>
+    
+    
+      <a href="/machine-learning-maximum-entropy-model/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">『我爱机器学习』最大熵原理与最大熵模型</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

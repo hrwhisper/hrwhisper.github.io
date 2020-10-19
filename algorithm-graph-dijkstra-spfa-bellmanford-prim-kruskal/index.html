@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    算法复习 - 图论 最短路和最小生成树 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-algorithm-graph-dijkstra-spfa-bellmanford-prim-kruskal"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  算法复习 - 图论 最短路和最小生成树
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/algorithm-graph-dijkstra-spfa-bellmanford-prim-kruskal/" class="article-date">
+  <time datetime="2015-07-04T05:19:27.000Z" itemprop="datePublished">2015-07-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/study/">study</a> / <a class="article-category-link" href="/categories/study/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">17 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本文是博主对图论算法的复习做出的整理，包括如下内容</p>
+<ul>
+<li>
+<p>最短路径</p>
+<ul>
+<li>dijkstra</li>
+<li>SPFA</li>
+<li>floyd</li>
+<li>用SPFA解决差分约束</li>
+</ul>
+</li>
+<li>
+<p>最小生成树MST</p>
+<ul>
+<li>prim</li>
+<li>kruskal</li>
+<li>次小生成树</li>
+</ul>
+</li>
+<li>
+<p>二分图</p>
+<ul>
+<li>最大匹配和最小覆盖</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="最短路问题">最短路问题</h2>
+<p>无权最短路可以BFS解决，这里只讨论加权的。</p>
+<h3 id="一-dijkstra">一、dijkstra</h3>
+<p>Dijkstra单源最短路算法，即计算从起点出发到每个点的最短路。Dijkstra常常作为其他算法的预处理。<br>
+使用邻接矩阵的时间复杂度为O(n^2)<br>
+用邻接表+优先队列（堆）的时间复杂度为O((m+n)logn)近似为O(mlogn)</p>
+<h4 id="1-算法的思想和过程">1. 算法的思想和过程</h4>
+<p>每次选择一个未访问过的到已经访问过（标记为Known）的所有点的集合的最短边，并用这个点进行更新，过程如下：</p>
+<p><img src="../images/algorithm-graph-dijkstra-spfa-bellmanford-prim-kruskal/algorithm-dijkstra.png" alt="algorithm-dijkstra"></p>
+<p>Dv为最短路，而Pv为前面的顶点。<br>
+<strong>1</strong>.初始</p>
+<p>V</p>
+<p>Known</p>
+<p>Dv</p>
+<p>Pv</p>
+<p>V1</p>
+<p>F</p>
+<p>0</p>
+<p>0</p>
+<p>V2</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V3</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V4</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V5</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V6</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V7</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p><strong>2</strong>.在v1被标记为已知后的表</p>
+<p>V</p>
+<p>Known</p>
+<p>Dv</p>
+<p>Pv</p>
+<p>V1</p>
+<p>T</p>
+<p>0</p>
+<p>0</p>
+<p>V2</p>
+<p>F</p>
+<p>2</p>
+<p>V1</p>
+<p>V3</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V4</p>
+<p>F</p>
+<p>1</p>
+<p>V1</p>
+<p>V5</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V6</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p>V7</p>
+<p>F</p>
+<p>∞</p>
+<p>0</p>
+<p><strong>3</strong>.下一步选取v4并且标记为known，顶点v3,v5,v6,v7是邻接的顶点，而他们实际上都需要调整。如表所示:</p>
+<p>V</p>
+<p>Known</p>
+<p>Dv</p>
+<p>Pv</p>
+<p>V1</p>
+<p>T</p>
+<p>0</p>
+<p>0</p>
+<p>V2</p>
+<p>F</p>
+<p>2</p>
+<p>V1</p>
+<p>V3</p>
+<p>F</p>
+<p>3</p>
+<p>V4</p>
+<p>V4</p>
+<p>T</p>
+<p>1</p>
+<p>V1</p>
+<p>V5</p>
+<p>F</p>
+<p>3</p>
+<p>V4</p>
+<p>V6</p>
+<p>F</p>
+<p>9</p>
+<p>V4</p>
+<p>V7</p>
+<p>F</p>
+<p>5</p>
+<p>V4</p>
+<p><strong>4</strong>.接下来选取v2,v4是邻接点，但已经是known的，不需要调整，v5是邻接的点但不做调整，因为经过v2的值为2+10=12而长为3的路径已经是已知的。</p>
+<p>V</p>
+<p>Known</p>
+<p>Dv</p>
+<p>Pv</p>
+<p>V1</p>
+<p>T</p>
+<p>0</p>
+<p>0</p>
+<p>V2</p>
+<p>T</p>
+<p>2</p>
+<p>V1</p>
+<p>V3</p>
+<p>F</p>
+<p>3</p>
+<p>V4</p>
+<p>V4</p>
+<p>T</p>
+<p>1</p>
+<p>V1</p>
+<p>V5</p>
+<p>F</p>
+<p>3</p>
+<p>V4</p>
+<p>V6</p>
+<p>F</p>
+<p>9</p>
+<p>V4</p>
+<p>V7</p>
+<p>F</p>
+<p>5</p>
+<p>V4</p>
+<p><strong>5</strong>.接下来选取v5，值为3，v73+6&gt;5不需调整，然后选取v3，对v6的距离下调到3+5=8</p>
+<p>V</p>
+<p>Known</p>
+<p>Dv</p>
+<p>Pv</p>
+<p>V1</p>
+<p>T</p>
+<p>0</p>
+<p>0</p>
+<p>V2</p>
+<p>T</p>
+<p>2</p>
+<p>V1</p>
+<p>V3</p>
+<p>T</p>
+<p>3</p>
+<p>V4</p>
+<p>V4</p>
+<p>T</p>
+<p>1</p>
+<p>V1</p>
+<p>V5</p>
+<p>T</p>
+<p>3</p>
+<p>V4</p>
+<p>V6</p>
+<p>F</p>
+<p>8</p>
+<p>V3</p>
+<p>V7</p>
+<p>F</p>
+<p>5</p>
+<p>V4</p>
+<p><strong>6</strong>.再选下一个顶点是v7，v6变为5+1=6</p>
+<p>V</p>
+<p>Known</p>
+<p>Dv</p>
+<p>Pv</p>
+<p>V1</p>
+<p>T</p>
+<p>0</p>
+<p>0</p>
+<p>V2</p>
+<p>T</p>
+<p>2</p>
+<p>V1</p>
+<p>V3</p>
+<p>T</p>
+<p>3</p>
+<p>V4</p>
+<p>V4</p>
+<p>T</p>
+<p>1</p>
+<p>V1</p>
+<p>V5</p>
+<p>T</p>
+<p>3</p>
+<p>V4</p>
+<p>V6</p>
+<p>F</p>
+<p>6</p>
+<p>V7</p>
+<p>V7</p>
+<p>T</p>
+<p>5</p>
+<p>V4</p>
+<p><strong>7</strong>.最后选取v6</p>
+<p>V</p>
+<p>Known</p>
+<p>Dv</p>
+<p>Pv</p>
+<p>V1</p>
+<p>T</p>
+<p>0</p>
+<p>0</p>
+<p>V2</p>
+<p>T</p>
+<p>2</p>
+<p>V1</p>
+<p>V3</p>
+<p>T</p>
+<p>3</p>
+<p>V4</p>
+<p>V4</p>
+<p>T</p>
+<p>1</p>
+<p>V1</p>
+<p>V5</p>
+<p>T</p>
+<p>3</p>
+<p>V4</p>
+<p>V6</p>
+<p>T</p>
+<p>6</p>
+<p>V7</p>
+<p>V7</p>
+<p>T</p>
+<p>5</p>
+<p>V4</p>
+<h4 id="3-局限性">3. 局限性</h4>
+<p>Dijkstra没办法解决负边权的最短路径，如图</p>
+<p><img src="../images/algorithm-graph-dijkstra-spfa-bellmanford-prim-kruskal/algorithm-dijkstra-disadvantage.png" alt="algorithm-dijkstra-disadvantage"></p>
+<p>运行完该算法后，从顶点1到顶点3的最短路径为1,3，其长度为1，而实际上最短路径为1,2,3，其长度为0.（因为过程中先选择v3，v3被标记为已知，今后不再更新）</p>
+<h4 id="4-算法实现">4.算法实现</h4>
+<p>1．普通的邻接表<br>
+用vis作为上面标记的known，dis记录最短距离（记得初始化为一个很大的数）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">void dijkstra(int s)</span><br><span class="line">&#123;</span><br><span class="line">    memset(vis,0,sizeof(vis));       </span><br><span class="line">    int cur&#x3D;s;                   </span><br><span class="line">    dis[cur]&#x3D;0;</span><br><span class="line">    vis[cur]&#x3D;1;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        for(int j&#x3D;0;j&lt;n;j++)                     </span><br><span class="line">            if(!vis[j] &amp;&amp; dis[cur] + map[cur][j] &lt; dis[j])   &#x2F;&#x2F;未被标记且比已知的短，可更新</span><br><span class="line">                dis[j]&#x3D;dis[cur] + map[cur][j] ;</span><br><span class="line"></span><br><span class="line">        int mini&#x3D;INF;</span><br><span class="line">        for(int j&#x3D;0;j&lt;n;j++)                  </span><br><span class="line">            if(!vis[j] &amp;&amp; dis[j] &lt; mini)    &#x2F;&#x2F;选择下一次到已知顶点最短的点。</span><br><span class="line">                mini&#x3D;dis[cur&#x3D;j];</span><br><span class="line">        vis[cur]&#x3D;true;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<p>2.邻接表+优先队列。<br>
+要重载个比较函数.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">struct point</span><br><span class="line">&#123;</span><br><span class="line">    int val,id;</span><br><span class="line">    point(int id,int val):id(id),val(val)&#123;&#125;</span><br><span class="line">    bool operator &lt;(const point &amp;x)const&#123;</span><br><span class="line">        return val&gt;x.val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">void dijkstra(int s)</span><br><span class="line">&#123;</span><br><span class="line">    memset(vis,0,sizeof(vis));</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)</span><br><span class="line">        dis[i]&#x3D;INF; </span><br><span class="line"></span><br><span class="line">    priority_queue&lt;point&gt; q;</span><br><span class="line">    q.push(point(s,0));</span><br><span class="line">    dis[s]&#x3D;0;</span><br><span class="line">    while(!q.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        int cur&#x3D;q.top().id;</span><br><span class="line">        q.pop();</span><br><span class="line">        if(vis[cur]) continue;</span><br><span class="line">        vis[cur]&#x3D;true;</span><br><span class="line">        for(int i&#x3D;head[cur];i!&#x3D;-1;i&#x3D;e[i].next)</span><br><span class="line">        &#123;</span><br><span class="line">            int id&#x3D;e[i].to;</span><br><span class="line">            if(!vis[id] &amp;&amp; dis[cur]+e[i].val &lt; dis[id])</span><br><span class="line">            &#123;</span><br><span class="line">                dis[id]&#x3D;dis[cur]+e[i].val;</span><br><span class="line">                q.push(point(id,dis[id]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="二-spfa-bellman-ford">二、SPFA（bellman-ford）</h3>
+<h4 id="1-原理过程：">1. 原理过程：</h4>
+<p>bellman-ford算法的基本思想是，对图中除了源顶点s外的任意顶点u，依次构造从s到u的最短路径长度序列dist[u],dis2[u]……dis(n-1)[u]，其中n是图G的顶点数，dis1[u]是从s到u的只经过1条边的最短路径长度，dis2[u]是从s到u的最多经过G中2条边的最短路径长度……当图G中没有从源可达的负权图时，从s到u的最短路径上最多有n-1条边。</p>
+<p>因此，dist(n-1)[u]就是从s到u的最短路径长度，显然，若从源s到u的边长为e(s,u)，则</p>
+<ul>
+<li>dis1[u]=e(s,u)。</li>
+<li>k&gt;1, dis(k)[u]满足递归式：dis(k)[u]=min{dis(k-1)[v]+e(v,u)}</li>
+</ul>
+<p>bellman-ford最短路径就是按照这个递归式计算最短路的。</p>
+<p>SPFA是bellman-ford算法的队列实现版本（貌似也改进了点）</p>
+<p>SPFA的实现如下：用数组dis记录更新后的状态，cnt记录更新的次数，队列q记录更新过的顶点，算法依次从q中取出顶点v,按照dis(k)[u]=min{dis(k-1)[v]+e(v,u)}的递归式更新。在计算过程中，一旦发现顶点K有cnt[k]&gt;n，说明有一个从顶点K出发的负权圈，此时没有最短路，应终止算法。否则，队列为空的时候，算法得到G的各顶点的最短路径长度。</p>
+<h4 id="2-实现：">2.实现：</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">void spfa(int s)</span><br><span class="line">&#123;</span><br><span class="line">    memset(vis,0,sizeof(vis));</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)</span><br><span class="line">        dis[i]&#x3D;INF; </span><br><span class="line"></span><br><span class="line">    queue&lt;int&gt; q;</span><br><span class="line">    q.push(s);</span><br><span class="line">    vis[s]&#x3D;true;</span><br><span class="line">    dis[s]&#x3D;0;</span><br><span class="line">    while(!q.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        int cur&#x3D;q.front();</span><br><span class="line">        q.pop();</span><br><span class="line">        vis[cur]&#x3D;false;</span><br><span class="line">        for(int i&#x3D;head[cur];i!&#x3D;-1;i&#x3D;e[i].next)</span><br><span class="line">        &#123;</span><br><span class="line">            int id&#x3D;e[i].to;</span><br><span class="line">            if(dis[id] &gt; dis[cur]+e[i].val)</span><br><span class="line">            &#123;</span><br><span class="line">                dis[id] &#x3D; dis[cur] + e[i].val;</span><br><span class="line">                if(!vis[id])</span><br><span class="line">                &#123;</span><br><span class="line">                    vis[id]&#x3D;true;</span><br><span class="line">                    q.push(id);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="3-优化">3. 优化</h3>
+<p>SLF（Small Label First）是指在入队时如果当前点的dist值小于队首， 则插入到队首， 否则插入到队尾。<br>
+LLL不太常用，我也没研究。</p>
+<h3 id="三-floyd">三、floyd</h3>
+<p>全称Floyd-Warshall。记得离散数学里面有Warshall算法，用来计算传递闭包。而数据结构每次都简称floyd，当时就觉得两个都差不多，有神马关系，后来google一下发现是同一个算法。。。。改个名字出来走江湖啊！！！！！<br>
+这个算法用于求所有点对的最短距离。比调用n次dijkstra的优点在于代码简单。<br>
+时间复杂度为O(n^3)</p>
+<h4 id="1-原理过程：">1. 原理过程：</h4>
+<p>这是一个dp（动态规划的过程）<br>
+dis[i][j]=min(dis[i][j],dis[i][k]+dis[k][j]);<br>
+即从顶点i到j且经过顶点k的最短路径长度。</p>
+<h4 id="2-实现：">2.实现：</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void floyd()  </span><br><span class="line">&#123;  </span><br><span class="line">    for(int k&#x3D;0;k&lt;n;k++)  </span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)  </span><br><span class="line">            for(int j&#x3D;0;j&lt;n;j++)  </span><br><span class="line">                dis[i][j]&#x3D;min(dis[i][j],dis[i][k]+dis[k][j]);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="四-用spfa解决差分约束问题">四、用SPFA解决差分约束问题</h3>
+<p>差分约束系统就是给出一些形如x-y&lt;=b不等式的约束，问你是否有满足问题的解，或者求最小，最大解。<br>
+这个问题的神奇之处是可以转化为图论的最短路问题。</p>
+<h4 id="1-原理">1. 原理</h4>
+<p>对于图论的最短路径，有：对于d(v) &lt;= d(u) + w(u, v) ，而差分约束系统的解法利用到了单源最短路径问题中的三角形不等式。</p>
+<p>移项得：d(v) - d(u) &lt;= w(u, v)，是不是和上面的x-y&lt;=b的一样？</p>
+<p>是的，这就是转化为最短路径算法的原理。</p>
+<h4 id="2-建图">2. 建图</h4>
+<p>差分约束最难的地方在于建图。</p>
+<h5 id="1-求最小的解"><strong>(1) 求最小的解</strong></h5>
+<blockquote>
+<p>有一个序列，题目用n个整数组合 [ai，bi，ci]来描述它，[ai，bi，ci]表示在该序列中处于[ai，bi]这个区间的整数至少有ci个。如果存在这样的序列，请求出满足题目要求的最短的序列长度是多少。</p>
+</blockquote>
+<p>我们可以设s[i]为从[1,i]闭区间内的整数个数。</p>
+<p>那么显然对于组合[a，b，c] 我们有 s[b] - s[a-1]  &gt;= c (a-1是因为我们需要算上a）</p>
+<p>还有：0&lt;=  s[b]-s[b-1]  &lt;=1</p>
+<p>变形得</p>
+<p>S[b]-S[b-1] &gt;=0<br>
+S[b-1]-S[b] &gt;=-1</p>
+<p>接着，**对于求最小值的来说，我们用最长路来求解。**为什么是最长路？一开始把距离d设为无穷小，之后最长路的更新公式为：if(d[v] &lt; d[u]+w(u,v)) d[v]=d[u]+w(u,v); 可以看到d[v]不断的增大，即当满足条件的时候为最小的解。</p>
+<p>所以我们在建图的时候，需要满足最长路的三角不等式： d(v) &gt;= d(u) + w(u, v) =&gt;d(v) - d(u) &gt;=w(u,v) 的形式=&gt;从u到v连接一条权重为w(u,v)的边。</p>
+<p>故本题中三个不等式都是如下的形式：</p>
+<ul>
+<li>s[b] - s[a-1] &gt;= c</li>
+<li>S[b]-S[b-1] &gt;=0</li>
+<li>S[b-1]-S[b] &gt;=-1</li>
+</ul>
+<p>题解见我CSDN：<a target="_blank" rel="noopener" href="http://blog.csdn.net/murmured/article/details/18793199">http://blog.csdn.net/murmured/article/details/18793199</a></p>
+<h5 id="2-求最大的解">(2) 求最大的解</h5>
+<blockquote>
+<p>一些母牛按升序排成一条直线。有两种要求，A和B距离(A&lt;B)不得超过X，还有一种是C和D(C&lt;D)距离不得少于Y，问可能的最大距离。如果没有输出-1，如果可以随便排输出-2，否则输出最大的距离。</p>
+</blockquote>
+<p>题目按升序排，所以有：</p>
+<p>s[i] - s[i-1] &gt;=0</p>
+<p>由题目的约束条件得到：</p>
+<ul>
+<li>B - A &lt;= X</li>
+<li>D - C &gt;= Y</li>
+</ul>
+<p><strong>因为题目求的是最大距离，故用最短路来求解</strong></p>
+<p>最短路三角不等式为 d(v) &lt;= d(u) + w(u,v) =&gt; d(v) - d(u) &lt;= w(u,v) =&gt;从u到v连接一条权重为w(u,v)的边</p>
+<p>所以我们都转化为小于等于的符号，所以有：</p>
+<ul>
+<li>s[i-1] - s[i] &lt;=0</li>
+<li>B - A &lt;= X</li>
+<li>C - D &lt;= -Y</li>
+</ul>
+<p>建完图后SPFA即可。（有负环说明无解输出-1 ， 1与n不连通说明可以随意摆放，没有约束嘛。输出-2，否则输出dis [n]）</p>
+<p>题解见我CSDN：<a target="_blank" rel="noopener" href="http://blog.csdn.net/murmured/article/details/18819955">http://blog.csdn.net/murmured/article/details/18819955</a></p>
+<h4 id="三-注意点">（三）注意点</h4>
+<h5 id="1-不等式取-还是">1.不等式取&gt;=还是&lt;=</h5>
+<p>当你在纠结用小于号大于号的时候，看看题目求的是最大还是最小，如果只是判断有木有解，那么大于号小于都可以，只不过要注意全部等式要统一。</p>
+<p>当求解最大解，使用最短路径求解， 由图最短路径的三角不等式：</p>
+<p>d(v) &lt;= d(u) + w(u,v) =&gt; d(v) - d(u) &lt;= w(u,v) =&gt;从u到v连接一条权重为w(u,v)的边</p>
+<p><strong>求最大的解用最长路，为d(v) - d(u) &lt;= w(u,v) 的形式</strong></p>
+<p><strong>求最小的解用最短路，为d(v) - d(u) &gt;= w(u,v) 的形式</strong></p>
+<h5 id="2-图不连通">2.图不连通</h5>
+<p>原图可能不是连通图，故需要加一个超级源点S，从S到任意的顶点边权为0，然后从该点出发。为什么？添加从虚点S到每个顶点的权为0的边.这是为了保证构造出来的图是连通的．由于虚点本身并不引入负圈,所以设置虚点以后最短路仍然存在,并且每个约束仍然满足.</p>
+<p>或者差分约束不用什么附加顶点, 附加顶点的唯一用处就是保证图的连通性, 不让你有负环判不到的情况, 解决这种问题的最佳途径就是初始把所有顶点都加入队列, 并且将所有dis</p>
+<p>置0, 这就相当于加了一个不存在的附加顶点, 它与所有的顶点的直连长度都是0.</p>
+<p>当然推荐第二种，效率也高。</p>
+<h2 id="最小生成树-mst">最小生成树 MST</h2>
+<h3 id="一-prim">一、prim</h3>
+<p>prim和dijkstra其实差不多，都是选取待选集合中到已选集合中距离最小的点。就是更新的方程不一样。<br>
+prim的dis指的是连接到已知顶点最小边的权值（也就是之后生成MST的边）<br>
+所以dis[j] = min(dis[j] , map[cur][j]);<br>
+代码实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">int prim()</span><br><span class="line">&#123;</span><br><span class="line">int dis[MAXN];</span><br><span class="line">bool vis[MAXN]&#x3D;&#123;0&#125;;</span><br><span class="line">for(int i&#x3D;0;i&lt;n;i++) dis[i] &#x3D; INF;</span><br><span class="line">int cur &#x3D; 0;</span><br><span class="line">dis[cur]&#x3D;0;vis[cur]&#x3D;true;</span><br><span class="line">for(int i&#x3D;0;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">     for(int j&#x3D;0;j&lt;n;j++)</span><br><span class="line">        if(!vis[j] &amp;&amp; dis[j] &gt; map[cur][j])</span><br><span class="line">             dis[j] &#x3D; map[cur][j];</span><br><span class="line"></span><br><span class="line">        int mini &#x3D; INF;</span><br><span class="line">        for(int j&#x3D;0;j&lt;n;j++)</span><br><span class="line">            if(!vis[j] &amp;&amp; dis[j] &lt; mini)</span><br><span class="line">                mini &#x3D; dis[cur &#x3D; j];</span><br><span class="line">        vis[cur] &#x3D; true;</span><br><span class="line">    &#125;</span><br><span class="line">    int ans&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++) ans+&#x3D;dis[i];</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="二-kruskal">二、kruskal</h3>
+<p>kruskal的原理是将顶点分为若干个集合，每次选取不在集合内部的最小的边，不断的将各个集合连接起来，最后构成MST。<br>
+简单的说就是先按边排个序，然后遍历每条边，判断边的两个顶点是否在同一集合中（用并查集）<br>
+代码实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">struct Edge&#123;</span><br><span class="line">int from,to,val;</span><br><span class="line">bool operator &lt; (const Edge &amp;x)const&#123;</span><br><span class="line">return val &lt; x.val;</span><br><span class="line">&#125;</span><br><span class="line">&#125;e[MAXN * MAXN];</span><br><span class="line"></span><br><span class="line">int fa[MAXN],len&#x3D;0;</span><br><span class="line">int find(int cur)&#123;</span><br><span class="line">    return cur&#x3D;&#x3D;fa[cur]?cur:fa[cur]&#x3D;find(fa[cur]);  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int kruskal()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++) fa[i] &#x3D; i;</span><br><span class="line">    sort(e,e+len);</span><br><span class="line">    int ans&#x3D;0;</span><br><span class="line">    for(int i &#x3D; 0;i &lt; len;i++)&#123;</span><br><span class="line">        int rootx&#x3D;find(e[i].from);</span><br><span class="line">        int rooty&#x3D;find(e[i].to);</span><br><span class="line">        if(rootx&#x3D;&#x3D;rooty) continue;</span><br><span class="line">        fa[rootx]&#x3D;rooty;</span><br><span class="line">        ans +&#x3D; e[i].val;    </span><br><span class="line">    &#125;</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="三-次小生成树">三、次小生成树</h3>
+<p></p>
+<h2 id="二分图">二分图</h2>
+<h3 id="一-基本概念">一、基本概念</h3>
+<p>**二分图：**其所有顶点可以分成两个集合X和Y，在同一集合中的点都不相连，所有的边关联在两个顶点中，恰好一个属于集合X，另一个属于集合Y。</p>
+<p>**二分图匹配：**在图论中，一个「匹配」（matching）是一个边的集合，其中任意两条边都没有公共顶点。</p>
+<p><strong>最大匹配</strong>：一个图所有匹配中，所含匹配边数最多的匹配，称为这个图的最大匹配。</p>
+<p><strong>完美匹配</strong>：如果一个图的某个匹配中，所有的顶点都是匹配点，那么它就是一个完美匹配。完美匹配一定是最大匹配但并非每个图都存在完美匹配。</p>
+<p>**最小顶点覆盖：**在顶点集合中，选取一部分顶点，这些顶点能够把所有的边都覆盖了。在所有的顶点覆盖集中，顶点数最小的那个叫最小顶点集合。</p>
+<p>**路径覆盖：**在图中找一些路径，这些路径覆盖图中所有的顶点，每个顶点都只与一条路径相关联。</p>
+<p>**独立集：**在所有的顶点中选取一些顶点，这些顶点两两之间没有连线，这些点就叫独立集</p>
+<h3 id="二-几个关系">二、几个关系</h3>
+<p>最大匹配 = 最小顶点覆盖</p>
+<p>最大独立集  = 最小路径覆盖 =总节点数 – 最小顶点覆盖（最大匹配）</p>
+<p>最小路径覆盖 = 总节点数 – 最小顶点覆盖（最大匹配） 的一种解释：如果无匹配，需要n条路径才能覆盖所有点，两个点匹配意味着将可以把它们用一条路径覆盖，路径数就可以减1</p>
+<h3 id="三-求解">三、求解</h3>
+<p>求二分图最大匹配可以用最大流(Maximal Flow)或者匈牙利算法(Hungarian Algorithm)</p>
+<h4 id="1-匈牙利算法实现">1.匈牙利算法实现</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">bool find(int a)  </span><br><span class="line">&#123;  </span><br><span class="line">    for(int i&#x3D;head[a];i!&#x3D;-1;i&#x3D;e[i].next)  </span><br><span class="line">    &#123;  </span><br><span class="line">        int id&#x3D;e[i].to;  </span><br><span class="line">        if(!vis[id])  </span><br><span class="line">        &#123;  </span><br><span class="line">            vis[id]&#x3D;true;  </span><br><span class="line">            if(res[id]&#x3D;&#x3D;0  find(res[id]))  </span><br><span class="line">            &#123;  </span><br><span class="line">                res[id]&#x3D;a;  </span><br><span class="line">                return true;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    return false;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如下的方式调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for(int i&#x3D;1;i&lt;&#x3D;n;i++) &#123;  </span><br><span class="line">      memset(vis,0,sizeof(vis));  </span><br><span class="line">      if(find(i)) ans++;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/algorithm-graph-dijkstra-spfa-bellmanford-prim-kruskal/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/" rel="tag">Data Structure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/algorithm-heap-priority-queue/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            算法复习 - 堆 优先队列
+          
+        </div>
+      </a>
+    
+    
+      <a href="/ruc-assistant/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">ruc assistant</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2020
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/logo.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/messageboard">留言板</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>
