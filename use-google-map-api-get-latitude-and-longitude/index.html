@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.3k</span>
+            <span class="post-count">1.2k</span>
         </span>
     </span>
 
@@ -87,7 +87,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">7 min</span>
+            <span class="post-count">6 min</span>
         </span>
     </span>
 </div>
@@ -112,90 +112,117 @@
 </ul>
 <p>首先让大家看看效果<br>
 点击获取经纬度坐标</p>
-<p>×</p>
-<p>选取locations</p>
-<p>OK</p>
-<p>var googleMap = {<br>
-map: null,<br>
-markers: {},<br>
-currentId: 0,<br>
-uniqueId: function () {<br>
-return ++this.currentId;<br>
-},<br>
-infowindow: new google.maps.InfoWindow({<br>
-size: new google.maps.Size(150, 50)<br>
-}),<br>
-initialize: function () {<br>
-if (this.map) return null;<br>
-var myOptions = {<br>
-zoom: 2,<br>
-center: new google.maps.LatLng(43, 0),<br>
-mapTypeControl: true,<br>
-mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},<br>
-navigationControl: true,<br>
-mapTypeId: google.maps.MapTypeId.ROADMAP<br>
-};<br>
-this.map = new google.maps.Map(document.getElementById(“map_canvas”),<br>
-myOptions);<br>
-google.maps.event.addListener(this.map, ‘click’, function () {<br>
-googleMap.infowindow.close();<br>
-});<br>
-google.maps.event.addListener(this.map, ‘click’, function (event) {<br>
-var Latitude = event.latLng.lat().toFixed(2);<br>
-var longitude = event.latLng.lng().toFixed(2);<br>
-googleMap.addMarker(event.latLng, “name”, “<b>Location</b><br>” +Latitude +&quot;,&quot;+ longitude,<br>
-Latitude +&quot;,&quot;+ longitude);<br>
-});<br>
-<a target="_blank" rel="noopener" href="//google.maps.event.addListener">//google.maps.event.addListener</a>(this.map, ‘click’, function (event) {<br>
-// console.log(“Latitude: &quot; + event.latLng.lat() + &quot; &quot; + “, longitude: &quot; + event.latLng.lng());<br>
-//});<br>
-},<br>
-addMarker: function (Gpoint, name, contentString, geo) {<br>
-var id = this.uniqueId(); // get new id<br>
-marker = new google.maps.Marker({<br>
-id: id,<br>
-position: Gpoint,<br>
-geo : geo,<br>
-map: googleMap.map,<br>
-draggable: true,<br>
-animation: google.maps.Animation.DROP<br>
-});<br>
-google.maps.event.addListener(marker, ‘click’, function () {<br>
-googleMap.infowindow.setPosition(this.position);<br>
-googleMap.infowindow.setContent(contentString);<br>
-googleMap.infowindow.open(googleMap.map, marker);<br>
-});<br>
-google.maps.event.trigger(marker, ‘click’);<br>
-googleMap.map.panTo(Gpoint);<br>
-this.markers[id] = marker;<br>
-google.maps.event.addListener(marker, “rightclick”, function (point) {<br>
-googleMap.delMarker(<a target="_blank" rel="noopener" href="http://this.id">this.id</a>)<br>
-});<br>
-//var res = ‘’;<br>
-//for (i in googleMap.markers){<br>
-// res += googleMap.markers[i].geo + ‘,’;<br>
-//}<br>
-//res = res.substring(0,res.length-1)<br>
-<a target="_blank" rel="noopener" href="//console.log">//console.log</a>(res);<br>
-},<br>
-delMarker: function (id) {<br>
-this.markers[id].setMap(null);<br>
-delete this.markers[id];<br>
-}<br>
-};<br>
-jQuery(document).ready(function(<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;}&#039;, got &#039;EOF&#039; at end of input: ) {
-'>) {
-</span>(”#google_maps_api”).on(“shown.bs.modal”, function () {<br>
-googleMap.initialize();<br>
-// googleMap.maps.event.trigger(map, “resize”);<br>
-}).on(‘hide.bs.modal’, function () { //关闭模态框<br>
-var res = ‘’;<br>
-for (var i in googleMap.markers)<br>
-res += ‘(’ + googleMap.markers[i].geo + ‘),’;<br>
-res = res.substring(0,res.length-1);<br>
-$(&quot;#locationText&quot;).val(res);<br>
-});<br>
-});</p>
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRk0h7XH8hieXFGV4N-yi89lkZUd9u4AE"type="text/javascript"></script>
+<button class="btn btn-primary" data-toggle="modal" data-target="#google_maps_api">点击获取经纬度坐标</button>
+
+&nbsp;
+<div id="google_maps_api" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+
+<button class="close" type="button" data-dismiss="modal" aria-hidden="true">×</button>
+<div id="myModalLabel" class="modal-title">选取locations</div>
+</div>
+<div class="modal-body">
+<div id="map_canvas" style="width: 100%; height: 450px;"></div>
+</div>
+<div class="modal-footer"><button class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">OK</button></div>
+</div>
+</div>
+</div>
+<script>
+var googleMap = {
+    map: null,
+    markers: {},
+    currentId: 0,
+    uniqueId: function () {
+        return ++this.currentId;
+    },
+    infowindow: new google.maps.InfoWindow({
+        size: new google.maps.Size(150, 50)
+    }),
+    initialize: function () {
+        if (this.map) return null;
+        var myOptions = {
+            zoom: 2,
+            center: new google.maps.LatLng(43, 0),
+            mapTypeControl: true,
+            mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+            navigationControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        this.map = new google.maps.Map(document.getElementById("map_canvas"),
+            myOptions);
+        google.maps.event.addListener(this.map, 'click', function () {
+            googleMap.infowindow.close();
+        });
+        google.maps.event.addListener(this.map, 'click', function (event) {
+            var Latitude = event.latLng.lat().toFixed(2);
+            var longitude = event.latLng.lng().toFixed(2);
+            googleMap.addMarker(event.latLng, "name", "<b>Location</b><br>" +Latitude +","+ longitude,
+                Latitude +","+ longitude);
+        });
+        //google.maps.event.addListener(this.map, 'click', function (event) {
+        //    console.log("Latitude: " + event.latLng.lat() + " " + ", longitude: " + event.latLng.lng());
+        //});
+    },
+    addMarker: function (Gpoint, name, contentString, geo) {
+        var id = this.uniqueId(); // get new id
+        marker = new google.maps.Marker({
+            id: id,
+            position: Gpoint,
+            geo : geo,
+            map: googleMap.map,
+            draggable: true,
+            animation: google.maps.Animation.DROP
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+            googleMap.infowindow.setPosition(this.position);
+            googleMap.infowindow.setContent(contentString);
+            googleMap.infowindow.open(googleMap.map, marker);
+        });
+        google.maps.event.trigger(marker, 'click');
+        googleMap.map.panTo(Gpoint);
+        this.markers[id] = marker;
+        google.maps.event.addListener(marker, "rightclick", function (point) {
+            googleMap.delMarker(this.id)
+        });
+        //var res = '';
+        //for (i in googleMap.markers){
+        //   res += googleMap.markers[i].geo + ',';
+        //}
+        //res = res.substring(0,res.length-1)
+        //console.log(res);
+    },
+    delMarker: function (id) {
+        this.markers[id].setMap(null);
+        delete  this.markers[id];
+    }
+};
+</script>
+<script>
+		jQuery(document).ready(function($) {
+			$("#google_maps_api").on("shown.bs.modal", function () {
+				googleMap.initialize();
+			   // googleMap.maps.event.trigger(map, "resize");
+			}).on('hide.bs.modal', function () { //关闭模态框
+				var res = '';
+				for (var i in googleMap.markers)
+					res += '(' + googleMap.markers[i].geo + '),';
+				res = res.substring(0,res.length-1);
+				$("#locationText").val(res);
+			});
+		});
+	</script>
+
 <h2 id="获取api-key">获取API key</h2>
 <p>要使用google map API，那么需要获取API key，才能使用，获取的地址为：<a target="_blank" rel="noopener" href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend,places_backend&amp;reusekey=true">get API key</a></p>
 <p>在获取完之后，将下面的YOUKEY改为你的API key，引入需要的js文件</p>
@@ -209,9 +236,9 @@ $(&quot;#locationText&quot;).val(res);<br>
 <li>Google MAP的JS（就是上面那行代码）</li>
 </ul>
 <p>下面是前端页面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;button class&#x3D;&quot;btn btn-primary&quot; data-toggle&#x3D;&quot;modal&quot; data-target&#x3D;&quot;#google_maps_api&quot;&gt;点击获取经纬度坐标&lt;&#x2F;button&gt;</span><br><span class="line">&lt;textarea class&#x3D;&quot;form-control&quot; id&#x3D;&quot;locationText&quot; rows&#x3D;&quot;2&quot; style&#x3D;&quot;width:500px&quot;&gt;&lt;&#x2F;textarea&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class&#x3D;&quot;modal fade&quot; id&#x3D;&quot;google_maps_api&quot; tabindex&#x3D;&quot;-1&quot; role&#x3D;&quot;dialog&quot;</span><br><span class="line"> aria-labelledby&#x3D;&quot;myModalLabel&quot; aria-hidden&#x3D;&quot;true&quot;&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-dialog&quot;&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-content&quot;&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-header&quot;&gt;</span><br><span class="line">&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot;data-dismiss&#x3D;&quot;modal&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;&#x2F;button&gt;</span><br><span class="line">&lt;h4 class&#x3D;&quot;modal-title&quot; id&#x3D;&quot;myModalLabel&quot;&gt;选取locations&lt;&#x2F;h4&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-body&quot;&gt;</span><br><span class="line">&lt;div id&#x3D;&quot;map_canvas&quot; style&#x3D;&quot;width: 100%; height: 450px&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-footer&quot;&gt;</span><br><span class="line">&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary&quot; data-dismiss&#x3D;&quot;modal&quot; aria-hidden&#x3D;&quot;true&quot;&gt;OK&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;.&#x2F;googleMap.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">$(&quot;#google_maps_api&quot;).on(&quot;shown.bs.modal&quot;, function () &#123;</span><br><span class="line">googleMap.initialize();</span><br><span class="line">   &#x2F;&#x2F; googleMap.maps.event.trigger(map, &quot;resize&quot;);</span><br><span class="line">&#125;).on(&#39;hide.bs.modal&#39;, function () &#123; &#x2F;&#x2F;关闭模态框</span><br><span class="line">var res &#x3D; &#39;&#39;;</span><br><span class="line">for (var i in googleMap.markers)</span><br><span class="line">res +&#x3D; &#39;(&#39; + googleMap.markers[i].geo + &#39;),&#39;;</span><br><span class="line"></span><br><span class="line">res &#x3D; res.substring(0,res.length-1);</span><br><span class="line">$(&quot;#locationText&quot;).val(res);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-primary&quot;</span> <span class="attr">data-toggle</span>=<span class="string">&quot;modal&quot;</span> <span class="attr">data-target</span>=<span class="string">&quot;#google_maps_api&quot;</span>&gt;</span>点击获取经纬度坐标<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">class</span>=<span class="string">&quot;form-control&quot;</span> <span class="attr">id</span>=<span class="string">&quot;locationText&quot;</span> <span class="attr">rows</span>=<span class="string">&quot;2&quot;</span> <span class="attr">style</span>=<span class="string">&quot;width:500px&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal fade&quot;</span> <span class="attr">id</span>=<span class="string">&quot;google_maps_api&quot;</span> <span class="attr">tabindex</span>=<span class="string">&quot;-1&quot;</span> <span class="attr">role</span>=<span class="string">&quot;dialog&quot;</span></span></span><br><span class="line"><span class="tag">	 <span class="attr">aria-labelledby</span>=<span class="string">&quot;myModalLabel&quot;</span> <span class="attr">aria-hidden</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-dialog&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-content&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-header&quot;</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">class</span>=<span class="string">&quot;close&quot;</span><span class="attr">data-dismiss</span>=<span class="string">&quot;modal&quot;</span> <span class="attr">aria-hidden</span>=<span class="string">&quot;true&quot;</span>&gt;</span><span class="symbol">&amp;times;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">h4</span> <span class="attr">class</span>=<span class="string">&quot;modal-title&quot;</span> <span class="attr">id</span>=<span class="string">&quot;myModalLabel&quot;</span>&gt;</span>选取locations<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-body&quot;</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;map_canvas&quot;</span> <span class="attr">style</span>=<span class="string">&quot;width: 100%; height: 450px&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-footer&quot;</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-primary&quot;</span> <span class="attr">data-dismiss</span>=<span class="string">&quot;modal&quot;</span> <span class="attr">aria-hidden</span>=<span class="string">&quot;true&quot;</span>&gt;</span>OK<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./googleMap.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">$(<span class="string">&quot;#google_maps_api&quot;</span>).on(<span class="string">&quot;shown.bs.modal&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line">	googleMap.initialize();</span><br><span class="line"><span class="javascript">   <span class="comment">// googleMap.maps.event.trigger(map, &quot;resize&quot;);</span></span></span><br><span class="line"><span class="javascript">&#125;).on(<span class="string">&#x27;hide.bs.modal&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">//关闭模态框</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> res = <span class="string">&#x27;&#x27;</span>;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> googleMap.markers)</span></span><br><span class="line"><span class="javascript">		res += <span class="string">&#x27;(&#x27;</span> + googleMap.markers[i].geo + <span class="string">&#x27;),&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">	res = res.substring(0,res.length-1);</span><br><span class="line"><span class="javascript">	$(<span class="string">&quot;#locationText&quot;</span>).val(res);</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>./googleMap.js文件如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">var googleMap &#x3D; &#123;</span><br><span class="line">    map: null,</span><br><span class="line">    markers: &#123;&#125;,</span><br><span class="line">    currentId: 0,</span><br><span class="line"></span><br><span class="line">    uniqueId: function () &#123;</span><br><span class="line">        return ++this.currentId;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    infowindow: new google.maps.InfoWindow(&#123;</span><br><span class="line">        size: new google.maps.Size(150, 50)</span><br><span class="line">    &#125;),</span><br><span class="line"></span><br><span class="line">    initialize: function () &#123;</span><br><span class="line">        if (this.map) return null;</span><br><span class="line"></span><br><span class="line">        var myOptions &#x3D; &#123;</span><br><span class="line">            zoom: 3,&#x2F;&#x2F;放大的倍数</span><br><span class="line">            center: new google.maps.LatLng(34, 103),&#x2F;&#x2F;初始化时地图的中心</span><br><span class="line">            mapTypeControl: true,</span><br><span class="line">            mapTypeControlOptions: &#123;style: google.maps.MapTypeControlStyle.DROPDOWN_MENU&#125;,</span><br><span class="line">            navigationControl: true,</span><br><span class="line">            mapTypeId: google.maps.MapTypeId.ROADMAP</span><br><span class="line">        &#125;;</span><br><span class="line">        this.map &#x3D; new google.maps.Map(document.getElementById(&quot;map_canvas&quot;),myOptions);</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(this.map, &#39;click&#39;, function () &#123;</span><br><span class="line">            googleMap.infowindow.close();</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(this.map, &#39;click&#39;, function (event) &#123;&#x2F;&#x2F;点击时出现的提示窗口，这里显示经纬度</span><br><span class="line">            var Latitude &#x3D; event.latLng.lat().toFixed(2);</span><br><span class="line">            var longitude &#x3D; event.latLng.lng().toFixed(2);</span><br><span class="line">            googleMap.addMarker(event.latLng, &quot;name&quot;, &quot;**Location**  </span><br><span class="line">&quot; +Latitude +&quot;,&quot;+ longitude,</span><br><span class="line">                Latitude +&quot;,&quot;+ longitude);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;google.maps.event.addListener(this.map, &#39;click&#39;, function (event) &#123;</span><br><span class="line">        &#x2F;&#x2F;    console.log(&quot;Latitude: &quot; + event.latLng.lat() + &quot; &quot; + &quot;, longitude: &quot; + event.latLng.lng());</span><br><span class="line">        &#x2F;&#x2F;&#125;);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    addMarker: function (Gpoint, name, contentString, geo) &#123;&#x2F;&#x2F;添加地图上的标记</span><br><span class="line">        var id &#x3D; this.uniqueId(); &#x2F;&#x2F; get new id</span><br><span class="line">        marker &#x3D; new google.maps.Marker(&#123;</span><br><span class="line">            id: id,</span><br><span class="line">            position: Gpoint,</span><br><span class="line">            geo : geo,</span><br><span class="line">            map: googleMap.map,</span><br><span class="line">            draggable: true,</span><br><span class="line">            animation: google.maps.Animation.DROP</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(marker, &#39;click&#39;, function () &#123;&#x2F;&#x2F;添加标记</span><br><span class="line">            googleMap.infowindow.setPosition(this.position);</span><br><span class="line">            googleMap.infowindow.setContent(contentString);</span><br><span class="line">            googleMap.infowindow.open(googleMap.map, marker);</span><br><span class="line">        &#125;);</span><br><span class="line">        google.maps.event.trigger(marker, &#39;click&#39;);</span><br><span class="line"></span><br><span class="line">        googleMap.map.panTo(Gpoint);</span><br><span class="line"></span><br><span class="line">        this.markers[id] &#x3D; marker;</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(marker, &quot;rightclick&quot;, function (point) &#123;&#x2F;&#x2F;右键取消地图标记</span><br><span class="line">            googleMap.delMarker(this.id)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    delMarker: function (id) &#123;&#x2F;&#x2F;删除标记</span><br><span class="line">        this.markers[id].setMap(null);</span><br><span class="line">        delete this.markers[id];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure> 
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> googleMap = &#123;</span><br><span class="line">    map: <span class="literal">null</span>,</span><br><span class="line">    markers: &#123;&#125;,</span><br><span class="line">    currentId: <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">    uniqueId: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ++<span class="built_in">this</span>.currentId;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    infowindow: <span class="keyword">new</span> google.maps.InfoWindow(&#123;</span><br><span class="line">        size: <span class="keyword">new</span> google.maps.Size(<span class="number">150</span>, <span class="number">50</span>)</span><br><span class="line">    &#125;),</span><br><span class="line"></span><br><span class="line">    initialize: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.map) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> myOptions = &#123;</span><br><span class="line">            zoom: <span class="number">3</span>,<span class="comment">//放大的倍数</span></span><br><span class="line">            center: <span class="keyword">new</span> google.maps.LatLng(<span class="number">34</span>, <span class="number">103</span>),<span class="comment">//初始化时地图的中心</span></span><br><span class="line">            mapTypeControl: <span class="literal">true</span>,</span><br><span class="line">            mapTypeControlOptions: &#123;<span class="attr">style</span>: google.maps.MapTypeControlStyle.DROPDOWN_MENU&#125;,</span><br><span class="line">            navigationControl: <span class="literal">true</span>,</span><br><span class="line">            mapTypeId: google.maps.MapTypeId.ROADMAP</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="built_in">this</span>.map = <span class="keyword">new</span> google.maps.Map(<span class="built_in">document</span>.getElementById(<span class="string">&quot;map_canvas&quot;</span>),myOptions);</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(<span class="built_in">this</span>.map, <span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            googleMap.infowindow.close();</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(<span class="built_in">this</span>.map, <span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;<span class="comment">//点击时出现的提示窗口，这里显示经纬度</span></span><br><span class="line">            <span class="keyword">var</span> Latitude = event.latLng.lat().toFixed(<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">var</span> longitude = event.latLng.lng().toFixed(<span class="number">2</span>);</span><br><span class="line">            googleMap.addMarker(event.latLng, <span class="string">&quot;name&quot;</span>, <span class="string">&quot;**Location**  </span></span><br><span class="line"><span class="string">&quot;</span> +Latitude +<span class="string">&quot;,&quot;</span>+ longitude,</span><br><span class="line">                Latitude +<span class="string">&quot;,&quot;</span>+ longitude);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//google.maps.event.addListener(this.map, &#x27;click&#x27;, function (event) &#123;</span></span><br><span class="line">        <span class="comment">//    console.log(&quot;Latitude: &quot; + event.latLng.lat() + &quot; &quot; + &quot;, longitude: &quot; + event.latLng.lng());</span></span><br><span class="line">        <span class="comment">//&#125;);</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    addMarker: <span class="function"><span class="keyword">function</span> (<span class="params">Gpoint, name, contentString, geo</span>) </span>&#123;<span class="comment">//添加地图上的标记</span></span><br><span class="line">        <span class="keyword">var</span> id = <span class="built_in">this</span>.uniqueId(); <span class="comment">// get new id</span></span><br><span class="line">        marker = <span class="keyword">new</span> google.maps.Marker(&#123;</span><br><span class="line">            id: id,</span><br><span class="line">            position: Gpoint,</span><br><span class="line">            geo : geo,</span><br><span class="line">            map: googleMap.map,</span><br><span class="line">            draggable: <span class="literal">true</span>,</span><br><span class="line">            animation: google.maps.Animation.DROP</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(marker, <span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//添加标记</span></span><br><span class="line">            googleMap.infowindow.setPosition(<span class="built_in">this</span>.position);</span><br><span class="line">            googleMap.infowindow.setContent(contentString);</span><br><span class="line">            googleMap.infowindow.open(googleMap.map, marker);</span><br><span class="line">        &#125;);</span><br><span class="line">        google.maps.event.trigger(marker, <span class="string">&#x27;click&#x27;</span>);</span><br><span class="line"></span><br><span class="line">        googleMap.map.panTo(Gpoint);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.markers[id] = marker;</span><br><span class="line"></span><br><span class="line">        google.maps.event.addListener(marker, <span class="string">&quot;rightclick&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">point</span>) </span>&#123;<span class="comment">//右键取消地图标记</span></span><br><span class="line">            googleMap.delMarker(<span class="built_in">this</span>.id)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    delMarker: <span class="function"><span class="keyword">function</span> (<span class="params">id</span>) </span>&#123;<span class="comment">//删除标记</span></span><br><span class="line">        <span class="built_in">this</span>.markers[id].setMap(<span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">delete</span> <span class="built_in">this</span>.markers[id];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure> 
       <!-- reward -->
       
       <div id="reword-out">

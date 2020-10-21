@@ -170,7 +170,7 @@
 <p></p>
 <h3 id="三-通过设置header-伪造浏览器">（三）通过设置header 伪造浏览器</h3>
 <p>我们来抓取下刚才post发出的包，可以看到User-Agent：Python-urllib/2.7</p>
-<p>[caption id=“attachment_1106” align=“alignnone” width=“362”][<img src="../images/python-web-crawler-instruction/QQ%E6%88%AA%E5%9B%BE20150316092544.jpg" alt="python post抓包"> python post抓包[/caption]</p>
+<p>[caption id=“attachment_1106” align=“alignnone” width=“362”]<img src="../images/python-web-crawler-instruction/QQ%E6%88%AA%E5%9B%BE20150316092544.jpg" alt="python post抓包"> python post抓包[/caption]</p>
 <p>User-Agent是什么呢？这是一个用来用户浏览器的标识。</p>
 <p>比如 我的<strong>chrome</strong>浏览器的 User-Agent如下：</p>
 <p><em>Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36</em></p>
@@ -181,7 +181,7 @@
 <p>代码很简单，只要简单地传递一个 dict 给 headers 参数就可以了。(post和get都只需要加入headers属性！)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import requests</span><br><span class="line">data &#x3D;&#123;</span><br><span class="line">    &#39;name&#39;:&#39;hrwhisper&#39;,</span><br><span class="line">    &#39;blog&#39;:&#39;hrwhisper.me&#39;</span><br><span class="line">&#125;</span><br><span class="line">myheader&#x3D;&#123;</span><br><span class="line">    &#39;User-Agent&#39;:&#39;Mozilla&#x2F;5.0 (Windows NT 6.3; WOW64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;41.0.2272.89 Safari&#x2F;537.36&#39;</span><br><span class="line">&#125;</span><br><span class="line">r &#x3D; requests.post(&#39;http:&#x2F;&#x2F;hrwhisper.me&#39;,data&#x3D;data,headers&#x3D;myheader)</span><br><span class="line">print r.text</span><br></pre></td></tr></table></figure>
 <p>我们再看看包，可以看到已经变成了chrome~</p>
-<p>[<img src="../images/python-web-crawler-instruction/%E8%AE%BE%E7%BD%AE%E4%BA%86header%E4%B9%8B%E5%90%8E.jpg" alt="设置了header之后"></p>
+<p><img src="../images/python-web-crawler-instruction/%E8%AE%BE%E7%BD%AE%E4%BA%86header%E4%B9%8B%E5%90%8E.jpg" alt="设置了header之后"></p>
 <p>当然，服务器可能还有许许多多的验证，如用referer来设置防盗链，我们也只需要加入头部即可。</p>
 <p><strong>如果你不知道要加入什么，最简单的办法就是用正常的浏览器去访问页面，抓包，然后头部抄正常浏览器的即可！</strong></p>
 <h3 id="四-cookie">（四）Cookie</h3>

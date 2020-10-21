@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">4.7k</span>
+            <span class="post-count">4.6k</span>
         </span>
     </span>
 
@@ -87,7 +87,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">19 min</span>
+            <span class="post-count">18 min</span>
         </span>
     </span>
 </div>
@@ -127,7 +127,7 @@
 <p>这样就完成了一棵前缀树Trie，前缀的性质也保证了一个码不会是另一个码的前缀，因此Huffman编码能被正确的解压。解压的时候只需要对于当前的bit，若为0，那么走左边，否则走右边。走到叶子结点说明该字符解码完毕，回到根节点，继续解码下一个。</p>
 <h3 id="代码实现">代码实现</h3>
 <p>首先定义树的结点的内容，并定义了__lt__方法，便于使用堆(python中的heapq)能进行比较元素的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class TreeNode(object):</span><br><span class="line">    def __init__(self, val, cnt, left&#x3D;None, right&#x3D;None):</span><br><span class="line">        self.cnt &#x3D; cnt</span><br><span class="line">        self.val &#x3D; val</span><br><span class="line">        self.left &#x3D; left</span><br><span class="line">        self.right &#x3D; right</span><br><span class="line"></span><br><span class="line">    def __lt__(self, other):</span><br><span class="line">        return self.cnt &lt; other.cnt</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, val, cnt, left=None, right=None</span>):</span></span><br><span class="line">        self.cnt = cnt</span><br><span class="line">        self.val = val</span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__lt__</span>(<span class="params">self, other</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.cnt &lt; other.cnt</span><br></pre></td></tr></table></figure>
 <p>接下来定义Huffman树，该类支持如下特性</p>
 <ul>
 <li>
@@ -149,7 +149,7 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class HuffmanTree(object):</span><br><span class="line">    def __init__(self, q):</span><br><span class="line">        self._root &#x3D; self.root &#x3D; self._create_tree(q)  # q is a list of TreeNode</span><br><span class="line">        self.huffman_code &#x3D; &#123;&#125;</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def _create_tree(q):</span><br><span class="line">        heapq.heapify(q)</span><br><span class="line">        while len(q) &gt; 1:</span><br><span class="line">            a, b &#x3D; heapq.heappop(q), heapq.heappop(q)</span><br><span class="line">            heapq.heappush(q, TreeNode(&#39;&#39;, a.cnt + b.cnt, a, b))</span><br><span class="line">        return q.pop()</span><br><span class="line"></span><br><span class="line">    def get_huffman_code(self):</span><br><span class="line">        self._get_huffman_code(self.root)</span><br><span class="line">        return self.huffman_code</span><br><span class="line"></span><br><span class="line">    def _get_huffman_code(self, root, cur&#x3D;&#39;&#39;):</span><br><span class="line">        if not root.left and not root.right:  # the leaf node</span><br><span class="line">            self.huffman_code[root.val] &#x3D; cur</span><br><span class="line">            return</span><br><span class="line">        if root.left:  self._get_huffman_code(root.left, cur + &#39;0&#39;)</span><br><span class="line">        if root.right: self._get_huffman_code(root.right, cur + &#39;1&#39;)</span><br><span class="line"></span><br><span class="line">    def find(self, c):</span><br><span class="line">        self.root &#x3D; self.root.right if c &#x3D;&#x3D; &#39;1&#39; else self.root.left</span><br><span class="line">        if not self.root.left and not self.root.right:</span><br><span class="line">            res &#x3D; self.root.val</span><br><span class="line">            self.root &#x3D; self._root</span><br><span class="line">            return res</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HuffmanTree</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, q</span>):</span></span><br><span class="line">        self._root = self.root = self._create_tree(q)  <span class="comment"># q is a list of TreeNode</span></span><br><span class="line">        self.huffman_code = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_create_tree</span>(<span class="params">q</span>):</span></span><br><span class="line">        heapq.heapify(q)</span><br><span class="line">        <span class="keyword">while</span> len(q) &gt; <span class="number">1</span>:</span><br><span class="line">            a, b = heapq.heappop(q), heapq.heappop(q)</span><br><span class="line">            heapq.heappush(q, TreeNode(<span class="string">&#x27;&#x27;</span>, a.cnt + b.cnt, a, b))</span><br><span class="line">        <span class="keyword">return</span> q.pop()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_huffman_code</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._get_huffman_code(self.root)</span><br><span class="line">        <span class="keyword">return</span> self.huffman_code</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get_huffman_code</span>(<span class="params">self, root, cur=<span class="string">&#x27;&#x27;</span></span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root.left <span class="keyword">and</span> <span class="keyword">not</span> root.right:  <span class="comment"># the leaf node</span></span><br><span class="line">            self.huffman_code[root.val] = cur</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> root.left:  self._get_huffman_code(root.left, cur + <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> root.right: self._get_huffman_code(root.right, cur + <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">find</span>(<span class="params">self, c</span>):</span></span><br><span class="line">        self.root = self.root.right <span class="keyword">if</span> c == <span class="string">&#x27;1&#x27;</span> <span class="keyword">else</span> self.root.left</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.root.left <span class="keyword">and</span> <span class="keyword">not</span> self.root.right:</span><br><span class="line">            res = self.root.val</span><br><span class="line">            self.root = self._root</span><br><span class="line">            <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
 <p>最后时huffman编码的编码和解码过程。</p>
 <p>编码过程</p>
 <ul>
@@ -172,9 +172,9 @@
 <li>对文件内容进行decode，用到上面的HuffmanTree.find方法</li>
 <li>需要对最后一个字节特殊处理</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">class Huffman(object):</span><br><span class="line">    @staticmethod</span><br><span class="line">    def encode(filename, dist&#x3D;None):</span><br><span class="line">        if not dist:   dist &#x3D; filename + &#39;_compressed&#39;</span><br><span class="line">        with open(filename) as fr, open(dist, &#39;wb&#39;) as f:</span><br><span class="line">            txt &#x3D; fr.read()</span><br><span class="line">            q &#x3D; [TreeNode(c, cnt) for c, cnt in collections.Counter(txt).items()]</span><br><span class="line">            huffman_code &#x3D; HuffmanTree(q[:]).get_huffman_code()</span><br><span class="line">            txt &#x3D; &#39;&#39;.join([huffman_code[c] for c in txt])</span><br><span class="line">            f.write(bytes(chr(len(txt) &amp; 7), &quot;utf-8&quot;))  # last_byte and dic_len to file</span><br><span class="line">            f.write(bytes(chr(sum([2 + ceil(len(bin(x.cnt)[2:]) &#x2F; 8) for x in q])), &quot;utf-8&quot;))  # TODO 一样长的</span><br><span class="line">            for x in q:</span><br><span class="line">                c, v &#x3D; x.val, bin(x.cnt)[2:]</span><br><span class="line">                f.write(bytes(c, &quot;utf-8&quot;))  # current character</span><br><span class="line">                f.write(bytes(chr(len(v)), &quot;utf-8&quot;))  # current code length</span><br><span class="line">                f.write(bytes(&#39;&#39;.join(chr(int(v[i:i + 8], 2)) for i in range(0, len(v), 8)), &quot;utf-8&quot;))  # cnt</span><br><span class="line"></span><br><span class="line">            f.write(bytes(&#39;&#39;.join(chr(int(txt[i:i + 8], 2)) for i in range(0, len(txt), 8)), &quot;utf-8&quot;))  #</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def decode(filename, dist&#x3D;None):</span><br><span class="line">        if not dist:  dist &#x3D; filename + &#39;_decode&#39;</span><br><span class="line">        with open(filename, &#39;rb&#39;) as f:</span><br><span class="line">            txt &#x3D; f.read().decode(&#39;utf-8&#39;)</span><br><span class="line">        last_byte, dic_len &#x3D; ord(txt[0]), ord(txt[1])</span><br><span class="line">        i, huffman_code &#x3D; 2, &#123;&#125;</span><br><span class="line">        q &#x3D; []</span><br><span class="line">        while i &lt; dic_len + 2:</span><br><span class="line">            cur, cur_len &#x3D; txt[i], ord(txt[i + 1])</span><br><span class="line">            bytes_num &#x3D; ceil(cur_len &#x2F; 8)</span><br><span class="line">            code &#x3D; &#39;&#39;.join([bin(ord(c))[2:].zfill(8) for c in txt[i + 2:i + 2 + bytes_num]])</span><br><span class="line">            if cur_len &amp; 7: code &#x3D; code[:-8] + code[-(cur_len &amp; 7):]</span><br><span class="line">            q.append(TreeNode(cur, int(code, 2)))</span><br><span class="line">            i +&#x3D; bytes_num + 2</span><br><span class="line"></span><br><span class="line">        txt &#x3D; &#39;&#39;.join([bin(ord(c))[2:].zfill(8) for c in txt[2 + dic_len:]])</span><br><span class="line">        if last_byte: txt &#x3D; txt[:-8] + txt[-last_byte:]</span><br><span class="line"></span><br><span class="line">        tree &#x3D; HuffmanTree(q)</span><br><span class="line">        with open(dist, &#39;w&#39;) as f:</span><br><span class="line">            for i in range(len(txt)):</span><br><span class="line">                c &#x3D; tree.find(txt[i])</span><br><span class="line">                if c: f.write(c)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Huffman</span>(<span class="params">object</span>):</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">encode</span>(<span class="params">filename, dist=None</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> dist:   dist = filename + <span class="string">&#x27;_compressed&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> open(filename) <span class="keyword">as</span> fr, open(dist, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            txt = fr.read()</span><br><span class="line">            q = [TreeNode(c, cnt) <span class="keyword">for</span> c, cnt <span class="keyword">in</span> collections.Counter(txt).items()]</span><br><span class="line">            huffman_code = HuffmanTree(q[:]).get_huffman_code()</span><br><span class="line">            txt = <span class="string">&#x27;&#x27;</span>.join([huffman_code[c] <span class="keyword">for</span> c <span class="keyword">in</span> txt])</span><br><span class="line">            f.write(bytes(chr(len(txt) &amp; <span class="number">7</span>), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># last_byte and dic_len to file</span></span><br><span class="line">            f.write(bytes(chr(sum([<span class="number">2</span> + ceil(len(bin(x.cnt)[<span class="number">2</span>:]) / <span class="number">8</span>) <span class="keyword">for</span> x <span class="keyword">in</span> q])), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># TODO 一样长的</span></span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> q:</span><br><span class="line">                c, v = x.val, bin(x.cnt)[<span class="number">2</span>:]</span><br><span class="line">                f.write(bytes(c, <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># current character</span></span><br><span class="line">                f.write(bytes(chr(len(v)), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># current code length</span></span><br><span class="line">                f.write(bytes(<span class="string">&#x27;&#x27;</span>.join(chr(int(v[i:i + <span class="number">8</span>], <span class="number">2</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(v), <span class="number">8</span>)), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># cnt</span></span><br><span class="line"></span><br><span class="line">            f.write(bytes(<span class="string">&#x27;&#x27;</span>.join(chr(int(txt[i:i + <span class="number">8</span>], <span class="number">2</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(txt), <span class="number">8</span>)), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decode</span>(<span class="params">filename, dist=None</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> dist:  dist = filename + <span class="string">&#x27;_decode&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> open(filename, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            txt = f.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        last_byte, dic_len = ord(txt[<span class="number">0</span>]), ord(txt[<span class="number">1</span>])</span><br><span class="line">        i, huffman_code = <span class="number">2</span>, &#123;&#125;</span><br><span class="line">        q = []</span><br><span class="line">        <span class="keyword">while</span> i &lt; dic_len + <span class="number">2</span>:</span><br><span class="line">            cur, cur_len = txt[i], ord(txt[i + <span class="number">1</span>])</span><br><span class="line">            bytes_num = ceil(cur_len / <span class="number">8</span>)</span><br><span class="line">            code = <span class="string">&#x27;&#x27;</span>.join([bin(ord(c))[<span class="number">2</span>:].zfill(<span class="number">8</span>) <span class="keyword">for</span> c <span class="keyword">in</span> txt[i + <span class="number">2</span>:i + <span class="number">2</span> + bytes_num]])</span><br><span class="line">            <span class="keyword">if</span> cur_len &amp; <span class="number">7</span>: code = code[:<span class="number">-8</span>] + code[-(cur_len &amp; <span class="number">7</span>):]</span><br><span class="line">            q.append(TreeNode(cur, int(code, <span class="number">2</span>)))</span><br><span class="line">            i += bytes_num + <span class="number">2</span></span><br><span class="line"></span><br><span class="line">        txt = <span class="string">&#x27;&#x27;</span>.join([bin(ord(c))[<span class="number">2</span>:].zfill(<span class="number">8</span>) <span class="keyword">for</span> c <span class="keyword">in</span> txt[<span class="number">2</span> + dic_len:]])</span><br><span class="line">        <span class="keyword">if</span> last_byte: txt = txt[:<span class="number">-8</span>] + txt[-last_byte:]</span><br><span class="line"></span><br><span class="line">        tree = HuffmanTree(q)</span><br><span class="line">        <span class="keyword">with</span> open(dist, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(txt)):</span><br><span class="line">                c = tree.find(txt[i])</span><br><span class="line">                <span class="keyword">if</span> c: f.write(c)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>最后是文件调用的demo,并最后判断压缩前的文件和压缩后解压的文件是否一致，并算出压缩率。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    file_paths &#x3D; [&#39;.&#x2F;Aesop_Fables.txt&#39;, &#39;.&#x2F;graph.txt&#39;]</span><br><span class="line">    for cur_file in file_paths:</span><br><span class="line">        h &#x3D; Huffman()</span><br><span class="line">        h.encode(cur_file)</span><br><span class="line">        h.decode(cur_file + &#39;_compressed&#39;)</span><br><span class="line"></span><br><span class="line">        with open(cur_file) as f, \</span><br><span class="line">                open(cur_file + &#39;_compressed_decode&#39;) as fd, open(cur_file + &#39;_compressed&#39;, &#39;rb&#39;) as fp:</span><br><span class="line">            print(&#39;&#123;&#125;: compression ratio: &#123;:.4f&#125;, decode file equals original file is &#123;&#125;&#39;.format(</span><br><span class="line">                f.name, os.path.getsize(cur_file + &#39;_compressed&#39;) &#x2F; os.path.getsize(cur_file), f.read() &#x3D;&#x3D; fd.read()))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    file_paths = [<span class="string">&#x27;./Aesop_Fables.txt&#x27;</span>, <span class="string">&#x27;./graph.txt&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> cur_file <span class="keyword">in</span> file_paths:</span><br><span class="line">        h = Huffman()</span><br><span class="line">        h.encode(cur_file)</span><br><span class="line">        h.decode(cur_file + <span class="string">&#x27;_compressed&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(cur_file) <span class="keyword">as</span> f, \</span><br><span class="line">                open(cur_file + <span class="string">&#x27;_compressed_decode&#x27;</span>) <span class="keyword">as</span> fd, open(cur_file + <span class="string">&#x27;_compressed&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">            print(<span class="string">&#x27;&#123;&#125;: compression ratio: &#123;:.4f&#125;, decode file equals original file is &#123;&#125;&#x27;</span>.format(</span><br><span class="line">                f.name, os.path.getsize(cur_file + <span class="string">&#x27;_compressed&#x27;</span>) / os.path.getsize(cur_file), f.read() == fd.read()))</span><br></pre></td></tr></table></figure>
 <h3 id="huffman-code小结">huffman code小结</h3>
 <p>上面的代码实现了huffman文件压缩的编码和解码过程，但是仍有缺陷，比如字符只有1byte并不支持中文和unicode等，此外，这样将字典写入文件的方式是高效的么？主流的压缩如zip是怎么做的？</p>
 <h2 id="文件压缩">文件压缩</h2>
@@ -257,26 +257,40 @@
 <h3 id="再次压缩">再次压缩</h3>
 <p>上面有两次的huffman编码，literal/length码表1以及distace码表2。前面提到过为了能够解码，码表用一个码字长度序列表示，称为CL（Code Length），而记录两个码表的码字长度序列分别记为CL1、CL2。对literal/length的编码比特流称为LIT比特流；对distance的编码比特流称为DIST比特流。按照上面的方法，LZ的编码结果就变成三块：CL1、CL2、LIT比特流或DIST比特流。</p>
 <p>由于CL全部都是数字，Phil Katz决定对CL继续编码。这里采用了<strong>游程编码</strong>。<strong>游程的含义为一段连续相同的数</strong>，而<strong>游程编码就是一段连续相同的数，只记录这个数一次，然后记录出现多少个即可</strong>。此外，Phil Katz认为，huffman编码后的码字长度不会超过15（PS: literal/length的编码符号286个，distance的编码符号共30个）。因此Phil Katz 用16、17、18三个额外的数字来表示重复数字（游程）：</p>
-<p>数字</p>
-<p>bits</p>
-<p>表示的游程</p>
-<p>表示重复的长度</p>
-<p>例如</p>
-<p>16</p>
-<p>2</p>
-<p>除了0外的</p>
-<p>3-6</p>
-<p>11表示重复2+3=5次（游程长从3开始）</p>
-<p>17</p>
-<p>3</p>
-<p>0</p>
-<p>3-10</p>
-<p>111表示后面有连续的3+7=10个0</p>
-<p>18</p>
-<p>7</p>
-<p>0</p>
-<p>11-138</p>
-<p>0111110表示连续11+62=73个0</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">数字</th>
+<th style="text-align:left">bits</th>
+<th style="text-align:left">表示的游程</th>
+<th style="text-align:left">表示重复的长度</th>
+<th style="text-align:left">例如</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">16</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">除了0外的</td>
+<td style="text-align:left">3-6</td>
+<td style="text-align:left">11表示重复2+3=5次（游程长从3开始）</td>
+</tr>
+<tr>
+<td style="text-align:left">17</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">3-10</td>
+<td style="text-align:left">111表示后面有连续的3+7=10个0</td>
+</tr>
+<tr>
+<td style="text-align:left">18</td>
+<td style="text-align:left">7</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">11-138</td>
+<td style="text-align:left">0111110表示连续11+62=73个0</td>
+</tr>
+</tbody>
+</table>
 <p>比如CL序列如下，</p>
 <ul>
 <li>
@@ -300,31 +314,58 @@
 <h3 id="deflate压缩数据格式">Deflate压缩数据格式</h3>
 <p>ZIP的格式实际上就是Deflate压缩码流外面套了一层文件相关的信息。Deflate压缩码格式如下：</p>
 <p><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/deflate-data-format.png" alt=""></p>
-<p>名称</p>
-<p>长度</p>
-<p>说明</p>
-<p>Header</p>
-<p>3bit</p>
-<p>第1个比特如果是1，表示此部分为最后一个压缩数据块；否则表示这是.ZIP文件的某个中间压缩数据块，但后面还有其他数据块。这是ZIP中使用分块压缩的标志之一； 第2、3比特表示3个选择：压缩数据中没有使用Huffman、使用静态Huffman、使用动态Huffman</p>
-<p>HLIT</p>
-<p>5bit</p>
-<p>记录literal/length码字长度序列（CL1）的个数,CL1个数为HLIT + 257（0-255个literal加上一个256结束的，length长度为变化的）</p>
-<p>HDIST</p>
-<p>5bit</p>
-<p>记录distance码字长度序列（CL2）的个数，CL2个数为HDIST+1</p>
-<p>HCLEN</p>
-<p>4bit</p>
-<p>记录码表3中码字长度序列（CCL）的个数，CCL个数为HCLEN+4</p>
-<p>CCL</p>
-<p>HCLEN+4</p>
-<p>用来构造码表3</p>
-<p>huffman（SQ1）</p>
-<p>CL1经过游程编码缩短后（SQ1），然后对其用huffman编码。解码的时候解码到HLIT +257个即可。用来构造literal/length码表(码表1)</p>
-<p>huffman（SQ2）</p>
-<p>CL2经过游程编码缩短后（SQ2），然后对其用huffman编码。解码的时候解码到HDIST+1个即可。用来构造distance码表(码表2)</p>
-<p>LIT编码流或DIST编码流</p>
-<p>对倒数第1、2内容块进行解码时，首先利用Huffman码表1进行解码，如果解码所得整数位于0-255之间，表示literal未匹配字符，用Huffman码表1解码；如果位于257-285之间，表示length匹配长度，之后需要利用Huffman码表2进行解码得到distance偏移距离；如果等于256，表示数据块解码结束。</p>
 <p></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">长度</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Header</td>
+<td style="text-align:left">3bit</td>
+<td style="text-align:left">第1个比特如果是1，表示此部分为最后一个压缩数据块；否则表示这是.ZIP文件的某个中间压缩数据块，但后面还有其他数据块。这是ZIP中使用分块压缩的标志之一； 第2、3比特表示3个选择：压缩数据中没有使用Huffman、使用静态Huffman、使用动态Huffman</td>
+</tr>
+<tr>
+<td style="text-align:left">HLIT</td>
+<td style="text-align:left">5bit</td>
+<td style="text-align:left">记录literal/length码字长度序列（CL1）的个数,CL1个数为HLIT + 257（0-255个literal加上一个256结束的，length长度为变化的）</td>
+</tr>
+<tr>
+<td style="text-align:left">HDIST</td>
+<td style="text-align:left">5bit</td>
+<td style="text-align:left">记录distance码字长度序列（CL2）的个数，CL2个数为HDIST+1</td>
+</tr>
+<tr>
+<td style="text-align:left">HCLEN</td>
+<td style="text-align:left">4bit</td>
+<td style="text-align:left">记录码表3中码字长度序列（CCL）的个数，CCL个数为HCLEN+4</td>
+</tr>
+<tr>
+<td style="text-align:left">CCL</td>
+<td style="text-align:left">HCLEN+4</td>
+<td style="text-align:left">用来构造码表3</td>
+</tr>
+<tr>
+<td style="text-align:left">huffman（SQ1）</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">CL1经过游程编码缩短后（SQ1），然后对其用huffman编码。解码的时候解码到HLIT +257个即可。用来构造literal/length码表(码表1)</td>
+</tr>
+<tr>
+<td style="text-align:left">huffman（SQ2）</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">CL2经过游程编码缩短后（SQ2），然后对其用huffman编码。解码的时候解码到HDIST+1个即可。用来构造distance码表(码表2)</td>
+</tr>
+<tr>
+<td style="text-align:left">LIT编码流或DIST编码流</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">对倒数第1、2内容块进行解码时，首先利用Huffman码表1进行解码，如果解码所得整数位于0-255之间，表示literal未匹配字符，用Huffman码表1解码；如果位于257-285之间，表示length匹配长度，之后需要利用Huffman码表2进行解码得到distance偏移距离；如果等于256，表示数据块解码结束。</td>
+</tr>
+</tbody>
+</table>
 <h2 id="小结">小结</h2>
 <p>本来是想实现一下huffman编码，结果发现要解码的时候码表怎么保存这个问题，以及文件的格式应该怎么样的，自己想出了保存字符+频率重新构建，感觉并不是很好，于是想看看zip等压缩算法是怎么样做的，于是有了这篇blog。</p>
 <p>由于我没有进行LZ77编码，所以只和Phil Katz对比 huffman的部分的主要区别。主要区别为：</p>

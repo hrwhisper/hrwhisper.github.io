@@ -107,7 +107,7 @@
 <p>本文介绍了mongodb 进行分片的方法和步骤</p>
 <a id="more"></a>
 <h2 id="mongodb分片-结构">mongodb分片 结构</h2>
-<p>[<img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-sharded-cluster-production-architecture.png" alt="mongodb-sharded-cluster-production-architecture"></p>
+<p><img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-sharded-cluster-production-architecture.png" alt="mongodb-sharded-cluster-production-architecture"></p>
 <p>主要由下面的三部分组成</p>
 <ul>
 <li>
@@ -213,13 +213,13 @@
 <h2 id="其他">其他</h2>
 <h3 id="查看分片状态">查看分片状态</h3>
 <p>用mongo 连接上mongos， 然后通过Mongo命令行输入：sh.status()</p>
-<p>[<img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-sharding-status.png" alt="mongodb-sharding-status"></p>
+<p><img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-sharding-status.png" alt="mongodb-sharding-status"></p>
 <h3 id="移除分片">移除分片</h3>
 <p>需要切换到admin collection，然后再执行移除分片的代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.runCommand( &#123; removeShard: &quot;&lt;shardname&gt;&quot; &#125; )</span><br></pre></td></tr></table></figure>
 <p></p>
 <p>再次查看状态：</p>
-<p>[<img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-shard-remove.png" alt="mongodb-shard-remove"></p>
+<p><img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-shard-remove.png" alt="mongodb-shard-remove"></p>
 <h2 id="分片实战">分片实战</h2>
 <p>修改hosts文件：</p>
 <ul>

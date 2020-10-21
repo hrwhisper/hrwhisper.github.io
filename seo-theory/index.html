@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.8k</span>
+            <span class="post-count">3.9k</span>
         </span>
     </span>
 
@@ -87,7 +87,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">13 min</span>
+            <span class="post-count">14 min</span>
         </span>
     </span>
 </div>
@@ -118,7 +118,7 @@
 <li>搜索引擎一般把二级域名当作独立站点看</li>
 <li>meta keywords tag 和 description tag 对排名一般没什么用</li>
 <li>SEO需要付出时间</li>
-<li><strong>SEO****最根本的方法还是要提高网站内容质量</strong></li>
+<li><strong>SEO最根本的方法还是要提高网站内容质量</strong></li>
 <li>不要在标题中加入搜索次数高，但与本页面无关的关键词</li>
 <li>pagerank工具条已经不再更新，所以新站的PR值永远是0了</li>
 <li>域名的年龄也是一个影响排名的因素</li>
@@ -139,10 +139,10 @@
 <p></p>
 <h3 id="使用noindex-meata-robots标签">使用noindex meata robots标签</h3>
 <p>如果你想禁止某些页面被收录，你可以：</p>
-<meta name="robots" content="noindex">
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;noindex&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><strong>noindex 和 robots.txt区别：前者是禁止收录，后者是禁止抓取</strong></p>
 <h3 id="nofollow">nofollow</h3>
-<a href="URL" rel="nofollow">
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;URL&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;nofollow&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>比如github上个人主页：</p>
 <p><img src="../images/seo-theory/seo-github-nofollow.png" alt="seo-github-nofollow"></p>
 <p>nofollow标签用于告诉搜索引擎不要跟踪这个标签。</p>
@@ -219,10 +219,7 @@
 <p>同站下的复制内容如果是URL问题找出解决即可。下面只说明防止被复制和转载。</p>
 <p>有的转载会表明出处，但是有的就不会。</p>
 <p>可以加入版权信息：</p>
-<p>echo ‘本博客若无特殊说明则由 <a href="'.get_site_url().'" title="'. get_the_author().'">‘. get_the_author() .’</a> 原创发布<br/>’;</p>
-<p>echo ‘转载请点名出处：<a href="'.get_site_url().'" title="'.get_bloginfo().'">’ .get_bloginfo().’</a> &gt; ';</p>
-<p>echo ‘<a href="'.get_permalink().'" title="'.get_the_title().'">’ .get_the_title().’</a><br/>’;</p>
-<p>echo ‘本文地址：<a href="'.get_permalink().'" title="'.get_the_title().'">’ .get_permalink().’</a>’;</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> ‘本博客若无特殊说明则由 &lt;a href=”‘.get_site_url().<span class="string">&#x27;” title=”‘. get_the_author().&#x27;</span>”&gt;’. get_the_author() .<span class="string">&#x27;&lt;/a&gt; 原创发布&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘转载请点名出处：&lt;a href=”‘.get_site_url().&#x27;</span>” title=”‘.get_bloginfo().<span class="string">&#x27;”&gt;’ .get_bloginfo().&#x27;</span>&lt;/a&gt; &gt; ‘;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ‘&lt;a href=”‘.get_permalink().<span class="string">&#x27;” title=”‘.get_the_title().&#x27;</span>”&gt;’ .get_the_title().<span class="string">&#x27;&lt;/a&gt;&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘本文地址：&lt;a href=”‘.get_permalink().&#x27;</span>” title=”‘.get_the_title().<span class="string">&#x27;”&gt;’ .get_permalink().&#x27;</span>&lt;/a&gt;’;</span><br></pre></td></tr></table></figure>
 <p>这样对于直接复制的网址（一般也是用爬虫抓取）就直接把这些版权信息抓过去了。对于搜索引擎来说，<strong>指向原处的链接是判断原创的最重要的信号。</strong></p>
 <h2 id="站点地图">站点地图</h2>
 <h3 id="sitemap和-sitemap">sitemap和 Sitemap</h3>
@@ -232,7 +229,7 @@
 <h3 id="robots-txt-中-sitemap">robots.txt 中 sitemap</h3>
 <p>所有主流搜索引擎都支持robot.txt中指定网站站点地图的位置。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post_tag-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;category-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;page-sitemap.xml</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: &#x2F;wp-admin&#x2F;</span><br></pre></td></tr></table></figure>
-<p>参考  &lt;<a target="_blank" rel="noopener" href="http://www.sitemaps.org/protocol.html#submit_robots">http://www.sitemaps.org/protocol.html#submit_robots</a>&gt;</p>
+<p>参考  (<a target="_blank" rel="noopener" href="http://www.sitemaps.org/protocol.html#submit_robots">http://www.sitemaps.org/protocol.html#submit_robots</a>)&gt;</p>
 <h3 id="在站长工具提交站点地图">在站长工具提交站点地图</h3>
 <p>先注册账号-验证网站所有权-上传Sitemaps（有的可能需要申请，如搜狗）</p>
 <ul>
@@ -245,7 +242,7 @@
 <p></p>
 <h2 id="页面优化">页面优化</h2>
 <ul>
-<li>建议title紧接在<head>后，这样搜索引擎就可以快速找到title标签</li>
+<li>建议title紧接在<code>&lt;head&gt;</code>后，这样搜索引擎就可以快速找到title标签</li>
 <li>可以使用google 站长工具 搜索外观-HTML建议部分查看需要改进的地方</li>
 <li>为每个网页创建独特的标题标签，如分页中可以在标题前加入第X页来区别，如第二页-标题  第三天页-标题</li>
 <li><strong>描述标签对关键词排名没有影响，但对点击率有一定的影响。（因为可能被拿来做搜索页的摘要）</strong></li>
@@ -287,7 +284,7 @@
 <h2 id="链接建设">链接建设</h2>
 <h3 id="锚文字">锚文字</h3>
 <p>先介绍基本概念，锚文字。</p>
-<p><a target="_blank" rel="noopener" href="https://www.hrwhisper.me/" >细语呢喃</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;&quot; &gt;细语呢喃&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
 <p>这里的“细语呢喃”就是锚文字。</p>
 <h3 id="内部链接">内部链接</h3>
 <p>选择描述性文字——您选择的用作链接的锚文本应该至少能够提供被链接页面 的基本信息。</p>
@@ -339,7 +336,7 @@
 </ul>
 <p></p>
 <h3 id="黑帽的手法">黑帽的手法</h3>
-<p><strong>黑帽<strong><strong>SEO</strong></strong>迟早被搜索引擎惩罚，不要使用这种方法。</strong></p>
+<p><strong>黑帽SEO迟早被搜索引擎惩罚，不要使用这种方法。</strong></p>
 <p>黑帽包括如下：</p>
 <ul>
 <li>隐藏文字： 如和背景颜色相近或相同的文字，来堆积关键词</li>
@@ -373,10 +370,10 @@
 <h2 id="移动适配">移动适配</h2>
 <p>可以简历专用的和PC版不一样的URL，但还是推荐响应式设计（也叫自适应设计 responsive design）。</p>
 <ul>
-<li><em>wordpress__如果主题没有响应式，可以安装</em> <em>wptouch</em></li>
+<li>wordpress_如果主题没有响应式，可以安装 wptouch</li>
 </ul>
 <p>移动自适应站百度建议加上以下标志，帮助百度理解页面适用于PC和手机</p>
-<meta name="applicable-device"content="pc,mobile">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name&#x3D;&quot;applicable-device&quot;content&#x3D;&quot;pc,mobile&quot;&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="参考资料">参考资料</h2>
 <ul>
 <li>

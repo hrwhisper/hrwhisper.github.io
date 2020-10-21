@@ -111,7 +111,6 @@
 <li>Twitter数据挖掘平台的设计与实现</li>
 </ul>
 <a id="more"></a>
-<p>[mathjax]</p>
 <h2 id="毕设-论文内容">毕设、论文内容</h2>
 <p>毕设从16年3月开始做，做到5月初，开始写论文，当时写的论文一共有七章,写了一个礼拜，从早到晚- - 共24834字。数据有的从15年11月左右开始抓的。导师那时候很忙都没空理我- - 都自己说要做啥然后自己去做。。。。</p>
 <p>论文总共有七章，结构安排如下：</p>
@@ -143,7 +142,7 @@
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord cjk_fallback">词</span><span class="mord cjk_fallback">语</span><span class="mord cjk_fallback">文</span><span class="mord cjk_fallback">档</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.344341em;vertical-align:-1.294336em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0500050000000003em;"><span style="top:-1.855664em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">主</span><span class="mord cjk_fallback mtight">题</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.294336em;"><span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord cjk_fallback">词</span><span class="mord cjk_fallback">语</span><span class="mord cjk_fallback">主</span><span class="mord cjk_fallback">题</span><span class="mclose">)</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord cjk_fallback">主</span><span class="mord cjk_fallback">题</span><span class="mord cjk_fallback">文</span><span class="mord cjk_fallback">档</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
 <p>可以用矩阵的乘法来表示上述的过程：</p>
 <p><img src="../images/twitter-data-mining-and-visualization/LDA-matrix-multiply.png" alt=""></p>
-<p>回到LDA模型来说，LDA模型的输入是一篇一篇用BOW(bag ofwords)表示的文档,即用该文档中无序的单词序列来表示该文档（忽略文档中的语法和词语的先后关系）。LDA的输出是每篇文档的主题分布矩阵和每个主题下的单词分布矩阵。简而言之，LDA主题模型的任务就是已知左边的矩阵，通过一些方法，得到右边两个小矩阵。这里的“一些方法”即为LDA采样的方法，目前最主要的有两种，一种是变分贝叶斯推断(variationalBayes, VB),另一种叫做吉布斯采样(Gibbs Sampling)，其中吉布斯采样也被称为蒙特卡洛马尔可夫 (Markov Chain MonteCarlo，MCMC)采样方法。</p>
+<p>回到LDA模型来说，LDA模型的输入是一篇一篇用BOW(bag of words)表示的文档,即用该文档中无序的单词序列来表示该文档（忽略文档中的语法和词语的先后关系）。LDA的输出是每篇文档的主题分布矩阵和每个主题下的单词分布矩阵。简而言之，LDA主题模型的任务就是已知左边的矩阵，通过一些方法，得到右边两个小矩阵。这里的“一些方法”即为LDA采样的方法，目前最主要的有两种，一种是变分贝叶斯推断(variationalBayes, VB),另一种叫做吉布斯采样(Gibbs Sampling)，其中吉布斯采样也被称为蒙特卡洛马尔可夫 (Markov Chain Monte Carlo，MCMC)采样方法。</p>
 <p>总的来说，MCMC实现起来更加简单方便，而VB的速度比MCMC来得快，研究表明他们具有差不多相同的效果。所以，对于大量的数据，采用VB是更为明智的选择。</p>
 <h3 id="hoffman-olda">Hoffman OLDA</h3>
 <p>虽然VB的速度相对而言比较快，但是对于巨大的数据来说，VB计算量仍十分巨大的，对此，Hoffman提出了Online variational Bayes (VB)算法(下面简称为OLDA)，将数据集其分为一些小的batch, 然后更新，运算速度得到了巨大的提升。</p>
@@ -317,23 +316,42 @@
 <li>对比SemEval2016结果如下</li>
 </ul>
 <p>测试集名</p>
-<p>SVM（F-score/Rank）</p>
-<p>Logistic Regression（F-score/Rank）</p>
-<p>2013 Tweet</p>
-<p>0.701 / 5</p>
-<p>0.714 / 3</p>
-<p>2013 SMS</p>
-<p>0.719 / 1</p>
-<p>0.722 / 1</p>
-<p>2014 Tweet</p>
-<p>0.693 / 8</p>
-<p>0.692 / 8</p>
-<p>2014 Tweet sarcasm</p>
-<p>0.478 / 6</p>
-<p>0.478 / 6</p>
-<p>2014 Live Journal</p>
-<p>0.712 / 4</p>
-<p>0.726 / 2</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">测试集名</th>
+<th style="text-align:left">SVM（F-score/Rank）</th>
+<th style="text-align:left">Logistic Regression（F-score/Rank）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">2013 Tweet</td>
+<td style="text-align:left">0.701 / 5</td>
+<td style="text-align:left">0.714 / 3</td>
+</tr>
+<tr>
+<td style="text-align:left">2013 SMS</td>
+<td style="text-align:left">0.719 / 1</td>
+<td style="text-align:left">0.722 / 1</td>
+</tr>
+<tr>
+<td style="text-align:left">2014 Tweet</td>
+<td style="text-align:left">0.693 / 8</td>
+<td style="text-align:left">0.692 / 8</td>
+</tr>
+<tr>
+<td style="text-align:left">2014 Tweet sarcasm</td>
+<td style="text-align:left">0.478 / 6</td>
+<td style="text-align:left">0.478 / 6</td>
+</tr>
+<tr>
+<td style="text-align:left">2014 Live Journal</td>
+<td style="text-align:left">0.712 / 4</td>
+<td style="text-align:left">0.726 / 2</td>
+</tr>
+</tbody>
+</table>
 <p></p>
 <h2 id="数据可视化">数据可视化</h2>
 <p>为什么要进行数据可视化呢？因为可以更快速、更轻松的提取出数据的含义。例如</p>
@@ -386,21 +404,37 @@
 <p><img src="../images/twitter-data-mining-and-visualization/twitter-data-mining-and-visualization-system-framwork.jpg" alt=""></p>
 <h3 id="数据抓取模块">数据抓取模块</h3>
 <p>数据抓取模块的主要功能是根据用户想要追踪的信息，向Twitter发送相应的请求。对于数据挖掘的平台来说，一个健壮的数据挖取模块是十分必要的。这个模块除了应对超过API的限定的速率错误外，各种HTTP的错误也是需要进行处理的。Twitter常见的HTTP错误及应对措施如下：</p>
-<p><strong>错误代码</strong></p>
-<p><strong>错误描述</strong></p>
-<p><strong>应对措施</strong></p>
-<p><strong>401</strong></p>
-<p>无OAuth验证或验证失败</p>
-<p>提示进行OAuth验证</p>
-<p><strong>404</strong></p>
-<p>URI请求不合法或查询内容不存在</p>
-<p>返回空</p>
-<p><strong>429</strong></p>
-<p>超出速率限制</p>
-<p>等待15分钟继续，或者换另外一个账号继续抓取</p>
-<p><strong>500,502,503,504</strong></p>
-<p>服务器错误</p>
-<p>等一段时间继续，每次错误将等待时间延长，超过一定的错误次数报错。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>错误代码</strong></th>
+<th style="text-align:left"><strong>错误描述</strong></th>
+<th style="text-align:left"><strong>应对措施</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>401</strong></td>
+<td style="text-align:left">无OAuth验证或验证失败</td>
+<td style="text-align:left">提示进行OAuth验证</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>404</strong></td>
+<td style="text-align:left">URI请求不合法或查询内容不存在</td>
+<td style="text-align:left">返回空</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>429</strong></td>
+<td style="text-align:left">超出速率限制</td>
+<td style="text-align:left">等待15分钟继续，或者换另外一个账号继续抓取</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>500,502,503,504</strong></td>
+<td style="text-align:left">服务器错误</td>
+<td style="text-align:left">等一段时间继续，每次错误将等待时间延长，超过一定的错误次数报错。</td>
+</tr>
+</tbody>
+</table>
 <p>更多的Twitter从错误代码详见<a target="_blank" rel="noopener" href="https://dev.Twitter.com/overview/api/response-codes">Twitter开发者平台</a>。</p>
 <h3 id="数据存储模块">数据存储模块</h3>
 <p>数据存储的功能主要是对于数据抓取模块所抓取的数据进行存储，方便日后的继续研究；以及对存储内容的读取、查询。主要用到了MongoDB数据库。</p>
@@ -416,51 +450,87 @@
 <p>Twitter 返回的原始推文信息是十分庞大的，除了140字符的文字，还有许多其他的字段。若将其展开，其内容将会超过5KB,这大约我们认为的140个字符文字的37倍！并且由于Twitter中有大量的字段经常为空，用MongoDB进行存储时，不管该字段是否为空，都会进行存储，这样一来将占据大量的存储空间，并且其占据的空间与字段长度成正相关的关系。比如说，“in_reply_to_user_id” 一栏往往为空，但是存储中仍会有这个字段。</p>
 <p>对此，需要对字段进行删减，只保留一些有用的字段，当该字段为空的时候不存储，且对字段进行重命名操作，减少其长度。</p>
 <p>更新后所保留的字段如下表：</p>
-<p><strong>字段名</strong></p>
-<p><strong>原字段名</strong></p>
-<p><strong>类型</strong></p>
-<p><strong>geo</strong></p>
-<p>coordinates</p>
-<p>array</p>
-<p><strong>date</strong></p>
-<p>created_at</p>
-<p>date</p>
-<p><strong>like</strong></p>
-<p>favorite_count</p>
-<p>int</p>
-<p><strong>id</strong></p>
-<p>id_str</p>
-<p>string</p>
-<p><strong>reply_id</strong></p>
-<p>in_reply_to_status_id_str</p>
-<p>string</p>
-<p><strong>reply_user_id</strong></p>
-<p>in_reply_to_user_id_str</p>
-<p>string</p>
-<p><strong>quoted_id</strong></p>
-<p>quoted_status_id_str</p>
-<p>string</p>
-<p><strong>retweet_id</strong></p>
-<p>retweeted_status[‘id_str’]</p>
-<p>string</p>
-<p><strong>retweet_count</strong></p>
-<p>retweet_count</p>
-<p>int</p>
-<p><strong>text</strong></p>
-<p>text</p>
-<p>string</p>
-<p><strong>use_id</strong></p>
-<p>user[‘user_id_str’]</p>
-<p>string</p>
-<p><strong>hashtags</strong></p>
-<p>entities[‘hashtags’][‘text’]</p>
-<p>array</p>
-<p><strong>urls</strong></p>
-<p>entities[‘usrls’][‘expanded_url’]</p>
-<p>array</p>
-<p><strong>user_mentions</strong></p>
-<p>entities[‘mentions’][‘id_str’]</p>
-<p>array</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>字段名</strong></th>
+<th style="text-align:left"><strong>原字段名</strong></th>
+<th style="text-align:left"><strong>类型</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>geo</strong></td>
+<td style="text-align:left">coordinates</td>
+<td style="text-align:left">array</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>date</strong></td>
+<td style="text-align:left">created_at</td>
+<td style="text-align:left">date</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>like</strong></td>
+<td style="text-align:left">favorite_count</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>id</strong></td>
+<td style="text-align:left">id_str</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>reply_id</strong></td>
+<td style="text-align:left">in_reply_to_status_id_str</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>reply_user_id</strong></td>
+<td style="text-align:left">in_reply_to_user_id_str</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>quoted_id</strong></td>
+<td style="text-align:left">quoted_status_id_str</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>retweet_id</strong></td>
+<td style="text-align:left">retweeted_status[‘id_str’]</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>retweet_count</strong></td>
+<td style="text-align:left">retweet_count</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>text</strong></td>
+<td style="text-align:left">text</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>use_id</strong></td>
+<td style="text-align:left">user[‘user_id_str’]</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>hashtags</strong></td>
+<td style="text-align:left">entities[‘hashtags’][‘text’]</td>
+<td style="text-align:left">array</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>urls</strong></td>
+<td style="text-align:left">entities[‘usrls’][‘expanded_url’]</td>
+<td style="text-align:left">array</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>user_mentions</strong></td>
+<td style="text-align:left">entities[‘mentions’][‘id_str’]</td>
+<td style="text-align:left">array</td>
+</tr>
+</tbody>
+</table>
 <p>一个直观的对比就是1000多万条推文的时候，按Twitter API返回的结果直接进行存储，就有97.906GB的空间。而精简后的只剩下了9.949GB，体积减少了将近90%，但是携带的有用的信息几乎没少，这有利于数据的查询和存储。</p>
 <h3 id="主题分析模块">主题分析模块</h3>
 <p>主题的模块主要是对推文数据进行主题的挖掘，这些推文数据可以来自抓取模块中实时获取的Twitter数据，也可以来自数据存储模块中获取历史的数据。通过对数据的实时计算，计算出主题词以及最具有代表性的推文，并按照话题的热度进行排序，返回给前台页面。</p>

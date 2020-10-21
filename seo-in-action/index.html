@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">1.3k</span>
         </span>
     </span>
 
@@ -108,8 +108,8 @@
 <p>wordpress 下 强烈建议安装。</p>
 <p>可以帮你修改每页的标题、写博客的时候计算关键词、生成Sitemap等等。</p>
 <h2 id="重定向wordpress-固定链接">重定向wordpress 固定链接</h2>
-<p><a target="_blank" rel="noopener" href="http://xn--www-998d86phri2vo60n7oes68bdiu.hrwhisper.me/archives/id">之前的网址格式是www.hrwhisper.me/archives/id</a><br>
-之后改为了 <a target="_blank" rel="noopener" href="http://www.hrwhisper.me/title">www.hrwhisper.me/title</a><br>
+<p>之前的网址格式是<code>www.hrwhisper.me/archives/id</code><br>
+之后改为了<code> www.hrwhisper.me/title</code><br>
 那么，原来的就一片404了。<br>
 如下：（google search console）</p>
 <p><img src="../images/seo-in-action/seo-google-search-console-404.png" alt="seo-google-search-console-404"><br>
@@ -118,35 +118,34 @@
 <li>
 <p><a target="_blank" rel="noopener" href="http://hrwhisper.me/archives/1484">http://hrwhisper.me/archives/1484</a></p>
 <ul>
-<li>RedirectMatch 301 ^/archives/([0-9]*)$  <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/?p=$1">https://www.hrwhisper.me/?p=$1</a></li>
+<li><code>RedirectMatch 301 ^/archives/([0-9]*)$  https://www.hrwhisper.me/?p=$1</code></li>
 </ul>
 </li>
 <li>
 <p><a target="_blank" rel="noopener" href="http://hrwhisper.me/archives/date/2%E2%80%8B015/05/02">http://hrwhisper.me/archives/date/2​015/05/02</a></p>
 <ul>
-<li>RedirectMatch 301 ^/archives/date/([0-9]<em>)/([0-9]</em>)/([0-9]*)$ <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/$1/$2/$3/">https://www.hrwhisper.me/$1/$2/$3/</a></li>
+<li><code>RedirectMatch 301 ^/archives/date/([0-9]*)/([0-9]*)/([0-9]*)$ https://www.hrwhisper.me/$1/$2/$3/</code></li>
 </ul>
 </li>
 <li>
 <p><a target="_blank" rel="noopener" href="http://hrwhisper.me/archives/tag/bi%E2%80%8Bt-manipulation">http://hrwhisper.me/archives/tag/bi​t-manipulation</a></p>
 <ul>
-<li>RedirectMatch 301 ^/archives/tag/(.*)$ <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/tag/$1/">https://www.hrwhisper.me/tag/$1/</a></li>
+<li><code>RedirectMatch 301 ^/archives/tag/(.*)$ https://www.hrwhisper.me/tag/$1/</code></li>
 </ul>
 </li>
 <li>
 <p>还有https://www.hrwhisper.me/archives/category/code/的，可以和上面的合并</p>
 <ul>
-<li>RedirectMatch 301 ^/archives/(.*)$ <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/$1/">https://www.hrwhisper.me/$1/</a></li>
+<li><code> RedirectMatch 301 ^/archives/(.*)$ https://www.hrwhisper.me/$1/</code></li>
 </ul>
 </li>
 </ul>
 <p>注意：中文的URL会被自动decode，也就是说你在.htaccess中只要写中文即可。</p>
 <ul>
-<li>RedirectMatch 301 ^/关于我$ <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/about-me/">https://www.hrwhisper.me/about-me/</a></li>
+<li><code>RedirectMatch 301 ^/关于我$ https://www.hrwhisper.me/about-me/</code></li>
 </ul>
 <p>最后，我的部分.htaccess:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;?p&#x3D;$1</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;page&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;page&#x2F;$3&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;$3&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;page&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;$3&#x2F;page&#x2F;$4&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;</span><br><span class="line"></span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;图像处理&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;image-processing&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;爬虫&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;crawler&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;python库&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;python-package&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;心情&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;moods&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;mymood&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;moods&#x2F;</span><br><span class="line"></span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;环境配置&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;running-environment&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;关于&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;about-me&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;关于我$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;about-me&#x2F;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;?p&#x3D;$1</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;page&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;page&#x2F;$3&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;$3&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;page&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;$3&#x2F;page&#x2F;$4&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;</span><br><span class="line"></span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;图像处理&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;image-processing&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;爬虫&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;crawler&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;python库&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;python-package&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;心情&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;moods&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;mymood&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;moods&#x2F;</span><br><span class="line"></span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;环境配置&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;running-environment&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;关于&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;about-me&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;关于我$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;about-me&#x2F;</span><br></pre></td></tr></table></figure>
 <p>参考： <a target="_blank" rel="noopener" href="https://perishablepress.com/redirect-wordpress-date-archives-htaccess/">https://perishablepress.com/redirect-wordpress-date-archives-htaccess/</a></p>
 <h2 id="sitemap提交">Sitemap提交</h2>
 <ul>
@@ -178,30 +177,25 @@
 <em>ment-106&quot;&gt;<time pubdate datetime="2015-07-01T22:17:13+00:00">2015年7</em><br>
 <em>Attributes for element time:</em></p>
 </blockquote>
-<p>在duoshuo/comments-seo.php<br>
-<time pubdate datetime="%2$s">%3<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>&lt;</mo><mi mathvariant="normal">/</mi><mi>t</mi><mi>i</mi><mi>m</mi><mi>e</mi><mo>&gt;</mo><mo>&lt;</mo><mi mathvariant="normal">/</mi><mi>a</mi><msup><mo>&gt;</mo><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><mtext>改为</mtext><mo>&lt;</mo><mi>t</mi><mi>i</mi><mi>m</mi><mi>e</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>t</mi><mi>i</mi><mi>m</mi><mi>e</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">s&lt;/time&gt;&lt;/a&gt;&#x27;,
-改为&lt;time datetime=&quot;%2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">/</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="mord">/</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel">&gt;</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">改</span><span class="mord cjk_fallback">为</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mord mathdefault">d</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">&quot;</span></span></span></span>s&quot;&gt;%3$s</time></a>’,</p>
+<p>在duoshuo/comments-seo.php</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">time</span> <span class="attr">pubdate</span> <span class="attr">datetime</span>=<span class="string">”%2$s”</span>&gt;</span>%3$s<span class="tag">&lt;/<span class="name">time</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span>’,</span><br><span class="line">改为<span class="tag">&lt;<span class="name">time</span> <span class="attr">datetime</span>=<span class="string">”%2$s”</span>&gt;</span>%3$s<span class="tag">&lt;/<span class="name">time</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span>’,</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><em>Warning: The name attribute is obsolete. Consider putting an id attribute on the nearest container instead.</em><br>
 <em>From line 342, column 10; to line 342, column 28</em><br>
 <em></script><a name="comments"></a></em></p>
 </blockquote>
-<p></script><a name="comments"></a><br>
-duoshuo/comments.php<br>
-删掉<a name="comments"></a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">name</span>=<span class="string">”comments”</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">duoshuo/comments.php</span><br><span class="line">删掉<span class="tag">&lt;<span class="name">a</span> <span class="attr">name</span>=<span class="string">”comments”</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><em>Warning: Article lacks heading. Consider using h2-h6 elements to add identifying headings to all articles.</em><br>
 <em>From line 376, column 4; to line 376, column 45</em><br>
 <em>-187&quot;&gt; <article id="comment-187" class="comment"></em></p>
 </blockquote>
-<p>duoshuo/comments-seo.php</p>
-<article id="comment-<?php comment_ID(); ?>" class="comment">
-改为 <div id="comment-<?php comment_ID(); ?>" class="comment">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">duoshuo/comments-seo.php</span><br><span class="line">&lt;article id=”comment-&lt;?php comment_ID(); ?&gt;” class=”comment”&gt;</span><br><span class="line">改为 &lt;div id=”comment-&lt;?php comment_ID(); ?&gt;” class=”comment”&gt;</span><br></pre></td></tr></table></figure>
 <p>ps:博主blog除了个别多说评论页面有表情的提示无alt属性没通过验证外，其他的均通过W3C验证。</p>
 <h2 id="移动自适应">移动自适应</h2>
 <p>原来用 wptouch pro 现在已经响应式主题。<br>
 根据百度建议加上如下标志，帮助百度理解页面适用于PC和手机</p>
-<meta name="applicable-device"content="pc,mobile">
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;applicable-device&quot;</span><span class="attr">content</span>=<span class="string">&quot;pc,mobile&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>可以在google search console上查看移动设备的适应性</p>
 <h2 id="https">Https</h2>
 <p>开启了全站https，搜索引擎把HTTPS作为一个排名的因素</p>
