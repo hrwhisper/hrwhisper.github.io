@@ -105,7 +105,7 @@
   <p>EM算法即期望最大化算法(Expectation-Maximum）算法，它用于含有因变量的概率模型参数的极大似然估计，或极大后验估计。很多机器学习算法采用它进行求解，如高斯混合模型、LDA主题模型的变分推断等。</p>
 <a id="more"></a>
 <h2 id="em算法的引入">EM算法的引入</h2>
-<p>下面的例子来自^[1]^。</p>
+<p>下面的例子来自[1]。</p>
 <h3 id="极大似然估计">极大似然估计</h3>
 <p>假设有两枚硬币A和B，每次选一个硬币来抛10次。现在已经进行了5轮（也就是选了5次硬币，并分别抛了10次）结果如下（H表示正面，T表示反面）：</p>
 <p><img src="../images/machine-learning-em-algorithm/em-algorithm-maximum-likelihood.png" alt="em-algorithm-maximum-likelihood"></p>
@@ -274,8 +274,8 @@ f(E[x]) &amp;\ge E[f(x)] \tag{2-5}
 <p class='katex-block katex-error' title='ParseError: KaTeX parse error: No such environment: align* at position 7: \begin{̲a̲l̲i̲g̲n̲*̲}̲
 l(\theta) &amp;= \…'>\begin{align*}
 l(\theta) &amp;= \sum_{i=1}^N\log p(x_i ; \theta)\\
-&amp;=\sum_{i=1}^N \log \sum_{z_i} p(x_i,z_i ; \theta)
-\end{align*}\tag{3-1}
+&amp;=\sum_{i=1}^N \log \sum_{z_i} p(x_i,z_i ; \theta)\tag{3-1}
+\end{align*}
 </p>
 <p>注意这里的符号：</p>
 <blockquote>

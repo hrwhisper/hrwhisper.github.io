@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">548</span>
+            <span class="post-count">545</span>
         </span>
     </span>
 
@@ -125,7 +125,7 @@
 <li>0x12: 34</li>
 <li>0x13: 12</li>
 </ul>
-<p>可以看出，大端序可读性很好，从地址低到高就是我们的数，可读性很好，而小端序完全相反了。</p>
+<p>可以看出，<strong>大端序可读性很好</strong>，从地址低到高就是我们的数，可读性很好，而小端序完全相反了。</p>
 <p>为什么要有小端序呢？这是因为计算机电路先处理低位字节，效率比较高，因为计算都是从低位开始的。所以，计算机的内部处理都是小端字节序。<br>
 但是，大端序更符合人类的习惯。所以，除了计算机的内部处理，其他的场合几乎都是大端字节序，比如网络传输和文件储存。</p>
 <h2 id="判断大端序or小端序">判断大端序or小端序</h2>
@@ -133,9 +133,9 @@
 <p>我们知道，要看是大小端，我们只需要看最低的地址是高位还是低位，于是，我们可以用数字1，若是大端序，则最低地址应该为0，若为小端序，则最低地址应该为1。</p>
 <p>那么对于一个int类型，如何才知道最低地址呢？</p>
 <p>用一个char的指针指向一个int即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bool isLittleEndian() &#123;</span><br><span class="line">int testNum &#x3D; 1;</span><br><span class="line">char * p &#x3D; (char *)&amp;testNum;</span><br><span class="line">return *p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isLittleEndian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> testNum = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> * p = (<span class="keyword">char</span> *)&amp;testNum;</span><br><span class="line">	<span class="keyword">return</span> *p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>还可以用 union类型，union存放顺序是所有成员都从低地址开始存放。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bool isLittleEndian() &#123;</span><br><span class="line">union &#123;</span><br><span class="line">int testNum;</span><br><span class="line">char singleByte;</span><br><span class="line">&#125; test;</span><br><span class="line">test.testNum &#x3D; 1;</span><br><span class="line">return test.singleByte;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isLittleEndian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">union</span> &#123;</span><br><span class="line">		<span class="keyword">int</span> testNum;</span><br><span class="line">		<span class="keyword">char</span> singleByte;</span><br><span class="line">	&#125; test;</span><br><span class="line">	test.testNum = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> test.singleByte;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看出，我们的计算机一般是用小端序的，需要注意的是JAVA是大端序的。</p>
  
       <!-- reward -->

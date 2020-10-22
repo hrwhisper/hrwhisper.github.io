@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">1.8k</span>
         </span>
     </span>
 
@@ -87,7 +87,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">6 min</span>
+            <span class="post-count">10 min</span>
         </span>
     </span>
 </div>
@@ -112,117 +112,7 @@
 </ul>
 <p>首先让大家看看效果<br>
 点击获取经纬度坐标</p>
-
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRk0h7XH8hieXFGV4N-yi89lkZUd9u4AE"type="text/javascript"></script>
-<button class="btn btn-primary" data-toggle="modal" data-target="#google_maps_api">点击获取经纬度坐标</button>
-
-&nbsp;
-<div id="google_maps_api" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-
-<button class="close" type="button" data-dismiss="modal" aria-hidden="true">×</button>
-<div id="myModalLabel" class="modal-title">选取locations</div>
-</div>
-<div class="modal-body">
-<div id="map_canvas" style="width: 100%; height: 450px;"></div>
-</div>
-<div class="modal-footer"><button class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">OK</button></div>
-</div>
-</div>
-</div>
-<script>
-var googleMap = {
-    map: null,
-    markers: {},
-    currentId: 0,
-    uniqueId: function () {
-        return ++this.currentId;
-    },
-    infowindow: new google.maps.InfoWindow({
-        size: new google.maps.Size(150, 50)
-    }),
-    initialize: function () {
-        if (this.map) return null;
-        var myOptions = {
-            zoom: 2,
-            center: new google.maps.LatLng(43, 0),
-            mapTypeControl: true,
-            mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
-            navigationControl: true,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        this.map = new google.maps.Map(document.getElementById("map_canvas"),
-            myOptions);
-        google.maps.event.addListener(this.map, 'click', function () {
-            googleMap.infowindow.close();
-        });
-        google.maps.event.addListener(this.map, 'click', function (event) {
-            var Latitude = event.latLng.lat().toFixed(2);
-            var longitude = event.latLng.lng().toFixed(2);
-            googleMap.addMarker(event.latLng, "name", "<b>Location</b><br>" +Latitude +","+ longitude,
-                Latitude +","+ longitude);
-        });
-        //google.maps.event.addListener(this.map, 'click', function (event) {
-        //    console.log("Latitude: " + event.latLng.lat() + " " + ", longitude: " + event.latLng.lng());
-        //});
-    },
-    addMarker: function (Gpoint, name, contentString, geo) {
-        var id = this.uniqueId(); // get new id
-        marker = new google.maps.Marker({
-            id: id,
-            position: Gpoint,
-            geo : geo,
-            map: googleMap.map,
-            draggable: true,
-            animation: google.maps.Animation.DROP
-        });
-        google.maps.event.addListener(marker, 'click', function () {
-            googleMap.infowindow.setPosition(this.position);
-            googleMap.infowindow.setContent(contentString);
-            googleMap.infowindow.open(googleMap.map, marker);
-        });
-        google.maps.event.trigger(marker, 'click');
-        googleMap.map.panTo(Gpoint);
-        this.markers[id] = marker;
-        google.maps.event.addListener(marker, "rightclick", function (point) {
-            googleMap.delMarker(this.id)
-        });
-        //var res = '';
-        //for (i in googleMap.markers){
-        //   res += googleMap.markers[i].geo + ',';
-        //}
-        //res = res.substring(0,res.length-1)
-        //console.log(res);
-    },
-    delMarker: function (id) {
-        this.markers[id].setMap(null);
-        delete  this.markers[id];
-    }
-};
-</script>
-<script>
-		jQuery(document).ready(function($) {
-			$("#google_maps_api").on("shown.bs.modal", function () {
-				googleMap.initialize();
-			   // googleMap.maps.event.trigger(map, "resize");
-			}).on('hide.bs.modal', function () { //关闭模态框
-				var res = '';
-				for (var i in googleMap.markers)
-					res += '(' + googleMap.markers[i].geo + '),';
-				res = res.substring(0,res.length-1);
-				$("#locationText").val(res);
-			});
-		});
-	</script>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line"></span><br><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https:&#x2F;&#x2F;stackpath.bootstrapcdn.com&#x2F;bootstrap&#x2F;4.4.1&#x2F;css&#x2F;bootstrap.min.css&quot; integrity&#x3D;&quot;sha384-Vkoo8x4CGsO3+Hhxv8T&#x2F;Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh&quot; crossorigin&#x3D;&quot;anonymous&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;code.jquery.com&#x2F;jquery-3.4.1.slim.min.js&quot; integrity&#x3D;&quot;sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n&quot; crossorigin&#x3D;&quot;anonymous&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;popper.js@1.16.0&#x2F;dist&#x2F;umd&#x2F;popper.min.js&quot; integrity&#x3D;&quot;sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo&quot; crossorigin&#x3D;&quot;anonymous&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;stackpath.bootstrapcdn.com&#x2F;bootstrap&#x2F;4.4.1&#x2F;js&#x2F;bootstrap.min.js&quot; integrity&#x3D;&quot;sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6&quot; crossorigin&#x3D;&quot;anonymous&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;maps.googleapis.com&#x2F;maps&#x2F;api&#x2F;js?key&#x3D;AIzaSyDRk0h7XH8hieXFGV4N-yi89lkZUd9u4AE&quot;type&#x3D;&quot;text&#x2F;javascript&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;button class&#x3D;&quot;btn btn-primary&quot; data-toggle&#x3D;&quot;modal&quot; data-target&#x3D;&quot;#google_maps_api&quot;&gt;点击获取经纬度坐标&lt;&#x2F;button&gt;</span><br><span class="line"></span><br><span class="line">&amp;nbsp;</span><br><span class="line">&lt;div id&#x3D;&quot;google_maps_api&quot; class&#x3D;&quot;modal fade&quot; tabindex&#x3D;&quot;-1&quot; role&#x3D;&quot;dialog&quot; aria-labelledby&#x3D;&quot;myModalLabel&quot; aria-hidden&#x3D;&quot;true&quot;&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-dialog&quot;&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-content&quot;&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-header&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;button class&#x3D;&quot;close&quot; type&#x3D;&quot;button&quot; data-dismiss&#x3D;&quot;modal&quot; aria-hidden&#x3D;&quot;true&quot;&gt;×&lt;&#x2F;button&gt;</span><br><span class="line">&lt;div id&#x3D;&quot;myModalLabel&quot; class&#x3D;&quot;modal-title&quot;&gt;选取locations&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-body&quot;&gt;</span><br><span class="line">&lt;div id&#x3D;&quot;map_canvas&quot; style&#x3D;&quot;width: 100%; height: 450px;&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div class&#x3D;&quot;modal-footer&quot;&gt;&lt;button class&#x3D;&quot;btn btn-primary&quot; type&#x3D;&quot;button&quot; data-dismiss&#x3D;&quot;modal&quot; aria-hidden&#x3D;&quot;true&quot;&gt;OK&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var googleMap &#x3D; &#123;</span><br><span class="line">    map: null,</span><br><span class="line">    markers: &#123;&#125;,</span><br><span class="line">    currentId: 0,</span><br><span class="line">    uniqueId: function () &#123;</span><br><span class="line">        return ++this.currentId;</span><br><span class="line">    &#125;,</span><br><span class="line">    infowindow: new google.maps.InfoWindow(&#123;</span><br><span class="line">        size: new google.maps.Size(150, 50)</span><br><span class="line">    &#125;),</span><br><span class="line">    initialize: function () &#123;</span><br><span class="line">        if (this.map) return null;</span><br><span class="line">        var myOptions &#x3D; &#123;</span><br><span class="line">            zoom: 2,</span><br><span class="line">            center: new google.maps.LatLng(43, 0),</span><br><span class="line">            mapTypeControl: true,</span><br><span class="line">            mapTypeControlOptions: &#123;style: google.maps.MapTypeControlStyle.DROPDOWN_MENU&#125;,</span><br><span class="line">            navigationControl: true,</span><br><span class="line">            mapTypeId: google.maps.MapTypeId.ROADMAP</span><br><span class="line">        &#125;;</span><br><span class="line">        this.map &#x3D; new google.maps.Map(document.getElementById(&quot;map_canvas&quot;),</span><br><span class="line">            myOptions);</span><br><span class="line">        google.maps.event.addListener(this.map, &#39;click&#39;, function () &#123;</span><br><span class="line">            googleMap.infowindow.close();</span><br><span class="line">        &#125;);</span><br><span class="line">        google.maps.event.addListener(this.map, &#39;click&#39;, function (event) &#123;</span><br><span class="line">            var Latitude &#x3D; event.latLng.lat().toFixed(2);</span><br><span class="line">            var longitude &#x3D; event.latLng.lng().toFixed(2);</span><br><span class="line">            googleMap.addMarker(event.latLng, &quot;name&quot;, &quot;&lt;b&gt;Location&lt;&#x2F;b&gt;&lt;br&gt;&quot; +Latitude +&quot;,&quot;+ longitude,</span><br><span class="line">                Latitude +&quot;,&quot;+ longitude);</span><br><span class="line">        &#125;);</span><br><span class="line">        &#x2F;&#x2F;google.maps.event.addListener(this.map, &#39;click&#39;, function (event) &#123;</span><br><span class="line">        &#x2F;&#x2F;    console.log(&quot;Latitude: &quot; + event.latLng.lat() + &quot; &quot; + &quot;, longitude: &quot; + event.latLng.lng());</span><br><span class="line">        &#x2F;&#x2F;&#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    addMarker: function (Gpoint, name, contentString, geo) &#123;</span><br><span class="line">        var id &#x3D; this.uniqueId(); &#x2F;&#x2F; get new id</span><br><span class="line">        marker &#x3D; new google.maps.Marker(&#123;</span><br><span class="line">            id: id,</span><br><span class="line">            position: Gpoint,</span><br><span class="line">            geo : geo,</span><br><span class="line">            map: googleMap.map,</span><br><span class="line">            draggable: true,</span><br><span class="line">            animation: google.maps.Animation.DROP</span><br><span class="line">        &#125;);</span><br><span class="line">        google.maps.event.addListener(marker, &#39;click&#39;, function () &#123;</span><br><span class="line">            googleMap.infowindow.setPosition(this.position);</span><br><span class="line">            googleMap.infowindow.setContent(contentString);</span><br><span class="line">            googleMap.infowindow.open(googleMap.map, marker);</span><br><span class="line">        &#125;);</span><br><span class="line">        google.maps.event.trigger(marker, &#39;click&#39;);</span><br><span class="line">        googleMap.map.panTo(Gpoint);</span><br><span class="line">        this.markers[id] &#x3D; marker;</span><br><span class="line">        google.maps.event.addListener(marker, &quot;rightclick&quot;, function (point) &#123;</span><br><span class="line">            googleMap.delMarker(this.id)</span><br><span class="line">        &#125;);</span><br><span class="line">        &#x2F;&#x2F;var res &#x3D; &#39;&#39;;</span><br><span class="line">        &#x2F;&#x2F;for (i in googleMap.markers)&#123;</span><br><span class="line">        &#x2F;&#x2F;   res +&#x3D; googleMap.markers[i].geo + &#39;,&#39;;</span><br><span class="line">        &#x2F;&#x2F;&#125;</span><br><span class="line">        &#x2F;&#x2F;res &#x3D; res.substring(0,res.length-1)</span><br><span class="line">        &#x2F;&#x2F;console.log(res);</span><br><span class="line">    &#125;,</span><br><span class="line">    delMarker: function (id) &#123;</span><br><span class="line">        this.markers[id].setMap(null);</span><br><span class="line">        delete  this.markers[id];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">		jQuery(document).ready(function($) &#123;</span><br><span class="line">			$(&quot;#google_maps_api&quot;).on(&quot;shown.bs.modal&quot;, function () &#123;</span><br><span class="line">				googleMap.initialize();</span><br><span class="line">			   &#x2F;&#x2F; googleMap.maps.event.trigger(map, &quot;resize&quot;);</span><br><span class="line">			&#125;).on(&#39;hide.bs.modal&#39;, function () &#123; &#x2F;&#x2F;关闭模态框</span><br><span class="line">				var res &#x3D; &#39;&#39;;</span><br><span class="line">				for (var i in googleMap.markers)</span><br><span class="line">					res +&#x3D; &#39;(&#39; + googleMap.markers[i].geo + &#39;),&#39;;</span><br><span class="line">				res &#x3D; res.substring(0,res.length-1);</span><br><span class="line">				$(&quot;#locationText&quot;).val(res);</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;);</span><br><span class="line">	&lt;&#x2F;script&gt;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="获取api-key">获取API key</h2>
 <p>要使用google map API，那么需要获取API key，才能使用，获取的地址为：<a target="_blank" rel="noopener" href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend,places_backend&amp;reusekey=true">get API key</a></p>
 <p>在获取完之后，将下面的YOUKEY改为你的API key，引入需要的js文件</p>

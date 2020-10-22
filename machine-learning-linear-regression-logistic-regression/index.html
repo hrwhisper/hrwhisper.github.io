@@ -334,8 +334,8 @@ X^T(h(x) - y)
                 \vdots   \\
                  w_d - \eta\sum_{i=1}^n(h(x_i)-y_i) x_{id}   \\
                w_{d+1} - \eta \sum_{i=1}^n(h(x_i)-y_i) x_{i(d+1)}  \\
-         \end{bmatrix}
-\end{align} \tag{2-4}
+         \end{bmatrix} \tag{2-4}
+\end{align}
 </p>
 <p>看到这里就懂了吧？ 式2-4是2-3等价的矩阵表示。</p>
 <p>因此我们可以用式2-4来写程序~</p>
@@ -393,15 +393,15 @@ p(Y = -1 | {\bf x}) &amp;= 1-P(Y = 1|{\bf x}) \\
 \frac{\partial…'>\begin{align*}
 \frac{\partial h_k}{\partial \bf w_j} &amp;=  \frac{e^{\bf w_k^Tx} }{\sum_{a=1}^Ke^{\bf w_a^Tx} } {\bf x} - \frac{e^{\bf w_k^Tx} }{(\sum_{a=1}^Ke^{\bf w_a^Tx})^2} e^{\bf w_j^Tx} {\bf x}\\
 &amp;=h_k (1 - h_j){\bf x} \\
-&amp;=h_j (1 - h_j){\bf x} \\
-\end{align*}\tag{3-4}
+&amp;=h_j (1 - h_j){\bf x} \tag{3-4}
+\end{align*}
 </p>
 <p>对于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo mathvariant="normal">≠</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">j \ne k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>的求导，有:</p>
 <p class='katex-block katex-error' title='ParseError: KaTeX parse error: No such environment: align* at position 7: \begin{̲a̲l̲i̲g̲n̲*̲}̲
 \frac{\partial…'>\begin{align*}
 \frac{\partial h_k}{\partial \bf w_j} &amp;=  - \frac{e^{\bf w_k^Tx} }{(\sum_{a=1}^Ke^{\bf w_a^Tx})^2} e^{\bf w_j^Tx} {\bf x}\\
-&amp;=-h_k h_j{\bf x}
-\end{align*}\tag{3-5}
+&amp;=-h_k h_j{\bf x}\tag{3-5}
+\end{align*}
 </p>
 <p>于是，我们现在就可以求3-3 <strong>单个样本</strong>的交叉熵的导数了：</p>
 <p class='katex-block katex-error' title='ParseError: KaTeX parse error: No such environment: align* at position 7: \begin{̲a̲l̲i̲g̲n̲*̲}̲

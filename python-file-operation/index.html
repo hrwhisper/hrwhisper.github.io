@@ -105,75 +105,143 @@
   <p>最近在做人工智能的时候，面对几万个PPT，想要拆分成几个组，每组100个。</p>
 <p>于是学了学python文件操作，轻松解决。</p>
 <a id="more"></a>
-<h1>Code</h1>
+<h2 id="code">Code</h2>
 <p>首先获取该目录下的所有文件名，然后根据个数判断当前文件应该属于哪一个文件夹。</p>
 <p>如果文件夹不存在，那么创建之，最后拷贝过去即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8 -*-</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">author:  hrwhipser</span><br><span class="line">date   :  May 13, 2015</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">from win32com import client as wc </span><br><span class="line">import os</span><br><span class="line">import shutil</span><br><span class="line">    </span><br><span class="line">pdfPath &#x3D; r&#39;J:\realpdf\allpaper&#39;</span><br><span class="line">files  &#x3D; os.walk(pdfPath).next()[2] </span><br><span class="line">cnt &#x3D; 0</span><br><span class="line">for i,file in enumerate(files):</span><br><span class="line">    print i,file</span><br><span class="line">    newfilePath &#x3D; pdfPath+&#39;\\&#39;+str(cnt)</span><br><span class="line">    if i &#x2F; 100 &gt; cnt :</span><br><span class="line">        cnt +&#x3D; 1</span><br><span class="line">        newfilePath &#x3D; pdfPath+&#39;\\&#39;+str(cnt)</span><br><span class="line">        </span><br><span class="line">    if not os.path.exists(newfilePath):</span><br><span class="line">        os.mkdir(newfilePath)</span><br><span class="line">    shutil.move(pdfPath+&#39;\\&#39;+file,newfilePath+&#39;\\&#39;+file)</span><br><span class="line">print &#39;ok&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">date   :  May 13, 2015</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">from</span> win32com <span class="keyword">import</span> client <span class="keyword">as</span> wc </span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line">    </span><br><span class="line">pdfPath = <span class="string">r&#x27;J:\realpdf\allpaper&#x27;</span></span><br><span class="line">files  = os.walk(pdfPath).next()[<span class="number">2</span>] </span><br><span class="line">cnt = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i,file <span class="keyword">in</span> enumerate(files):</span><br><span class="line">    <span class="keyword">print</span> i,file</span><br><span class="line">    newfilePath = pdfPath+<span class="string">&#x27;\\&#x27;</span>+str(cnt)</span><br><span class="line">    <span class="keyword">if</span> i / <span class="number">100</span> &gt; cnt :</span><br><span class="line">        cnt += <span class="number">1</span></span><br><span class="line">        newfilePath = pdfPath+<span class="string">&#x27;\\&#x27;</span>+str(cnt)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(newfilePath):</span><br><span class="line">        os.mkdir(newfilePath)</span><br><span class="line">    shutil.move(pdfPath+<span class="string">&#x27;\\&#x27;</span>+file,newfilePath+<span class="string">&#x27;\\&#x27;</span>+file)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br></pre></td></tr></table></figure>
 <p></p>
-<h1>附录</h1>
+<h2 id="附录">附录</h2>
 <p>python中对文件、文件夹（文件操作函数）的操作需要涉及到os模块和shutil模块。</p>
-<p>方法</p>
-<p>功能</p>
-<p>os.getcwd()</p>
-<p>得到当前工作目录,即当前Python脚本工作的目录路径</p>
-<p>os.listdir()</p>
-<p>返回指定目录下的所有文件和目录名</p>
-<p>os.remove()</p>
-<p>函数用来删除一个文件</p>
-<p>os.removedirs(r&quot;c\python”)</p>
-<p>删除多个目录</p>
-<p>os.path.isfile()</p>
-<p>检验给出的路径是否是一个文件</p>
-<p>os.path.isdir()</p>
-<p>检验给出的路径是否是一个目录</p>
-<p>os.path.isabs()</p>
-<p>判断是否是绝对路径</p>
-<p>os.path.exists()</p>
-<p>检验给出的路径是否存在</p>
-<p>os.path.split()</p>
-<p>返回一个路径的目录名和文件名</p>
-<p>os.path.splitext()</p>
-<p>分离扩展名</p>
-<p>os.path.dirname()</p>
-<p>获取路径名</p>
-<p>os.path.basename()</p>
-<p>获取文件名</p>
-<p>os.system()</p>
-<p>运行shell命令</p>
-<p>os.getenv() 与os.putenv()</p>
-<p>读取和设置环境变量</p>
-<p>os.linesep</p>
-<p>给出当前平台使用的行终止符</p>
-<p><a target="_blank" rel="noopener" href="http://os.name">os.name</a></p>
-<p>指示你正在使用的平台(对于Windows:nt , Linux/Unix: posix)</p>
-<p>os.rename(old, new)</p>
-<p>重命名</p>
-<p>os.makedirs(r&quot;c\python\test”)</p>
-<p>创建多级目录</p>
-<p>os.mkdir(&quot;test”)</p>
-<p>创建单个目录</p>
-<p>os.stat(file)</p>
-<p>获取文件属性</p>
-<p>os.mknod(&quot;test.txt”)</p>
-<p>创建空文件</p>
-<p>shutil.copyfile(&quot;oldfile”,”newfile”)</p>
-<p>复制文件</p>
-<p>shutil.copy(&quot;oldfile”,”newfile”)</p>
-<p>复制文件2 oldfile只能是文件夹,newfile可以是文件,也可以是目标目录</p>
-<p>shutil.copytree(&quot;olddir”,”newdir”)</p>
-<p>复制文件夹olddir和newdir都只能是目录,且newdir必须不存在</p>
-<p>os.rename(&quot;oldname”,&quot;newname”)</p>
-<p>重命名文件(或目录)</p>
-<p>shutil.move(“oldpos” , &quot;newpos”)</p>
-<p>移动文件(目录)</p>
-<p>os.remove(&quot;file”)</p>
-<p>删除文件</p>
-<p>os.rmdir(&quot;dir”)</p>
-<p>删除空目录</p>
-<p>shutil.rmtree(&quot;dir”)</p>
-<p>删除目录（不管空不空）</p>
-<p>os.chdir(&quot;path”)</p>
-<p>转换目录</p>
+<table>
+<thead>
+<tr>
+<th><strong>方法</strong></th>
+<th><strong>功能</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>os.getcwd()</td>
+<td>得到当前工作目录,即当前Python脚本工作的目录路径</td>
+</tr>
+<tr>
+<td>os.listdir()</td>
+<td>返回指定目录下的所有文件和目录名</td>
+</tr>
+<tr>
+<td>os.remove()</td>
+<td>函数用来删除一个文件</td>
+</tr>
+<tr>
+<td>os.removedirs(r”c\python”)</td>
+<td>删除多个目录</td>
+</tr>
+<tr>
+<td>os.path.isfile()</td>
+<td>检验给出的路径是否是一个文件</td>
+</tr>
+<tr>
+<td>os.path.isdir()</td>
+<td>检验给出的路径是否是一个目录</td>
+</tr>
+<tr>
+<td>os.path.isabs()</td>
+<td>判断是否是绝对路径</td>
+</tr>
+<tr>
+<td>os.path.exists()</td>
+<td>检验给出的路径是否存在</td>
+</tr>
+<tr>
+<td>os.path.split()</td>
+<td>返回一个路径的目录名和文件名</td>
+</tr>
+<tr>
+<td>os.path.splitext()</td>
+<td>分离扩展名</td>
+</tr>
+<tr>
+<td>os.path.dirname()</td>
+<td>获取路径名</td>
+</tr>
+<tr>
+<td>os.path.basename()</td>
+<td>获取文件名</td>
+</tr>
+<tr>
+<td>os.system()</td>
+<td>运行shell命令</td>
+</tr>
+<tr>
+<td>os.getenv() 与os.putenv()</td>
+<td>读取和设置环境变量</td>
+</tr>
+<tr>
+<td>os.linesep</td>
+<td>给出当前平台使用的行终止符</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://os.name">os.name</a></td>
+<td>指示你正在使用的平台(对于Windows:nt , Linux/Unix: posix)</td>
+</tr>
+<tr>
+<td>os.rename(old, new)</td>
+<td>重命名</td>
+</tr>
+<tr>
+<td>os.makedirs(r”c\python\test”)</td>
+<td>创建多级目录</td>
+</tr>
+<tr>
+<td>os.mkdir(“test”)</td>
+<td>创建单个目录</td>
+</tr>
+<tr>
+<td>os.stat(file)</td>
+<td>获取文件属性</td>
+</tr>
+<tr>
+<td>os.mknod(“test.txt”)</td>
+<td>创建空文件</td>
+</tr>
+<tr>
+<td>shutil.copyfile(“oldfile”,”newfile”)</td>
+<td>复制文件</td>
+</tr>
+<tr>
+<td>shutil.copy(“oldfile”,”newfile”)</td>
+<td>复制文件2 oldfile只能是文件夹,newfile可以是文件,也可以是目标目录</td>
+</tr>
+<tr>
+<td>shutil.copytree(“olddir”,”newdir”)</td>
+<td>复制文件夹olddir和newdir都只能是目录,且newdir必须不存在</td>
+</tr>
+<tr>
+<td>os.rename(“oldname”,“newname”)</td>
+<td>重命名文件(或目录)</td>
+</tr>
+<tr>
+<td>shutil.move(“oldpos” , “newpos”)</td>
+<td>移动文件(目录)</td>
+</tr>
+<tr>
+<td>os.remove(“file”)</td>
+<td>删除文件</td>
+</tr>
+<tr>
+<td>os.rmdir(“dir”)</td>
+<td>删除空目录</td>
+</tr>
+<tr>
+<td>shutil.rmtree(“dir”)</td>
+<td>删除目录（不管空不空）</td>
+</tr>
+<tr>
+<td>os.chdir(“path”)</td>
+<td>转换目录</td>
+</tr>
+</tbody>
+</table>
 <p>fp = open(“test.txt”,w) 直接打开一个文件，如果文件不存在则创建文件</p>
 <p>关于open 模式：</p>
 <ul>
@@ -189,32 +257,64 @@
 <li>wb+ 以二进制读写模式打开 (参见 w+ )</li>
 <li>ab+ 以二进制读写模式打开 (参见 a+ )</li>
 </ul>
-<p>fp.read([size])</p>
-<p>size为读取的长度，以byte为单位</p>
-<p>fp.readline([size])</p>
-<p>读一行，如果定义了size，有可能返回的只是一行的一部分</p>
-<p>fp.readlines([size])</p>
-<p>把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。</p>
-<p>fp.write(str)</p>
-<p>把str写到文件中，write()并不会在str后加上一个换行符</p>
-<p>fp.writelines(seq)</p>
-<p>把seq的内容全部写到文件中(多行一次性写入)。这个函数也只是忠实地写入，不会在每行后面加上任何东西。</p>
-<p>fp.close()</p>
-<p>关闭文件。python会在一个文件不用后自动关闭文件，不过这一功能没有保证，最好还是养成自己关闭的习惯。 如果一个文件在关闭后还对其进行操作会产生ValueError</p>
-<p>fp.flush()</p>
-<p>把缓冲区的内容写入硬盘</p>
-<p>fp.fileno()</p>
-<p>返回一个长整型的”文件标签“</p>
-<p>fp.isatty()</p>
-<p>文件是否是一个终端设备文件（unix系统中的）</p>
-<p>fp.tell()</p>
-<p>返回文件操作标记的当前位置，以文件的开头为原点</p>
-<p>fp.next()</p>
-<p>返回下一行，并将文件操作标记位移到下一行。把一个file用于for … in file这样的语句时，就是调用next()函数来实现遍历的。</p>
-<p>fp.seek(offset[,whence])</p>
-<p>将文件打操作标记移到offset的位置。这个offset一般是相对于文件的开头来计算的，一般为正数。但如果提供了whence参数就不一定了，whence可以为0表示从头开始计算，1表示以当前位置为原点计算。2表示以文件末尾为原点进行计算。需要注意，如果文件以a或a+的模式打开，每次进行写操作时，文件操作标记会自动返回到文件末尾。</p>
-<p>fp.truncate([size])</p>
-<p>把文件裁成规定的大小，默认的是裁到当前文件操作标记的位置。如果size比文件的大小还要大，依据系统的不同可能是不改变文件，也可能是用0把文件补到相应的大小，也可能是以一些随机的内容加上去。</p>
+<table>
+<thead>
+<tr>
+<th>fp.read([size])</th>
+<th>size为读取的长度，以byte为单位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fp.readline([size])</td>
+<td>读一行，如果定义了size，有可能返回的只是一行的一部分</td>
+</tr>
+<tr>
+<td>fp.readlines([size])</td>
+<td>把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。</td>
+</tr>
+<tr>
+<td>fp.write(str)</td>
+<td>把str写到文件中，write()并不会在str后加上一个换行符</td>
+</tr>
+<tr>
+<td>fp.writelines(seq)</td>
+<td>把seq的内容全部写到文件中(多行一次性写入)。这个函数也只是忠实地写入，不会在每行后面加上任何东西。</td>
+</tr>
+<tr>
+<td>fp.close()</td>
+<td>关闭文件。python会在一个文件不用后自动关闭文件，不过这一功能没有保证，最好还是养成自己关闭的习惯。 如果一个文件在关闭后还对其进行操作会产生ValueError</td>
+</tr>
+<tr>
+<td>fp.flush()</td>
+<td>把缓冲区的内容写入硬盘</td>
+</tr>
+<tr>
+<td>fp.fileno()</td>
+<td>返回一个长整型的”文件标签“</td>
+</tr>
+<tr>
+<td>fp.isatty()</td>
+<td>文件是否是一个终端设备文件（unix系统中的）</td>
+</tr>
+<tr>
+<td>fp.tell()</td>
+<td>返回文件操作标记的当前位置，以文件的开头为原点</td>
+</tr>
+<tr>
+<td>fp.next()</td>
+<td>返回下一行，并将文件操作标记位移到下一行。把一个file用于for … in file这样的语句时，就是调用next()函数来实现遍历的。</td>
+</tr>
+<tr>
+<td>fp.seek(offset[,whence])</td>
+<td>将文件打操作标记移到offset的位置。这个offset一般是相对于文件的开头来计算的，一般为正数。但如果提供了whence参数就不一定了，whence可以为0表示从头开始计算，1表示以当前位置为原点计算。2表示以文件末尾为原点进行计算。需要注意，如果文件以a或a+的模式打开，每次进行写操作时，文件操作标记会自动返回到文件末尾。</td>
+</tr>
+<tr>
+<td>fp.truncate([size])</td>
+<td>把文件裁成规定的大小，默认的是裁到当前文件操作标记的位置。如果size比文件的大小还要大，依据系统的不同可能是不改变文件，也可能是用0把文件补到相应的大小，也可能是以一些随机的内容加上去。</td>
+</tr>
+</tbody>
+</table>
  
       <!-- reward -->
       

@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">6.7k</span>
+            <span class="post-count">6.6k</span>
         </span>
     </span>
 
@@ -111,15 +111,6 @@
 <li>负采样</li>
 </ul>
 <a id="more"></a>
-<h1>Word embedding 之Word2Vec</h1>
-<p>本文主要介绍大名鼎鼎的“word2vec”。word2vec顾名思义，就是将词表示为一个向量，表示出的向量可以运用在各种各样的任务上。可以说，在BERT等模型诞生前，这个词向量的表示方法是最为流行的方法之一。</p>
-<p>本文包括</p>
-<ul>
-<li>Onehot vs 分布式表示</li>
-<li>CBOW和skip gram</li>
-<li>Huffman改进</li>
-<li>负采样</li>
-</ul>
 <h2 id="为什么要分布式表示">为什么要分布式表示</h2>
 <p>在做NLP的时候，对于词最简单的处理方法就是对词编号，然后把每个词表示为One-hot向量。更具体的说，给定V个词，我们可以按照字典序进行排序，下标0~V-1对应着每个不同的词。而One-hot向量一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">V \times 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>维的向量，对于下标为a的词，其的向量中下标a为1，其余均为0。</p>
 <p>可以看出，One-hot向量的维度和词库的大小成正比，得到的是十分稀疏的向量（因为只有一个位置为1，其余都为0)。</p>

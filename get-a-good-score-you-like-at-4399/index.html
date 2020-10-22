@@ -70,7 +70,7 @@
   <time datetime="2015-03-30T11:12:10.000Z" itemprop="datePublished">2015-03-30</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/study/">study</a> / <a class="article-category-link" href="/categories/study/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/">信息安全</a> / <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>
+    <a class="article-category-link" href="/categories/study/">study</a> / <a class="article-category-link" href="/categories/study/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/">信息安全</a>
   </div>
   
 <div class="word_count">
@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">552</span>
+            <span class="post-count">544</span>
         </span>
     </span>
 
@@ -141,7 +141,7 @@
 <p>关掉fiddler的拦截，刷新页面，看看排行榜~</p>
 <p><img src="../images/get-a-good-score-you-like-at-4399/2015.3.30-result2.jpg" alt="2015.3.30 result2"></p>
 <h2 id="我的md5加密代码">我的MD5加密代码</h2>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"># author:hrwhisper</span><br><span class="line"># date  :2015.3.30</span><br><span class="line">import hashlib</span><br><span class="line">gameID &#x3D; &#39;3883&#39;             #game id</span><br><span class="line">lGameScore &#x3D; &#39;101111&#39;       #you score</span><br><span class="line">gs &#x3D; &#39;1&#39;                    #gs</span><br><span class="line"></span><br><span class="line">temKey &#x3D; &#39;38c7d7b60ee491da&#39; #game%5Fkey</span><br><span class="line">starttime &#x3D; &#39;1427711758412&#39; #starttime</span><br><span class="line">_tokenData &#x3D; &#39;a3b18d4ab6b1a8d2ecf987553674e297&#39; #token</span><br><span class="line"></span><br><span class="line">verifyStr &#x3D; &quot;SDALPlsldlnSLWPElsdslSE&quot; + temKey + lGameScore + gameID + starttime + gs + _tokenData + &quot;PKslsO&quot;;</span><br><span class="line">verify &#x3D; hashlib.md5(hashlib.md5(hashlib.md5(verifyStr).hexdigest()).hexdigest()).hexdigest()</span><br><span class="line">print verify</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure> 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># author:hrwhisper</span></span><br><span class="line"><span class="comment"># date  :2015.3.30</span></span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line">gameID = <span class="string">&#x27;3883&#x27;</span>             <span class="comment">#game id</span></span><br><span class="line">lGameScore = <span class="string">&#x27;101111&#x27;</span>       <span class="comment">#you score</span></span><br><span class="line">gs = <span class="string">&#x27;1&#x27;</span>                    <span class="comment">#gs</span></span><br><span class="line"></span><br><span class="line">temKey = <span class="string">&#x27;38c7d7b60ee491da&#x27;</span> <span class="comment">#game%5Fkey</span></span><br><span class="line">starttime = <span class="string">&#x27;1427711758412&#x27;</span> <span class="comment">#starttime</span></span><br><span class="line">_tokenData = <span class="string">&#x27;a3b18d4ab6b1a8d2ecf987553674e297&#x27;</span> <span class="comment">#token</span></span><br><span class="line"></span><br><span class="line">verifyStr = <span class="string">&quot;SDALPlsldlnSLWPElsdslSE&quot;</span> + temKey + lGameScore + gameID + starttime + gs + _tokenData + <span class="string">&quot;PKslsO&quot;</span>;</span><br><span class="line">verify = hashlib.md5(hashlib.md5(hashlib.md5(verifyStr).hexdigest()).hexdigest()).hexdigest()</span><br><span class="line"><span class="keyword">print</span> verify</span><br></pre></td></tr></table></figure> 
       <!-- reward -->
       
       <div id="reword-out">
