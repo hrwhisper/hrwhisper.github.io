@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -117,13 +117,13 @@
   <p>前几篇博文都是有关HTTPS的东西，有人可能会问，什么是HTTPS？为什么要用HTTPS？</p>
 <p>因此，本文主要来解答这些疑惑</p>
 <a id="more"></a>
-<h2 id="https的故事">Https的故事</h2>
+<h2 id="Https的故事">Https的故事</h2>
 <ol>
 <li>Alice和Bob是情人，他们每周都要写信。Alice 写好后，送到邮局，邮局通过若干个快递员到Bob，Bob回信过程类似。这是可以看成的简单的http的传输。</li>
 <li>有一天，Alice觉得，要是写的信中途被人拆开了呢？毕竟一些小秘密不想让人知道啊。于是和Bob商定，采用加密的方法写。加密的方法比如使用古典密码的方案，如凯撒密码（A-&gt;E，B-&gt;F，即每个字母向右移动4个，(y + 4) mod 26）。这样加密了信的内容。</li>
 <li>但是有一天，Alice收到Bob的信，信的内容经过解密后为分手之类的话。Alice跑去问Bob，Bob发现有人伪造了自己的信件，于是Alice和Bob商定，以后信上最后按上自己的指纹（就是数字证书），用来保证这封信别人伪造不了，此外，还用上校验码（数字签名），将信的内容经过hash，附带在信的末尾。在收信的一方收到后，首先查看是否有对方的指纹，并计算hash值和信的末尾所附带的是否一致，如果一致才进行解密查看。其实这样通信可以说从http到了https。</li>
 </ol>
-<h2 id="为什么需要https">为什么需要HTTPS</h2>
+<h2 id="为什么需要HTTPS">为什么需要HTTPS</h2>
 <p>通过上面的故事，现在可以来介绍一下https了。</p>
 <p>https也叫做HTTP over TLS, HTTP over SSL, and HTTP Secure，Https 相比http来说，加密了传输过程和数据，能有效的保证了数据来源的可靠性、保密性以及数据的完整性。</p>
 <ul>
@@ -131,16 +131,16 @@
 <li>数据的完整性呢？http中数据为明文，可能会被中间的劫持，然后修改。比较著名的有流量劫持，可以看知乎: <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/38861118">如何看待众多互联网公司联合声明：呼吁运营商严格打击流量劫持？</a>。而https加密了内容，并且对传输的数据进行了校验，一旦被篡改，通信双方回立刻发现。</li>
 <li>此外，还有来源的可靠性。<a target="_blank" rel="noopener" href="http://xn--hrwhisper-k99pf62nsb2elx1a.me">比如访问hrwhisper.me</a>，你可能访问一台假的服务器，而该服务器提供和真正服务器不一样的内容。使用https，服务器提供了身份的证书，能防止身份被冒充。</li>
 </ul>
-<h2 id="https的过程">Https的过程</h2>
+<h2 id="Https的过程">Https的过程</h2>
 <p><img src="../images/introduction-to-https/https-process.png" alt=""></p>
-<h3 id="1-客户端问候clinethello">1. 客户端问候Clinethello</h3>
+<h3 id="1-客户端问候Clinethello">1. 客户端问候Clinethello</h3>
 <p>客户端向浏览器发出加密通信的请求。<br>
 这个请求有如下信息：</p>
 <ul>
 <li>支持的加密通信协议版本、加密算法</li>
 <li>随机数（一个时间戳加上28字节的随机数），后面用于生成对话密钥。</li>
 </ul>
-<h3 id="2-服务器问候severhello">2. 服务器问候SeverHello</h3>
+<h3 id="2-服务器问候SeverHello">2. 服务器问候SeverHello</h3>
 <p>服务器接收到客户端请求，发送问候，该问候包含以下信息：</p>
 <ul>
 <li>确认使用的加密通信协议版本和加密方法，比如TLS 1.2版本以及RSA公钥加密。（如果浏览器与服务器支持的版本不一致，服务器关闭加密通信。）</li>
@@ -162,7 +162,7 @@
 </ul>
 <p></p>
 <p>经历了四次握手后，客户端与服务器进入加密通信，其实之后就是普通的http协议，只不过用会话密钥加密加密内容。此外，一般而言，https连接只在第一次握手时使用非对称加密，通过握手交换对称加密密钥，在之后的通信走对称加密。因为一般而言，如RSA等非对称加密耗费的CPU资源较大。</p>
-<h2 id="https的几个问题">Https的几个问题</h2>
+<h2 id="Https的几个问题">Https的几个问题</h2>
 <h3 id="会话密钥">会话密钥</h3>
 <p>会话密钥是怎么产生的呢？客户端和服务器在Hello都产生了一个随机数，结合pre-master secret一起生成了会话密钥（服务器和客户端由相同的三个随机数）。可以看如下图<br>
 <img src="../images/introduction-to-https/https-process-key.png" alt=""></p>
@@ -173,12 +173,12 @@
 数字签名是私人的，用于加密摘要和报文。<br>
 数字证书是由CA中心派发的，用于证明身份。<br>
 详情可以看  <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html"><strong>数字签名是什么？</strong></a></p>
-<h3 id="https一定安全么">Https一定安全么</h3>
+<h3 id="Https一定安全么">Https一定安全么</h3>
 <p>不一定。</p>
 <p>比如使用弱密钥交换协议 Diffie-Hellman 。</p>
 <p>此外，也和使用的安全传输协议有关，建议的是使用TLS1.0以上的版本（如TLS1.0, TLS1.1，TLS1.2，TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。）而SSL2.0有严重的漏洞，SSL3.0也有 <a target="_blank" rel="noopener" href="https://www.openssl.org/~bodo/ssl-poodle.pdf">https://www.openssl.org/~bodo/ssl-poodle.pdf</a> 。</p>
 <p>如果你的站点采用了https，可以用可以用<a target="_blank" rel="noopener" href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a> 测试安全性。</p>
-<h3 id="hsts协议">HSTS协议</h3>
+<h3 id="HSTS协议">HSTS协议</h3>
 <p>HSTS的作用是强制客户端（如浏览器）使用HTTPS与服务器创建连接。可在保证安全性的前提下，提高网站的响应速度。此外HSTS可以很大程度上解决SSL剥离攻击，因为只要浏览器曾经与服务器创建过一次安全连接，之后浏览器会强制使用HTTPS，即使链接被换成了HTTP。</p>
 <h2 id="小结">小结</h2>
 <p>Https 为我们带来更安全的传输。Chrome 56中，将输入密码的非https网站标记为不安全。 Google 把https 作为网站排名的一个因素…</p>

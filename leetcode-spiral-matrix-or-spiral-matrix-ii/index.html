@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -115,7 +115,7 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-spiral-matrix">leetcode Spiral Matrix</h3>
+<h3 id="leetcode-Spiral-Matrix">leetcode Spiral Matrix</h3>
 <p>Given a matrix of <em>m</em> x <em>n</em> elements (<em>m</em> rows, <em>n</em> columns), return all elements of the matrix in spiral order.</p>
 <p>For example,<br>
 Given the following matrix:</p>
@@ -135,7 +135,7 @@ Given the following matrix:</p>
 <p><strong>Python</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">spiralOrder</span>(<span class="params">self, matrix</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ans = []</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> matrix: <span class="keyword">return</span> ans</span><br><span class="line">        top, bottom, left, right = <span class="number">0</span>, len(matrix) - <span class="number">1</span>, <span class="number">0</span>, len(matrix[<span class="number">0</span>]) - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> left &lt;= right <span class="keyword">and</span> top &lt;= bottom:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(left, right + <span class="number">1</span>):</span><br><span class="line">                ans.append(matrix[top][i])</span><br><span class="line">            top += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> top &gt; bottom: <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(top, bottom + <span class="number">1</span>):</span><br><span class="line">                ans.append(matrix[i][right])</span><br><span class="line">            right -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> right &lt; left: <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(right, left - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">                ans.append(matrix[bottom][i])</span><br><span class="line">            bottom -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> bottom &lt; top: <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(bottom, top - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">                ans.append(matrix[i][left])</span><br><span class="line">            left += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> ans</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="leetcode-spiral-matrix-ii">leetcode Spiral Matrix II</h3>
+<h3 id="leetcode-Spiral-Matrix-II">leetcode Spiral Matrix II</h3>
 <blockquote>
 <p>Given an integer <em>n</em>, generate a square matrix filled with elements from 1 to _n_2 in spiral order.</p>
 <p>For example,<br>

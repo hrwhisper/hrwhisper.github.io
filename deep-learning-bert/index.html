@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -133,7 +133,7 @@
 <p>操作：使用句子级负采样获得句子表示/句对关系，Transformer模型代替LSTM提升表达和时间上的效率，masked LM解决“自己看到自己”的问题</p>
 </blockquote>
 <p>下面会讲讲ELMo，然后在讲解BERT</p>
-<h2 id="elmo">ELMO</h2>
+<h2 id="ELMO">ELMO</h2>
 <p>前面提到过，ELMO会将静态的词转变成上下文相关的动态词向量。</p>
 <p>这有什么好处呢？比如体会一下下面几个bank的意思：</p>
 <blockquote>
@@ -148,7 +148,7 @@
 <p><img src="../images/deep-learning-bert/elmo-multi-layer.png" alt="elmo-multi-layer"></p>
 <p>由上面可以看到，ELMO采用了前向和后向两个RNN分别的训练，这是为什么呢？</p>
 <p>因为采用双向的RNN会导致”看见答案“的问题（或者说看见自己see itself），以上面的“潮水退了就知道”这个为例，正向的RNN在预测“退了”的时候，会考虑到前面“潮水”的信息，这两个词的信息都被放入了RNN的隐向量中。而如果考虑还有一个反向的RNN，在预测”退了“的时候，会有将要预测的”就“的信息被考虑了进来，这就相当于看到了答案。因此ELMO采用了前向和后向两个RNN分别训练，从而避免了这个问题。</p>
-<h2 id="bert">BERT</h2>
+<h2 id="BERT">BERT</h2>
 <p>BERT主要是预训练+fine tuning，通过在大量的语料库中得到了词的基本表示，然后在具体的任务中进行fine tuning。</p>
 <p>BERT的结构如下图左边所示，其基本的单元是transformer的encoder的模块。</p>
 <p><img src="../images/deep-learning-bert/bert-gpt-elmo-compare.png" alt="bert-gpt-elmo-compare"></p>
@@ -160,7 +160,7 @@
 <blockquote>
 <p>It is critical to use a document-level corpus rather than a shuffled sentence-level corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to extract long contiguous sequences.</p>
 </blockquote>
-<h4 id="masked-lm">Masked LM</h4>
+<h4 id="Masked-LM">Masked LM</h4>
 <p>前面提到过，为了防止&quot;看见答案&quot;的问题，BERT将预测的字来进行替代，具体的图如下:</p>
 <p><img src="../images/deep-learning-bert/bert-train-masked-lm.png" alt="bert-train-masked-lm"></p>
 <p>随机选择15%的word，将预测的word用[MASK]字符替代，然后用线性的分类器去预测这个word，避免了”看见答案“的问题，因为无论正向反向都不知道这个word原来是什么，从而迫使模型结合上下文来进行推测，这样就达到了用双向模型训练的目的。</p>
@@ -174,7 +174,7 @@ representation towards the actual observed word.</li>
 </ul>
 </blockquote>
 <p>即80%的实际用[MASK]标记替换单词，10%的时间用一个随机的单词替换该单词，还有10％的时间：保持单词不变。这样做的目的是将表示偏向于实际观察到的单词。</p>
-<h4 id="next-sentence-prediction">Next Sentence Prediction</h4>
+<h4 id="Next-Sentence-Prediction">Next Sentence Prediction</h4>
 <p>许多重要的下游任务，如问答（QA）和自然语言推理（NLI）都是基于理解两个句子之间的关系，语言建模并没有获得这个关系。因此，为了解决这个问题，提出了Next Sentence prediction训练的方法，如下图所示：</p>
 <p><img src="../images/deep-learning-bert/bert-train-next-sentence-prediction.png" alt="bert-train-next-sentence-prediction"></p>
 <p>即一开始是一个[CLS]的字符，用来做二分类的输出；两个句子用[SEP]字符进行隔开。在训练时句子A后面跟着的句子B有50%是真实跟在A后面的，也有50%是来自语料库随机的句子。</p>
@@ -193,23 +193,23 @@ representation towards the actual observed word.</li>
 <p>Position Embeddings：加入位置信息，和Transformer用三角函数不同，这里的embedding是学习出来的</p>
 </li>
 </ol>
-<h3 id="fine-tuning">Fine Tuning</h3>
+<h3 id="Fine-Tuning">Fine Tuning</h3>
 <p>前面提到过，BERT在具体任务上会进行fine tuning调整，下面对几种常见的情况做介绍。</p>
-<h4 id="single-sentence-classification-task">Single Sentence Classification Task</h4>
+<h4 id="Single-Sentence-Classification-Task">Single Sentence Classification Task</h4>
 <p>BERT做分类fine tuning比较简单，在[CLS]标识符的输出接个线性的分类器即可。如下图所示：</p>
 <p><img src="../images/deep-learning-bert/bert-fine-tuning-single-sentence-classification-task.png" alt="bert-fine-tuning-single-sentence-classification-task"></p>
-<h4 id="single-sentence-tagging-tasks">Single Sentence tagging tasks</h4>
+<h4 id="Single-Sentence-tagging-tasks">Single Sentence tagging tasks</h4>
 <p>还有一种如Slot filling的任务，需要对输入的句子的每个词输出其类别，这个也比较简单，在每个词输出的向量用线性分类器就行。</p>
 <p><img src="../images/deep-learning-bert/bert-fine-tuning-single-sentence-tagging-tasks.png" alt="bert-fine-tuning-single-sentence-tagging-tasks"></p>
-<h4 id="sentence-pair-classification-task">Sentence pair classification task</h4>
+<h4 id="Sentence-pair-classification-task">Sentence pair classification task</h4>
 <p>接下来的例子稍微复杂一点，给定前提（句子A）和假设（句子B），让你判断给定前提能否推出假设，输出ture/false/unknown。</p>
 <p>其实就是三个类别的分类问题，也是在一开始的CLS上接个线性的分类器：</p>
 <p><img src="../images/deep-learning-bert/bert-fine-tuning-sentence-pair-classification-task.png" alt="bert-fine-tuning-sentence-pair-classification-task"></p>
-<h4 id="question-answer-task">Question Answer task</h4>
+<h4 id="Question-Answer-task">Question Answer task</h4>
 <p>给定文章和问题，要让你输出答案在文章中的开始位置和结束位置（假设答案一定出现在文章中）<img src="../images/deep-learning-bert/bert-fine-tuning-question-answer-task-example.png" alt="bert-fine-tuning-question-answer-task-example"></p>
 <p>具体的做法是将question和document的分别输入bert，然后对每个词都会有一个黄色的vector输出。让模型在学习两个vector（下面的红色和蓝色的），分别用来表示答案开始和结束的位置的向量。红色的和每个黄色的vector进行点层，放入softmax，得到概率最高的就是s，蓝色的同理得到e（若e &lt; s则无解）。</p>
 <p><img src="../images/deep-learning-bert/bert-fine-tuning-question-answer-task.png" alt="bert-fine-tuning-question-answer-task"></p>
-<h2 id="erine">Erine</h2>
+<h2 id="Erine">Erine</h2>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/59436589">https://zhuanlan.zhihu.com/p/59436589</a></p>
 <h2 id="参考">参考</h2>
 <ol>

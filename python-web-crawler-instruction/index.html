@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -125,14 +125,14 @@
 <li>不再使用urllib，改用更为简洁、速度更快的requests。</li>
 </ul>
 <p></p>
-<h2 id="一-课前准备">一、课前准备</h2>
-<h3 id="一-爬虫技术简介">（一）爬虫技术简介</h3>
+<h2 id="一、课前准备">一、课前准备</h2>
+<h3 id="（一）爬虫技术简介">（一）爬虫技术简介</h3>
 <p>什么是网络爬虫？</p>
 <p>百度百科上这么写：网络爬虫（又被称为网页蜘蛛），是一种按照一定的规则，自动的抓取万维网信息的程序或者脚本。另外一些不常使用的名字还有蚂蚁，自动索引，模拟程序或者蠕虫。</p>
 <p>通俗的说，就是获取网页内容的技术。比如，网页中的文字、图片。</p>
 <p>它还可以从一个网页到另外一个网页（广搜、深搜等），就像在互联网这个大蜘蛛网上爬来爬去一样。</p>
 <p><strong>可以说，就是爬取网页的源代码，从中获取我们需要的内容。（如文字、图片、其他文件等）</strong></p>
-<h3 id="二-http通信过程">（二）HTTP通信过程</h3>
+<h3 id="（二）HTTP通信过程">（二）HTTP通信过程</h3>
 <p>Http是一个基于请求/响应模式的，无状态的协议，它是建立在TCP的基础上的。</p>
 <p>具体过程如下：</p>
 <ol>
@@ -152,19 +152,19 @@
 <li>关闭TCP连接</li>
 </ol>
 <p></p>
-<h3 id="三-url和uri">（三）URL和URI</h3>
+<h3 id="（三）URL和URI">（三）URL和URI</h3>
 <p>Web上可用的每种资源 -HTML文档、图像、视频片段、程序等 都由 由一个统一资源标识符（Uniform Resource Identifier, 简称&quot;URI&quot;）进行定位。</p>
 <p>URL：统一资源<strong>定位符</strong></p>
 <p>URI：统一资源<strong>标识符</strong></p>
 <p>URL是URI的一个子集。<strong>URL必须指明如何获取这个资源</strong>。如HTTP，FTP等</p>
-<h2 id="二-python简单的爬虫">二、python简单的爬虫</h2>
+<h2 id="二、python简单的爬虫">二、python简单的爬虫</h2>
 <p></p>
-<h3 id="一-最简单的网页爬虫">（一）最简单的网页爬虫</h3>
+<h3 id="（一）最简单的网页爬虫">（一）最简单的网页爬虫</h3>
 <p>一个简单的爬虫如下：</p>
 <p>回想一下刚才介绍的HTTP的通信过程，我们用get方法发送request请求，而它将返回一个response，这个response对象的text即为html源代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">response &#x3D; requests.get(&#39;http:&#x2F;&#x2F;hrwhisper.me&#39;)</span><br><span class="line">print response.text</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="二-get和post">（二）get和post</h3>
+<h3 id="（二）get和post">（二）get和post</h3>
 <p>http中，不得不说的就是get和post.</p>
 <p>简单的说，get就是通过url把参数发给服务器，而Post是写在header中的。</p>
 <p>get简单的实现，即在Url后加参数。</p>
@@ -180,7 +180,7 @@
 <p>把参数verify改为false即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r &#x3D; requests.get(&#39;https:&#x2F;&#x2F;kyfw.12306.cn&#x2F;otn&#x2F;login&#x2F;init&#39;, verify&#x3D;False)</span><br><span class="line">print r.text</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="三-通过设置header-伪造浏览器">（三）通过设置header 伪造浏览器</h3>
+<h3 id="（三）通过设置header-伪造浏览器">（三）通过设置header 伪造浏览器</h3>
 <p>我们来抓取下刚才post发出的包，可以看到User-Agent：Python-urllib/2.7</p>
 <p>[caption id=“attachment_1106” align=“alignnone” width=“362”]<img src="../images/python-web-crawler-instruction/QQ%E6%88%AA%E5%9B%BE20150316092544.jpg" alt="python post抓包"> python post抓包[/caption]</p>
 <p>User-Agent是什么呢？这是一个用来用户浏览器的标识。</p>
@@ -196,7 +196,7 @@
 <p><img src="../images/python-web-crawler-instruction/%E8%AE%BE%E7%BD%AE%E4%BA%86header%E4%B9%8B%E5%90%8E.jpg" alt="设置了header之后"></p>
 <p>当然，服务器可能还有许许多多的验证，如用referer来设置防盗链，我们也只需要加入头部即可。</p>
 <p><strong>如果你不知道要加入什么，最简单的办法就是用正常的浏览器去访问页面，抓包，然后头部抄正常浏览器的即可！</strong></p>
-<h3 id="四-cookie">（四）Cookie</h3>
+<h3 id="（四）Cookie">（四）Cookie</h3>
 <p>cookie是什么呢？</p>
 <p>在程序中进行会话跟踪是很正常的一件事情，而我们知道，**http是一个无状态的协议，一旦客户端和服务器交换完数据，连接就关闭，再次交换数据需要建立新的连接。**这意味着服务器无法跟踪会话。</p>
 <p>而cookie就是一个用于帮助跟踪会话的东西。</p>
@@ -213,10 +213,10 @@
 <p>要拿出某个cookie的话，可以类似dict一样直接进行访问。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; url &#x3D; &#39;hrwhisper.me&#39;</span><br><span class="line">&gt;&gt;&gt; r &#x3D; requests.get(url)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; r.cookies[&#39;example_cookie_name&#39;]</span><br><span class="line">&#39;example_cookie_value&#39;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="五-响应状态码">（五）响应状态码</h3>
+<h3 id="（五）响应状态码">（五）响应状态码</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import requests</span><br><span class="line">r &#x3D; requests.get(&#39;http:&#x2F;&#x2F;hrwhisper.me&#39;)</span><br><span class="line">print r.status_code</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="六-其他技巧">（六）其他技巧</h3>
+<h3 id="（六）其他技巧">（六）其他技巧</h3>
 <h3 id="1-通过geturl-获取真实网址-geturl">1.通过geturl()获取真实网址 - geturl()</h3>
 <p>一个网址可能被重定向到另外一个网址，比如Lofter首页上你自定义的外站连接。</p>
 <p>如：<a target="_blank" rel="noopener" href="http://hrsay.lofter.com/hrwhisper">http://hrsay.lofter.com/hrwhisper</a> 就被重定向到https://www.hrwhisper.me/</p>

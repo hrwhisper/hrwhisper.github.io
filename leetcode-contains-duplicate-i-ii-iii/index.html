@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -121,7 +121,7 @@
 <li><strong>220</strong> Contains Duplicate III</li>
 </ul>
 <a id="more"></a>
-<h3 id="217-contains-duplicate">217. Contains Duplicate</h3>
+<h3 id="217-Contains-Duplicate">217. Contains Duplicate</h3>
 <blockquote>
 <p>Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.</p>
 </blockquote>
@@ -137,7 +137,7 @@
 <p><strong>Java</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsDuplicate</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        HashSet&lt;Integer&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>(set.contains((num))) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            set.add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="219-contains-duplicate-ii">219. Contains Duplicate II</h3>
+<h3 id="219-Contains-Duplicate-II">219. Contains Duplicate II</h3>
 <blockquote>
 <p>Given an array of integers and an integer <em>k</em>, find out whether there are two distinct indices <em>i</em> and <em>j</em> in the array such that <strong>nums[i] = nums[j]</strong> and the difference between <em>i</em> and <em>j</em> is at most <em>k</em>.</p>
 </blockquote>
@@ -151,7 +151,7 @@
 <p><strong>Python</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">containsNearbyDuplicate</span>(<span class="params">self, nums, k</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        vis = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i, num <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            <span class="keyword">if</span> num <span class="keyword">in</span> vis <span class="keyword">and</span> i - vis[num] &lt;= k:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            vis[num] = i</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="220-contains-duplicate-iii">220. Contains Duplicate III</h3>
+<h3 id="220-Contains-Duplicate-III">220. Contains Duplicate III</h3>
 <blockquote>
 <p>Given an array of integers, find out whether there are two distinct indices <em>i</em> and <em>j</em> in the array such that the difference between <strong>nums[i]</strong> and<strong>nums[j]</strong> is at most <em>t</em> and the difference between <em>i</em> and <em>j</em> is at most <em>k</em>.</p>
 </blockquote>

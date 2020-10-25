@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -125,7 +125,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod u-s   &#x2F;bin&#x2F;ping</span><br><span class="line">$ ll &#x2F;bin&#x2F;ping</span><br><span class="line">-rwxr-xr-x 1 root root 55724 6月 15 2016 &#x2F;bin&#x2F;ping*</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>发现就无法ping了，因为没有打开socket的权限。而当我们又将s位给它的时候，又可以ping了。</p>
 <p><img src="../images/introduction-to-linux-capability/ping-none-set-uid.png" alt=""></p>
-<h3 id="setuid位的作用">Setuid位的作用</h3>
+<h3 id="Setuid位的作用">Setuid位的作用</h3>
 <blockquote>
 <p>Setuid 是让程序在执行过程中拥有文件拥有者的权限。</p>
 </blockquote>
@@ -134,7 +134,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ which passwd</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;passwd</span><br><span class="line">$ ll &#x2F;usr&#x2F;bin&#x2F;passwd</span><br><span class="line">-rwsr-xr-x 1 root root 54256 3月 29 2016 &#x2F;usr&#x2F;bin&#x2F;passwd*</span><br><span class="line">ll &#x2F;etc&#x2F;shadow</span><br><span class="line">-rw-r----- 1 root shadow 978 7月 11 11:39 &#x2F;etc&#x2F;shadow</span><br></pre></td></tr></table></figure>
 <p>当我们使用passwd命令修改自己的密码（非root）的时候，显然是不行的，因为无法对/etc/shadow进行修改。而setuid位此时就可以帮到忙啦！</p>
 <p>此时程序暂时得到了文件拥有者root的权限，于是就可以修改shadow文件了。</p>
-<h3 id="linux中设置setuid的程序">Linux中设置Setuid的程序</h3>
+<h3 id="Linux中设置Setuid的程序">Linux中设置Setuid的程序</h3>
 <p>要找出所有设置setuid的程序，只需要使用下面任意一条命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F; -perm &#x2F;u&#x3D;s</span><br><span class="line">find &#x2F; -perm -4000</span><br></pre></td></tr></table></figure>
 <p>结果如下：</p>

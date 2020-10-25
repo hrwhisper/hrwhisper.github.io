@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -152,7 +152,7 @@
 <p><img src="../images/get-a-good-score-you-like-at-4399/2015.3.30-result.jpg" alt="2015.3.30 result"></p>
 <p>关掉fiddler的拦截，刷新页面，看看排行榜~</p>
 <p><img src="../images/get-a-good-score-you-like-at-4399/2015.3.30-result2.jpg" alt="2015.3.30 result2"></p>
-<h2 id="我的md5加密代码">我的MD5加密代码</h2>
+<h2 id="我的MD5加密代码">我的MD5加密代码</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># author:hrwhisper</span></span><br><span class="line"><span class="comment"># date  :2015.3.30</span></span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line">gameID = <span class="string">&#x27;3883&#x27;</span>             <span class="comment">#game id</span></span><br><span class="line">lGameScore = <span class="string">&#x27;101111&#x27;</span>       <span class="comment">#you score</span></span><br><span class="line">gs = <span class="string">&#x27;1&#x27;</span>                    <span class="comment">#gs</span></span><br><span class="line"></span><br><span class="line">temKey = <span class="string">&#x27;38c7d7b60ee491da&#x27;</span> <span class="comment">#game%5Fkey</span></span><br><span class="line">starttime = <span class="string">&#x27;1427711758412&#x27;</span> <span class="comment">#starttime</span></span><br><span class="line">_tokenData = <span class="string">&#x27;a3b18d4ab6b1a8d2ecf987553674e297&#x27;</span> <span class="comment">#token</span></span><br><span class="line"></span><br><span class="line">verifyStr = <span class="string">&quot;SDALPlsldlnSLWPElsdslSE&quot;</span> + temKey + lGameScore + gameID + starttime + gs + _tokenData + <span class="string">&quot;PKslsO&quot;</span>;</span><br><span class="line">verify = hashlib.md5(hashlib.md5(hashlib.md5(verifyStr).hexdigest()).hexdigest()).hexdigest()</span><br><span class="line"><span class="keyword">print</span> verify</span><br></pre></td></tr></table></figure> 
       <!-- reward -->
       

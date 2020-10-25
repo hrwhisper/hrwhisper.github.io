@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -115,7 +115,7 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-intersection-of-two-arrays">leetcode Intersection of Two Arrays</h3>
+<h3 id="leetcode-Intersection-of-Two-Arrays">leetcode Intersection of Two Arrays</h3>
 <p>Given two arrays, write a function to compute their intersection.</p>
 <p><strong>Example:</strong><br>
 Given <em>nums1</em> = <code>[1, 2, 2, 1]</code>, <em>nums2</em> = <code>[2, 2]</code>, return <code>[2]</code>.</p>
@@ -140,7 +140,7 @@ Given <em>nums1</em> = <code>[1, 2, 2, 1]</code>, <em>nums2</em> = <code>[2, 2]<
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] intersection(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">        HashSet&lt;Integer&gt; vis1 = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">        HashSet&lt;Integer&gt; intersection = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums1) vis1.add(num);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums2) <span class="keyword">if</span>(vis1.contains(num)) intersection.add(num);</span><br><span class="line">        <span class="keyword">int</span> []ans = <span class="keyword">new</span> <span class="keyword">int</span>[intersection.size()];</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:intersection)</span><br><span class="line">            ans[i++] = num;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p></p>
 <hr>
-<h3 id="leetcode-intersection-of-two-arrays-ii">leetcode Intersection of Two Arrays II</h3>
+<h3 id="leetcode-Intersection-of-Two-Arrays-II">leetcode Intersection of Two Arrays II</h3>
 <blockquote>
 <p>Given two arrays, write a function to compute their intersection.</p>
 <p><strong>Example:</strong><br>

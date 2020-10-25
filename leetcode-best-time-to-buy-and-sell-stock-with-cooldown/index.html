@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -115,7 +115,7 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-best-time-to-buy-and-sell-stock-with-cooldown">leetcode Best Time to Buy and Sell Stock with Cooldown</h3>
+<h3 id="leetcode-Best-Time-to-Buy-and-Sell-Stock-with-Cooldown">leetcode Best Time to Buy and Sell Stock with Cooldown</h3>
 <p>Say you have an array for which the _i_th element is the price of a given stock on day <em>i</em>.</p>
 <p>Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times) with the following restrictions:</p>
 <ul>
@@ -136,7 +136,7 @@
 <li>每次出售需要休息一天才能再次买入</li>
 </ul>
 <p></p>
-<h3 id="idea"><strong>Idea</strong></h3>
+<h3 id="Idea"><strong>Idea</strong></h3>
 <p>DP，we can create two array, buy and sell.</p>
 <p>buy[i] means we decide buy or no buy a stock at day i  to  maximize profits,</p>
 <p>and sell[i] means we sell or not sell a stock at day i to  maximize profits.</p>
@@ -156,7 +156,7 @@
 <li>sell[i] = max(sell[i-1], buy[i-1] + prices[i])</li>
 </ul>
 <p>最后显然有sell[n-1] &gt; buy[n-1] 所以我们返回sell[n-1]</p>
-<h3 id="code">Code</h3>
+<h3 id="Code">Code</h3>
 <p><strong>C++</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (prices.size() &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		vector&lt;int&gt; buy(prices.size(), 0), sell(prices.size(), 0);</span><br><span class="line">		buy[<span class="number">0</span>] = -prices[<span class="number">0</span>];</span><br><span class="line">		buy[<span class="number">1</span>] = max(-prices[<span class="number">0</span>], -prices[<span class="number">1</span>]);</span><br><span class="line">		sell[<span class="number">1</span>] = max(<span class="number">0</span>, buy[<span class="number">0</span>] + prices[<span class="number">1</span>]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; prices.size(); i++) &#123;</span><br><span class="line">			sell[i] = max(sell[i - <span class="number">1</span>], buy[i - <span class="number">1</span>] + prices[i]);</span><br><span class="line">			buy[i] = max(buy[i - <span class="number">1</span>], sell[i - <span class="number">2</span>] - prices[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> sell[prices.size() - <span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p></p>

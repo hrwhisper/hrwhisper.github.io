@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -126,7 +126,7 @@
 <p>最近软件工程要开发个安卓。无奈手机是windows phone，传说中被支付X提到的那百分之一的生活。</p>
 <p>安卓模拟器卡爆了，发现可以加速，于是决定更新下教程。</p>
 <p>PS：部分图片直接摘自我的CSDN</p>
-<h2 id="一-java环境配置">一、java环境配置</h2>
+<h2 id="一、java环境配置">一、java环境配置</h2>
 <p>一、安装JDK<br>
 为啥要安装JDK就不说了吧？java写安卓。。</p>
 <p>传送门：</p>
@@ -149,8 +149,8 @@
 <p><img src="../images/java-android-environment-genymotion-emulator/20140714060310914.png" alt="20140714060310914"></p>
 <p>如果环境变量配置好了，</p>
 <p>WIN+R弹出运行窗口，输入JAVAC后打印一些东西然后自己退出。</p>
-<h2 id="二-安卓环境配置及第一个hello-world程序">二、安卓环境配置及第一个hello world程序</h2>
-<h3 id="1-先安装sdk-manager">1.先安装SDK Manager</h3>
+<h2 id="二、安卓环境配置及第一个hello-world程序">二、安卓环境配置及第一个hello world程序</h2>
+<h3 id="1-先安装SDK-Manager">1.先安装SDK Manager</h3>
 <p>这个不用说吧。。。</p>
 <h3 id="2-下载需要的资源">2.下载需要的资源</h3>
 <p>（<strong>如果别人那有安卓SDK，建议直接拷贝，免去下载</strong>）</p>
@@ -161,13 +161,13 @@ IPv4: <a target="_blank" rel="noopener" href="http://ubuntu.buct.cn/">http://ubu
 <p>打开SDK Manager ，点击菜单栏tools - options弹出设置如图：</p>
 <p><img src="../images/java-android-environment-genymotion-emulator/QQ%E6%88%AA%E5%9B%BE20150313194220.jpg" alt="QQ截图20150313194220"></p>
 <p>这样，从国内的下载速度就快多了～</p>
-<h3 id="3-安装adt">3. 安装ADT</h3>
+<h3 id="3-安装ADT">3. 安装ADT</h3>
 <p>ADT即Android Development Tools</p>
 <p>安卓 开发的一个工具。</p>
 <p>可以从http://download.csdn.net/detail/murmured/7605937　下载</p>
 <p>在eclipse下安装步骤：</p>
 <p>Help-&gt;Install new Software-&gt;Add-&gt;Archive-&gt;找到ADT-22.0.1.zip(上面的名称随意)-&gt;勾选Developer Tools-&gt;一路next</p>
-<h3 id="4-匹配虚拟设备-avd">4、匹配虚拟设备（AVD）</h3>
+<h3 id="4、匹配虚拟设备（AVD）">4、匹配虚拟设备（AVD）</h3>
 <p>打开AVD（Android Virtual Device）（这个刚才和SDK Manager一起装的。)</p>
 <p>一开始进去肯定是没有东西的，点击右边的New按钮。<br>
 我是这么配置的：<br>
@@ -176,7 +176,7 @@ SD 卡会在系统里生成一个同等大小的文件，用来模拟SD 卡。�
 <p><strong>target是安卓系统的版本，现在不推荐使用2.3了，请自行修改。</strong></p>
 <p><img src="../images/java-android-environment-genymotion-emulator/20140707232823000.png" alt="20140707232823000"></p>
 <p>点ok即可</p>
-<h3 id="５-接下来创建第一个安卓程序">５．接下来创建第一个安卓程序</h3>
+<h3 id="５．接下来创建第一个安卓程序">５．接下来创建第一个安卓程序</h3>
 <p>打开eclipse，<br>
 File -&gt; New -&gt; Android Application Project</p>
 <p>其中Minimum Required sdk 选择4.0以上版本（可以避免appcompat_v7_2报错）</p>
@@ -191,7 +191,7 @@ File -&gt; New -&gt; Android Application Project</p>
 <p><img src="../images/java-android-environment-genymotion-emulator/QQ%E6%88%AA%E5%9B%BE20150510205313.jpg" alt="QQ截图20150510205313"></p>
 <p>耐心等。开机后就出现了hello world!字样！！！</p>
 <p><img src="../images/java-android-environment-genymotion-emulator/QQ%E6%88%AA%E5%9B%BE20150510204839.jpg" alt="QQ截图20150510204839"></p>
-<h2 id="三-使用genymotion模拟器">三、使用Genymotion模拟器</h2>
+<h2 id="三、使用Genymotion模拟器">三、使用Genymotion模拟器</h2>
 <p>安卓自带的模拟器卡爆了，即使是使用了HAXM加速后还是一样！</p>
 <p>特别是高分屏的时候！</p>
 <p>接下来介绍genymotion模拟器，官网地址：<a target="_blank" rel="noopener" href="http://www.genymotion.net/">http://www.genymotion.net/</a></p>
@@ -207,7 +207,7 @@ File -&gt; New -&gt; Android Application Project</p>
 <li>像使用普通的安卓模拟器使用即可。</li>
 </ul>
 <p>genymotion 安装普通的APK可以直接拖入安装。（QQ我可以运行于google nexus S android4.1上~）</p>
-<h2 id="四-使用intel-haxm加速android-模拟器">四、使用Intel HAXM加速Android 模拟器</h2>
+<h2 id="四、使用Intel-HAXM加速Android-模拟器">四、使用Intel HAXM加速Android 模拟器</h2>
 <p>觉得自带安卓模拟器卡爆了？（<strong>推荐上面的第三步，使用genymotion模拟器</strong>）</p>
 <p>没事，咱放大招！</p>
 <p>打开安卓sdk manager,查看extras下，你可以发现最后一个，是intel x86 emulator Accelerator.（如果没有，<a target="_blank" rel="noopener" href="http://xn--ubuntu-hp7iqm910eueam58jwzgyl0l4kk.buct.edu.cn">请把下载地址改为ubuntu.buct.edu.cn</a>，参考上面的安卓环境配置）</p>

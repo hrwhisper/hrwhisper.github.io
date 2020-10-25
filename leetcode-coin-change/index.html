@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -115,7 +115,7 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-coin-change">leetcode Coin Change</h3>
+<h3 id="leetcode-Coin-Change">leetcode Coin Change</h3>
 <p>You are given coins of different denominations and a total amount of money <em>amount</em>. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return <code>-1</code>.</p>
 <p><strong>Example 1:</strong><br>
 coins = <code>[1, 2, 5]</code>, amount = <code>11</code><br>
@@ -136,7 +136,7 @@ You may assume that you have an infinite number of each kind of coin.</p>
 <p>或者 <code>dp[i] = min(dp[i - coins[j]] + 1,dp[i])</code></p>
 <p>说白了就是用当前的硬币能组合成啥，取最小。</p>
 <p>第一个A此题=v= 水啊~</p>
-<h3 id="code"><strong>Code</strong></h3>
+<h3 id="Code"><strong>Code</strong></h3>
 <p><strong>java</strong> 22ms</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> dp[] = <span class="keyword">new</span> <span class="keyword">int</span>[amount + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> INF = <span class="number">0x7fffffff</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= amount; i++) dp[i] = INF;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= amount; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; coins.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (coins[j] != INF &amp;&amp; i + coins[j] &lt;= amount &amp;&amp; dp[i]!= INF)</span><br><span class="line">                    dp[i + coins[j]] = Math.min(dp[i + coins[j]], dp[i] + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount] == INF ? -<span class="number">1</span> : dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>C++</strong> 120ms</p>

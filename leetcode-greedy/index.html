@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -120,7 +120,7 @@
 <li><strong>135</strong> Candy</li>
 </ul>
 <a id="more"></a>
-<h3 id="134-gas-station"><strong>134. Gas Station</strong></h3>
+<h3 id="134-Gas-Station"><strong>134. Gas Station</strong></h3>
 <blockquote>
 <p>There are <em>N</em> gas stations along a circular route, where the amount of gas at station <em>i</em> is <code>gas[i]</code>.</p>
 <p>You have a car with an unlimited gas tank and it costs <code>cost[i]</code> of gas to travel from station <em>i</em> to its next station (<em>i</em>+1). You begin the journey with an empty tank at one of the gas stations.</p>
@@ -147,7 +147,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canCompleteCircuit</span>(<span class="params">self, gas, cost</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type gas: List[int]</span></span><br><span class="line"><span class="string">        :type cost: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        start = remain = total = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(gas)):</span><br><span class="line">            remain += gas[i] - cost[i]</span><br><span class="line">            total += gas[i] - cost[i]</span><br><span class="line">            <span class="keyword">if</span> remain &lt; <span class="number">0</span>:</span><br><span class="line">                remain = <span class="number">0</span></span><br><span class="line">                start = i + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span> <span class="keyword">if</span> total &lt; <span class="number">0</span> <span class="keyword">else</span> start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p></p>
 <hr>
-<h3 id="135-candy">135. Candy</h3>
+<h3 id="135-Candy">135. Candy</h3>
 <blockquote>
 <p>There are <em>N</em> children standing in a line. Each child is assigned a rating value.</p>
 <p>You are giving candies to these children subjected to the following requirements:</p>

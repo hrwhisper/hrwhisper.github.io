@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -117,7 +117,7 @@
   <p>最近在做人工智能的时候，面对几万个PPT，想要拆分成几个组，每组100个。</p>
 <p>于是学了学python文件操作，轻松解决。</p>
 <a id="more"></a>
-<h2 id="code">Code</h2>
+<h2 id="Code">Code</h2>
 <p>首先获取该目录下的所有文件名，然后根据个数判断当前文件应该属于哪一个文件夹。</p>
 <p>如果文件夹不存在，那么创建之，最后拷贝过去即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">date   :  May 13, 2015</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">from</span> win32com <span class="keyword">import</span> client <span class="keyword">as</span> wc </span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line">    </span><br><span class="line">pdfPath = <span class="string">r&#x27;J:\realpdf\allpaper&#x27;</span></span><br><span class="line">files  = os.walk(pdfPath).next()[<span class="number">2</span>] </span><br><span class="line">cnt = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i,file <span class="keyword">in</span> enumerate(files):</span><br><span class="line">    <span class="keyword">print</span> i,file</span><br><span class="line">    newfilePath = pdfPath+<span class="string">&#x27;\\&#x27;</span>+str(cnt)</span><br><span class="line">    <span class="keyword">if</span> i / <span class="number">100</span> &gt; cnt :</span><br><span class="line">        cnt += <span class="number">1</span></span><br><span class="line">        newfilePath = pdfPath+<span class="string">&#x27;\\&#x27;</span>+str(cnt)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(newfilePath):</span><br><span class="line">        os.mkdir(newfilePath)</span><br><span class="line">    shutil.move(pdfPath+<span class="string">&#x27;\\&#x27;</span>+file,newfilePath+<span class="string">&#x27;\\&#x27;</span>+file)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br></pre></td></tr></table></figure>

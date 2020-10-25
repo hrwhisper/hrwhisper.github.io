@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -120,7 +120,7 @@
 <li><strong>37</strong>. Sudoku Solver</li>
 </ul>
 <a id="more"></a>
-<h3 id="36-valid-sudoku">36. Valid Sudoku</h3>
+<h3 id="36-Valid-Sudoku">36. Valid Sudoku</h3>
 <blockquote>
 <p>Determine if a Sudoku is valid, according to: <a target="_blank" rel="noopener" href="http://sudoku.com.au/TheRules.aspx">Sudoku Puzzles - The Rules</a>.</p>
 <p>The Sudoku board could be partially filled, where empty cells are filled with the character <code>'.'</code>.</p>
@@ -143,7 +143,7 @@ A valid Sudoku board (partially filled) is not necessarily solvable. Only the fi
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isValidSudoku</span>(<span class="params">self, board</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type board: List[List[str]]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        row_vis = [[<span class="literal">False</span>] * <span class="number">9</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">9</span>)]</span><br><span class="line">        col_vis = [[<span class="literal">False</span>] * <span class="number">9</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">9</span>)]</span><br><span class="line">        sub_box_vis = [[<span class="literal">False</span>] * <span class="number">9</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">9</span>)]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">9</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">9</span>):</span><br><span class="line">                <span class="keyword">if</span> board[i][j] == <span class="string">&#x27;.&#x27;</span>: <span class="keyword">continue</span></span><br><span class="line">                index = ord(board[i][j]) - ord(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">                sub_index = i // <span class="number">3</span> * <span class="number">3</span> + j // <span class="number">3</span></span><br><span class="line">                <span class="keyword">if</span> row_vis[i][index] <span class="keyword">or</span> col_vis[j][index] <span class="keyword">or</span> sub_box_vis[sub_index][index]:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">                row_vis[i][index] = col_vis[j][index] = sub_box_vis[sub_index][index] = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p></p>
 <hr>
-<h3 id="37-sudoku-solver">37. Sudoku Solver</h3>
+<h3 id="37-Sudoku-Solver">37. Sudoku Solver</h3>
 <blockquote>
 <p>Write a program to solve a Sudoku puzzle by filling the empty cells.</p>
 <p>Empty cells are indicated by the character <code>'.'</code>.</p>

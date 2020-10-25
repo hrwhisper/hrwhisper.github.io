@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -133,11 +133,11 @@
 <ul>
 <li>在Linux下直接运行python #!/usr/bin/env python</li>
 <li>标明文件编码，主要用于文件中如果有中文字符的话。。 <strong># -<em>_-coding:utf-8 -</em>_-</strong></li>
-<li>单行注释 为#，多行注释可以用三个单引号如：’’’          XXX    ‘’’</li>
+<li>单行注释 为#，多行注释可以用三个单引号如：‘’’          XXX    ‘’’</li>
 </ul>
 <p></p>
 <h1>三、python基本语法</h1>
-<h2 id="一-输入输出">（一）输入输出</h2>
+<h2 id="（一）输入输出">（一）输入输出</h2>
 <h3 id="1-输出：">1.输出：</h3>
 <p>从Hello word 开始</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print &#39;hello world&#39;</span><br><span class="line">print &#39;hello&#39;,&#39;world&#39;</span><br></pre></td></tr></table></figure>
@@ -146,7 +146,7 @@
 <p>读入一行数据，并且打印的demo:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name &#x3D; raw_input()</span><br><span class="line">print name</span><br></pre></td></tr></table></figure>
 <p></p>
-<h2 id="二-一看就会的简单语句">（二）一看就会的简单语句</h2>
+<h2 id="（二）一看就会的简单语句">（二）一看就会的简单语句</h2>
 <h3 id="1-条件">1.条件</h3>
 <p>需要注意的是if /elif/ else后面均有 :</p>
 <p><strong>如果之后的语句只有一句，那么可以写在同一行</strong></p>
@@ -166,7 +166,7 @@
 <p>range(a,b,c)  a起始位置， b终止位置（不包括b），c步长</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print sum(range(1,100,2))</span><br></pre></td></tr></table></figure>
 <p></p>
-<h2 id="三-基本数据类型">（三）基本数据类型</h2>
+<h2 id="（三）基本数据类型">（三）基本数据类型</h2>
 <h3 id="1-list"><strong>1. list</strong></h3>
 <p>list和C/C++中的数组很像，无非把{}改为[]</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">classmates &#x3D; [&#39;Michael&#39;, &#39;Bob&#39;, &#39;Tracy&#39;]</span><br><span class="line">print classmates[0]</span><br></pre></td></tr></table></figure>
@@ -210,7 +210,7 @@ remove(key)方法可以删除元素：</p>
 <p>set可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集、并集等操作，也可以用in 来判断是否在集合中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s1 &#x3D; set([1, 2, 3])</span><br><span class="line">s2 &#x3D; set([2, 3, 4])</span><br><span class="line">print s1 &amp; s2 #set([2, 3])</span><br><span class="line">print s1  s2 #set([1, 2, 3, 4])</span><br><span class="line">print 1 in s1 #True</span><br><span class="line">print 5 in s1 #False</span><br></pre></td></tr></table></figure>
 <p></p>
-<h2 id="四-函数">（四）函数</h2>
+<h2 id="（四）函数">（四）函数</h2>
 <p><strong>1.定义</strong></p>
 <p><strong>def name (params):</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def my_abs(x):</span><br><span class="line">    if x &gt;&#x3D; 0:</span><br><span class="line">        return x</span><br><span class="line">    else:</span><br><span class="line">        return -x</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -222,7 +222,7 @@ remove(key)方法可以删除元素：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">def hrsay_a(content):</span><br><span class="line">    print content</span><br><span class="line">def hrsay_b():</span><br><span class="line">    print &#39;1&#39;</span><br><span class="line"></span><br><span class="line">func_a &#x3D; &#39;hrsay_&#39;+&#39;a&#39;</span><br><span class="line">eval(func_a)(&quot;I&#39;m a handsome boy&quot;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>输出：</p>
 <p>I’m a handsome boy</p>
-<h2 id="五-觉得很爽的玩意">（五）觉得很爽的玩意</h2>
+<h2 id="（五）觉得很爽的玩意">（五）觉得很爽的玩意</h2>
 <h3 id="1-长度">1.长度</h3>
 <p>求任意类型的长度统一：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(xxx)</span><br></pre></td></tr></table></figure>
@@ -235,7 +235,7 @@ remove(key)方法可以删除元素：</p>
 看下面的例子你就秒懂了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;range(10,100); #x是个list</span><br><span class="line">print x[:10 ]   #输出前10个</span><br><span class="line">print x[-10 :]   #输出后10个</span><br><span class="line">print x[:10 :3 ]  #输出前10个，每3个取一次</span><br><span class="line">print x[::2 ] #每两个取一次</span><br><span class="line">print x[::-2] #倒着每两次取一个</span><br><span class="line">[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span><br><span class="line">[90, 91, 92, 93, 94, 95, 96, 97, 98, 99]</span><br><span class="line">[10, 13, 16, 19]</span><br><span class="line">[10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]</span><br></pre></td></tr></table></figure>
 <p>Python简洁优雅的风格一览无遗啊！！！！</p>
-<h2 id="六-循环进阶">（六）循环进阶</h2>
+<h2 id="（六）循环进阶">（六）循环进阶</h2>
 <h3 id="1-range和xrange">1. range和xrange</h3>
 <p>range和xrange如果从0开始，都可以省略0。<br>
 他们的用法一样: 下面四句都是等价的，即循环从[0,10) 不包括10</p>
@@ -260,21 +260,21 @@ remove(key)方法可以删除元素：</p>
 <p></p>
 <h1>五、字符串</h1>
 <p>写过其他高级语言的都知道，字符串的连接用 + ，字符串复制 = ,分割字符串split</p>
-<h2 id="一-字母转化">（一）字母转化</h2>
+<h2 id="（一）字母转化">（一）字母转化</h2>
 <h3 id="1-大小写转化">1.大小写转化</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name &#x3D; &#39;Hrwhisper&#39;</span><br><span class="line">upper_name &#x3D; name.upper() #大写</span><br><span class="line">lower_name &#x3D; name.lower() #小写</span><br><span class="line">print upper_name</span><br><span class="line">print lower_name</span><br></pre></td></tr></table></figure>
 <p>输出：</p>
 <p>HRWHISPER<br>
 hrwhisper</p>
-<h3 id="2-ascii编码转化">2. ASCII编码转化</h3>
+<h3 id="2-ASCII编码转化">2. ASCII编码转化</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print chr(65)  #A</span><br><span class="line">print ord(&#39;A&#39;) #65</span><br></pre></td></tr></table></figure>
 <p></p>
-<h2 id="二-join">（二）join</h2>
+<h2 id="（二）join">（二）join</h2>
 <h3 id="数组转字符串">数组转字符串</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; range(10)</span><br><span class="line">print &#39;&#39;.join(str(i) for i in a)</span><br></pre></td></tr></table></figure>
 <h3 id="字符串插值">字符串插值</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#39;&#39;.join(str(i) for i in xrange(10))</span><br><span class="line">print &#39;,&#39;.join(a)</span><br></pre></td></tr></table></figure>
-<h2 id="三-切片">（三）切片</h2>
+<h2 id="（三）切片">（三）切片</h2>
 <h3 id="给定字符串位置进行复制">给定字符串位置进行复制</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#39;&#39;.join(str(i) for i in xrange(10)) #0~9</span><br><span class="line">print a[3:6]    #3~5</span><br></pre></td></tr></table></figure>
 <h3 id="翻转字符串">翻转字符串</h3>
