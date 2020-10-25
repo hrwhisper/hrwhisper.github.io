@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">966</span>
+            <span class="post-count">961</span>
         </span>
     </span>
 
@@ -116,84 +116,64 @@
        
   <p>前言：</p>
 <p>当数据量大的时候，一台机器可能不足以满足性能的需求，如存储空间、内存不足，而垂直扩展十分昂贵，故用分片进行水平扩展是一个很好的解决方法。</p>
-<p>本文介绍了mongodb 进行分片的方法和步骤</p>
-<a id="more"></a>
-<h2 id="mongodb分片-结构">mongodb分片 结构</h2>
-<p><img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-sharded-cluster-production-architecture.png" alt="mongodb-sharded-cluster-production-architecture"></p>
+<p>本文介绍了mongodb 进行分片的方法和步骤<br><a id="more"></a></p>
+<h2 id="mongodb分片-结构"><a href="#mongodb分片-结构" class="headerlink" title="mongodb分片 结构"></a>mongodb分片 结构</h2><p><img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-sharded-cluster-production-architecture.png" alt="mongodb-sharded-cluster-production-architecture"></p>
 <p>主要由下面的三部分组成</p>
 <ul>
-<li>
-<p>Shard:</p>
+<li><p>Shard:</p>
 <ul>
 <li>可以使mongod也可以是几台机器组个一个replica set，防止主机单点故障</li>
 </ul>
 </li>
-<li>
-<p>Config Server:</p>
+<li><p>Config Server:</p>
 <ul>
 <li>存储整个集群的配置信息，如 chunk 大小。</li>
 </ul>
 </li>
-<li>
-<p>Query Routers:</p>
+<li><p>Query Routers:</p>
 <ul>
 <li>mongos实例，是客户端的入口。让整个集群看上去像单一数据库，前端应用可以透明使用。</li>
 </ul>
 </li>
 </ul>
-<p></p>
-<h2 id="配置步骤">配置步骤</h2>
-<h3 id="1-启动所有的配置服务器config-server">1.启动所有的配置服务器config server</h3>
-<p>语法：</p>
+<h2 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h2><h3 id="1-启动所有的配置服务器config-server"><a href="#1-启动所有的配置服务器config-server" class="headerlink" title="1.启动所有的配置服务器config server"></a>1.启动所有的配置服务器config server</h3><p>语法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod --configsvr --replSet configReplSet --port &lt;port&gt; --dbpath &lt;path&gt;</span><br></pre></td></tr></table></figure>
 <p>例如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mongod --configsvr --dbpath e:\mongodb\config\ --port 27019</span><br><span class="line">mongod --configsvr --dbpath e:\mongodb\config2\ --port 27020</span><br><span class="line">mongod --configsvr --dbpath e:\mongodb\config3\ --port 27021</span><br></pre></td></tr></table></figure>
 <p>或者用配置文件 <a target="_blank" rel="noopener" href="https://docs.mongodb.org/manual/reference/configuration-options/">https://docs.mongodb.org/manual/reference/configuration-options/</a></p>
-<h3 id="2-启动mongos实例">2.启动Mongos实例</h3>
-<p>语法(下面两种均可)</p>
+<h3 id="2-启动Mongos实例"><a href="#2-启动Mongos实例" class="headerlink" title="2.启动Mongos实例"></a>2.启动Mongos实例</h3><p>语法(下面两种均可)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongos --configdb configReplSet&#x2F;&lt;cfgsvr1:port1&gt;,&lt;cfgsvr2:port2&gt;,&lt;cfgsvr3:port3&gt;</span><br><span class="line">mongos --configdb cfg0.example.net:27019,cfg1.example.net:27019,cfg2.example.net:27019</span><br></pre></td></tr></table></figure>
 <p>例如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongos --configdb hrwhisper.mongo.shards1:27019,hrwhisper.mongo.shards2:27020,hrwhisper.mongo.shards3:27021</span><br></pre></td></tr></table></figure>
 <p>注意：</p>
 <ul>
-<li>
-<p>使用localhost和远程地址混用会报错，我是修改host文件:</p>
+<li><p>使用localhost和远程地址混用会报错，我是修改host文件:</p>
 <ul>
 <li>127.0.0.1 hrwhisper.mongo.shards1</li>
 <li>127.0.0.1 hrwhisper.mongo.shards2</li>
 <li>127.0.0.1 hrwhisper.mongo.shards3</li>
 </ul>
 </li>
-<li>
-<p>mongos实例默认运行在27017端口</p>
+<li><p>mongos实例默认运行在27017端口</p>
 </li>
-<li>
-<p>貌似3.2需要3个config server</p>
-</li>
+<li>貌似3.2需要3个config server</li>
 </ul>
-<p></p>
-<h3 id="3-启动shard">3.启动shard</h3>
-<p>可以用普通的mongod</p>
+<h3 id="3-启动shard"><a href="#3-启动shard" class="headerlink" title="3.启动shard"></a>3.启动shard</h3><p>可以用普通的mongod</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongod --dbpath e:\mongodb\twitter\ --port 27030</span><br><span class="line">mongod --dbpath e:\mongodb\twitter2\ --port 27031</span><br></pre></td></tr></table></figure>
-<p></p>
-<h3 id="4-添加分片进mongos">4.添加分片进mongos</h3>
-<p>1.用mongo 连接上mongos（直接输入mongo既可以连上，如果你修改了mongos端口，则mongo --port <port>）</p>
+<h3 id="4-添加分片进mongos"><a href="#4-添加分片进mongos" class="headerlink" title="4.添加分片进mongos"></a>4.添加分片进mongos</h3><p>1.用mongo 连接上mongos（直接输入mongo既可以连上，如果你修改了mongos端口，则mongo —port <port>）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo --host &lt;hostname of machine running mongos&gt; --port &lt;port mongos listens on&gt;</span><br></pre></td></tr></table></figure>
-<p></p>
-<ol start="2">
-<li>使用sh.addShard() 添加shard to cluster  （每个shard都要进行一次）</li>
+<ol>
+<li>使用sh.addShard() 添加shard to cluster  （每个shard都要进行一次）</li>
 </ol>
 <ul>
-<li>
-<p>添加 <strong>复制集</strong><a target="_blank" rel="noopener" href="http://xn--rs1mongodb0-g68qw91deiko09pseza.example.net">名为rs1运行在mongodb0.example.net</a> ：27017</p>
+<li><p>添加 <strong>复制集</strong>名为rs1运行在mongodb0.example.net ：27017</p>
 <ul>
 <li>sh.addShard( “rs1/mongodb0.example.net:27017” )</li>
 </ul>
 </li>
-<li>
-<p>添加单一的 mongod</p>
+<li><p>添加单一的 mongod</p>
 <ul>
-<li><strong>sh.addShard( “<a target="_blank" rel="noopener" href="http://mongodb0.example.net:27017">mongodb0.example.net:27017</a>” )</strong></li>
+<li><strong>sh.addShard( “mongodb0.example.net:27017” )</strong></li>
 </ul>
 </li>
 </ul>
@@ -201,48 +181,37 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh.addShard(&quot;hrwhisper.mongo.201.1:27030&quot; )</span><br><span class="line">sh.addShard(&quot;hrwhisper.mongo.asus:27030&quot; )</span><br></pre></td></tr></table></figure>
 <p><strong>注：</strong></p>
 <ul>
-<li><strong>需要一些时间将块迁移到新的****shard</strong></li>
-<li>可以使用 <a target="_blank" rel="noopener" href="https://docs.mongodb.org/manual/reference/command/addShard/#dbcmd.addShard">database command</a> 来设置名称和shards最大的大小</li>
+<li><strong>需要一些时间将块迁移到新的**</strong>shard**</li>
+<li>可以使用 <a target="_blank" rel="noopener" href="https://docs.mongodb.org/manual/reference/command/addShard/#dbcmd.addShard">database command</a> 来设置名称和shards最大的大小</li>
 </ul>
-<p></p>
-<h3 id="5-对database启用分片">5.对database启用分片</h3>
-<p>先用mongo shell 连接到mongos 实例，</p>
+<h3 id="5-对database启用分片"><a href="#5-对database启用分片" class="headerlink" title="5.对database启用分片"></a>5.对database启用分片</h3><p>先用mongo shell 连接到mongos 实例，</p>
 <p>使用sh.enableSharding() 指定要开启分片的数据库或者db.runCommand()</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh.enableSharding(&quot;&lt;database&gt;&quot;)</span><br><span class="line">db.runCommand( &#123; enableSharding: &lt;database&gt; &#125; )</span><br></pre></td></tr></table></figure>
 <p>例如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh.enableSharding(&quot;twitter&quot;)</span><br></pre></td></tr></table></figure>
 <p>一旦enable了个数据库，mongos将会把数据库里的不同数据集放在不同的分片上。只有数据集也被分片，否则一个数据集的所有数据将放在一个分片上。</p>
-<h3 id="6-对collection启用分片">6.对collection启用分片</h3>
-<p>使用 sh.shardCollection() 对集合进行分片</p>
+<h3 id="6-对collection启用分片"><a href="#6-对collection启用分片" class="headerlink" title="6.对collection启用分片"></a>6.对collection启用分片</h3><p>使用 sh.shardCollection() 对集合进行分片</p>
 <ul>
-<li>sh.shardCollection(&quot;<database>.<collection>&quot;, shard-key-pattern)</li>
+<li>sh.shardCollection(“<database>.<collection>“, shard-key-pattern)</li>
 </ul>
 <p>例如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">通过zipcode分片，如果zipcode值一样，则用name</span><br><span class="line">sh.shardCollection(&quot;records.people&quot;, &#123; &quot;zipcode&quot;: 1, &quot;name&quot;: 1 &#125; )</span><br><span class="line">通过对_id进行哈希分片</span><br><span class="line">sh.shardCollection(&quot;events.alerts&quot;, &#123; &quot;_id&quot;: &quot;hashed&quot; &#125; )</span><br></pre></td></tr></table></figure>
 <p><strong>注：需要先建立对应的索引</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.stream.createIndex( &#123; _id: &quot;hashed&quot; &#125; )</span><br></pre></td></tr></table></figure>
-<p></p>
-<h2 id="其他">其他</h2>
-<h3 id="查看分片状态">查看分片状态</h3>
-<p>用mongo 连接上mongos， 然后通过Mongo命令行输入：sh.status()</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="查看分片状态"><a href="#查看分片状态" class="headerlink" title="查看分片状态"></a>查看分片状态</h3><p>用mongo 连接上mongos， 然后通过Mongo命令行输入：sh.status()</p>
 <p><img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-sharding-status.png" alt="mongodb-sharding-status"></p>
-<h3 id="移除分片">移除分片</h3>
-<p>需要切换到admin collection，然后再执行移除分片的代码：</p>
+<h3 id="移除分片"><a href="#移除分片" class="headerlink" title="移除分片"></a>移除分片</h3><p>需要切换到admin collection，然后再执行移除分片的代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.runCommand( &#123; removeShard: &quot;&lt;shardname&gt;&quot; &#125; )</span><br></pre></td></tr></table></figure>
-<p></p>
 <p>再次查看状态：</p>
 <p><img src="../images/mongodb-sharding-tutorials-on-windows/mongodb-shard-remove.png" alt="mongodb-shard-remove"></p>
-<h2 id="分片实战">分片实战</h2>
-<p>修改hosts文件：</p>
+<h2 id="分片实战"><a href="#分片实战" class="headerlink" title="分片实战"></a>分片实战</h2><p>修改hosts文件：</p>
 <ul>
 <li>127.0.0.1 hrwhisper.mongo.shards1</li>
 <li>127.0.0.1 hrwhisper.mongo.shards2</li>
 <li>127.0.0.1 hrwhisper.mongo.shards3</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mongod --configsvr --dbpath e:\mongodb\config\ --port 27019</span><br><span class="line">mongod --configsvr --dbpath e:\mongodb\config2\ --port 27020</span><br><span class="line">mongod --configsvr --dbpath e:\mongodb\config3\ --port 27021</span><br><span class="line"></span><br><span class="line">mongos --configdb hrwhisper.mongo.shards1:27019,hrwhisper.mongo.shards2:27020,hrwhisper.mongo.shards3:27021</span><br><span class="line"></span><br><span class="line">mongod --dbpath e:\mongodb\twitter\ --port 27030</span><br><span class="line">mongod --dbpath e:\mongodb\twitter2\ --port 27031</span><br><span class="line"></span><br><span class="line">sh.addShard(&quot;hrwhisper.mongo.shards1:27030&quot; )</span><br><span class="line">sh.addShard(&quot;hrwhisper.mongo.shards2:27031&quot; )</span><br><span class="line"></span><br><span class="line">sh.enableSharding(&quot;twitter&quot;)</span><br><span class="line">sh.shardCollection(&quot;twitter.stream&quot;, &#123;&#39;_id&#39;:&#39;hashed&#39;&#125;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p></p>
-<h2 id="参考资料">参考资料</h2>
-<ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://docs.mongodb.org/manual/tutorial/deploy-shard-cluster/">MongoDB 官方文档</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/zhanjindong/archive/2013/04/11/3015394.html">MongoDB分片实战(二)：Sharding</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.itpub.net/thread-1843459-1-1.html">MongoDB集群的Sharding详解</a></li>

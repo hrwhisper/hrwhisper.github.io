@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -115,234 +115,71 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>第一次打天池的比赛（其实这比赛也是CCF的）~</p>
-<p>初赛排名 13 / 2845，复赛是平台赛，没怎么做</p>
-<a id="more"></a>
-<h2 id="题目回顾">题目回顾</h2>
-<p>题目地址：<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/introduction.htm?spm=5176.100066.0.0.2bb92a2cJq6kDm&amp;raceId=231620">商场中精确定位用户所在店铺</a></p>
+<p>初赛排名 13 / 2845，复赛是平台赛，没怎么做<br><a id="more"></a></p>
+<h2 id="题目回顾"><a href="#题目回顾" class="headerlink" title="题目回顾"></a>题目回顾</h2><p>题目地址：<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/introduction.htm?spm=5176.100066.0.0.2bb92a2cJq6kDm&amp;raceId=231620">商场中精确定位用户所在店铺</a></p>
 <p>题目要求给定一条用户的消费记录，求该用户当前所在的店铺</p>
 <p>下面介绍题目数据和评测方式</p>
-<h4 id="1-店铺和商场信息表-mall">1. 店铺和商场信息表(mall)</h4>
-<div class="table-responsive">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>shop_id</td>
-<td>String</td>
-<td>店铺ID</td>
-<td>已脱敏</td>
-</tr>
-<tr>
-<td>category_id</td>
-<td>String</td>
-<td>店铺类型ID</td>
-<td>共40种左右类型，已脱敏</td>
-</tr>
-<tr>
-<td>longitude</td>
-<td>Double</td>
-<td>店铺位置-经度</td>
-<td>已脱敏，但相对距离依然可信</td>
-</tr>
-<tr>
-<td>latitude</td>
-<td>Double</td>
-<td>店铺位置-纬度</td>
-<td>已脱敏，但相对距离依然可信</td>
-</tr>
-<tr>
-<td>price</td>
-<td>Bigint</td>
-<td>人均消费指数</td>
-<td>从人均消费额脱敏而来，越高表示本店的人均消费额越高</td>
-</tr>
-<tr>
-<td>mall_id</td>
-<td>String</td>
-<td>店铺所在商场ID</td>
-<td>已脱敏</td>
-</tr>
-</tbody>
-</table>
+<h4 id="1-店铺和商场信息表-mall"><a href="#1-店铺和商场信息表-mall" class="headerlink" title="1. 店铺和商场信息表(mall)"></a>1. 店铺和商场信息表(mall)</h4><div class="table-responsive">
+
+| Field       | Type   | Description    | Note                                               |
+| ----------- | ------ | -------------- | -------------------------------------------------- |
+| shop_id     | String | 店铺ID         | 已脱敏                                             |
+| category_id | String | 店铺类型ID     | 共40种左右类型，已脱敏                             |
+| longitude   | Double | 店铺位置-经度  | 已脱敏，但相对距离依然可信                         |
+| latitude    | Double | 店铺位置-纬度  | 已脱敏，但相对距离依然可信                         |
+| price       | Bigint | 人均消费指数   | 从人均消费额脱敏而来，越高表示本店的人均消费额越高 |
+| mall_id     | String | 店铺所在商场ID | 已脱敏                                             |
 </div>
+
 <p>部分样例如:</p>
 <div class="table-responsive">
-<table>
-<thead>
-<tr>
-<th>shop_id</th>
-<th>category_id</th>
-<th>longitude</th>
-<th>latitude</th>
-<th>price</th>
-<th>mall_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>s_26</td>
-<td>c_4</td>
-<td>122.3467</td>
-<td>31.83351</td>
-<td>57</td>
-<td>m_690</td>
-</tr>
-<tr>
-<td>s_133</td>
-<td>c_6</td>
-<td>121.1344</td>
-<td>31.19751</td>
-<td>58</td>
-<td>m_6587</td>
-</tr>
-<tr>
-<td>s_251</td>
-<td>c_38</td>
-<td>121.0005</td>
-<td>30.90767</td>
-<td>34</td>
-<td>m_5892</td>
-</tr>
-<tr>
-<td>s_372</td>
-<td>c_30</td>
-<td>119.865</td>
-<td>26.65988</td>
-<td>44</td>
-<td>m_625</td>
-</tr>
-<tr>
-<td>s_456</td>
-<td>c_26</td>
-<td>122.5942</td>
-<td>31.5815</td>
-<td>44</td>
-<td>m_3839</td>
-</tr>
-</tbody>
-</table>
+
+| shop_id | category_id | longitude | latitude | price | mall_id |
+| ------- | ----------- | --------- | -------- | ----- | ------- |
+| s_26    | c_4         | 122.3467  | 31.83351 | 57    | m_690   |
+| s_133   | c_6         | 121.1344  | 31.19751 | 58    | m_6587  |
+| s_251   | c_38        | 121.0005  | 30.90767 | 34    | m_5892  |
+| s_372   | c_30        | 119.865   | 26.65988 | 44    | m_625   |
+| s_456   | c_26        | 122.5942  | 31.5815  | 44    | m_3839  |
+
 </div>
-<h4 id="2-用户店铺内交易表-train">2. 用户店铺内交易表(train)</h4>
-<div class="table-responsive">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>user_id</td>
-<td>String</td>
-<td>用户ID</td>
-<td>已脱敏</td>
-</tr>
-<tr>
-<td>shop_id</td>
-<td>String</td>
-<td>用户所在店铺ID</td>
-<td>已脱敏。这里是用户当前所在的店铺，可以做训练的正样本。（此商场的所有其他店铺可以作为训练的负样本）</td>
-</tr>
-<tr>
-<td>time_stamp</td>
-<td>String</td>
-<td>行为时间戳</td>
-<td>粒度为10分钟级别。例如：2017-08-06 21:20</td>
-</tr>
-<tr>
-<td>longitude</td>
-<td>Double</td>
-<td>行为发生时位置-经度</td>
-<td>已脱敏，但相对距离依然可信</td>
-</tr>
-<tr>
-<td>latitude</td>
-<td>Double</td>
-<td>行为发生时位置-纬度</td>
-<td>已脱敏，但相对距离依然可信</td>
-</tr>
-<tr>
-<td>wifi_infos</td>
-<td>String</td>
-<td>行为发生时Wifi环境，包括bssid（wifi唯一识别码），signal（强度），flag（是否连接）</td>
-<td>例子：b_6396480|-67|false;b_41124514|-86|false;b_28723327|-90|false;解释：以分号隔开的WIFI列表。对每个WIFI数据包含三项：b_6396480是脱敏后的bssid，-67是signal强度，数值越大表示信号越强，false表示当前用户没有连接此WIFI（true表示连接）。</td>
-</tr>
-</tbody>
-</table>
+
+<h4 id="2-用户店铺内交易表-train"><a href="#2-用户店铺内交易表-train" class="headerlink" title="2. 用户店铺内交易表(train)"></a>2. 用户店铺内交易表(train)</h4><div class="table-responsive">
+
+| Field      | Type   | Description                                                  | Note                                                         |
+| ---------- | ------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| user_id    | String | 用户ID                                                       | 已脱敏                                                       |
+| shop_id    | String | 用户所在店铺ID                                               | 已脱敏。这里是用户当前所在的店铺，可以做训练的正样本。（此商场的所有其他店铺可以作为训练的负样本） |
+| time_stamp | String | 行为时间戳                                                   | 粒度为10分钟级别。例如：2017-08-06 21:20                     |
+| longitude  | Double | 行为发生时位置-经度                                          | 已脱敏，但相对距离依然可信                                   |
+| latitude   | Double | 行为发生时位置-纬度                                          | 已脱敏，但相对距离依然可信                                   |
+| wifi_infos | String | 行为发生时Wifi环境，包括bssid（wifi唯一识别码），signal（强度），flag（是否连接） | 例子：b_6396480\|-67\|false;b_41124514\|-86\|false;b_28723327\|-90\|false;解释：以分号隔开的WIFI列表。对每个WIFI数据包含三项：b_6396480是脱敏后的bssid，-67是signal强度，数值越大表示信号越强，false表示当前用户没有连接此WIFI（true表示连接）。 |
+
 </div>
 前四行数据如下：（每一行为一条用户记录）
 <div class="table-responsive">
-<table>
-<thead>
-<tr>
-<th>user_id</th>
-<th>shop_id</th>
-<th>time_stamp</th>
-<th>longitude</th>
-<th>latitude</th>
-<th>wifi_infos</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>u_376</td>
-<td>s_2871718</td>
-<td>2017/8/6 21:20</td>
-<td>122.3083</td>
-<td>32.08804</td>
-<td>b_6396480|-67|false;b_41124514|-86|false;b_28723327|-90|false;b_6396479|-55|false;b_8764723|-90|false;b_32053319|-74|false;b_5857370|-68|false;b_56326644|-89|false;b_56328155|-77|false;b_5857369|-55|false</td>
-</tr>
-<tr>
-<td>u_376</td>
-<td>s_2871718</td>
-<td>2017/8/6 21:20</td>
-<td>122.3082</td>
-<td>32.08797</td>
-<td>b_6396480|-67|false;b_56328155|-73|false;b_41124514|-88|false;b_56328154|-73|false;b_56326319|-84|false;b_32053319|-83|false;b_5857370|-68|false;b_6396479|-57|false;b_31100514|-89|false;b_5857369|-57|false</td>
-</tr>
-<tr>
-<td>u_1041</td>
-<td>s_181637</td>
-<td>2017/8/2 13:10</td>
-<td>117.3653</td>
-<td>40.63821</td>
-<td>b_8006367|-78|false;b_2485110|-52|false;b_30058118|-69|false;b_8006442|-71|false;b_33503892|-56|false;b_33503917|-63|false;b_27390312|-72|false;b_8006521|-74|false;b_35013153|-56|false;b_37608251|-84|false</td>
-</tr>
-<tr>
-<td>u_1158</td>
-<td>s_609470</td>
-<td>2017/8/13 12:30</td>
-<td>121.1345</td>
-<td>31.19742</td>
-<td>b_26250579|-73|false;b_26250580|-64|false;b_26250581|-64|false;b_26250516|-77|false;b_52934996|-79|false;b_26250593|-81|false;b_26250517|-76|false;b_30424471|-60|false;b_26250578|-72|false;b_29510856|-80|false</td>
-</tr>
-</tbody>
-</table>
+
+| user_id | shop_id   | time_stamp      | longitude | latitude | wifi_infos                                                   |
+| ------- | --------- | --------------- | --------- | -------- | ------------------------------------------------------------ |
+| u_376   | s_2871718 | 2017/8/6 21:20  | 122.3083  | 32.08804 | b_6396480\|-67\|false;b_41124514\|-86\|false;b_28723327\|-90\|false;b_6396479\|-55\|false;b_8764723\|-90\|false;b_32053319\|-74\|false;b_5857370\|-68\|false;b_56326644\|-89\|false;b_56328155\|-77\|false;b_5857369\|-55\|false |
+| u_376   | s_2871718 | 2017/8/6 21:20  | 122.3082  | 32.08797 | b_6396480\|-67\|false;b_56328155\|-73\|false;b_41124514\|-88\|false;b_56328154\|-73\|false;b_56326319\|-84\|false;b_32053319\|-83\|false;b_5857370\|-68\|false;b_6396479\|-57\|false;b_31100514\|-89\|false;b_5857369\|-57\|false |
+| u_1041  | s_181637  | 2017/8/2 13:10  | 117.3653  | 40.63821 | b_8006367\|-78\|false;b_2485110\|-52\|false;b_30058118\|-69\|false;b_8006442\|-71\|false;b_33503892\|-56\|false;b_33503917\|-63\|false;b_27390312\|-72\|false;b_8006521\|-74\|false;b_35013153\|-56\|false;b_37608251\|-84\|false |
+| u_1158  | s_609470  | 2017/8/13 12:30 | 121.1345  | 31.19742 | b_26250579\|-73\|false;b_26250580\|-64\|false;b_26250581\|-64\|false;b_26250516\|-77\|false;b_52934996\|-79\|false;b_26250593\|-81\|false;b_26250517\|-76\|false;b_30424471\|-60\|false;b_26250578\|-72\|false;b_29510856\|-80\|false |
+
 </div>
-<h4 id="3-评测集-test">3. 评测集(test)</h4>
-<p>评测集和和表2差不多，只是把shop_id改为了mall_id</p>
+
+
+<h4 id="3-评测集-test"><a href="#3-评测集-test" class="headerlink" title="3. 评测集(test)"></a>3. 评测集(test)</h4><p>评测集和和表2差不多，只是把shop_id改为了mall_id</p>
 <p>我们的模型需要预测出该数据每一行用户记录的shop_id，并进行提交。</p>
 <p>比赛分为A B榜，A榜数据是9月份第一周数据，B榜数据是9月份第二周数据。</p>
-<h4 id="4-评测方法">4. 评测方法</h4>
-<p>比赛的评测方法采用的是<strong>accuracy</strong></p>
-<h2 id="比赛历程">比赛历程</h2>
-<p>开始做题的时候是10月21号。比赛已经开始了一周。</p>
+<h4 id="4-评测方法"><a href="#4-评测方法" class="headerlink" title="4. 评测方法"></a>4. 评测方法</h4><p>比赛的评测方法采用的是<strong>accuracy</strong></p>
+<h2 id="比赛历程"><a href="#比赛历程" class="headerlink" title="比赛历程"></a>比赛历程</h2><p>开始做题的时候是10月21号。比赛已经开始了一周。</p>
 <p>拿到这个赛题，第一个想法就是利用经纬度信息，首先水了个经纬度的KNN版本，准确率大概在0.66左右吧。太低。</p>
 <p>然后把每条记录的wifi分开，看成一个个的词，类似于NLP中的BOW模型，展开，跑RandomForest多分类，然而内存炸了，果断分mall，就到了0.90。 加上经纬度特征就0.905。 挖到强特就是爽哈哈哈~ 要注意的是wifi强度是负数，我修正为正数了（直接+120）。</p>
 <p>此时为了日后能方便的增删特征，尝试不同分类器，于是我重构了代码：</p>
 <ul>
 <li>新特征只要继承<code>XXToVec</code>纯虚类，实现<code>fit_transform</code> 和<code>transform</code>结构就行（模仿sklearn的接口）</li>
-<li>抽象测试类。<code> ModelBase</code>，可以设置使用什么分类器、保存模型。最棒的是关于特征只需要传一个list。如</li>
+<li>抽象测试类。<code>ModelBase</code>，可以设置使用什么分类器、保存模型。最棒的是关于特征只需要传一个list。如</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task = ModelTest(save_model=<span class="literal">False</span>, use_multiprocess=<span class="literal">False</span>, save_result_proba=<span class="literal">True</span>)</span><br><span class="line">vecs = [LocationToVec2(), WifiToVec(), WifiStrongToVec(), WifiKStrongToVec(), PriceToVec(), CategoryToVec2()  ]</span><br><span class="line">task.train_test(vecs)</span><br></pre></td></tr></table></figure>
 <p>上述的代码使用vecs里的特征，就可以进行训练并评价。（内部就是遍历vecs，然后对每个vec直接调用fit_transform和transform即可）</p>
@@ -370,62 +207,26 @@
 <p>最后模型如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; [&#39;random forest not price 0.9199&#39;, &#39;binary random forest not price 0.91998&#39;, &#39;binary xgb 0.9149&#39;,&#39;xgb 0.9123&#39;]</span><br><span class="line">weights &#x3D; [78, 80, 34, 5]  # Mean: 0.9240684683620611</span><br></pre></td></tr></table></figure>
 <p>第二赛季就没怎么打了，线上赛用的PAI平台太坑了。。Create table都要十几分钟。资源限制太不合理了。都没法玩。。对hive也不熟，UDF也不会，分wifi都搞了半天，特征也限制列数不能超过1200好像。也就是BOW wifi会GG。最后水了各个mall取了wifi top 1000，加上经纬度，直接RF多分类，（ps: 用python生成的各个mall的代码）。排45名，挺差的，不过也不怎么在意。</p>
-<h2 id="冠军队的做法对比">冠军队的做法对比</h2>
-<p>候选集直接选取目标mall中所有的shop作为候选，为了避免训练集数据量过大，在训练集中进行样本抽样。具体方法是，保留全部正样本，负样本中随机抽取一定比例加入训练集。实际测试，抽样对于模型的精度影响不大。而预测的时候没有抽样，因为速度快。PS: 多分类用商店的特征得展开，二分类就不用。</p>
+<h2 id="冠军队的做法对比"><a href="#冠军队的做法对比" class="headerlink" title="冠军队的做法对比"></a>冠军队的做法对比</h2><p>候选集直接选取目标mall中所有的shop作为候选，为了避免训练集数据量过大，在训练集中进行样本抽样。具体方法是，保留全部正样本，负样本中随机抽取一定比例加入训练集。实际测试，抽样对于模型的精度影响不大。而预测的时候没有抽样，因为速度快。PS: 多分类用商店的特征得展开，二分类就不用。</p>
 <p>训练集和测试集的构造方法图示如下：</p>
 <p><strong>训练</strong>：</p>
 <div class="table-responsive">
-<table>
-<thead>
-<tr>
-<th><strong>row_id</strong></th>
-<th><strong>候选</strong></th>
-<th><strong>特征</strong></th>
-<th><strong>label</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>shop_1</td>
-<td>…</td>
-<td>1</td>
-</tr>
-<tr>
-<td>1</td>
-<td>shop_2</td>
-<td>…</td>
-<td>0</td>
-</tr>
-<tr>
-<td>1</td>
-<td>shop_3</td>
-<td>…</td>
-<td>0</td>
-</tr>
-<tr>
-<td>2</td>
-<td>shop_1</td>
-<td>…</td>
-<td>0</td>
-</tr>
-<tr>
-<td>2</td>
-<td>shop_2</td>
-<td>…</td>
-<td>1</td>
-</tr>
-<tr>
-<td>2</td>
-<td>shop_3</td>
-<td>…</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
+
+| **row_id** | **候选** | **特征** | **label** |
+| ---------- | -------- | -------- | --------- |
+| 1          | shop_1   | …        | 1         |
+| 1          | shop_2   | …        | 0         |
+| 1          | shop_3   | …        | 0         |
+| 2          | shop_1   | …        | 0         |
+| 2          | shop_2   | …        | 1         |
+| 2          | shop_3   | …        | 0         |
+
 </div>
+
 <p><strong>测试</strong>：</p>
 <div class="table-responsive">
+
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -477,31 +278,26 @@
 <td>shop_3</td>
 <td>…</td>
 <td>0.2</td>
-<td></td>
 </tr>
 </tbody>
 </table>
 </div>
-特征的差异不说，多分类的输出概率作为二分类的特征。
+<p>&lt;/div&gt;<br>特征的差异不说，多分类的输出概率作为二分类的特征。</p>
 <p>复赛中不一样的，记录如下：</p>
 <blockquote>
 <p>分离信号强度为null的数据。对于信号强度为null的那些数据，强度不论填成多少，对于模型都是个干扰。所以直接去除这一部分数据，用剩下的数据来训练。（我们没有排除。。。）</p>
 <p>分区表存储训练数据。如果为每个mall都单独生成一张训练数据表，那么表会太多，而且不断的生成、删除表，会增加任务提交的排队时间。我们的解决方案是用分区表存储所有mall的训练数据，以mall_id作为分区列。模型训练时可以直接指定分区，这样避免了反复的生成表、删除表。</p>
 </blockquote>
-<p></p>
-<h2 id="一点感想">一点感想</h2>
-<p>第一次打数据挖掘的比赛，得了13名感觉还可以。初赛基本都保持在第一页，每次掉出第一页马上又能冲回去。</p>
+<h2 id="一点感想"><a href="#一点感想" class="headerlink" title="一点感想"></a>一点感想</h2><p>第一次打数据挖掘的比赛，得了13名感觉还可以。初赛基本都保持在第一页，每次掉出第一页马上又能冲回去。</p>
 <p>不过也犯了一些错误：比如线下的数据集划分不是很好，一开始直接排序取后20%作为验证集，其实最好还是按照线上的取最后一周这样比较好。特征感觉不够多啊。</p>
 <p>还有模型的建立缺乏经验，本题确实多分类不如二分类的好。</p>
 <p>这比赛学到了很多东西, 原来都木有用过xgboost，lightgbm，stacking等~</p>
 <p>比赛经验很重要，对业务理解很重要。前者可以看看别人的比赛的经验学习学习。这比赛中商家提供的经纬度某商场竟然有40多个一样的！ （这题给的经纬度精度都达到了分米的级别了！) 不可能49楼大商场把。。我也实地逛了几个商场，感觉是有那种移动的摊位，今天这个，明天那个。然后一开始拿到题目就想到了经纬度肯定有一样的，还想要把商店进行上下分层，为此采集了新中关和欧美汇部分商店的wifi信息。不过我没有时间实践这个想法了，队友后面也没啥激情做这比赛，放弃这想法挺可惜的。后面听经验分享觉得很有道理，不要太早组队，因为你不能确定你的队友到后面是不是很努力，已经组队了都不好意思踢，而且比较后面组队大家想法不太一样，模型融合起来也会比较好。</p>
 <p>还有就是机器性能也很重要。实验室两台机器，女票那还有服务器，感觉美滋滋~</p>
 <p>还是要多学习才能更厉害~</p>
-<h2 id="开源代码">开源代码</h2>
-<ul>
+<h2 id="开源代码"><a href="#开源代码" class="headerlink" title="开源代码"></a>开源代码</h2><ul>
 <li>我的代码： <a target="_blank" rel="noopener" href="https://github.com/hrwhisper/LocationAtMall">天池-wifi定位</a></li>
 </ul>
-<p></p>
  
       <!-- reward -->
       

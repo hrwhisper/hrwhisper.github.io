@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -117,29 +117,24 @@
   <p>好久没刷题拉。。比赛竟然已经到24了。。。- - 题目500+了可怕</p>
 <p>本次是contest 24的题解，按题目编号升序排列如下：</p>
 <ul>
-<li>
-<ol start="538">
+<li><ol>
 <li>Convert BST to Greater Tree</li>
 </ol>
 </li>
-<li>
-<ol start="542">
+<li><ol>
 <li>01 Matrix</li>
 </ol>
 </li>
-<li>
-<ol start="543">
+<li><ol>
 <li>Diameter of Binary Tree</li>
 </ol>
 </li>
-<li>
-<ol start="544">
-<li>Output Contest Matches</li>
+<li><ol>
+<li>Output Contest Matches<a id="more"></a>
+<h3 id="leetcode-538-Convert-BST-to-Greater-Tree"><a href="#leetcode-538-Convert-BST-to-Greater-Tree" class="headerlink" title="leetcode 538. Convert BST to Greater Tree"></a>leetcode 538. Convert BST to Greater Tree</h3></li>
 </ol>
 </li>
 </ul>
-<a id="more"></a>
-<h3 id="leetcode-538-convert-bst-to-greater-tree">leetcode 538. Convert BST to Greater Tree</h3>
 <blockquote>
 <p>Given a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus sum of all keys greater than the original key in BST.</p>
 <p><strong>Example:</strong></p>
@@ -148,18 +143,14 @@
 <p>BST中序遍历为升序的，因为先左子树然后中间节点，然后右子树，</p>
 <p>这里先右子树然后中间然后左子树，累加右边的即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">convertBST</span>(<span class="params">self, root</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">root, val</span>):</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root: <span class="keyword">return</span> val</span><br><span class="line">            right = dfs(root.right, val)</span><br><span class="line">            root.val += right</span><br><span class="line">            left = dfs(root.left, root.val)</span><br><span class="line">            <span class="keyword">return</span> left</span><br><span class="line"></span><br><span class="line">        dfs(root, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
-<p></p>
-<h3 id="leetcode-542-01-matrix">leetcode 542. 01 Matrix</h3>
-<blockquote>
+<h3 id="leetcode-542-01-Matrix"><a href="#leetcode-542-01-Matrix" class="headerlink" title="leetcode 542. 01 Matrix"></a>leetcode 542. 01 Matrix</h3><blockquote>
 <p>iven a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.</p>
 <p>The distance between two adjacent cells is 1.</p>
-<p><strong>Example 1:</strong><br>
-Input:</p>
+<p><strong>Example 1:</strong><br>Input:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 0 0</span><br><span class="line">0 1 0</span><br><span class="line">0 0 0</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 0 0</span><br><span class="line">0 1 0</span><br><span class="line">0 0 0</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong><br>
-Input:</p>
+<p><strong>Example 2:</strong><br>Input:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 0 0</span><br><span class="line">0 1 0</span><br><span class="line">1 1 1</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 0 0</span><br><span class="line">0 1 0</span><br><span class="line">1 2 1</span><br></pre></td></tr></table></figure>
@@ -174,12 +165,9 @@ Input:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">updateMatrix</span>(<span class="params">self, matrix</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> matrix: <span class="keyword">return</span> [[]]</span><br><span class="line">        m, n = len(matrix), len(matrix[<span class="number">0</span>])</span><br><span class="line">        dp = [[<span class="number">0x7fffffff</span> <span class="keyword">if</span> matrix[i][j] != <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> range(n)] <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">                self.DP(i, j, m, n, dp)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m - <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n - <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">                self.DP(i, j, m, n, dp)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dp</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">DP</span>(<span class="params">self, i, j, m, n, dp</span>):</span></span><br><span class="line">        <span class="keyword">if</span> i &gt; <span class="number">0</span>: dp[i][j] = min(dp[i][j], dp[i - <span class="number">1</span>][j] + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> j &gt; <span class="number">0</span>: dp[i][j] = min(dp[i][j], dp[i][j - <span class="number">1</span>] + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> i &lt; m - <span class="number">1</span>: dp[i][j] = min(dp[i][j], dp[i + <span class="number">1</span>][j] + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> j &lt; n - <span class="number">1</span>: dp[i][j] = min(dp[i][j], dp[i][j + <span class="number">1</span>] + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 <p>Java 版本</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; updateMatrix(List&lt;List&lt;Integer&gt;&gt; matrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">int</span> m = matrix.size(), n = matrix.get(<span class="number">0</span>).size();</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[m][n];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">                <span class="keyword">if</span> (matrix.get(i).get(j) != <span class="number">0</span>)</span><br><span class="line">                    dp[i][j] = Integer.MAX_VALUE - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">                DP(i, j, m, n, dp);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = m - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = n - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">                DP(i, j, m, n, dp);</span><br><span class="line"></span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            List&lt;Integer&gt; cur = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">                cur.add(dp[i][j]);</span><br><span class="line">            ans.add(cur);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">DP</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> m, <span class="keyword">int</span> n, <span class="keyword">int</span>[][] dp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span>) dp[i][j] = Math.min(dp[i][j], dp[i - <span class="number">1</span>][j] + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (j &gt; <span class="number">0</span>) dp[i][j] = Math.min(dp[i][j], dp[i][j - <span class="number">1</span>] + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (i &lt; m - <span class="number">1</span>) dp[i][j] = Math.min(dp[i][j], dp[i + <span class="number">1</span>][j] + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (j &lt; n - <span class="number">1</span>) dp[i][j] = Math.min(dp[i][j], dp[i][j + <span class="number">1</span>] + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p></p>
-<h3 id="leetcode-543-diameter-of-binary-tree">leetcode 543. Diameter of Binary Tree</h3>
-<blockquote>
+<h3 id="leetcode-543-Diameter-of-Binary-Tree"><a href="#leetcode-543-Diameter-of-Binary-Tree" class="headerlink" title="leetcode 543. Diameter of Binary Tree"></a>leetcode 543. Diameter of Binary Tree</h3><blockquote>
 <p>Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the <strong>longest</strong> path between any two nodes in a tree. This path may or may not pass through the root.</p>
-<p><strong>Example:</strong><br>
-Given a binary tree</p>
+<p><strong>Example:</strong><br>Given a binary tree</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    1</span><br><span class="line">   &#x2F; \</span><br><span class="line">  2   3</span><br><span class="line"> &#x2F; \     </span><br><span class="line">4   5</span><br></pre></td></tr></table></figure>
 <p>Return <strong>3</strong>, which is the length of the path [4,2,1,3] or [5,2,1,3].</p>
 </blockquote>
@@ -187,11 +175,9 @@ Given a binary tree</p>
 <p>这题直接DFS即可。。</p>
 <p>左边的长度+右边的。。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">diameterOfBinaryTree</span>(<span class="params">self, root</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.ans = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">root, cur</span>):</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root: <span class="keyword">return</span> cur - <span class="number">1</span></span><br><span class="line">            left = dfs(root.left, cur + <span class="number">1</span>)</span><br><span class="line">            right = dfs(root.right, cur + <span class="number">1</span>)</span><br><span class="line">            self.ans = max(self.ans, left - cur + right - cur)</span><br><span class="line">            <span class="keyword">return</span> max(left, right)</span><br><span class="line"></span><br><span class="line">        dfs(root, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> self.ans</span><br></pre></td></tr></table></figure>
-<p></p>
-<h3 id="leetcode-544-output-contest-matches">leetcode 544. Output Contest Matches</h3>
-<blockquote>
+<h3 id="leetcode-544-Output-Contest-Matches"><a href="#leetcode-544-Output-Contest-Matches" class="headerlink" title="leetcode 544. Output Contest Matches"></a>leetcode 544. Output Contest Matches</h3><blockquote>
 <p>During the NBA playoffs, we always arrange the rather strong team to play with the rather weak team, like make the rank 1 team play with the rank nth team, which is a good strategy to make the contest more interesting. Now, you’re given <strong>n</strong> teams, you need to output their <strong>final</strong> contest matches in the form of a string.</p>
-<p>The <strong>n</strong> teams are given in the form of positive integers from 1 to n, which represents their initial rank. (Rank 1 is the strongest team and Rank n is the weakest team.) We’ll use parentheses(’(’, ‘)’) and commas(’,’) to represent the contest team pairing - parentheses(’(’ , ‘)’) for pairing and commas(’,’) for partition. During the pairing process in each round, you always need to follow the strategy of making the rather strong one pair with the rather weak one.</p>
+<p>The <strong>n</strong> teams are given in the form of positive integers from 1 to n, which represents their initial rank. (Rank 1 is the strongest team and Rank n is the weakest team.) We’ll use parentheses(‘(‘, ‘)’) and commas(‘,’) to represent the contest team pairing - parentheses(‘(‘ , ‘)’) for pairing and commas(‘,’) for partition. During the pairing process in each round, you always need to follow the strategy of making the rather strong one pair with the rather weak one.</p>
 <p><strong>Example 1:</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: 2</span><br><span class="line">Output: (1,2)</span><br><span class="line">Explanation: </span><br><span class="line">Initially, we have the team 1 and the team 2, placed like: 1,2.</span><br><span class="line">Then we pair the team (1,2) together with &#39;(&#39;, &#39;)&#39; and &#39;,&#39;, which is the final answer.</span><br></pre></td></tr></table></figure>
 <p><strong>Example 2:</strong></p>
@@ -206,26 +192,21 @@ Given a binary tree</p>
 </blockquote>
 <p>每次把第一个队和最后一个队放在一起即可。。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findContestMatch</span>(<span class="params">self, n</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        div = [i + <span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">        k = int(math.log(n, <span class="number">2</span>))</span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> range(k):</span><br><span class="line">            t = []</span><br><span class="line">            m = len(div)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(m &gt;&gt; <span class="number">1</span>):</span><br><span class="line">                t.append(<span class="string">&#x27;(&#x27;</span> + str(div[i]) + <span class="string">&#x27;,&#x27;</span> + str(div[m - i - <span class="number">1</span>]) + <span class="string">&#x27;)&#x27;</span>)</span><br><span class="line">            div = t</span><br><span class="line">        <span class="keyword">return</span> div[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-<p></p>
 <p>本次是 leetcode 如下的题解</p>
 <ul>
-<li>
-<ol start="538">
+<li><ol>
 <li>Convert BST to Greater Tree</li>
 </ol>
 </li>
-<li>
-<ol start="542">
+<li><ol>
 <li>01 Matrix</li>
 </ol>
 </li>
-<li>
-<ol start="543">
+<li><ol>
 <li>Diameter of Binary Tree</li>
 </ol>
 </li>
-<li>
-<ol start="544">
+<li><ol>
 <li>Output Contest Matches</li>
 </ol>
 </li>

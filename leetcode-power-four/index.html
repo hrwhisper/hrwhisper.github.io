@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">594</span>
+            <span class="post-count">590</span>
         </span>
     </span>
 
@@ -115,14 +115,10 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-power-of-four">leetcode Power of Four</h3>
-<p>Given an integer (signed 32 bits), write a function to check whether it is a power of 4.</p>
-<p><strong>Example:</strong><br>
-Given num = 16, return true. Given num = 5, return false.</p>
-<p><strong>Follow up</strong>: Could you solve it without loops/recursion?</p>
+<h3 id="leetcode-Power-of-Four"><a href="#leetcode-Power-of-Four" class="headerlink" title="leetcode Power of Four"></a>leetcode Power of Four</h3><p>Given an integer (signed 32 bits), write a function to check whether it is a power of 4.</p>
+<p><strong>Example:</strong><br>Given num = 16, return true. Given num = 5, return false.</p>
+<p><strong>Follow up</strong>: Could you solve it without loops/recursion?<br><a id="more"></a><br>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/power-of-four/">leetcode Power of Four</a></p>
 </blockquote>
-<a id="more"></a>
-<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/power-of-four/">leetcode Power of Four</a></p>
 <p>题意: 给定一个有符号整形，让你判断它是不是4的次方数</p>
 <p>思路：</p>
 <p>方法一：</p>
@@ -132,24 +128,19 @@ Given num = 16, return true. Given num = 5, return false.</p>
 <p>我们来看看2的次方数的规律：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1 &#x3D;&gt; 1</span><br><span class="line">10 &#x3D;&gt; 2</span><br><span class="line">100 &#x3D;&gt; 4</span><br><span class="line">1000 &#x3D;&gt; 8</span><br><span class="line">10000 &#x3D;&gt; 16</span><br><span class="line">100000 &#x3D;&gt; 32</span><br><span class="line">1000000 &#x3D;&gt; 64</span><br><span class="line">10000000 &#x3D;&gt; 128</span><br><span class="line">100000000 &#x3D;&gt; 256</span><br><span class="line">1000000000 &#x3D;&gt; 512</span><br><span class="line">10000000000 &#x3D;&gt; 1024</span><br><span class="line">100000000000 &#x3D;&gt; 2048</span><br><span class="line">1000000000000 &#x3D;&gt; 4096</span><br><span class="line">10000000000000 &#x3D;&gt; 8192</span><br><span class="line">100000000000000 &#x3D;&gt; 16384</span><br></pre></td></tr></table></figure>
 <p>我们发现，每次不过是将1向左移动一个位置，然后低位补0（这不是废话么= =）</p>
-<p>那么4的次方数就是将1向左移动两个位置喽 （还是废话（╯－＿－）╯╧╧）</p>
+<p>那么4的次方数就是将1向左移动两个位置喽 （还是废话（╯－＿－）╯╧╧）</p>
 <p>观察一下位置，4的次方中的1只出现在奇数的位置上！就是说，上面的二进制从右往左，第1，3，5，……位置上。</p>
 <p>So，如果我们与上一个可以在奇数上面选择位置的数，也就是 0101 0101 ……那么就把不是4次方的排除掉啦</p>
-<p>0101 0101 …… 十六进制表示为： 0x55555555</p>
-<p><strong>C++</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPowerOfFour</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num &gt; <span class="number">0</span> &amp;&amp; (num &amp; (num - <span class="number">1</span>)) ==<span class="number">0</span>  &amp;&amp; (num &amp; <span class="number">0x55555555</span>) !=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>Java</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfFour</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num &gt; <span class="number">0</span> &amp;&amp; (num &amp; (num - <span class="number">1</span>)) ==<span class="number">0</span>  &amp;&amp; (num &amp; <span class="number">0x55555555</span>) !=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>Python</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPowerOfFour</span>(<span class="params">self, num</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type num: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> num &gt; <span class="number">0</span> <span class="keyword">and</span> num &amp; (num - <span class="number">1</span>) == <span class="number">0</span> <span class="keyword">and</span> num &amp; <span class="number">0x55555555</span> != <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p></p>
+<p>0101 0101 …… 十六进制表示为： 0x55555555</p>
+<p><strong>C++</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPowerOfFour</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num &gt; <span class="number">0</span> &amp;&amp; (num &amp; (num - <span class="number">1</span>)) ==<span class="number">0</span>  &amp;&amp; (num &amp; <span class="number">0x55555555</span>) !=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Java</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfFour</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num &gt; <span class="number">0</span> &amp;&amp; (num &amp; (num - <span class="number">1</span>)) ==<span class="number">0</span>  &amp;&amp; (num &amp; <span class="number">0x55555555</span>) !=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPowerOfFour</span>(<span class="params">self, num</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type num: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> num &gt; <span class="number">0</span> <span class="keyword">and</span> num &amp; (num - <span class="number">1</span>) == <span class="number">0</span> <span class="keyword">and</span> num &amp; <span class="number">0x55555555</span> != <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
 <p>本题是leetcode 342 Power of Four solution 题解，</p>
 <p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
 <hr>
 <p>附带上power of two题解</p>
 <blockquote>
-<h3 id="leetcode-231-power-of-two">leetcode 231 Power of Two</h3>
-<p>Given an integer, write a function to determine if it is a power of two.</p>
+<h3 id="leetcode-231-Power-of-Two"><a href="#leetcode-231-Power-of-Two" class="headerlink" title="leetcode 231 Power of Two"></a>leetcode 231 Power of Two</h3><p>Given an integer, write a function to determine if it is a power of two.</p>
 </blockquote>
 <p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/power-of-two/">leetcode Power of Two</a></p>
 <p>题意: 给定一个整形，让你判断它是不是2的次方数</p>

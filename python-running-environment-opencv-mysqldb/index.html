@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">498</span>
+            <span class="post-count">496</span>
         </span>
     </span>
 
@@ -119,40 +119,36 @@
 <li>安装python环境</li>
 <li>eclipse安装 python 插件——pydev</li>
 <li>python 安装 opencv</li>
-<li>python 安装MySQLdb（windows）</li>
-</ul>
+<li><p>python 安装MySQLdb（windows）</p>
 <a id="more"></a>
-<h1>一、安装Python</h1>
-<ul>
-<li>windows：请下载Anaconda（包含各种库和python环境）</li>
-<li>linux: 一般自带，没有的话就输入Python，应该会有提示apt-get install  安装的命令</li>
+<h1 id="一、安装Python"><a href="#一、安装Python" class="headerlink" title="一、安装Python"></a>一、安装Python</h1></li>
+<li><p>windows：请下载Anaconda（包含各种库和python环境）</p>
+</li>
+<li>linux: 一般自带，没有的话就输入Python，应该会有提示apt-get install  安装的命令</li>
 </ul>
 <p>ps:如果你已经安装了python，那么请跳转第三步，在eclipse 下安装pydev插件，便于开发。( 当然，<strong>更推荐使用Pycharm</strong> ) : )</p>
-<h1>二、安装 pydev</h1>
-<p>打开eclipse，点击help-&gt; install new software，在弹出的窗口点击add如图，输入如图内容（Name可以随便写）</p>
-<p>我输入的是PyDev，Location是http://pydev.org/updates</p>
+<h1 id="二、安装-pydev"><a href="#二、安装-pydev" class="headerlink" title="二、安装 pydev"></a>二、安装 pydev</h1><p>打开eclipse，点击help-&gt; install new software，在弹出的窗口点击add如图，输入如图内容（Name可以随便写）</p>
+<p>我输入的是PyDev，Location是<a target="_blank" rel="noopener" href="http://pydev.org/updates">http://pydev.org/updates</a></p>
 <p><img src="../images/python-running-environment-opencv-mysqldb/pydev-install.jpg" alt="pydev install"></p>
 <p>在接下来的选择pydev，一路next即可。</p>
 <p><img src="../images/python-running-environment-opencv-mysqldb/pydev-install2.jpg" alt="pydev install2"></p>
-<h2 id="附-pydev使用攻略">附- pydev使用攻略</h2>
-<p>在file -&gt;new 中找到pydev，没有的话就是在others</p>
-<p><img src="../images/python-running-environment-opencv-mysqldb/QQ%E6%88%AA%E5%9B%BE20150510210116.jpg" alt="QQ截图20150510210116"></p>
-<p><img src="../images/python-running-environment-opencv-mysqldb/QQ%E6%88%AA%E5%9B%BE20150510210138.jpg" alt="QQ截图20150510210138"></p>
+<h2 id="附-pydev使用攻略"><a href="#附-pydev使用攻略" class="headerlink" title="附- pydev使用攻略"></a>附- pydev使用攻略</h2><p>在file -&gt;new 中找到pydev，没有的话就是在others</p>
+<p><img src="../images/python-running-environment-opencv-mysqldb/QQ截图20150510210116.jpg" alt="QQ截图20150510210116"></p>
+<p><img src="../images/python-running-environment-opencv-mysqldb/QQ截图20150510210138.jpg" alt="QQ截图20150510210138"></p>
 <p>新建出来之后如图：</p>
 <p>在src右键new - PyDev module</p>
-<p><img src="../images/python-running-environment-opencv-mysqldb/QQ%E6%88%AA%E5%9B%BE20150510210213.jpg" alt="QQ截图20150510210213"></p>
-<p><img src="../images/python-running-environment-opencv-mysqldb/QQ%E6%88%AA%E5%9B%BE20150510210420.jpg" alt="QQ截图20150510210245"></p>
+<p><img src="../images/python-running-environment-opencv-mysqldb/QQ截图20150510210213.jpg" alt="QQ截图20150510210213"></p>
+<p><img src="../images/python-running-environment-opencv-mysqldb/QQ截图20150510210420.jpg" alt="QQ截图20150510210245"></p>
 <p>其中，前1~5行是模版自己给的</p>
 <p>我们可以在最后一行输入print ‘hello world’</p>
-<p><img src="../images/python-running-environment-opencv-mysqldb/QQ%E6%88%AA%E5%9B%BE20150510210442.jpg" alt="QQ截图20150510210442"></p>
+<p><img src="../images/python-running-environment-opencv-mysqldb/QQ截图20150510210442.jpg" alt="QQ截图20150510210442"></p>
 <p>但这样直接运行会报错，因为为中文字符。</p>
 <p>请在第一行中加入</p>
 <p><strong># -<em>- coding: utf-8 -</em>-</strong></p>
 <p>意思为文件编码为utf-8</p>
 <p>按ctrl + f11即可直接运行，结果如下图：</p>
-<p><img src="../images/python-running-environment-opencv-mysqldb/QQ%E6%88%AA%E5%9B%BE201505102105211.jpg" alt="QQ截图20150510210521"></p>
-<h1>三、安装 opencv</h1>
-<p>如果你需要处理图像，可以使用opencv。</p>
+<p><img src="../images/python-running-environment-opencv-mysqldb/QQ截图201505102105211.jpg" alt="QQ截图20150510210521"></p>
+<h1 id="三、安装-opencv"><a href="#三、安装-opencv" class="headerlink" title="三、安装 opencv"></a>三、安装 opencv</h1><p>如果你需要处理图像，可以使用opencv。</p>
 <p>大多数网上的opencv安装挺复杂，我这里只需要几步。</p>
 <p>首先前往<a target="_blank" rel="noopener" href="http://opencv.org/downloads.html">http://opencv.org/downloads.html</a>下载，我下的版本是2.4.10</p>
 <p>安装opencv需要numpy等库。（安装py的时候你可以装（<strong>Anaconda</strong>）直接搞定所。）</p>
@@ -160,9 +156,8 @@
 <p>然后试试：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br></pre></td></tr></table></figure>
 <p>不报错即OK。</p>
-<h1>四、安装MySQLdb</h1>
-<p>前往 <a target="_blank" rel="noopener" href="http://www.codegood.com/downloads">http://www.codegood.com/downloads</a> 下载你系统和python对应的版本</p>
-<p>比如博主我的为win8,64位，2.7版本，于是下载  MySQL-python-1.2.3.win-amd64-py2.7.exe</p>
+<h1 id="四、安装MySQLdb"><a href="#四、安装MySQLdb" class="headerlink" title="四、安装MySQLdb"></a>四、安装MySQLdb</h1><p>前往 <a target="_blank" rel="noopener" href="http://www.codegood.com/downloads">http://www.codegood.com/downloads</a> 下载你系统和python对应的版本</p>
+<p>比如博主我的为win8,64位，2.7版本，于是下载  MySQL-python-1.2.3.win-amd64-py2.7.exe</p>
 <p>下载后双击安装即可。</p>
 <p>接着执行如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import MySQLdb</span><br></pre></td></tr></table></figure>

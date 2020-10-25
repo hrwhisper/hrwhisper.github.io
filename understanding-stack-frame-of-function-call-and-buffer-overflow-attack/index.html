@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">760</span>
+            <span class="post-count">758</span>
         </span>
     </span>
 
@@ -114,21 +114,12 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>C语言的函数调用过程是怎么样的呢？如何传递参数？运行后如何从函数跳转回来？</p>
-<a id="more"></a>
-<h2 id="利用栈的函数调用方式">利用栈的函数调用方式</h2>
-<p>在函数调用时，按如下的顺序压入栈：<br>
-• 函数的参数（按声明的逆序即从右到左的顺序，当然有的编译器采用的是正序）<br>
-• 函数的返回值（开辟一个空间）<br>
-• 函数的返回地址（使得调用完成后，eip能正确指向下一条指令）<br>
-• ebp的值（记录函数调用前的栈底，用于调用结束后恢复原来地址）</p>
+  <p>C语言的函数调用过程是怎么样的呢？如何传递参数？运行后如何从函数跳转回来？<br><a id="more"></a></p>
+<h2 id="利用栈的函数调用方式"><a href="#利用栈的函数调用方式" class="headerlink" title="利用栈的函数调用方式"></a>利用栈的函数调用方式</h2><p>在函数调用时，按如下的顺序压入栈：<br>• 函数的参数（按声明的逆序即从右到左的顺序，当然有的编译器采用的是正序）<br>• 函数的返回值（开辟一个空间）<br>• 函数的返回地址（使得调用完成后，eip能正确指向下一条指令）<br>• ebp的值（记录函数调用前的栈底，用于调用结束后恢复原来地址）</p>
 <p>下面举例说明main函数调用fun的过程。</p>
-<h3 id="调用前">调用前</h3>
-<p>在调用前，首先栈中存放了ebp，用于本程序执行完成后，ebp能回到原来的位置。<br>
-然后将局部变量4和5入栈。</p>
+<h3 id="调用前"><a href="#调用前" class="headerlink" title="调用前"></a>调用前</h3><p>在调用前，首先栈中存放了ebp，用于本程序执行完成后，ebp能回到原来的位置。<br>然后将局部变量4和5入栈。</p>
 <p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/before-function-calls.png" alt="before-function-calls"></p>
-<h3 id="调用时">调用时</h3>
-<ol>
+<h3 id="调用时"><a href="#调用时" class="headerlink" title="调用时"></a>调用时</h3><ol>
 <li>函数参数入栈，这里入栈的顺序和参数的声明顺序相反</li>
 <li>接着开辟个空间，用于存放返回值</li>
 <li>func函数执行后的返回地址压入栈</li>
@@ -137,30 +128,19 @@
 <li>ebp = esp (mov ebp,esp)</li>
 </ol>
 <p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/during-function-calls.png" alt="during-function-calls"></p>
-<h3 id="调用结束-要返回时">调用结束，要返回时</h3>
-<p>函数返回栈如下，将返回地址写入返回值的栈中。</p>
+<h3 id="调用结束，要返回时"><a href="#调用结束，要返回时" class="headerlink" title="调用结束，要返回时"></a>调用结束，要返回时</h3><p>函数返回栈如下，将返回地址写入返回值的栈中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov esp,ebp ;恢复ESP 同时回收局部变量等空间</span><br><span class="line">pop ebp ;从栈中恢复保存的ebp值</span><br><span class="line">ret ;从占中得到返回地址，并跳转到该位置</span><br></pre></td></tr></table></figure>
-<p></p>
 <p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/end-of-function-calls.png" alt="end-of-function-calls"></p>
-<h2 id="attack-实验">Attack 实验</h2>
-<p>我们可以通过栈溢出覆盖返回地址，来达到攻击。比如如下的代码，我们希望输入非goodpass，但是能通过验证。这里是（Access granted）</p>
+<h2 id="Attack-实验"><a href="#Attack-实验" class="headerlink" title="Attack 实验"></a>Attack 实验</h2><p>我们可以通过栈溢出覆盖返回地址，来达到攻击。比如如下的代码，我们希望输入非goodpass，但是能通过验证。这里是（Access granted）</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsPasswordOkay</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> Password[<span class="number">12</span>];</span><br><span class="line">	gets(Password);</span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">strcmp</span>(Password, <span class="string">&quot;goodpass&quot;</span>))</span><br><span class="line">		<span class="keyword">return</span>(<span class="literal">true</span>);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">return</span>(<span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">bool</span> PwStatus;</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;Enter password:&quot;</span>);</span><br><span class="line">	PwStatus = IsPasswordOkay();</span><br><span class="line">	<span class="keyword">if</span> (PwStatus == <span class="literal">false</span>) &#123;</span><br><span class="line">		<span class="built_in">puts</span>(<span class="string">&quot;Access denied&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="built_in">puts</span>(<span class="string">&quot;Access granted&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p></p>
-<h3 id="查看返回地址和ebp">查看返回地址和ebp</h3>
-<p>由汇编看到puts(“Access granted”); 地址为 0x004010DD</p>
-<p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/attack-see-the-return-address.jpg" alt="attack-see-the-return-address"><br>
-同时，查看其ebp地址为0x0012ff80</p>
-<h3 id="输入编辑">输入编辑</h3>
-<p>由于Password数组长度为12，因此要进行溢出攻击，首先要把它填满，输入任意字符到12个为止。接着，输入ebp的地址，然后在输入返回地址。</p>
+<h3 id="查看返回地址和ebp"><a href="#查看返回地址和ebp" class="headerlink" title="查看返回地址和ebp"></a>查看返回地址和ebp</h3><p>由汇编看到puts(“Access granted”); 地址为 0x004010DD</p>
+<p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/attack-see-the-return-address.jpg" alt="attack-see-the-return-address"><br>同时，查看其ebp地址为0x0012ff80</p>
+<h3 id="输入编辑"><a href="#输入编辑" class="headerlink" title="输入编辑"></a>输入编辑</h3><p>由于Password数组长度为12，因此要进行溢出攻击，首先要把它填满，输入任意字符到12个为止。接着，输入ebp的地址，然后在输入返回地址。</p>
 <p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/edit-input-to-attack.jpg" alt="edit-input-to-attack"></p>
-<h3 id="攻击测试">攻击测试</h3>
-<p>打开CMD，使用重定向输入，并运行该程序，即出现了Access granted.</p>
-<p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/attack-result.png" alt="attack-result"><br>
-PS:上述的程序中， 要是没有设置正确的EBP值（随便设置一个）那么也可以出现access granted，但是程序会报错退出。</p>
+<h3 id="攻击测试"><a href="#攻击测试" class="headerlink" title="攻击测试"></a>攻击测试</h3><p>打开CMD，使用重定向输入，并运行该程序，即出现了Access granted.</p>
+<p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/attack-result.png" alt="attack-result"><br>PS:上述的程序中， 要是没有设置正确的EBP值（随便设置一个）那么也可以出现access granted，但是程序会报错退出。</p>
 <p>此外，还有return-into-libc的攻击方式。</p>
-<h3 id="防御措施-canary">防御措施-Canary</h3>
-<p>Canary（金丝雀）技术是一种用来检测和阻止栈溢出攻击的机制，在运行时为程序提供安全保护。<br>
-它一般由编译器实施，在程序运行时在被保护的栈中插入一个难以伪造的值canary （一般为一个32位的随机值，也称为cookie或guard），canary值将在函数返回时被进行检查，如果其被修改则认为发生了溢出。</p>
+<h3 id="防御措施-Canary"><a href="#防御措施-Canary" class="headerlink" title="防御措施-Canary"></a>防御措施-Canary</h3><p>Canary（金丝雀）技术是一种用来检测和阻止栈溢出攻击的机制，在运行时为程序提供安全保护。<br>它一般由编译器实施，在程序运行时在被保护的栈中插入一个难以伪造的值canary （一般为一个32位的随机值，也称为cookie或guard），canary值将在函数返回时被进行检查，如果其被修改则认为发生了溢出。</p>
 <p><img src="../images/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/Canary-protect.png" alt="canary-protect"></p>
  
       <!-- reward -->

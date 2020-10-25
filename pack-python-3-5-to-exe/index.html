@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">439</span>
+            <span class="post-count">438</span>
         </span>
     </span>
 
@@ -116,16 +116,13 @@
        
   <p>如果python写的脚本可以打包成exe的话，那么就不用每次都打开命令行，然后python xxx.py了。</p>
 <p>当然也给小白用户更好的使用方法。</p>
-<p>本文介绍python 3.5打包成exe的方法。</p>
-<a id="more"></a>
-<p>发现支持Python3的主要有如下两个方法：</p>
+<p>本文介绍python 3.5打包成exe的方法。<br><a id="more"></a><br>发现支持Python3的主要有如下两个方法：</p>
 <ul>
 <li>pyinstaller</li>
 <li>cx-Freeze</li>
 </ul>
 <p>推荐前者</p>
-<h2 id="pyinstaller">pyinstaller</h2>
-<p>安装简单，直接</p>
+<h2 id="pyinstaller"><a href="#pyinstaller" class="headerlink" title="pyinstaller"></a>pyinstaller</h2><p>安装简单，直接</p>
 <ul>
 <li>pip install pyinstaller</li>
 </ul>
@@ -142,25 +139,19 @@
 <li>此外，运行exe的机器貌似不需要python 3.5的环境！</li>
 </ul>
 <p>我使用该方法将写的自动下课件的脚本打包完成。 地址：<a target="_blank" rel="noopener" href="https://github.com/hrwhisper/Ucas_course_ppt_auto_download">UCAS 课件自动下载</a></p>
-<h2 id="cx-freeze">cx-Freeze</h2>
-<h3 id="安装">安装</h3>
-<p>我使用的是cx-Freeze来进行打包，</p>
-<p>直接进行 pip install cx_Freeze 即可。</p>
+<h2 id="cx-Freeze"><a href="#cx-Freeze" class="headerlink" title="cx-Freeze"></a>cx-Freeze</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>我使用的是cx-Freeze来进行打包，</p>
+<p>直接进行 pip install cx_Freeze 即可。</p>
 <ul>
-<li>这个方法运行exe的机器<strong>仍然需要安装python 3.5</strong> 环境,下载地址
-<ul>
+<li>这个方法运行exe的机器<strong>仍然需要安装python 3.5</strong> 环境,下载地址<ul>
 <li><a target="_blank" rel="noopener" href="https://www.python.org/ftp/python/3.5.2/python-3.5.2.exe">https://www.python.org/ftp/python/3.5.2/python-3.5.2.exe</a></li>
 </ul>
 </li>
 </ul>
-<h3 id="创建setup-py-文件">创建<code>setup.py</code> 文件</h3>
-<p>在你的项目下创建<code>setup.py</code>文件，该文件输入如下内容：其中，Executable(‘<a target="_blank" rel="noopener" href="http://main.py">main.py</a>’) 中main.py是你脚本的文件名。</p>
+<h3 id="创建setup-py-文件"><a href="#创建setup-py-文件" class="headerlink" title="创建setup.py 文件"></a>创建<code>setup.py</code> 文件</h3><p>在你的项目下创建<code>setup.py</code>文件，该文件输入如下内容：其中，Executable(‘main.py’) 中main.py是你脚本的文件名。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line"># A very simple setup script to create a single executable</span><br><span class="line">#</span><br><span class="line"># hello.py is a very simple &#39;Hello, world&#39; type script which also displays the</span><br><span class="line"># environment in which the script runs</span><br><span class="line">#</span><br><span class="line"># Run the build process by running the command &#39;python setup.py build&#39;</span><br><span class="line">#</span><br><span class="line"># If everything works well you should find a subdirectory in the build</span><br><span class="line"># subdirectory that contains the files needed to run the script without Python</span><br><span class="line"></span><br><span class="line">from cx_Freeze import setup, Executable</span><br><span class="line"></span><br><span class="line">executables &#x3D; [</span><br><span class="line">    Executable(&#39;main.py&#39;)</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">setup(name&#x3D;&#39;hello&#39;,</span><br><span class="line">      version&#x3D;&#39;0.1&#39;,</span><br><span class="line">      description&#x3D;&#39;Sample cx_Freeze script&#39;,</span><br><span class="line">      executables&#x3D;executables</span><br><span class="line">      )</span><br></pre></td></tr></table></figure>
-<p></p>
-<h3 id="打包">打包</h3>
-<p>接着，只要在命令行中输入：</p>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>接着，只要在命令行中输入：</p>
 <ul>
-<li>python <a target="_blank" rel="noopener" href="http://setup.py">setup.py</a> build</li>
+<li>python setup.py build</li>
 </ul>
 <p>该命令在该目录下创建build文件夹，里面有打包好的文件。</p>
  

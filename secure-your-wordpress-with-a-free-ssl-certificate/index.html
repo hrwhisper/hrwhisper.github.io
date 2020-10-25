@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -120,51 +120,39 @@
 <ul>
 <li>免费证书获取</li>
 <li>apache ssl配置</li>
-<li>开启ssl后需要注意的事项</li>
+<li>开启ssl后需要注意的事项<a id="more"></a>
+ps: 本文是apache下的开启方式，若用nginx，见 <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/wordpress-lnmp-site-building/">LNMP站点配置指南</a></li>
 </ul>
-<a id="more"></a>
-<p>ps: 本文是apache下的开启方式，若用nginx，见 <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/wordpress-lnmp-site-building/">LNMP站点配置指南</a></p>
-<h2 id="https优缺点">https优缺点</h2>
-<ul>
-<li>
-<p>https采用SSL（Secure Sockets Layer，安全套接字层）技术来保护网站，对浏览器和服务器传输数据进行加密，可以大幅增加中间人攻击成本，加强用户隐私</p>
-</li>
-<li>
-<p>google 曾发布公告表示将把https作为网页排名的一个因素</p>
+<h2 id="https优缺点"><a href="#https优缺点" class="headerlink" title="https优缺点"></a>https优缺点</h2><ul>
+<li>https采用SSL（Secure Sockets Layer，安全套接字层）技术来保护网站，对浏览器和服务器传输数据进行加密，可以大幅增加中间人攻击成本，加强用户隐私</li>
+<li><p>google 曾发布公告表示将把https作为网页排名的一个因素</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://googlewebmastercentral.blogspot.jp/2014/08/https-as-ranking-signal.html">https://googlewebmastercentral.blogspot.jp/2014/08/https-as-ranking-signal.html</a></li>
 </ul>
 </li>
-<li>
-<p>Https会使网站打开速度变慢</p>
+<li><p>Https会使网站打开速度变慢</p>
 </li>
-<li>
-<p>关于https的原理技术可以看</p>
+<li><p>关于https的原理技术可以看</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://blog.csdn.net/luocn99/article/details/39777707">http://blog.csdn.net/luocn99/article/details/39777707</a></li>
 </ul>
 </li>
 </ul>
-<p></p>
-<h2 id="申请证书">申请证书</h2>
-<p>ssl验证需要证书，这里只说明免费的证书：</p>
+<h2 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h2><p>ssl验证需要证书，这里只说明免费的证书：</p>
 <ul>
-<li>
-<p><strong>Let’s Encrypt</strong></p>
+<li><p><strong>Let’s Encrypt</strong> </p>
 <ul>
 <li>是国外一个公共的免费SSL项目，由 Linux 基金会托管，它的来头不小，由Mozilla、思科、Akamai、IdenTrust和EFF等组织发起</li>
 <li>免费三个月，三个月后重新申请即可</li>
-<li>关于其申请可以参考本博客： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/install-lets-encrypt-ssl-centos-nginx/">Centos 获取 Let’s Encrypt 证书</a></li>
+<li>关于其申请可以参考本博客： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/install-lets-encrypt-ssl-centos-nginx/">Centos 获取 Let’s Encrypt 证书</a></li>
 </ul>
 </li>
-<li>
-<p><strong>startSSL</strong></p>
+<li><p><strong>startSSL</strong></p>
 <ul>
 <li>个人免费一年</li>
 </ul>
 </li>
-<li>
-<p><strong>沃通</strong></p>
+<li><p><strong>沃通</strong></p>
 <ul>
 <li>博主申请的这个，免费两年</li>
 <li>证书其实是startSSL发布的</li>
@@ -172,33 +160,26 @@
 </li>
 </ul>
 <p>由于沃通申请太简单，博主这里就略过了。</p>
-<h2 id="证书部署">证书部署</h2>
-<p>以沃通的证书为例(其他除了申请不一样但配置都是一样的)。</p>
+<h2 id="证书部署"><a href="#证书部署" class="headerlink" title="证书部署"></a>证书部署</h2><p>以沃通的证书为例(其他除了申请不一样但配置都是一样的)。</p>
 <p>申请后下载的验证包如下：</p>
 <p><img src="../images/secure-your-wordpress-with-a-free-ssl-certificate/https-wosign.png" alt="https-wosign"></p>
 <p>从上到下分别是私钥、公钥、证书链</p>
 <ul>
-<li>
-<p>上传这三个文件到服务器目录下</p>
-</li>
-<li>
-<p>安装mod_ssl</p>
+<li>上传这三个文件到服务器目录下</li>
+<li><p>安装mod_ssl</p>
 <ul>
 <li>sudo yum install -y mod_ssl</li>
 </ul>
 </li>
-<li>
-<p>复制三个文件分别到如下目录</p>
+<li><p>复制三个文件分别到如下目录</p>
 <ul>
 <li>私钥：/etc/pki/tls/private/</li>
 <li>公钥和证书链： /etc/pki/tls/certs/</li>
 </ul>
 </li>
-<li>
-<p>编辑ssl.conf，（文件名记得修改为你自己的）：</p>
+<li><p>编辑ssl.conf，（文件名记得修改为你自己的）：</p>
 <ul>
-<li>
-<p>sudo vim /etc/httpd/conf.d/ssl.conf</p>
+<li><p>sudo vim /etc/httpd/conf.d/ssl.conf</p>
 <ul>
 <li>SSLProtocol all -SSLv2 -SSLv3</li>
 <li>SSLCertificateFile /etc/pki/tls/certs/2_www.hrwhisper.me.crt</li>
@@ -208,38 +189,29 @@
 </li>
 </ul>
 </li>
-<li>
-<p>service httpd restart</p>
+</ul>
+<ul>
+<li><p>service httpd restart</p>
 <ul>
 <li>重启服务器即可</li>
 </ul>
 </li>
-<li>
-<p>在你的网址前加上https://看看访问正常么？</p>
+<li><p>在你的网址前加上<a href="https://看看访问正常么？">https://看看访问正常么？</a></p>
 </li>
 </ul>
-<p></p>
-<h2 id="wordpress-开启了https后必做的几件事">wordpress 开启了Https后必做的几件事</h2>
-<ul>
-<li>
-<p>修改wordpress 站点地址</p>
+<h2 id="wordpress-开启了Https后必做的几件事"><a href="#wordpress-开启了Https后必做的几件事" class="headerlink" title="wordpress 开启了Https后必做的几件事"></a>wordpress 开启了Https后必做的几件事</h2><ul>
+<li><p>修改wordpress 站点地址</p>
 <ul>
 <li>“设置”→“常规”里的“站点地址”和“WordPress 地址”为 https；</li>
 </ul>
 </li>
-<li>
-<p>要确保网站的每个元素（如插件、JS、CSS文件、图片、内容分发网站等）都采用https协议：(可以在chromeF12看看有没有警报)</p>
+<li><p>要确保网站的每个元素（如插件、JS、CSS文件、图片、内容分发网站等）都采用https协议：(可以在chromeF12看看有没有警报)</p>
 <ul>
-<li>
-<p>修改“菜单”当中的所有“自定义链接”为 https；</p>
-</li>
-<li>
-<p>修改其他自己手贱写入的绝对链接的地址……</p>
-</li>
-<li>
-<p>替换文章所有的Http到https</p>
+<li>修改“菜单”当中的所有“自定义链接”为 https；</li>
+<li>修改其他自己手贱写入的绝对链接的地址……</li>
+<li><p>替换文章所有的Http到https</p>
 <ul>
-<li>直接修改数据库（<strong>注意先备份</strong>！**注意先备份！！注意先备份！！！**重要的事情说三遍！）</li>
+<li>直接修改数据库（<strong>注意先备份</strong>！<strong>注意先备份！！注意先备份！！！</strong>重要的事情说三遍！）</li>
 </ul>
 </li>
 </ul>
@@ -253,9 +225,7 @@
 <ul>
 <li>如果你用了google search console，需要提交https的站点，并重新上传xml站点地图</li>
 </ul>
-<p></p>
-<h2 id="测试安全性">测试安全性</h2>
-<p>可以在如下网址测试安全性：</p>
+<h2 id="测试安全性"><a href="#测试安全性" class="headerlink" title="测试安全性"></a>测试安全性</h2><p>可以在如下网址测试安全性：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a></li>
 </ul>
@@ -264,12 +234,11 @@
 <p>还有一个说使用了RC4</p>
 <p>于是继续配置ssl.conf文件 （vim /etc/httpd/conf.d/ssl.conf）</p>
 <ul>
-<li>SSLCipherSuite “EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256  EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS”</li>
+<li>SSLCipherSuite “EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256  EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS”</li>
 </ul>
 <p>最终结果：</p>
 <p><img src="../images/secure-your-wordpress-with-a-free-ssl-certificate/https-ssllabs-result.png" alt="https-ssllabs-result"></p>
-<h2 id="参考资料">参考资料</h2>
-<ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://jay-baker.com/secure-your-wordpress-with-a-free-ssl-certificate-in-apache-on-centos-7/">Secure Your WordPress With a Free SSL Certificate in Apache on CentOS 7</a></li>
 <li><a target="_blank" rel="noopener" href="https://freessl.wosign.com/aliyun-ssl.html">Apache SSL证书部署指南</a></li>
 <li><a target="_blank" rel="noopener" href="https://css-tricks.com/moving-to-https-on-wordpress/">Moving to HTTPS on WordPress</a></li>

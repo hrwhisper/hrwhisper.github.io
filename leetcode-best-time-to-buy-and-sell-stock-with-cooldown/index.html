@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">677</span>
+            <span class="post-count">673</span>
         </span>
     </span>
 
@@ -115,8 +115,7 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-best-time-to-buy-and-sell-stock-with-cooldown">leetcode Best Time to Buy and Sell Stock with Cooldown</h3>
-<p>Say you have an array for which the _i_th element is the price of a given stock on day <em>i</em>.</p>
+<h3 id="leetcode-Best-Time-to-Buy-and-Sell-Stock-with-Cooldown"><a href="#leetcode-Best-Time-to-Buy-and-Sell-Stock-with-Cooldown" class="headerlink" title="leetcode Best Time to Buy and Sell Stock with Cooldown"></a>leetcode Best Time to Buy and Sell Stock with Cooldown</h3><p>Say you have an array for which the _i_th element is the price of a given stock on day _i_.</p>
 <p>Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times) with the following restrictions:</p>
 <ul>
 <li>You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).</li>
@@ -125,43 +124,35 @@
 <p><strong>Example:</strong></p>
 <p>prices = [1, 2, 3, 0, 2]</p>
 <p>maxProfit = 3</p>
-<p>transactions = [buy, sell, cooldown, buy, sell]</p>
+<p>transactions = [buy, sell, cooldown, buy, sell]<br><a id="more"></a><br>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/">leetcode Best Time to Buy and Sell Stock with Cooldown</a> </p>
 </blockquote>
-<a id="more"></a>
-<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/">leetcode Best Time to Buy and Sell Stock with Cooldown</a></p>
 <p>题意：</p>
 <p>给定一个数组prices，prices[i]代表第i天股票的价格。让你进行若干次买卖，求最大利润</p>
 <ul>
 <li>你每次只能买一支而且在再次买入之前必须出售之前手头上的股票（就是手头上最多有一支股票）</li>
 <li>每次出售需要休息一天才能再次买入</li>
 </ul>
-<p></p>
-<h3 id="idea"><strong>Idea</strong></h3>
-<p>DP，we can create two array, buy and sell.</p>
-<p>buy[i] means we decide buy or no buy a stock at day i  to  maximize profits,</p>
-<p>and sell[i] means we sell or not sell a stock at day i to  maximize profits.</p>
+<h3 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a><strong>Idea</strong></h3><p>DP，we can create two array, buy and sell.</p>
+<p>buy[i] means we decide buy or no buy a stock at day i  to  maximize profits,</p>
+<p>and sell[i] means we sell or not sell a stock at day i to  maximize profits.</p>
 <p>so, we have two equations :</p>
 <ul>
-<li>buy[i] = max(buy[i-1] , sell[i-2] - prices[i])  // So we should use sell[i-2] means we cooldown one day.</li>
+<li>buy[i] = max(buy[i-1] , sell[i-2] - prices[i])  // So we should use sell[i-2] means we cooldown one day.</li>
 <li>sell[i] = max(sell[i-1], buy[i-1] + prices[i])</li>
 </ul>
 <p>finally, it is obvious that sell[n-1] &gt;= buy[n-1],so we return sell[n-1]</p>
-<p>have more parctice in :   ** <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-best-time-to-buy-and-sell-stock-i-ii-iii-iv/">leetcode Best Time to Buy and Sell Stock I ~ IV</a>**</p>
-<h3 id="思路">思路</h3>
-<p>设sell[i] 卖出操作的最大利润。它需要考虑的是，第i天是否卖出。（手上有stock在第i天所能获得的最大利润）</p>
+<p>have more parctice in :   <strong> <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-best-time-to-buy-and-sell-stock-i-ii-iii-iv/">leetcode Best Time to Buy and Sell Stock I ~ IV</a></strong></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>设sell[i] 卖出操作的最大利润。它需要考虑的是，第i天是否卖出。（手上有stock在第i天所能获得的最大利润）</p>
 <p>buy[i] 买进操作的最大利润。它需要考虑的是，第i天是否买进。（手上没有stock在第i天所能获得的最大利润）</p>
 <p>所以，显然有状态转移方程</p>
 <ul>
-<li>buy[i] = max(buy[i-1] , sell[i-2] - prices[i])  // 休息一天在买入，所以是sell[i-2]在状态转移</li>
+<li>buy[i] = max(buy[i-1] , sell[i-2] - prices[i])  // 休息一天在买入，所以是sell[i-2]在状态转移</li>
 <li>sell[i] = max(sell[i-1], buy[i-1] + prices[i])</li>
 </ul>
 <p>最后显然有sell[n-1] &gt; buy[n-1] 所以我们返回sell[n-1]</p>
-<h3 id="code">Code</h3>
-<p><strong>C++</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (prices.size() &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		vector&lt;int&gt; buy(prices.size(), 0), sell(prices.size(), 0);</span><br><span class="line">		buy[<span class="number">0</span>] = -prices[<span class="number">0</span>];</span><br><span class="line">		buy[<span class="number">1</span>] = max(-prices[<span class="number">0</span>], -prices[<span class="number">1</span>]);</span><br><span class="line">		sell[<span class="number">1</span>] = max(<span class="number">0</span>, buy[<span class="number">0</span>] + prices[<span class="number">1</span>]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; prices.size(); i++) &#123;</span><br><span class="line">			sell[i] = max(sell[i - <span class="number">1</span>], buy[i - <span class="number">1</span>] + prices[i]);</span><br><span class="line">			buy[i] = max(buy[i - <span class="number">1</span>], sell[i - <span class="number">2</span>] - prices[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> sell[prices.size() - <span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p></p>
-<p><strong>Python</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span>(<span class="params">self, prices</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> prices <span class="keyword">or</span> len(prices) &lt; <span class="number">2</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        n = len(prices)</span><br><span class="line">        buy, sell = [<span class="number">0</span>] * n, [<span class="number">0</span>] * n</span><br><span class="line">        buy[<span class="number">0</span>] = -prices[<span class="number">0</span>]</span><br><span class="line">        buy[<span class="number">1</span>] = max(-prices[<span class="number">0</span>], -prices[<span class="number">1</span>])</span><br><span class="line">        sell[<span class="number">1</span>] = max(<span class="number">0</span>, prices[<span class="number">1</span>] - prices[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">2</span>, n):</span><br><span class="line">            buy[i] = max(sell[i - <span class="number">2</span>] - prices[i], buy[i - <span class="number">1</span>])</span><br><span class="line">            sell[i] = max(buy[i - <span class="number">1</span>] + prices[i], sell[i - <span class="number">1</span>])</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> sell[n - <span class="number">1</span>]</span><br></pre></td></tr></table></figure> 
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><strong>C++</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (prices.size() &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		vector&lt;int&gt; buy(prices.size(), 0), sell(prices.size(), 0);</span><br><span class="line">		buy[<span class="number">0</span>] = -prices[<span class="number">0</span>];</span><br><span class="line">		buy[<span class="number">1</span>] = max(-prices[<span class="number">0</span>], -prices[<span class="number">1</span>]);</span><br><span class="line">		sell[<span class="number">1</span>] = max(<span class="number">0</span>, buy[<span class="number">0</span>] + prices[<span class="number">1</span>]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; prices.size(); i++) &#123;</span><br><span class="line">			sell[i] = max(sell[i - <span class="number">1</span>], buy[i - <span class="number">1</span>] + prices[i]);</span><br><span class="line">			buy[i] = max(buy[i - <span class="number">1</span>], sell[i - <span class="number">2</span>] - prices[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> sell[prices.size() - <span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span>(<span class="params">self, prices</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> prices <span class="keyword">or</span> len(prices) &lt; <span class="number">2</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        n = len(prices)</span><br><span class="line">        buy, sell = [<span class="number">0</span>] * n, [<span class="number">0</span>] * n</span><br><span class="line">        buy[<span class="number">0</span>] = -prices[<span class="number">0</span>]</span><br><span class="line">        buy[<span class="number">1</span>] = max(-prices[<span class="number">0</span>], -prices[<span class="number">1</span>])</span><br><span class="line">        sell[<span class="number">1</span>] = max(<span class="number">0</span>, prices[<span class="number">1</span>] - prices[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">2</span>, n):</span><br><span class="line">            buy[i] = max(sell[i - <span class="number">2</span>] - prices[i], buy[i - <span class="number">1</span>])</span><br><span class="line">            sell[i] = max(buy[i - <span class="number">1</span>] + prices[i], sell[i - <span class="number">1</span>])</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> sell[n - <span class="number">1</span>]</span><br></pre></td></tr></table></figure></p>
+ 
       <!-- reward -->
       
       <div id="reword-out">

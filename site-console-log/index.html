@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -116,42 +116,32 @@
        
   <p>如果你打开我Blog，然后按下F12打开控制台，切换到Console，那么你会看到如下的界面~</p>
 <p><img src="../images/site-console-log/site-console-log-hrwhisper.me_.png" alt="site-console-log-hrwhisper.me"></p>
-<p>这是怎么实现的呢？</p>
-<a id="more"></a>
-<p>还有好多其他的站点，比如知乎：</p>
-<h2 id="site-console-log-zhihu"><img src="../images/site-console-log/site-console-log-zhihu.png" alt="site-console-log-zhihu"></h2>
-<p>比如百度</p>
-<h2 id="site-console-log-baidu"><img src="../images/site-console-log/site-console-log-baidu.png" alt="site-console-log-baidu"></h2>
-<p>其实很多都是用这个做招聘信息~</p>
+<p>这是怎么实现的呢？<br><a id="more"></a><br>还有好多其他的站点，比如知乎：</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="../images/site-console-log/site-console-log-zhihu.png" alt="site-console-log-zhihu"></h2><p>比如百度</p>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="../images/site-console-log/site-console-log-baidu.png" alt="site-console-log-baidu"></h2><p>其实很多都是用这个做招聘信息~</p>
 <p><strong>如何实现这个呢？让人不经意间ctrl + shift + i打开，眼前一亮的东西？</strong></p>
 <p>请看本文：</p>
-<h2 id="console-log">console.log()</h2>
-<p>JS里有个console.log()函数，用于在控制台上输出信息。</p>
+<h2 id="console-log"><a href="#console-log" class="headerlink" title="console.log()"></a>console.log()</h2><p>JS里有个console.log()函数，用于在控制台上输出信息。</p>
 <p>上面的图像其实就是输出指定的字符。</p>
 <p>你可以直接试试，打开F12控制台（或者直接ctrl + shift + i），输入如下内容</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;hello world&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p>效果如下：</p>
 <p><img src="../images/site-console-log/site-console-log-helloworld.png" alt="site-console-log-helloworld"></p>
-<h2 id="console-log-美化">console.log() 美化</h2>
-<p>默认输出白底黑字的~丑丑哒</p>
+<h2 id="console-log-美化"><a href="#console-log-美化" class="headerlink" title="console.log() 美化"></a>console.log() 美化</h2><p>默认输出白底黑字的~丑丑哒</p>
 <p>那么怎么改变颜色啥的呢？</p>
 <p>答案是用%c来表名格式，在console.log中每个%c对应一系列css属性，如下。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> text  =   <span class="string">&#x27;%c hrwhisper %c is a %c cool boy.&#x27;</span>;</span><br><span class="line"><span class="built_in">console</span>.log(text, <span class="string">&#x27;color:#337ab7;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;color:red;font-style:italic&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p>中间特插入%c，否则会从一开始到下一个%c字体都是蓝色的~</p>
 <p>效果如下</p>
 <p><img src="../images/site-console-log/site-console-log-beautiful.png" alt="site-console-log-beautiful"></p>
-<h2 id="javascript-多行字符串">Javascript 多行字符串</h2>
-<p>在python下，多行字符可以直接’’’ ‘’'包括起来，JS则没有这样的功能，JS多行 字符串方法很多，下面介绍比较优雅的方法</p>
-<h3 id="函数注释">函数注释</h3>
-<p>这是我觉得最优雅的方法。</p>
-<p>直接声明个函数，在函数里写上注释，然后转化为数组，进行注释替换（/* 和*/）</p>
+<h2 id="Javascript-多行字符串"><a href="#Javascript-多行字符串" class="headerlink" title="Javascript 多行字符串"></a>Javascript 多行字符串</h2><p>在python下，多行字符可以直接’’’ ‘’’包括起来，JS则没有这样的功能，JS多行 字符串方法很多，下面介绍比较优雅的方法</p>
+<h3 id="函数注释"><a href="#函数注释" class="headerlink" title="函数注释"></a>函数注释</h3><p>这是我觉得最优雅的方法。</p>
+<p>直接声明个函数，在函数里写上注释，然后转化为数组，进行注释替换（/<em> 和</em>/）</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getMultiLine</span>(<span class="params">f</span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> lines =f.toString(); </span><br><span class="line"><span class="keyword">return</span> lines.substring(lines.indexOf(<span class="string">&quot;/*&quot;</span>) + <span class="number">3</span>, lines.lastIndexOf(<span class="string">&quot;*/&quot;</span>));   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> console_text = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line"><span class="comment">/*        </span></span><br><span class="line"><span class="comment">hrwhisper</span></span><br><span class="line"><span class="comment">is</span></span><br><span class="line"><span class="comment">a</span></span><br><span class="line"><span class="comment">handsome </span></span><br><span class="line"><span class="comment">boy.</span></span><br><span class="line"><span class="comment">*/</span>  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(getMultiLine(console_text));</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>请自行运行如上代码 :)</p>
-<h2 id="code">Code</h2>
-<p>经过前面的探讨，我们只要有好看的字符画，然后丢到函数注释里面就好啦~~~</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>经过前面的探讨，我们只要有好看的字符画，然后丢到函数注释里面就好啦~~~</p>
 <p>如，我的blog如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">getMultiLine</span>(<span class="params">f</span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> lines =f.toString(); </span><br><span class="line"><span class="keyword">return</span> lines.substring(lines.indexOf(<span class="string">&quot;/*&quot;</span>) + <span class="number">3</span>, lines.lastIndexOf(<span class="string">&quot;*/&quot;</span>));   </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//字符画不能随意缩进，不然显示会错位</span></span><br><span class="line"><span class="keyword">var</span> console_text = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">            /~~~~~\        /~~~~~\</span></span><br><span class="line"><span class="comment">               (~&#x27;        ~~~)   </span></span><br><span class="line"><span class="comment">            \    \__________/    /</span></span><br><span class="line"><span class="comment">            /~::::::::         ~\</span></span><br><span class="line"><span class="comment"> /~~~~~~~-_ ::::::::             _-~~~~~~~\</span></span><br><span class="line"><span class="comment">\ ======= /  ::A::;      A     :\ ====== /</span></span><br><span class="line"><span class="comment"> ~-_____-~   _----------------_:: ~-____-~</span></span><br><span class="line"><span class="comment">           /~                  ~\</span></span><br><span class="line"><span class="comment">           /                      \</span></span><br><span class="line"><span class="comment">          (        ()    ()        )</span></span><br><span class="line"><span class="comment">           `\                   ./&#x27;</span></span><br><span class="line"><span class="comment">             ~-_______________-~</span></span><br><span class="line"><span class="comment">                   /~~~~\</span></span><br><span class="line"><span class="comment">                        </span></span><br><span class="line"><span class="comment">                        </span></span><br><span class="line"><span class="comment">                 (________)    </span></span><br><span class="line"><span class="comment">                     ()   </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  努力的人本身就有奇迹 , </span></span><br><span class="line"><span class="comment">  努力让自己更牛逼 ^ ^</span></span><br><span class="line"><span class="comment">          %c by hrwhisper</span></span><br><span class="line"><span class="comment">*/</span>  </span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(getMultiLine(console_text),<span class="string">&#x27;color:#337ab7;font-size:18px;font-style:italic&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p></p>
 <p>其实搜狗输入法自带了字符画（昨天特意下来看看有啥=v=，然后继续用系统自带的输入法。。。windows 10自带输入法已经很好用了的感觉，还不会广告啥的~）</p>
 <p>更多好看的字符画：可以google一下或者百度一下字符画~</p>
 <p><strong>比如世界地图</strong></p>

@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -116,46 +116,35 @@
        
   <p>本文从大家耳熟能详的Huffman编码开始谈起，然后讨论文件的压缩。包括如下内容</p>
 <ul>
-<li>
-<p>Huffman编码</p>
+<li><p>Huffman编码</p>
 <ul>
 <li>Huffman编码的实现（如何将解压需要用的字典信息写入文件并恢复等）</li>
 </ul>
 </li>
-<li>
-<p>LZ77算法</p>
+<li><p>LZ77算法</p>
 </li>
-<li>
-<p>ZIP（deflate）算法</p>
-</li>
+<li>ZIP（deflate）算法<a id="more"></a>
+<h2 id="Huffman编码"><a href="#Huffman编码" class="headerlink" title="Huffman编码"></a>Huffman编码</h2></li>
 </ul>
-<a id="more"></a>
-<h2 id="huffman编码">Huffman编码</h2>
-<h3 id="压缩过程">压缩过程</h3>
-<p>每次将频率最小的两个元素进行合并，自底向上的建树。可以用优先队列来实现。建完树后，我们可以把各个结点与左儿子的边编号为0 ，和右儿子的边编号为1， 将根节点到叶子结点上路径的编号连接起来，就是对应的Huffman编码。</p>
+<h3 id="压缩过程"><a href="#压缩过程" class="headerlink" title="压缩过程"></a>压缩过程</h3><p>每次将频率最小的两个元素进行合并，自底向上的建树。可以用优先队列来实现。建完树后，我们可以把各个结点与左儿子的边编号为0 ，和右儿子的边编号为1， 将根节点到叶子结点上路径的编号连接起来，就是对应的Huffman编码。</p>
 <p>WIKI百科上有一张很好的动态图：</p>
-<h3 id="none"><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/Huffman_huff_demo.gif" alt=""></h3>
-<p>解压</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/Huffman_huff_demo.gif" alt=""></h3><p>解压</p>
 <p>这样就完成了一棵前缀树Trie，前缀的性质也保证了一个码不会是另一个码的前缀，因此Huffman编码能被正确的解压。解压的时候只需要对于当前的bit，若为0，那么走左边，否则走右边。走到叶子结点说明该字符解码完毕，回到根节点，继续解码下一个。</p>
-<h3 id="代码实现">代码实现</h3>
-<p>首先定义树的结点的内容，并定义了__lt__方法，便于使用堆(python中的heapq)能进行比较元素的大小</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>首先定义树的结点的内容，并定义了<strong>lt</strong>方法，便于使用堆(python中的heapq)能进行比较元素的大小</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, val, cnt, left=None, right=None</span>):</span></span><br><span class="line">        self.cnt = cnt</span><br><span class="line">        self.val = val</span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__lt__</span>(<span class="params">self, other</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.cnt &lt; other.cnt</span><br></pre></td></tr></table></figure>
 <p>接下来定义Huffman树，该类支持如下特性</p>
 <ul>
-<li>
-<p>从一个TreeNode的数组（list of TreeNode）中创建huffman树</p>
+<li><p>从一个TreeNode的数组（list of TreeNode）中创建huffman树</p>
 <ul>
 <li>除了一开始用来建树外，在之后从文件中频率信息恢复huffman树也会用到</li>
 </ul>
 </li>
-<li>
-<p>从huffman树中获取叶子结点对应的编码</p>
+<li><p>从huffman树中获取叶子结点对应的编码</p>
 <ul>
 <li>就是直接进行树的遍历即可</li>
 </ul>
 </li>
-<li>
-<p>支持查找操作，给定一个字节(‘1’ or ‘0’)进行树根节点的移动</p>
+<li><p>支持查找操作，给定一个字节(‘1’ or ‘0’)进行树根节点的移动</p>
 <ul>
 <li>文件读取中一个字节一个字节读入时，可以用这个方便查找</li>
 </ul>
@@ -165,43 +154,36 @@
 <p>最后时huffman编码的编码和解码过程。</p>
 <p>编码过程</p>
 <ul>
-<li>
-<p>为了能够进行解码，要将<strong>最后一个字节的实际位数</strong>以及“字典”存入文件中</p>
+<li><p>为了能够进行解码，要将<strong>最后一个字节的实际位数</strong>以及“字典”存入文件中</p>
 <ul>
 <li>首先存入last_byte</li>
 <li>紧接着存入字典的长度</li>
 <li>接着对于每一个字符，存入该字符，然后是该字符出现频率v的二进制长度，接着是该频率v（转为二进制，按byte存）</li>
 </ul>
 </li>
-<li>
-<p>字典存储完毕后，才是进行huffman encode的文件内容</p>
+<li><p>字典存储完毕后，才是进行huffman encode的文件内容</p>
 </li>
 </ul>
 <p>解码过程</p>
 <ul>
 <li>读入last_byte和字典的长度</li>
-<li>根据字典的存储格式为：  字符-频率的二进制长度-频率v 进行读取，然后重新构造huffman数</li>
+<li>根据字典的存储格式为：  字符-频率的二进制长度-频率v 进行读取，然后重新构造huffman数</li>
 <li>对文件内容进行decode，用到上面的HuffmanTree.find方法</li>
 <li>需要对最后一个字节特殊处理</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Huffman</span>(<span class="params">object</span>):</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">encode</span>(<span class="params">filename, dist=None</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> dist:   dist = filename + <span class="string">&#x27;_compressed&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> open(filename) <span class="keyword">as</span> fr, open(dist, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            txt = fr.read()</span><br><span class="line">            q = [TreeNode(c, cnt) <span class="keyword">for</span> c, cnt <span class="keyword">in</span> collections.Counter(txt).items()]</span><br><span class="line">            huffman_code = HuffmanTree(q[:]).get_huffman_code()</span><br><span class="line">            txt = <span class="string">&#x27;&#x27;</span>.join([huffman_code[c] <span class="keyword">for</span> c <span class="keyword">in</span> txt])</span><br><span class="line">            f.write(bytes(chr(len(txt) &amp; <span class="number">7</span>), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># last_byte and dic_len to file</span></span><br><span class="line">            f.write(bytes(chr(sum([<span class="number">2</span> + ceil(len(bin(x.cnt)[<span class="number">2</span>:]) / <span class="number">8</span>) <span class="keyword">for</span> x <span class="keyword">in</span> q])), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># TODO 一样长的</span></span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> q:</span><br><span class="line">                c, v = x.val, bin(x.cnt)[<span class="number">2</span>:]</span><br><span class="line">                f.write(bytes(c, <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># current character</span></span><br><span class="line">                f.write(bytes(chr(len(v)), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># current code length</span></span><br><span class="line">                f.write(bytes(<span class="string">&#x27;&#x27;</span>.join(chr(int(v[i:i + <span class="number">8</span>], <span class="number">2</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(v), <span class="number">8</span>)), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment"># cnt</span></span><br><span class="line"></span><br><span class="line">            f.write(bytes(<span class="string">&#x27;&#x27;</span>.join(chr(int(txt[i:i + <span class="number">8</span>], <span class="number">2</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(txt), <span class="number">8</span>)), <span class="string">&quot;utf-8&quot;</span>))  <span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decode</span>(<span class="params">filename, dist=None</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> dist:  dist = filename + <span class="string">&#x27;_decode&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> open(filename, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            txt = f.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        last_byte, dic_len = ord(txt[<span class="number">0</span>]), ord(txt[<span class="number">1</span>])</span><br><span class="line">        i, huffman_code = <span class="number">2</span>, &#123;&#125;</span><br><span class="line">        q = []</span><br><span class="line">        <span class="keyword">while</span> i &lt; dic_len + <span class="number">2</span>:</span><br><span class="line">            cur, cur_len = txt[i], ord(txt[i + <span class="number">1</span>])</span><br><span class="line">            bytes_num = ceil(cur_len / <span class="number">8</span>)</span><br><span class="line">            code = <span class="string">&#x27;&#x27;</span>.join([bin(ord(c))[<span class="number">2</span>:].zfill(<span class="number">8</span>) <span class="keyword">for</span> c <span class="keyword">in</span> txt[i + <span class="number">2</span>:i + <span class="number">2</span> + bytes_num]])</span><br><span class="line">            <span class="keyword">if</span> cur_len &amp; <span class="number">7</span>: code = code[:<span class="number">-8</span>] + code[-(cur_len &amp; <span class="number">7</span>):]</span><br><span class="line">            q.append(TreeNode(cur, int(code, <span class="number">2</span>)))</span><br><span class="line">            i += bytes_num + <span class="number">2</span></span><br><span class="line"></span><br><span class="line">        txt = <span class="string">&#x27;&#x27;</span>.join([bin(ord(c))[<span class="number">2</span>:].zfill(<span class="number">8</span>) <span class="keyword">for</span> c <span class="keyword">in</span> txt[<span class="number">2</span> + dic_len:]])</span><br><span class="line">        <span class="keyword">if</span> last_byte: txt = txt[:<span class="number">-8</span>] + txt[-last_byte:]</span><br><span class="line"></span><br><span class="line">        tree = HuffmanTree(q)</span><br><span class="line">        <span class="keyword">with</span> open(dist, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(txt)):</span><br><span class="line">                c = tree.find(txt[i])</span><br><span class="line">                <span class="keyword">if</span> c: f.write(c)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>最后是文件调用的demo,并最后判断压缩前的文件和压缩后解压的文件是否一致，并算出压缩率。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    file_paths = [<span class="string">&#x27;./Aesop_Fables.txt&#x27;</span>, <span class="string">&#x27;./graph.txt&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> cur_file <span class="keyword">in</span> file_paths:</span><br><span class="line">        h = Huffman()</span><br><span class="line">        h.encode(cur_file)</span><br><span class="line">        h.decode(cur_file + <span class="string">&#x27;_compressed&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(cur_file) <span class="keyword">as</span> f, \</span><br><span class="line">                open(cur_file + <span class="string">&#x27;_compressed_decode&#x27;</span>) <span class="keyword">as</span> fd, open(cur_file + <span class="string">&#x27;_compressed&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">            print(<span class="string">&#x27;&#123;&#125;: compression ratio: &#123;:.4f&#125;, decode file equals original file is &#123;&#125;&#x27;</span>.format(</span><br><span class="line">                f.name, os.path.getsize(cur_file + <span class="string">&#x27;_compressed&#x27;</span>) / os.path.getsize(cur_file), f.read() == fd.read()))</span><br></pre></td></tr></table></figure>
-<h3 id="huffman-code小结">huffman code小结</h3>
-<p>上面的代码实现了huffman文件压缩的编码和解码过程，但是仍有缺陷，比如字符只有1byte并不支持中文和unicode等，此外，这样将字典写入文件的方式是高效的么？主流的压缩如zip是怎么做的？</p>
-<h2 id="文件压缩">文件压缩</h2>
-<p>我们可以看到上文中huffman编码能用来进行文件的压缩。</p>
+<h3 id="huffman-code小结"><a href="#huffman-code小结" class="headerlink" title="huffman code小结"></a>huffman code小结</h3><p>上面的代码实现了huffman文件压缩的编码和解码过程，但是仍有缺陷，比如字符只有1byte并不支持中文和unicode等，此外，这样将字典写入文件的方式是高效的么？主流的压缩如zip是怎么做的？</p>
+<h2 id="文件压缩"><a href="#文件压缩" class="headerlink" title="文件压缩"></a>文件压缩</h2><p>我们可以看到上文中huffman编码能用来进行文件的压缩。</p>
 <p>可以说文件压缩可以分为无损压缩和有损压缩。</p>
 <p>有损压缩常见于视频、音频等数据，有损压缩意味着一些信息的损失，压缩后无法还原。如JPEG/MP3等</p>
 <p>无损压缩则常用于文件压缩等必须还原的场合，所有的信息都得到保留，典型的有ZIP/PNG等。</p>
 <p>下面将简单介绍LZ77算法，然后介绍ZIP算法。</p>
-<h2 id="lz77-算法">LZ77 算法</h2>
-<p>Jacob Ziv和Abraham Lempel 两名以色列人在1977年提出，所以该算法称为LZ77。（1978年他们又改进了一下，称为LZ78）</p>
-<h3 id="压缩原理">压缩原理</h3>
-<p>Huffman编码是将出现次数多的编码尽可能的短来进行压缩，而LZ77则是另外一种思路：替换重复的内容。</p>
+<h2 id="LZ77-算法"><a href="#LZ77-算法" class="headerlink" title="LZ77 算法"></a>LZ77 算法</h2><p>Jacob Ziv和Abraham Lempel 两名以色列人在1977年提出，所以该算法称为LZ77。（1978年他们又改进了一下，称为LZ78）</p>
+<h3 id="压缩原理"><a href="#压缩原理" class="headerlink" title="压缩原理"></a>压缩原理</h3><p>Huffman编码是将出现次数多的编码尽可能的短来进行压缩，而LZ77则是另外一种思路：替换重复的内容。</p>
 <p>在一个文件中，如果有内容是相同的话，就可以在后一块内容中做一个标记，标示和前一块的距离和相同的长度（distance,length）。（distance,length）绝大多数情况下小于重复的内容，因此文件的体积就变小了。</p>
-<h3 id="滑动窗口">滑动窗口</h3>
-<p>那么，如何寻找重复的串呢？LZ77算法采用的是的滑动窗口的方法，就是只在一个大小固定的滑动窗口内的进行重复查找。</p>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>那么，如何寻找重复的串呢？LZ77算法采用的是的滑动窗口的方法，就是只在一个大小固定的滑动窗口内的进行重复查找。</p>
 <p>当前处理的字节开始，和滑动窗口中的每个串进行匹配，目标是找到最大的匹配。</p>
 <ul>
 <li>如果当前处理的字节开始的串有匹配，就输出一个标志，表明下面的是（distance,length）信息，然后输出（distance,length）</li>
@@ -214,37 +196,31 @@
 <li>固定了窗口大小也就固定了distance和length所需要的位数</li>
 <li>标准LZ77在找到重复字符串时输出三元组(length, distance, 下一个未匹配的字符)，但是ZIP中的只输出（distance,length）</li>
 </ul>
-<h3 id="解压缩的方法">解压缩的方法</h3>
-<p>每次先读一个标记为，查看是（distance,length）对还是literal。</p>
+<h3 id="解压缩的方法"><a href="#解压缩的方法" class="headerlink" title="解压缩的方法"></a>解压缩的方法</h3><p>每次先读一个标记为，查看是（distance,length）对还是literal。</p>
 <ul>
 <li>若（distance,length），则读出相应的串并输出到当前位置</li>
 <li>literal：读出并输出该字节</li>
 </ul>
 <p>对比压缩和解压可以发现压缩时需要进行大量的匹配，而解压时工作则少了很多。这和我们日常使用中的压缩慢解压快是一样的。</p>
-<h2 id="zip算法">ZIP算法</h2>
-<h3 id="zip-gzip-zlib-关系">zip gzip zlib 关系</h3>
-<p>下面的内容引用自 <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/20762094/how-are-zlib-gzip-and-zip-related-what-do-they-have-in-common-and-how-are-they">How are zlib, gzip and zip related?</a></p>
+<h2 id="ZIP算法"><a href="#ZIP算法" class="headerlink" title="ZIP算法"></a>ZIP算法</h2><h3 id="zip-gzip-zlib-关系"><a href="#zip-gzip-zlib-关系" class="headerlink" title="zip gzip zlib 关系"></a>zip gzip zlib 关系</h3><p>下面的内容引用自 <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/20762094/how-are-zlib-gzip-and-zip-related-what-do-they-have-in-common-and-how-are-they">How are zlib, gzip and zip related?</a> </p>
 <blockquote>
-<p>.zip is an archive format using, usually, the Deflate compression method. The .gz gzip format is for single files, also using the Deflate compression method. Often gzip is used in combination with tar to make a compressed archive format, .tar.gz. The zlib library provides Deflate compression and decompression code for use by zip, gzip, png (which uses the zlib wrapper on deflate data), and many other applications.</p>
+<p>.zip is an archive format using, usually, the Deflate compression method. The .gz gzip format is for single files, also using the Deflate compression method. Often gzip is used in combination with tar to make a compressed archive format, .tar.gz. The zlib library provides Deflate compression and decompression code for use by zip, gzip, png (which uses the zlib wrapper on deflate data), and many other applications.</p>
 </blockquote>
-<p>可以看到，Gzip和zip都 了Deflate算法，下面将介绍这个算法。</p>
-<h3 id="zip算法流程">zip算法流程</h3>
-<p>ZIP中，首先使用LZ77编码进行压缩，然后之后再对LZ77编码之后的结果继续进行压缩（Huffman编码）,这个算法也叫做Deflate算法。</p>
+<p>可以看到，Gzip和zip都 了Deflate算法，下面将介绍这个算法。</p>
+<h3 id="zip算法流程"><a href="#zip算法流程" class="headerlink" title="zip算法流程"></a>zip算法流程</h3><p>ZIP中，首先使用LZ77编码进行压缩，然后之后再对LZ77编码之后的结果继续进行压缩（Huffman编码）,这个算法也叫做Deflate算法。</p>
 <p>其实这个算法也支持静态的Huffman编码，无需记录码表，但是压缩率不高，所以大多数都采用动态的Huffman编码。</p>
 <p>采用动态的Huffman编码其流程如下：</p>
 <p><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/zip-procedure.png" alt=""></p>
-<h3 id="zip中的lz77">ZIP中的LZ77</h3>
-<p>ZIP将LZ77的滑动窗口设置为32KB。虽然设置的窗口越大，越可能有重复的内容出现，但是相应的计算量也会变得很大，可能会得不偿失。</p>
+<h3 id="ZIP中的LZ77"><a href="#ZIP中的LZ77" class="headerlink" title="ZIP中的LZ77"></a>ZIP中的LZ77</h3><p>ZIP将LZ77的滑动窗口设置为32KB。虽然设置的窗口越大，越可能有重复的内容出现，但是相应的计算量也会变得很大，可能会得不偿失。</p>
 <p>ZIP中只有3个字节以上的重复字符串，才会用（distance,length） 表示。</p>
 <p>我们知道，经过LZ77算法之后，文件内容表示为literal、distance + length两种形式。Phil Katz继续对这两种形式进行huffman编码，可以说这过程其实才是ZIP算法的核心。</p>
-<h3 id="distance-码表">distance 码表</h3>
-<p>假如对一个文件进行LZ77压缩后，得到的distance值为：3、6、4、3、4、3、4、3、5，可以根据出现的次数画出哈夫曼树如下：</p>
+<h3 id="distance-码表"><a href="#distance-码表" class="headerlink" title="distance 码表"></a>distance 码表</h3><p>假如对一个文件进行LZ77压缩后，得到的distance值为：3、6、4、3、4、3、4、3、5，可以根据出现的次数画出哈夫曼树如下：</p>
 <p><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/two-huffman-tree-are-both-right.png" alt=""></p>
 <p>上面的两个哈夫曼树（这里称为码树）都是合法的，但对应的编码不同。</p>
 <p>比如第一个的6的编码为111，而第二棵码树的6的编码为011。</p>
 <p>那么问题来了，实际中我们应该怎么选？有好多种情况？</p>
 <p>我们知道huffman编码的本质是将出现频率高的编码尽可能的短。对于同一组数据，各种长得不同的huffman树得出的各个元素的长度是一样的，也就是说，<strong>我们只需要记录各个元素编码的长度就可以了</strong>。</p>
-<p>比如上面的第一棵树，我们有：3–&gt;0；4–&gt;10；5–&gt;110；6–&gt;111。我们只需要记录：3-&gt;1 ; 4-&gt;2; 5-&gt;3; 6-&gt;3就可以了。</p>
+<p>比如上面的第一棵树，我们有：3—&gt;0；4—&gt;10；5—&gt;110；6—&gt;111。我们只需要记录：3-&gt;1 ; 4-&gt;2; 5-&gt;3; 6-&gt;3就可以了。</p>
 <p>但是这样新的问题来了，在解压的时候，我们可以按照上面第一棵树那样构造huffman树，但是对于5和6来说，长度都是3，那么110表示的是5还是6？</p>
 <p>一个简单的解法就是直接按照数字的大小来确定（<strong>升序</strong>），这样相同的长度下就不会混乱了。</p>
 <p>但是还有问题，由于我们滑动窗口的大小为32KB，就是说我们的distance范围为1-32KB就是1-32768。 那么我们怎么知道上面的就是3、4、5、6而不是1、2、3、4或者1-32768任意的四个不重复的数字（升序排列）呢？</p>
@@ -261,14 +237,13 @@
 </ul>
 <p>虽然使用分区得到的编码不是最优的，但是在当时计算能力不足的情况下，的确能能够大大的加快速度。</p>
 <p>此外，衡量一个压缩算法的话，压缩率并不是唯一的指标。我们还应该考虑时空复杂度、稳定性和移植性等等。</p>
-<h3 id="literal和length码表">literal和length码表</h3>
-<p>Phil Katz把length的范围做了限制为256，因为一个重复的字符串达到256概率很小，即使超过256，就增加一个distace + length把。这样做可能也和当时硬件条件有关。</p>
+<h3 id="literal和length码表"><a href="#literal和length码表" class="headerlink" title="literal和length码表"></a>literal和length码表</h3><p>Phil Katz把length的范围做了限制为256，因为一个重复的字符串达到256概率很小，即使超过256，就增加一个distace + length把。这样做可能也和当时硬件条件有关。</p>
 <p>Phil Katz这次将literal和length合为一张表（就是一起huffman编码）。literal为0-255，256为结束标志，而257开始的为length。length同distance一样，也进行区间的划分，29个区间如下：</p>
 <p><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/huffman-code-table-1.png" alt=""></p>
 <p>合为一张表的好处就是，解码的时候，先按照这个表来解码，如果是0-255，就表示literal，如果是256，则表示结束，如果是257-285，就是length（也说明后面的是distance）。这样一张表就可以区分出literal或者是length，这样就可以不用加一个标志来区区分。</p>
-<h3 id="再次压缩">再次压缩</h3>
-<p>上面有两次的huffman编码，literal/length码表1以及distace码表2。前面提到过为了能够解码，码表用一个码字长度序列表示，称为CL（Code Length），而记录两个码表的码字长度序列分别记为CL1、CL2。对literal/length的编码比特流称为LIT比特流；对distance的编码比特流称为DIST比特流。按照上面的方法，LZ的编码结果就变成三块：CL1、CL2、LIT比特流或DIST比特流。</p>
+<h3 id="再次压缩"><a href="#再次压缩" class="headerlink" title="再次压缩"></a>再次压缩</h3><p>上面有两次的huffman编码，literal/length码表1以及distace码表2。前面提到过为了能够解码，码表用一个码字长度序列表示，称为CL（Code Length），而记录两个码表的码字长度序列分别记为CL1、CL2。对literal/length的编码比特流称为LIT比特流；对distance的编码比特流称为DIST比特流。按照上面的方法，LZ的编码结果就变成三块：CL1、CL2、LIT比特流或DIST比特流。</p>
 <p>由于CL全部都是数字，Phil Katz决定对CL继续编码。这里采用了<strong>游程编码</strong>。<strong>游程的含义为一段连续相同的数</strong>，而<strong>游程编码就是一段连续相同的数，只记录这个数一次，然后记录出现多少个即可</strong>。此外，Phil Katz认为，huffman编码后的码字长度不会超过15（PS: literal/length的编码符号286个，distance的编码符号共30个）。因此Phil Katz 用16、17、18三个额外的数字来表示重复数字（游程）：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -303,30 +278,26 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>比如CL序列如下，</p>
 <ul>
-<li>
-<p>4, 4, 4, 4, 4, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2</p>
-</li>
-<li>
-<p>游程编码的结果为：</p>
+<li>4, 4, 4, 4, 4, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2</li>
+<li><p>游程编码的结果为：</p>
 <ul>
 <li>4, 16, 01（二进制）, 3, 3, 3, 6, 16, 11（二进制）, 16, 00（二进制）, 17,011（二进制）, 2, 16, 00（二进制）</li>
 <li>也就是4, 16, 1, 3, 3, 3, 6, 16, 3, 16, 0, 17, 3, 2, 16, 0</li>
 </ul>
 </li>
-<li>
-<p>注意实际中上面标注的二进制应该反过来书写（小端序），比如01其实应该写成10</p>
+<li><p>注意实际中上面标注的二进制应该反过来书写（小端序），比如01其实应该写成10</p>
 </li>
 </ul>
 <p>将CL进行游程编码后，我们又得到了一串0-18的整数，这个整数序列称为SQ（sequence），因为有CL1和CL2，所以我们有SQ1和SQ2。可以容易的统计出SQ中各个整数的出现次数，然后将SQ1和SQ2进行huffman编码，同理，这个码表3也用一个码字长度序列记录，称为CCL，由于最多有18个，Phil Katz认为树的深度至多为7，因此用3bit来记录。</p>
 <p>得到CCL后，Phil Katz又继续折腾了一下，进行了置换，其示意图如下：</p>
 <p><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/CCL-position-swap.png" alt=""></p>
 <p>上面的表示置换前的，下面的表示置换后的，可以看出，16、17、18对应的CCL被放到了前面，这样如果尾部出现一些0，就可以忽略掉（因为我们记录了CCL的长度，补充0即可）</p>
-<h3 id="deflate压缩数据格式">Deflate压缩数据格式</h3>
-<p>ZIP的格式实际上就是Deflate压缩码流外面套了一层文件相关的信息。Deflate压缩码格式如下：</p>
+<h3 id="Deflate压缩数据格式"><a href="#Deflate压缩数据格式" class="headerlink" title="Deflate压缩数据格式"></a>Deflate压缩数据格式</h3><p>ZIP的格式实际上就是Deflate压缩码流外面套了一层文件相关的信息。Deflate压缩码格式如下：</p>
 <p><img src="../images/introduction-to-data-compress-huffman-code-and-lz77-and-zip/deflate-data-format.png" alt=""></p>
-<p></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -378,24 +349,20 @@
 </tr>
 </tbody>
 </table>
-<h2 id="小结">小结</h2>
-<p>本来是想实现一下huffman编码，结果发现要解码的时候码表怎么保存这个问题，以及文件的格式应该怎么样的，自己想出了保存字符+频率重新构建，感觉并不是很好，于是想看看zip等压缩算法是怎么样做的，于是有了这篇blog。</p>
+</div>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本来是想实现一下huffman编码，结果发现要解码的时候码表怎么保存这个问题，以及文件的格式应该怎么样的，自己想出了保存字符+频率重新构建，感觉并不是很好，于是想看看zip等压缩算法是怎么样做的，于是有了这篇blog。</p>
 <p>由于我没有进行LZ77编码，所以只和Phil Katz对比 huffman的部分的主要区别。主要区别为：</p>
 <ul>
 <li>Phil Katz存码表的形式为CL，存的是各个字符的码字长度，而我是字符+存出现的次数。。。QAQ</li>
 <li>Phil Katz 还用游标编码对CL进一步进行压缩。。。</li>
 </ul>
-<p></p>
-<h2 id="参考文献">参考文献</h2>
-<ul>
-<li>
-<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/esingchan/p/3958962.html">ZIP压缩算法详细分析及解压实例解释</a></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/esingchan/p/3958962.html">ZIP压缩算法详细分析及解压实例解释</a></p>
 <ul>
 <li>本文后面zip算法基本都是参考该文章的内容</li>
 </ul>
 </li>
-<li>
-<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/hguisu/article/details/7795435">gzip压缩算法</a></p>
+<li><p><a target="_blank" rel="noopener" href="http://blog.csdn.net/hguisu/article/details/7795435">gzip压缩算法</a></p>
 </li>
 </ul>
  

@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">567</span>
+            <span class="post-count">566</span>
         </span>
     </span>
 
@@ -115,35 +115,30 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-max-sum-of-rectangle-no-larger-than-k">leetcode Max Sum of Rectangle No Larger Than K</h3>
-<p>Given a non-empty 2D matrix <em>matrix</em> and an integer <em>k</em>, find the max sum of a rectangle in the <em>matrix</em> such that its sum is no larger than <em>k</em>.</p>
+<h3 id="leetcode-Max-Sum-of-Rectangle-No-Larger-Than-K"><a href="#leetcode-Max-Sum-of-Rectangle-No-Larger-Than-K" class="headerlink" title="leetcode Max Sum of Rectangle No Larger Than K"></a>leetcode Max Sum of Rectangle No Larger Than K</h3><p>Given a non-empty 2D matrix _matrix_ and an integer _k_, find the max sum of a rectangle in the _matrix_ such that its sum is no larger than _k_.</p>
 <p><strong>Example:</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Given matrix &#x3D; [</span><br><span class="line">  [1,  0, 1],</span><br><span class="line">  [0, -2, 3]</span><br><span class="line">]</span><br><span class="line">k &#x3D; 2</span><br></pre></td></tr></table></figure>
 <p>The answer is <code>2</code>. Because the sum of rectangle <code>[[0, 1], [-2, 3]]</code> is 2 and 2 is the max number no larger than k (k = 2).</p>
 <p><strong>Note:</strong></p>
 <ol>
 <li>The rectangle inside the matrix must have an area &gt; 0.</li>
-<li>What if the number of rows is much larger than the number of columns?</li>
+<li>What if the number of rows is much larger than the number of columns?<a id="more"></a>
+题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/max-sum-of-sub-matrix-no-larger-than-k/">leetcode Max Sum of Rectangle No Larger Than K</a></li>
 </ol>
-<a id="more"></a>
 </blockquote>
-<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/max-sum-of-sub-matrix-no-larger-than-k/">leetcode Max Sum of Rectangle No Larger Than K</a></p>
 <p>题意：给定一个矩阵，求子矩阵中的和不超过K的最大值。</p>
 <p>思路：</p>
 <p>朴素的思想为，枚举起始行，枚举结束行，枚举起始列，枚举终止列。。。。。O(m^2 * n^2)</p>
 <p>这里用到一个技巧就是，进行求和时，我们可以把二维的合并成一维，然后就变为求一维的解。</p>
 <p>比如对于矩阵：</p>
-<p>[1, 0, 1],<br>
-[0, -2, 3]</p>
+<p>[1, 0, 1],<br>[0, -2, 3]</p>
 <p>进行起始行为0，终止行为1时，可以进行列的求和，即[1, -2, 4]中不超过k的最大值。</p>
-<p>求和的问题解决完，还有一个是不超过k. 这里我参考了 <a target="_blank" rel="noopener" href="https://leetcode.com/discuss/109705/java-binary-search-solution-time-complexity-min-max-log-max">https://leetcode.com/discuss/109705/java-binary-search-solution-time-complexity-min-max-log-max</a> 的方法</p>
+<p>求和的问题解决完，还有一个是不超过k. 这里我参考了 <a target="_blank" rel="noopener" href="https://leetcode.com/discuss/109705/java-binary-search-solution-time-complexity-min-max-log-max">https://leetcode.com/discuss/109705/java-binary-search-solution-time-complexity-min-max-log-max</a> 的方法</p>
 <p>使用了二分搜索。对于当前的和为sum，我们只需要找到一个最小的数x，使得 sum - k &lt;=x，这样可以保证sum - x &lt;=k。</p>
 <p>这里需要注意，当行远大于列的时候怎么办呢？转换成列的枚举 即可。</p>
 <p>在代码实现上，我们只需要让 m 永远小于 n即可。这样复杂度总是为O(m^2<em>n</em>log n)</p>
 <p>详见代码</p>
-<p><strong>C++</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">maxSumSubmatrix</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (matrix.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> ans = INT_MIN,m = matrix.size(), n = matrix[<span class="number">0</span>].size(),row_first=<span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">if</span> (m &gt; n) &#123;</span><br><span class="line">			swap(m, n);</span><br><span class="line">			row_first = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> ri = <span class="number">0</span>; ri &lt; m; ri++) &#123;</span><br><span class="line">			<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">temp</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = ri; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">				<span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; sums;</span><br><span class="line">				<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">				sums.insert(sum);</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">					temp[j] += row_first ? matrix[i][j]: matrix[j][i];</span><br><span class="line">					sum += temp[j];</span><br><span class="line">					<span class="keyword">auto</span> it = sums.lower_bound(sum - k);</span><br><span class="line">					<span class="keyword">if</span> (it != sums.end())</span><br><span class="line">						ans = max(ans, sum - *it);					</span><br><span class="line">					sums.insert(sum);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p></p>
+<p><strong>C++</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">maxSumSubmatrix</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (matrix.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> ans = INT_MIN,m = matrix.size(), n = matrix[<span class="number">0</span>].size(),row_first=<span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">if</span> (m &gt; n) &#123;</span><br><span class="line">			swap(m, n);</span><br><span class="line">			row_first = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> ri = <span class="number">0</span>; ri &lt; m; ri++) &#123;</span><br><span class="line">			<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">temp</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = ri; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">				<span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; sums;</span><br><span class="line">				<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">				sums.insert(sum);</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">					temp[j] += row_first ? matrix[i][j]: matrix[j][i];</span><br><span class="line">					sum += temp[j];</span><br><span class="line">					<span class="keyword">auto</span> it = sums.lower_bound(sum - k);</span><br><span class="line">					<span class="keyword">if</span> (it != sums.end())</span><br><span class="line">						ans = max(ans, sum - *it);					</span><br><span class="line">					sums.insert(sum);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>本题是leetcode 363 Max Sum of Rectangle No Larger Than K 题解</p>
 <p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  

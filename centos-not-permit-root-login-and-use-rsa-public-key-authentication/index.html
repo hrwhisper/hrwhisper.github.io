@@ -37,7 +37,7 @@
 
   
 
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 </html>
 
@@ -114,17 +114,14 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>今天查看了一下服务器的ssh日志（/var/log/secure），发现…</p>
+  <p>今天查看了一下服务器的ssh日志（/var/log/secure），发现….</p>
 <p><img src="../images/centos-not-permit-root-login-and-use-rsa-public-key-authentication/someone-want-to-enurmate-my-password.png" alt="someone-want-to-enurmate-my-password"></p>
-<p>有人在枚举我的root密码！于是…博主必须要防止这种情况的发生！</p>
-<a id="more"></a>
-<p><img src="../images/centos-not-permit-root-login-and-use-rsa-public-key-authentication/There-are-bad-people-wan-to-hurt-me.jpg" alt="There-are-bad-people-wan-to-hurt-me"></p>
-<h2 id="创建新用户">创建新用户</h2>
-<p>打开终端，用root连接到服务器，依次输入如下的命令</p>
+<p>有人在枚举我的root密码！于是….博主必须要防止这种情况的发生！<br><a id="more"></a><br><img src="../images/centos-not-permit-root-login-and-use-rsa-public-key-authentication/There-are-bad-people-wan-to-hurt-me.jpg" alt="There-are-bad-people-wan-to-hurt-me"></p>
+<h2 id="创建新用户"><a href="#创建新用户" class="headerlink" title="创建新用户"></a>创建新用户</h2><p>打开终端，用root连接到服务器，依次输入如下的命令</p>
 <ul>
 <li>group add test</li>
 <li>useradd abc</li>
-<li>passwd abc</li>
+<li>passwd abc</li>
 <li>usermod -a -G test abc</li>
 </ul>
 <p>在上面的命令中，我们创建了一个test的用户组和一个叫abc的用户，并设置了密码，将abc用户添加到test组里面</p>
@@ -141,10 +138,9 @@
 <li>abc ALL=(ALL:ALL) ALL</li>
 </ul>
 <p>打开新的终端，用刚才的账户登录看看是否成功</p>
-<h2 id="禁止root登录">禁止root登录</h2>
-<p>在配置文件（/etc/ssh/sshd_config ）中，将SSH的默认端口22改掉(可以改成从1025到65536之间的任意一个整数)</p>
+<h2 id="禁止root登录"><a href="#禁止root登录" class="headerlink" title="禁止root登录"></a>禁止root登录</h2><p>在配置文件（/etc/ssh/sshd_config ）中，将SSH的默认端口22改掉(可以改成从1025到65536之间的任意一个整数)</p>
 <ul>
-<li>vim /etc/ssh/sshd_config</li>
+<li>vim /etc/ssh/sshd_config</li>
 <li>Port 1234</li>
 </ul>
 <p>禁止root登录</p>
@@ -164,8 +160,7 @@
 <li>sudo service sshd restart</li>
 </ul>
 <p>来试试吧~开一个新的终端，root现在是登录不了的了~</p>
-<h2 id="公私钥认证">公私钥认证</h2>
-<p>如果没有公钥和私钥的话，就生成一个(路径默认，不设置密码，当然也可以设置)</p>
+<h2 id="公私钥认证"><a href="#公私钥认证" class="headerlink" title="公私钥认证"></a>公私钥认证</h2><p>如果没有公钥和私钥的话，就生成一个(路径默认，不设置密码，当然也可以设置)</p>
 <ul>
 <li>ssh-keygen -t rsa -b 4096</li>
 </ul>
@@ -196,7 +191,7 @@
 <ul>
 <li>RSAAuthentication yes</li>
 <li>PubkeyAuthentication yes</li>
-<li>AuthorizedKeysFile      .ssh/authorized_keys</li>
+<li>AuthorizedKeysFile      .ssh/authorized_keys</li>
 </ul>
 <p>然后禁止password方式登录</p>
 <ul>
@@ -206,9 +201,7 @@
 <ul>
 <li>ssh address -p 1234</li>
 </ul>
-<p></p>
-<h2 id="小结">小结</h2>
-<p>前面的步骤中，我们更改了ssh端口，并且禁止了root登录。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>前面的步骤中，我们更改了ssh端口，并且禁止了root登录。</p>
 <p>接着提出了禁止密码登录，采用更安全的RSA验证方式</p>
 <p>使用RSA来验证，如果对方有 实力暴力破解也不会来破解你的- -还不如去找银行呢</p>
 <p>还有木有刁民→_→ 哈哈哈</p>
