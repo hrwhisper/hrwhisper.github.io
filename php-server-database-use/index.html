@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -166,7 +166,7 @@
 <li>每一行为即为一个空教室</li>
 </ul>
 <p></p>
-<h2 id="样例（url请自行修改）">样例（url请自行修改）</h2>
+<h2 id="样例-url请自行修改">样例（url请自行修改）</h2>
 <p><strong>Python</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">date   :  May 16, 2015</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://localhost/phpService.php&#x27;</span></span><br><span class="line">data =&#123;</span><br><span class="line">  <span class="string">&#x27;week&#x27;</span>: <span class="string">&#x27;3&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;building&#x27;</span>:<span class="string">&#x27;公共教学二楼&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;startTime&#x27;</span>:<span class="number">1</span>,</span><br><span class="line">  <span class="string">&#x27;endTime&#x27;</span>:<span class="number">15</span>,</span><br><span class="line">&#125;</span><br><span class="line">r = requests.post(url,data=data)</span><br><span class="line"><span class="keyword">print</span> r.text</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>输出：</p>

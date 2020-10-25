@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -318,7 +318,7 @@
 <p>博主这里是338行</p>
 <p><img src="../images/installing-wordpress-on-centos/apache-mod_rewrite-open.png" alt="apache-mod_rewrite-open"></p>
 <p>参考： <a target="_blank" rel="noopener" href="http://dev.antoinesolutions.com/apache-server/mod_rewrite">http://dev.antoinesolutions.com/apache-server/mod_rewrite</a></p>
-<h2 id="开启GZIP压缩网页">开启GZIP压缩网页</h2>
+<h2 id="开启gzip压缩网页">开启GZIP压缩网页</h2>
 <p>有两种方法，mod_gzip 和mod_deflate，用一个即可。</p>
 <h3 id="mod-gzip-和mod-deflate的主要区别">mod_gzip 和mod_deflate的主要区别</h3>
 <ul>
@@ -334,7 +334,7 @@
 <p>需要自己开启mod_gzip模块，然后把下面的内容写在 .htaccess中即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ifModule mod_gzip.c&gt;</span><br><span class="line">mod_gzip_on Yes</span><br><span class="line">mod_gzip_dechunk Yes</span><br><span class="line">mod_gzip_item_include file .(html?txtcssjsphppl)$</span><br><span class="line">mod_gzip_item_include handler ^cgi-script$</span><br><span class="line">mod_gzip_item_include mime ^text&#x2F;.*</span><br><span class="line">mod_gzip_item_include mime ^application&#x2F;x-javascript.*</span><br><span class="line">mod_gzip_item_exclude mime ^image&#x2F;.*</span><br><span class="line">mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*</span><br><span class="line">&lt;&#x2F;ifModule&gt;</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="GZIP测试工具">GZIP测试工具</h3>
+<h3 id="gzip测试工具">GZIP测试工具</h3>
 <p><a target="_blank" rel="noopener" href="https://varvy.com/tools/gzip/">https://varvy.com/tools/gzip/</a></p>
 <p>输入你的站点，然后看看是不是压缩了呢？</p>
 <h2 id="上传图片失败解决办法">上传图片失败解决办法</h2>
@@ -358,7 +358,7 @@
 <li>service httpd restart</li>
 </ul>
 <p></p>
-<h2 id="YOAST-SEO-sitemap-404-解决办法">YOAST SEO sitemap 404 解决办法</h2>
+<h2 id="yoast-seo-sitemap-404-解决办法">YOAST SEO sitemap 404 解决办法</h2>
 <p>博主发现YOAST SEO 创建的sitemap访问直接 404。</p>
 <p>修改  .htaccess file，把下面内容加在wordpress rewrite规则前面就可以啦</p>
 <h1>Yoast SEO - XML Sitemap Rewrite Fix</h1>
@@ -367,8 +367,8 @@ RewriteBase /<br>
 RewriteRule ^sitemap_index.xml$ /index.php?sitemap=1 [L]<br>
 RewriteRule ^locations.kml$ /index.php?sitemap=wpseo_local_kml [L]<br>
 RewriteRule ^geo_sitemap.xml$ /index.php?sitemap=geo [L]<br>
-RewriteRule ^([^/]+?)-sitemap([0-9]+)?.xml$ /index.php?sitemap=$1&amp;sitemap_n=$2 [L]<br>
-RewriteRule ^([a-z]+)?-?sitemap.xsl$ /index.php?xsl=$1 [L]</p>
+RewriteRule ^([^/]+?)-sitemap([0-9]+)?.xml$ /index.php?sitemap=$1&amp;sitemap_n=<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo stretchy="false">[</mo><mi>L</mi><mo stretchy="false">]</mo><mi>R</mi><mi>e</mi><mi>w</mi><mi>r</mi><mi>i</mi><mi>t</mi><mi>e</mi><mi>R</mi><mi>u</mi><mi>l</mi><msup><mi>e</mi><mo stretchy="false">(</mo></msup><mo stretchy="false">[</mo><mi>a</mi><mo>−</mo><mi>z</mi><mo stretchy="false">]</mo><mo>+</mo><mo stretchy="false">)</mo><mo stretchy="false">?</mo><mo>−</mo><mo stretchy="false">?</mo><mi>s</mi><mi>i</mi><mi>t</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>p</mi><mi mathvariant="normal">.</mi><mi>x</mi><mi>s</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">2 [L]
+RewriteRule ^([a-z]+)?-?sitemap.xsl</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.138em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mopen">[</span><span class="mord mathdefault">L</span><span class="mclose">]</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mord mathdefault">u</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mopen mtight">(</span></span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">]</span><span class="mord">+</span><span class="mclose">)</span><span class="mclose">?</span><span class="mord">−</span><span class="mclose">?</span><span class="mord mathdefault">s</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">p</span><span class="mord">.</span><span class="mord mathdefault">x</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span> /index.php?xsl=$1 [L]</p>
 <h1>END Yoast SEO - XML Sitemap Rewrite Fix</h1>
 <p>参考 <a target="_blank" rel="noopener" href="http://kb.yoast.com/article/77-my-sitemap-index-is-giving-a-404-error-what-should-i-do">http://kb.yoast.com/article/77-my-sitemap-index-is-giving-a-404-error-what-should-i-do</a></p>
 <h2 id="参考资料">参考资料</h2>

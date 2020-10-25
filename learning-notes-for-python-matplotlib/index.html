@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -122,12 +122,12 @@
 <p>先看看如下代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">0</span>, <span class="number">10</span>, <span class="number">1000</span>)</span><br><span class="line">y = np.sin(x)</span><br><span class="line">z = np.cos(x**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>,<span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">plt.plot(x,y,label=<span class="string">&quot;$sin(x)$&quot;</span>,color=<span class="string">&quot;red&quot;</span>,linewidth=<span class="number">2</span>)</span><br><span class="line">plt.plot(x,z,<span class="string">&quot;b--&quot;</span>,label=<span class="string">&quot;$cos(x^2)$&quot;</span>)</span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">&quot;Time(s)&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;Volt&quot;</span>)</span><br><span class="line">plt.title(<span class="string">&quot;PyPlot First Example&quot;</span>)</span><br><span class="line">plt.ylim(<span class="number">-1.2</span>,<span class="number">1.2</span>)</span><br><span class="line">plt.legend()</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="1-载入matplotlib的绘图模块pyplot，并重命名为plt">1.载入matplotlib的绘图模块pyplot，并重命名为plt</h3>
+<h3 id="1-载入matplotlib的绘图模块pyplot-并重命名为plt">1.载入matplotlib的绘图模块pyplot，并重命名为plt</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="2-调用figure-创建一个Figure-图表-对象">2. 调用figure()创建一个Figure(图表)对象</h3>
+<h3 id="2-调用figure-创建一个figure-图表-对象">2. 调用figure()创建一个Figure(图表)对象</h3>
 <p>还可以设置DPI（即每英寸所表示的像素数），缺省值为80。因此本例中所创建的Figure对象的宽度为“8*80 = 640”个像素。</p>
-<h3 id="3-调用plot-在当前的Figure对象中绘图">3.调用plot()在当前的Figure对象中绘图</h3>
+<h3 id="3-调用plot-在当前的figure对象中绘图">3.调用plot()在当前的Figure对象中绘图</h3>
 <p>参数说明：</p>
 <ol>
 <li>X：X轴数据</li>
@@ -154,7 +154,7 @@
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x=np.arange(<span class="number">0</span>,<span class="number">5</span>,<span class="number">0.1</span>)</span><br><span class="line">plt.plot(x, np.sin(x), x, np.cos(x))</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="4-通过一系列函数设置当前Axes对象的各个属性：">4.通过一系列函数设置当前Axes对象的各个属性：</h3>
+<h3 id="4-通过一系列函数设置当前axes对象的各个属性：">4.通过一系列函数设置当前Axes对象的各个属性：</h3>
 <ul>
 <li>xlabel、ylabel：分别设置X、Y轴的标题文字。</li>
 <li>title：设置子图的标题。</li>

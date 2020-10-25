@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -116,25 +116,25 @@
        
   <p>虽然eclipse挺丑，但是还是挺好用的。</p>
 <a id="more"></a>
-<h2 id="一、安装java环境">一、安装java环境</h2>
+<h2 id="一-安装java环境">一、安装java环境</h2>
 <p>由于eclipse需要java环境，所以首先在终端中输入java，看看是否已经安装。</p>
 <p>如果未安装，输入<code>apt-get insall default-jre</code> 就会自行下载java，并配置好环境。</p>
 <p>装好后可以输入<code>java -version</code> 看看版本号</p>
 <p><img src="../images/linux-eclipse-perl-environment/java%E5%AE%89%E8%A3%85%E5%AE%8C%E5%90%8E.jpg" alt="java安装完后"></p>
-<h2 id="二、下载解压eclipse">二、下载解压eclipse</h2>
+<h2 id="二-下载解压eclipse">二、下载解压eclipse</h2>
 <p>去eclipse官网下载eclipse,记得选Linux版本：</p>
 <p>下载完后下载到你想安装的目录，用tar -xzvf命令解压，如图：</p>
 <p><img src="../images/linux-eclipse-perl-environment/%E8%A7%A3%E5%8E%8B-tar-xzvf.jpg" alt="解压 tar -xzvf"></p>
 <p>解压完成后，会在当前目录下多一个eclipse文件夹，输入./eclipse即可运行。</p>
 <p><img src="../images/linux-eclipse-perl-environment/%E8%BF%90%E8%A1%8C.jpg" alt="运行"></p>
-<h2 id="三、安装perl插件">三、安装perl插件</h2>
-<h3 id="一-安装EPCI插件">(一)安装EPCI插件</h3>
+<h2 id="三-安装perl插件">三、安装perl插件</h2>
+<h3 id="一-安装epci插件">(一)安装EPCI插件</h3>
 <p>打开eclipse，点击工具栏，help-&gt; install new software</p>
 <p>在弹出的窗口点击add如图，输入如图内容（Name可以随便写）</p>
 <p><img src="../images/linux-eclipse-perl-environment/%E5%AE%89%E8%A3%85perl%E6%8F%92%E4%BB%B6.jpg" alt="安装perl插件"></p>
 <p>按ok之后选择EPIC main components 接下来一路next即可。</p>
 <p><img src="../images/linux-eclipse-perl-environment/%E6%8E%A5%E4%B8%8B%E6%9D%A5%E4%B8%80%E8%B7%AFNext.png" alt="接下来一路Next"></p>
-<h3 id="（二）安装PadWalker">（二）安装PadWalker</h3>
+<h3 id="二-安装padwalker">（二）安装PadWalker</h3>
 <p>刚才的EPIC只是让我们的eclipse支持perl，但是你可以尝试按下F11进行debugger，会发现提示不能显示变量值。此时需要安装PadWalker</p>
 <p>终端中输入cpan，提示是否打开下载模式，输入y，之后输入install PadWalker  即可</p>
 <p>如下图:</p>

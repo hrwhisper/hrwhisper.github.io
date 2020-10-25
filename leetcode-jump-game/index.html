@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -120,7 +120,7 @@
 <li><strong>55</strong>. Jump Game</li>
 </ul>
 <a id="more"></a>
-<h3 id="55-Jump-Game">55. Jump Game</h3>
+<h3 id="55-jump-game">55. Jump Game</h3>
 <blockquote>
 <p>Given an array of non-negative integers, you are initially positioned at the first index of the array.</p>
 <p>Each element in the array represents your maximum jump length at that position.</p>
@@ -155,7 +155,7 @@ A = [2,3,1,1,4], return true.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canJump</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.size();</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(l &lt;= r &amp;&amp; r &lt; n - <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> nr = r;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = l; i &lt;= r; ++i)</span><br><span class="line">                nr = max(nr, i + nums[i]);</span><br><span class="line">            l = r + <span class="number">1</span>;</span><br><span class="line">            r = nr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r &gt;= n - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p></p>
 <hr>
-<h3 id="45-Jump-Game-II">45. Jump Game II</h3>
+<h3 id="45-jump-game-ii">45. Jump Game II</h3>
 <blockquote>
 <p>Given an array of non-negative integers, you are initially positioned at the first index of the array.</p>
 <p>Each element in the array represents your maximum jump length at that position.</p>

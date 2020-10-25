@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">964</span>
+            <span class="post-count">966</span>
         </span>
     </span>
 
@@ -149,7 +149,7 @@
 <p>例如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mongod --configsvr --dbpath e:\mongodb\config\ --port 27019</span><br><span class="line">mongod --configsvr --dbpath e:\mongodb\config2\ --port 27020</span><br><span class="line">mongod --configsvr --dbpath e:\mongodb\config3\ --port 27021</span><br></pre></td></tr></table></figure>
 <p>或者用配置文件 <a target="_blank" rel="noopener" href="https://docs.mongodb.org/manual/reference/configuration-options/">https://docs.mongodb.org/manual/reference/configuration-options/</a></p>
-<h3 id="2-启动Mongos实例">2.启动Mongos实例</h3>
+<h3 id="2-启动mongos实例">2.启动Mongos实例</h3>
 <p>语法(下面两种均可)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongos --configdb configReplSet&#x2F;&lt;cfgsvr1:port1&gt;,&lt;cfgsvr2:port2&gt;,&lt;cfgsvr3:port3&gt;</span><br><span class="line">mongos --configdb cfg0.example.net:27019,cfg1.example.net:27019,cfg2.example.net:27019</span><br></pre></td></tr></table></figure>
 <p>例如:</p>
@@ -215,7 +215,7 @@
 <h3 id="6-对collection启用分片">6.对collection启用分片</h3>
 <p>使用 sh.shardCollection() 对集合进行分片</p>
 <ul>
-<li>sh.shardCollection(“<database>.<collection>”, shard-key-pattern)</li>
+<li>sh.shardCollection(&quot;<database>.<collection>&quot;, shard-key-pattern)</li>
 </ul>
 <p>例如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">通过zipcode分片，如果zipcode值一样，则用name</span><br><span class="line">sh.shardCollection(&quot;records.people&quot;, &#123; &quot;zipcode&quot;: 1, &quot;name&quot;: 1 &#125; )</span><br><span class="line">通过对_id进行哈希分片</span><br><span class="line">sh.shardCollection(&quot;events.alerts&quot;, &#123; &quot;_id&quot;: &quot;hashed&quot; &#125; )</span><br></pre></td></tr></table></figure>

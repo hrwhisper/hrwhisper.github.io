@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -143,7 +143,7 @@
 <p>实现的代码如下，显然其复杂度为O(logN)</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Heap</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> currentSize;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">array</span>;</span><br><span class="line">	Heap() :currentSize(<span class="number">0</span>), <span class="built_in">array</span>(<span class="number">100</span>)&#123;&#125; <span class="comment">//初始化，array为100个元素的数组,currentSize = 0</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (currentSize == <span class="built_in">array</span>.size() - <span class="number">1</span>) <span class="comment">//需要当前的数组和开辟的数组的大小</span></span><br><span class="line">			<span class="built_in">array</span>.resize(<span class="built_in">array</span>.size() * <span class="number">2</span>);</span><br><span class="line">		<span class="keyword">int</span> hole = ++currentSize;</span><br><span class="line">		<span class="keyword">for</span> (; hole &gt; <span class="number">1</span> &amp;&amp; x &lt; <span class="built_in">array</span>[hole &gt;&gt; <span class="number">1</span>] ;hole &gt;&gt;= <span class="number">1</span>)<span class="comment">//若当前的父亲比较大，则要继续往上,hole==1即为根结点</span></span><br><span class="line">			<span class="built_in">array</span>[hole] = <span class="built_in">array</span>[hole &gt;&gt; <span class="number">1</span>];</span><br><span class="line">		<span class="built_in">array</span>[hole] = x;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="2-deleteMin">2.deleteMin</h3>
+<h3 id="2-deletemin">2.deleteMin</h3>
 <p>对于删除操作，把最后一个元素放在第一个位置，然后长度减一，相当于覆盖了原有的最小元素，然后对根结点进行<strong>下滤</strong>操作寻找合适的位置，来维护堆。如下图所示。</p>
 <p><img src="../images/algorithm-heap-priority-queue/binary-heap-deleteMin.png" alt="binary-heap-deleteMin"></p>
 <p>有一个陷阱是，将最后一个元素放在第一个位置后，原有的长度减少一，可能并没有右儿子结点。见上图的21.为此，我们需要进行判断。见下面的代码。</p>
@@ -151,13 +151,13 @@
 <p>可以看出，删除操作的复杂度也为O(logN)</p>
 <h2 id="堆的其它操作">堆的其它操作</h2>
 <p>至于返回最小的（返回根array[1])和堆是否为空return currentSize ==0 我就不说了</p>
-<h3 id="1-decreaseKey-p-x">1.decreaseKey(p,x)</h3>
+<h3 id="1-decreasekey-p-x">1.decreaseKey(p,x)</h3>
 <p>该操作将减少p处元素的值。减少的幅度为x(x&gt;0），这可能破坏堆的性质，因此需要进行<strong>上滤</strong>操作</p>
-<h3 id="2-increaseKey-p-x">2.increaseKey(p,x)</h3>
+<h3 id="2-increasekey-p-x">2.increaseKey(p,x)</h3>
 <p>该操作将增加p处元素的值。增加的幅度为x(x&gt;0），因此用<strong>下滤</strong>操作</p>
-<h3 id="3-remove§">3.remove§</h3>
+<h3 id="3-remove">3.remove§</h3>
 <p>该操作删除堆中位置p上的结点。首先执行decreaseKey(p,∞)，然后在执行deleteMin来完成</p>
-<h3 id="4-bulidHeap">4.bulidHeap</h3>
+<h3 id="4-bulidheap">4.bulidHeap</h3>
 <p>对于一个堆，我们可以通过N次连续的insert来完成，需要O(NlogN)操作来完成.下面要讲的是O(N)的建堆方法。</p>
 <p>将N项以任意顺序放入树中，然后对每个有儿子结点的进行下滤操作来维护堆。可以证明，其总的复杂度为O(N)</p>
 <p><img src="../images/algorithm-heap-priority-queue/binary-heap-delete.png" alt="binary-heap-delete"></p>

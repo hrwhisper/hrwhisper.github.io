@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -126,7 +126,7 @@
 <p>现在换了LNMP后，没有感觉这些问题。</p>
 <p>服务器系统为centos 6.</p>
 <h1>环境部分</h1>
-<h2 id="Nginx">Nginx</h2>
+<h2 id="nginx">Nginx</h2>
 <p>首先编辑源</p>
 <ul>
 <li>vim /etc/yum.repos.d/nginx.repo</li>
@@ -146,7 +146,7 @@
 <li>将worker_processes 设置为4;</li>
 </ul>
 <p></p>
-<h2 id="PHP安装和配置">PHP安装和配置</h2>
+<h2 id="php安装和配置">PHP安装和配置</h2>
 <h3 id="新版安装">新版安装</h3>
 <p>yum默认的版本太老了，装5.6配置一下源：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CentOS&#x2F;RHEL 7.x:</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;dl.fedoraproject.org&#x2F;pub&#x2F;epel&#x2F;epel-release-latest-7.noarch.rpm</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el7&#x2F;webtatic-release.rpm</span><br><span class="line"></span><br><span class="line">CentOS&#x2F;RHEL 6.x:</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;dl.fedoraproject.org&#x2F;pub&#x2F;epel&#x2F;epel-release-latest-6.noarch.rpm</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el6&#x2F;latest.rpm</span><br></pre></td></tr></table></figure>
@@ -198,13 +198,13 @@ group = nginx<br>
 </ul>
 </li>
 </ul>
-<h3 id="PHP-FPM优化">PHP-FPM优化</h3>
+<h3 id="php-fpm优化">PHP-FPM优化</h3>
 <p>由于是小的内存，只有512MB，除开启虚拟内存外，我对php-fpm也进行了优化。</p>
 <p><code>sudo  vi /etc/php-fpm.d/www.conf</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pm.max_children &#x3D; 20</span><br><span class="line">pm.start_servers &#x3D; 5</span><br><span class="line">pm.min_spare_servers &#x3D; 1</span><br><span class="line">pm.max_spare_servers &#x3D; 5</span><br></pre></td></tr></table></figure>
 <p></p>
-<h2 id="Mysql">Mysql</h2>
-<h3 id="Mysql5-7新版安装">Mysql5.7新版安装</h3>
+<h2 id="mysql">Mysql</h2>
+<h3 id="mysql5-7新版安装">Mysql5.7新版安装</h3>
 <p>要安装新版本可以先去https://dev.mysql.com/downloads/repo/yum/ 找到系统对应源的地址</p>
 <p>比如我的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el6-11.noarch.rpm</span><br></pre></td></tr></table></figure>
@@ -219,7 +219,7 @@ group = nginx<br>
 <li><code>sudo /usr/bin/mysql_secure_installation</code></li>
 </ul>
 <p>输入密码后，修改密码（要求强密码，最好字母大小写、数字、特殊字符），然后一路按y</p>
-<h3 id="旧版安装-2">旧版安装</h3>
+<h3 id="旧版安装">旧版安装</h3>
 <p>系统yum里面的为5.1版本，安装直接如下：</p>
 <ul>
 <li><code>sudo yum -y install mysql-server</code></li>
@@ -229,7 +229,7 @@ group = nginx<br>
 <ul>
 <li><code>sudo /usr/bin/mysql_secure_installation</code></li>
 </ul>
-<h3 id="配置-2">配置</h3>
+<h3 id="配置">配置</h3>
 <p>登入mysql</p>
 <ul>
 <li><code>mysql -u root -p</code></li>

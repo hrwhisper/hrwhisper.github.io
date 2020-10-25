@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -114,7 +114,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="Cool-Idea">Cool Idea</h2>
+  <h2 id="cool-idea">Cool Idea</h2>
 <p>kindle 是我最喜欢的设备之一，入手一年以来，在上面我已经阅读了将近70本书，而又喜欢原版的系统（因为可以接受各种推送。如浏览网页直接 推送到kindle上等），刷了多看又卸载掉。kindle的原书笔记很丑。而且按照标记笔记时间进行排列。要是我同时读的有多本，标记的也有多本呢？那笔记会十分混乱。所以决定写下代码，帮助我进行分类。</p>
 <p>之前在CSDN写过C++的，版本称为1.0吧，不过有bug就是中文字符什么的。</p>
 <p>现在更新pyhon2.0版。</p>
@@ -135,7 +135,7 @@
 <li>用字典去寻找title对应下标index，将当前的笔记内容存入对应的content</li>
 </ol>
 <p></p>
-<h3 id="3-Fix-bugs">3.Fix bugs</h3>
+<h3 id="3-fix-bugs">3.Fix bugs</h3>
 <ol>
 <li>每次读取content应该去除末尾换行符’\n’，否则判断和’=========='是否相等总为False</li>
 <li>第一次读取title的时候，会读取\xef\xbb\xbf 三个字符，这是UTF引入的BOM来表示自身编码。去除即可。</li>
@@ -147,7 +147,7 @@
 <p>linux下：自行修改路径，看备注直接使用当前路径也可以。</p>
 <h2 id="展示结果">展示结果</h2>
 <p><img src="../images/kindle-paperwhite-reading-note-classify-by-book-title/the-result-of-kindle-note-distribution-.jpg" alt="the result of kindle note distribution"></p>
-<h2 id="Code">Code</h2>
+<h2 id="code">Code</h2>
 <p>最终代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#kindle note v2.1</span></span><br><span class="line"><span class="comment">#author: hrwhisper</span></span><br><span class="line"><span class="comment">#date:   2015.4.7</span></span><br><span class="line"></span><br><span class="line">MyClippingsPath=<span class="string">&#x27;e:\\My Clippings.txt&#x27;</span> <span class="comment">#My Clippings.txt   =&gt;linux当前目录</span></span><br><span class="line">OutPutPath=<span class="string">&#x27;e:\\result.txt&#x27;</span>            <span class="comment">#result.txt         =&gt;linux</span></span><br><span class="line"></span><br><span class="line">title,content,dic=[],[],&#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">0</span>&#125;</span><br><span class="line"><span class="keyword">with</span> open(MyClippingsPath,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    line = f.readline().strip(<span class="string">&#x27;\xef\xbb\xbf&#x27;</span>)</span><br><span class="line">    <span class="keyword">while</span> line :</span><br><span class="line">        index=dic.get(line,<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> index == <span class="number">-1</span>:</span><br><span class="line">            index = dic[line]=len(title)           </span><br><span class="line">            title.append(line)</span><br><span class="line">            content.append(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        f.readline() <span class="comment">#time</span></span><br><span class="line">        f.readline() <span class="comment">#blank line</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:  <span class="comment">#content start</span></span><br><span class="line">            line = f.readline().strip() </span><br><span class="line">            <span class="keyword">if</span> line == <span class="string">&#x27;==========&#x27;</span> : <span class="keyword">break</span> <span class="comment">#content end</span></span><br><span class="line">            content[index]+=line</span><br><span class="line">        content[index]+=<span class="string">&#x27;\n&#x27;</span>*<span class="number">3</span></span><br><span class="line">        line = f.readline() <span class="comment">#next clipping title</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(OutPutPath,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i , titleName <span class="keyword">in</span> enumerate(title):</span><br><span class="line">        f.write(titleName+<span class="string">&#x27;\n\n&#x27;</span>)</span><br><span class="line">        f.write(content[dic[titleName]]) </span><br><span class="line">        f.write(<span class="string">&#x27;\n\n==========\n\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br></pre></td></tr></table></figure> 
       <!-- reward -->

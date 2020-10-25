@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -120,7 +120,7 @@
 <li><strong>85</strong>. Maximal Rectangle</li>
 </ul>
 <a id="more"></a>
-<h3 id="84-Largest-Rectangle-in-Histogram">84. Largest Rectangle in Histogram</h3>
+<h3 id="84-largest-rectangle-in-histogram">84. Largest Rectangle in Histogram</h3>
 <blockquote>
 <p>Given <em>n</em> non-negative integers representing the histogram’s bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.</p>
 <p><img src="https://leetcode.com/static/images/problemset/histogram.png" alt="img"></p>
@@ -147,7 +147,7 @@ return <code>10</code>.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">largestRectangleArea</span>(<span class="params">self, heights</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type heights: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        q = []</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i, height <span class="keyword">in</span> enumerate(heights):</span><br><span class="line">            <span class="keyword">while</span> q <span class="keyword">and</span> heights[q[<span class="number">-1</span>]] &gt; height:</span><br><span class="line">                h = heights[q.pop()]</span><br><span class="line">                w = i - <span class="number">1</span> - q[<span class="number">-1</span>] <span class="keyword">if</span> q <span class="keyword">else</span> i</span><br><span class="line">                ans = max(ans, h * w)</span><br><span class="line">            q.append(i)</span><br><span class="line">        n = len(heights)</span><br><span class="line">        <span class="keyword">while</span> q:</span><br><span class="line">            h = heights[q.pop()]</span><br><span class="line">            w = n - <span class="number">1</span> - q[<span class="number">-1</span>] <span class="keyword">if</span> q <span class="keyword">else</span> n</span><br><span class="line">            ans = max(ans, h * w)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
 <p></p>
 <hr>
-<h3 id="85-Maximal-Rectangle">85. Maximal Rectangle</h3>
+<h3 id="85-maximal-rectangle">85. Maximal Rectangle</h3>
 <blockquote>
 <p>Given a 2D binary matrix filled with 0’s and 1’s, find the largest rectangle containing all ones and return its area.</p>
 </blockquote>

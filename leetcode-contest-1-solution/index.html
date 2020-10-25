@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -133,7 +133,7 @@
 </li>
 </ul>
 <a id="more"></a>
-<h3 id="386-Lexicographical-Numbers">386. Lexicographical Numbers</h3>
+<h3 id="386-lexicographical-numbers">386. Lexicographical Numbers</h3>
 <blockquote>
 <p>Given an integer <em>n</em>, return 1 - <em>n</em> in lexicographical order.</p>
 <p>For example, given 13, return: [1,10,11,12,13,2,3,4,5,6,7,8,9].</p>
@@ -144,7 +144,7 @@
 <p>思路：写一个生成器即可。比如1的我们就试试10 100这样</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lexicalOrder</span>(<span class="params">self, n</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">1</span>: <span class="keyword">return</span> []</span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> first <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">            <span class="keyword">if</span> first &gt; n: <span class="keyword">break</span></span><br><span class="line">            res.append(first)</span><br><span class="line">            self.get_all_number(first,n,res)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_all_number</span>(<span class="params">self, first, n, res</span>):</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">10</span>):</span><br><span class="line">            t = first * <span class="number">10</span> + i</span><br><span class="line">            <span class="keyword">if</span> t &lt;= n:</span><br><span class="line">                res.append(t)</span><br><span class="line">                self.get_all_number(t, n, res)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="387-First-Unique-Character-in-a-String">387. First Unique Character in a String</h3>
+<h3 id="387-first-unique-character-in-a-string">387. First Unique Character in a String</h3>
 <blockquote>
 <p>Given a string, find the first non-repeating character in it and return it’s index. If it doesn’t exist, return -1.</p>
 <p><strong>Examples:</strong></p>
@@ -156,7 +156,7 @@
 <p>思路：水。 我懒得自己写26大小的数组来统计了。直接Counter类。 毕竟要看女排 →_→</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">firstUniqChar</span>(<span class="params">self, s</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        x = collections.Counter(s)</span><br><span class="line">        <span class="keyword">for</span> i, c <span class="keyword">in</span> enumerate(s):</span><br><span class="line">            <span class="keyword">if</span> x[c] == <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> i</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
 <p></p>
-<h3 id="388-Longest-Absolute-File-Path">388. Longest Absolute File Path</h3>
+<h3 id="388-longest-absolute-file-path">388. Longest Absolute File Path</h3>
 <blockquote>
 <p>Suppose we abstract our file system by a string in the following manner:</p>
 <p>The string <code>&quot;dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext&quot;</code> represents:</p>

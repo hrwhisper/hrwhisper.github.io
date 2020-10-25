@@ -37,7 +37,7 @@
 
   
 
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 </html>
 
@@ -127,7 +127,7 @@
 <p>Centos 7</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br><span class="line">yum install certbot</span><br></pre></td></tr></table></figure>
 <p></p>
-<h2 id="获取let’s-Encrypt-SSL证书">获取let’s Encrypt SSL证书</h2>
+<h2 id="获取let-s-encrypt-ssl证书">获取let’s Encrypt SSL证书</h2>
 <h3 id="配置nginx">配置nginx</h3>
 <p>以nginx为例，在配置文件中添加</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ~ &#x2F;.well-known &#123;</span><br><span class="line">        allow all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -162,9 +162,9 @@
 <ul>
 <li><code>sudo crontab -e</code></li>
 </ul>
-<h3 id="CentOS-6-x"><strong>CentOS 6.x</strong></h3>
+<h3 id="centos-6-x"><strong>CentOS 6.x</strong></h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01 1 * * 0 &#x2F;usr&#x2F;bin&#x2F;certbot renew &gt;&gt; &#x2F;var&#x2F;log&#x2F;ssl-renew.log</span><br><span class="line">06 1 * * 0 &#x2F;sbin&#x2F;service nginx reload</span><br></pre></td></tr></table></figure>
-<h3 id="CentOS-7-x"><strong>CentOS 7.x</strong></h3>
+<h3 id="centos-7-x"><strong>CentOS 7.x</strong></h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01 1 * * 0 &#x2F;usr&#x2F;bin&#x2F;certbot renew &gt;&gt; &#x2F;var&#x2F;log&#x2F;ssl-renew.log </span><br><span class="line">06 1 * * 0 &#x2F;usr&#x2F;bin&#x2F;systemctl nginx reload</span><br></pre></td></tr></table></figure>
 <p>每周天凌晨1点，执行certbot renew 命令，并且将日记写入 /var/log/ssl-renew.log</p>
 <h2 id="参考资料">参考资料</h2>
