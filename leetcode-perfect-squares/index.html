@@ -78,7 +78,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">188</span>
+            <span class="post-count">181</span>
         </span>
     </span>
 
@@ -114,8 +114,8 @@
 <p>dp,设dp[i]为和i的最少完全平方数。</p>
 <p>dp[i] = min(dp[i - j*j] + 1) {j *j &lt;i}</p>
 <h3 id="code">code</h3>
-<p>c++</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">int numSquares(int n) &#123;</span><br><span class="line">int *dp &#x3D; new int[n + 1];</span><br><span class="line">for (int i &#x3D; 0; i &lt;&#x3D; n; i++) &#123;</span><br><span class="line">dp[i] &#x3D; i;</span><br><span class="line">for (int j &#x3D; 1; j * j &lt;&#x3D; i; j++) &#123;</span><br><span class="line">if (dp[i - j*j] + 1 &lt; dp[i])</span><br><span class="line">dp[i] &#x3D; dp[i - j*j] + 1;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return dp[n];</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>C++</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">numSquares</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> *dp = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">			dp[i] = i;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j * j &lt;= i; j++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (dp[i - j*j] + <span class="number">1</span> &lt; dp[i])</span><br><span class="line">					dp[i] = dp[i - j*j] + <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> dp[n];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>Python同样的代码会超时。。。</p>
  
       <!-- reward -->

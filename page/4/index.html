@@ -143,7 +143,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.6k</span>
+            <span class="post-count">1.5k</span>
         </span>
     </span>
 
@@ -168,7 +168,7 @@
 <p>Every time you guess wrong, I’ll tell you whether the number I picked is higher or lower.</p>
 <p>However, when you guess a particular number x, and you guess wrong, you pay <strong>$x</strong>. You win the game when you guess the number I picked.</p>
 <p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">n &#x3D; 10, I pick 8.</span><br><span class="line"></span><br><span class="line">First round:  You guess 5, I tell you that it&#39;s higher. You pay $5.</span><br><span class="line">Second round: You guess 7, I tell you that it&#39;s higher. You pay $7.</span><br><span class="line">Third round:  You guess 9, I tell you that it&#39;s lower. You pay $9.</span><br><span class="line"></span><br><span class="line">Game over. 8 is the number I picked.</span><br><span class="line"></span><br><span class="line">You end up paying $5 + $7 + $9 &#x3D; $21.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">n &#x3D; 10, I pick 8.</span><br><span class="line"></span><br><span class="line">First round:  You guess 5, I tell you that it&#39;s higher. You pay $5.</span><br><span class="line">Second round: You guess 7, I tell you that it&#39;s higher. You pay $7.</span><br><span class="line">Third round:  You guess 9, I tell you that it&#39;s lower. You pay $9.</span><br><span class="line"></span><br><span class="line">Game over. 8 is the number I picked.</span><br><span class="line"></span><br><span class="line">You end up paying $5 + $7 + $9 &#x3D; $21.</span><br></pre></td></tr></table></figure>
 <p>Given a particular <strong>n ≥ 1</strong>, find out how much money you need to have to guarantee a <strong>win</strong>.</p>
 <p><strong>Hint:</strong></p>
 <ol>
@@ -177,8 +177,7 @@
 <li>Check out <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Minimax">this article</a> if you’re still stuck.</li>
 <li>The purely recursive implementation of minimax would be worthless for even a small n. You MUST use dynamic programming.</li>
 <li>As a follow-up, how would you modify your code to solve the problem of minimizing the expected loss, instead of the worst-case loss?</li>
-</ol>
-</blockquote> 
+</ol> 
       <a class="article-more-link" href="/leetcode-guess-number-higher-lower-ii/"
         >read more...</a
       >
@@ -235,7 +234,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">477</span>
+            <span class="post-count">437</span>
         </span>
     </span>
 
@@ -259,10 +258,9 @@
 <p>I pick a number from <strong>1</strong> to <strong><em>n</em></strong>. You have to guess which number I picked.</p>
 <p>Every time you guess wrong, I’ll tell you whether the number is higher or lower.</p>
 <p>You call a pre-defined API <code>guess(int num)</code> which returns 3 possible results (<code>-1</code>, <code>1</code>, or <code>0</code>):</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-1 : My number is lower</span><br><span class="line"> 1 : My number is higher</span><br><span class="line"> 0 : Congrats! You got it!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-1 : My number is lower</span><br><span class="line"> 1 : My number is higher</span><br><span class="line"> 0 : Congrats! You got it!</span><br></pre></td></tr></table></figure>
 <p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n &#x3D; 10, I pick 6.</span><br><span class="line"></span><br><span class="line">Return 6.</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</blockquote> 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n &#x3D; 10, I pick 6.</span><br><span class="line"></span><br><span class="line">Return 6.</span><br></pre></td></tr></table></figure> 
       <a class="article-more-link" href="/leetcode-guess-number-higher-lower/"
         >read more...</a
       >
@@ -319,7 +317,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">791</span>
+            <span class="post-count">777</span>
         </span>
     </span>
 
@@ -343,12 +341,11 @@
 <p>Define a pair <strong>(u,v)</strong> which consists of one element from the first array and one element from the second array.</p>
 <p>Find the k pairs <strong>(u1,v1),(u2,v2) …(uk,vk)</strong> with the smallest sums.</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,7,11], nums2 &#x3D; [2,4,6],  k &#x3D; 3</span><br><span class="line"></span><br><span class="line">Return: [1,2],[1,4],[1,6]</span><br><span class="line"></span><br><span class="line">The first 3 pairs are returned from the sequence:</span><br><span class="line">[1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,7,11], nums2 &#x3D; [2,4,6],  k &#x3D; 3</span><br><span class="line"></span><br><span class="line">Return: [1,2],[1,4],[1,6]</span><br><span class="line"></span><br><span class="line">The first 3 pairs are returned from the sequence:</span><br><span class="line">[1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]</span><br></pre></td></tr></table></figure>
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,1,2], nums2 &#x3D; [1,2,3],  k &#x3D; 2</span><br><span class="line"></span><br><span class="line">Return: [1,1],[1,1]</span><br><span class="line"></span><br><span class="line">The first 2 pairs are returned from the sequence:</span><br><span class="line">[1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,1,2], nums2 &#x3D; [1,2,3],  k &#x3D; 2</span><br><span class="line"></span><br><span class="line">Return: [1,1],[1,1]</span><br><span class="line"></span><br><span class="line">The first 2 pairs are returned from the sequence:</span><br><span class="line">[1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]</span><br></pre></td></tr></table></figure>
 <p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,2], nums2 &#x3D; [3],  k &#x3D; 3 </span><br><span class="line"></span><br><span class="line">Return: [1,3],[2,3]</span><br><span class="line"></span><br><span class="line">All possible pairs are returned from the sequence:</span><br><span class="line">[1,3],[2,3]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</blockquote> 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,2], nums2 &#x3D; [3],  k &#x3D; 3 </span><br><span class="line"></span><br><span class="line">Return: [1,3],[2,3]</span><br><span class="line"></span><br><span class="line">All possible pairs are returned from the sequence:</span><br><span class="line">[1,3],[2,3]</span><br></pre></td></tr></table></figure> 
       <a class="article-more-link" href="/leetcode-find-k-pairs-smallest-sums/"
         >read more...</a
       >
@@ -486,7 +483,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">912</span>
+            <span class="post-count">873</span>
         </span>
     </span>
 
@@ -566,7 +563,7 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">639</span>
+            <span class="post-count">593</span>
         </span>
     </span>
 
@@ -589,10 +586,9 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
 <p>Given a set of <strong>distinct</strong> positive integers, find the largest subset such that every pair (Si, Sj) of elements in this subset satisfies: Si % Sj = 0 or Sj% Si = 0.</p>
 <p>If there are multiple solutions, return any subset is fine.</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nums: [1,2,3]</span><br><span class="line"></span><br><span class="line">Result: [1,2] (of course, [1,3] will also be ok)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nums: [1,2,3]</span><br><span class="line"></span><br><span class="line">Result: [1,2] (of course, [1,3] will also be ok)</span><br></pre></td></tr></table></figure>
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nums: [1,2,4,8]</span><br><span class="line"></span><br><span class="line">Result: [1,2,4,8]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</blockquote> 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nums: [1,2,4,8]</span><br><span class="line"></span><br><span class="line">Result: [1,2,4,8]</span><br></pre></td></tr></table></figure> 
       <a class="article-more-link" href="/leetcode-largest-divisible-subset/"
         >read more...</a
       >
@@ -649,7 +645,7 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">327</span>
+            <span class="post-count">301</span>
         </span>
     </span>
 
@@ -672,10 +668,9 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
 <p>Given a positive integer <em>num</em>, write a function which returns True if <em>num</em> is a perfect square else False.</p>
 <p><strong>Note:</strong> <strong>Do not</strong> use any built-in library function such as <code>sqrt</code>.</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 16</span><br><span class="line">Returns: True</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 16</span><br><span class="line">Returns: True</span><br></pre></td></tr></table></figure>
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 14</span><br><span class="line">Returns: False</span><br></pre></td></tr></table></figure>
-</blockquote> 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 14</span><br><span class="line">Returns: False</span><br></pre></td></tr></table></figure> 
       <a class="article-more-link" href="/leetcode-valid-perfect-square/"
         >read more...</a
       >
@@ -732,7 +727,7 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">554</span>
+            <span class="post-count">536</span>
         </span>
     </span>
 
@@ -820,7 +815,7 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">582</span>
+            <span class="post-count">567</span>
         </span>
     </span>
 
@@ -842,14 +837,13 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
 <h3 id="leetcode-max-sum-of-rectangle-no-larger-than-k">leetcode Max Sum of Rectangle No Larger Than K</h3>
 <p>Given a non-empty 2D matrix <em>matrix</em> and an integer <em>k</em>, find the max sum of a rectangle in the <em>matrix</em> such that its sum is no larger than <em>k</em>.</p>
 <p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given matrix &#x3D; [</span><br><span class="line">  [1,  0, 1],</span><br><span class="line">  [0, -2, 3]</span><br><span class="line">]</span><br><span class="line">k &#x3D; 2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Given matrix &#x3D; [</span><br><span class="line">  [1,  0, 1],</span><br><span class="line">  [0, -2, 3]</span><br><span class="line">]</span><br><span class="line">k &#x3D; 2</span><br></pre></td></tr></table></figure>
 <p>The answer is <code>2</code>. Because the sum of rectangle <code>[[0, 1], [-2, 3]]</code> is 2 and 2 is the max number no larger than k (k = 2).</p>
 <p><strong>Note:</strong></p>
 <ol>
 <li>The rectangle inside the matrix must have an area &gt; 0.</li>
 <li>What if the number of rows is much larger than the number of columns?</li>
-</ol>
-</blockquote> 
+</ol> 
       <a class="article-more-link" href="/leetcode-max-sum-rectangle-no-larger-k/"
         >read more...</a
       >
@@ -906,7 +900,7 @@ Given <em>a</em> = 1 and <em>b</em> = 2, return 3.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">561</span>
+            <span class="post-count">535</span>
         </span>
     </span>
 
@@ -986,7 +980,7 @@ Given n = 2, return 91. (The answer should be the total numbers in the range of 
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">743</span>
+            <span class="post-count">728</span>
         </span>
     </span>
 
@@ -1072,7 +1066,7 @@ Given n = 2, return 91. (The answer should be the total numbers in the range of 
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.3k</span>
+            <span class="post-count">1.2k</span>
         </span>
     </span>
 
@@ -1151,7 +1145,7 @@ Given n = 2, return 91. (The answer should be the total numbers in the range of 
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">549</span>
+            <span class="post-count">528</span>
         </span>
     </span>
 
@@ -1232,7 +1226,7 @@ Given envelopes = <code>[[5,4],[6,4],[6,7],[2,3]]</code>, the maximum number of 
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">557</span>
+            <span class="post-count">544</span>
         </span>
     </span>
 
@@ -1317,7 +1311,7 @@ Given <em>nums1</em> = <code>[1, 2, 2, 1]</code>, <em>nums2</em> = <code>[2, 2]<
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">368</span>
+            <span class="post-count">366</span>
         </span>
     </span>
 
@@ -1402,7 +1396,7 @@ Given <code>[1,1,1,2,2,3]</code> and k = 2, return <code>[1,2]</code>.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">425</span>
+            <span class="post-count">403</span>
         </span>
     </span>
 
@@ -1482,7 +1476,7 @@ Given s = “hello”, return “olleh”.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">497</span>
+            <span class="post-count">480</span>
         </span>
     </span>
 
@@ -1562,7 +1556,7 @@ Given s = “hello”, return “olleh”.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">603</span>
+            <span class="post-count">594</span>
         </span>
     </span>
 
@@ -1643,7 +1637,7 @@ Given num = 16, return true. Given num = 5, return false.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">718</span>
+            <span class="post-count">674</span>
         </span>
     </span>
 
@@ -1729,7 +1723,7 @@ For <code>num = 5</code> you should return <code>[0,1,1,2,1,2]</code>.</p>
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">428</span>
+            <span class="post-count">415</span>
         </span>
     </span>
 
