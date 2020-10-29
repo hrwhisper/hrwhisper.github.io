@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">851</span>
+            <span class="post-count">873</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">2 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
@@ -115,28 +115,42 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<p> OCR （Optical Character Recognition，光学字符识别）是指电子设备（例如扫描仪或数码相机）检查纸上打印的字符，通过检测暗、亮的模式确定其形状，然后用字符识别方法将形状翻译成计算机文字的过程；即，针对印刷体字符，采用光学的方式将纸质文档中的文字转换成为黑白点阵的图像文件，并通过识别软件将图像中的文字转换成文本格式，供文字处理软件进一步编辑加工的技术。</p>
+<p> OCR （Optical Character Recognition，光学字符识别）是指电子设备（例如扫描仪或数码相机）检查纸上打印的字符，通过检测暗、亮的模式确定其形状，然后用字符识别方法将形状翻译成计算机文字的过程；即，针对印刷体字符，采用光学的方式将纸质文档中的文字转换成为黑白点阵的图像文件，并通过识别软件将图像中的文字转换成文本格式，供文字处理软件进一步编辑加工的技术。</p>
 </blockquote>
-<p>本文初步介绍了 OCR 识别 的基本过程。<br><a id="more"></a></p>
-<h2 id="一、问题分析"><a href="#一、问题分析" class="headerlink" title="一、问题分析"></a>一、问题分析</h2><p>图像中的文字识别可以看为图像分类的问题。即根据形状来判断是属于哪个字母。对于分类问题，一般需要训练数据和测试数据，分类器我采用支持向量机（SVM）</p>
-<h2 id="二、具体过程"><a href="#二、具体过程" class="headerlink" title="二、具体过程"></a>二、具体过程</h2><h3 id="a-训练样本的输入"><a href="#a-训练样本的输入" class="headerlink" title="a) 训练样本的输入"></a>a) 训练样本的输入</h3><p><img src="../images/ocr-procedure/orc-trainData.jpg" alt="orc-trainData"></p>
+<p>本文初步介绍了 OCR 识别 的基本过程。 <a id="more"></a> ## 一、问题分析</p>
+<p>图像中的文字识别可以看为图像分类的问题。即根据形状来判断是属于哪个字母。对于分类问题，一般需要训练数据和测试数据，分类器我采用支持向量机（SVM）</p>
+<h2 id="二具体过程">二、具体过程</h2>
+<h3 id="a-训练样本的输入">a) 训练样本的输入</h3>
+<figure>
+<img src="../images/ocr-procedure/orc-trainData.jpg" alt="orc-trainData" /><figcaption>orc-trainData</figcaption>
+</figure>
 <p>首先对图进行灰度化，之后进行二值化(即变为0和1两个值)。对其进行分割为6*13的小图像，对每个图像找出最小的边缘（最左最右，最上最下）。</p>
 <p>由于字母有大有小，进行归一化为同样的大小，32*32,最终的结果如下图</p>
-<p><img src="../images/ocr-procedure/orc-trainData-result-1024x499.jpg" alt="orc-trainData-result"></p>
-<h3 id="b-测试样本的读入"><a href="#b-测试样本的读入" class="headerlink" title="b)测试样本的读入"></a>b)测试样本的读入</h3><p><img src="../images/ocr-procedure/orc-testData.jpg" alt="orc-testData"></p>
+<figure>
+<img src="../images/ocr-procedure/orc-trainData-result-1024x499.jpg" alt="orc-trainData-result" /><figcaption>orc-trainData-result</figcaption>
+</figure>
+<h3 id="b测试样本的读入">b)测试样本的读入</h3>
+<figure>
+<img src="../images/ocr-procedure/orc-testData.jpg" alt="orc-testData" /><figcaption>orc-testData</figcaption>
+</figure>
 <p>同样的对图像进行进行二值化，找出所有的字符，然后根据间距判断是否为同一个单词，是否为同一行，进行分组。即（分为行，单词，字符）</p>
 <p>对每一组内的每个单词的每个字符进行大小归一化，并按行输出结果。</p>
 <p>如下图：</p>
-<p><img src="../images/ocr-procedure/orc-testData-result-1024x523.jpg" alt="orc-testData-result"></p>
-<p><img src="../images/ocr-procedure/orc-trainData-result2.jpg" alt="orc-trainData-result2"></p>
+<figure>
+<img src="../images/ocr-procedure/orc-testData-result-1024x523.jpg" alt="orc-testData-result" /><figcaption>orc-testData-result</figcaption>
+</figure>
+<figure>
+<img src="../images/ocr-procedure/orc-trainData-result2.jpg" alt="orc-trainData-result2" /><figcaption>orc-trainData-result2</figcaption>
+</figure>
 <p>有一些难以区分的字母，所以划分错误。如I和l ，O和C但大部分还是准确的。</p>
-<h3 id="c-纠错"><a href="#c-纠错" class="headerlink" title="c) 纠错"></a>c) 纠错</h3><p>因为有字母是相近的，所以容易区分错误。</p>
+<h3 id="c-纠错">c) 纠错</h3>
+<p>因为有字母是相近的，所以容易区分错误。</p>
 <p>单词纠错可以通过编辑距离来实现。</p>
 <p>编辑距离，又称Levenshtein距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。许可的编辑操作包括将一个字符替换成另一个字符，插入一个字符，删除一个字符。</p>
 <p>例如将kitten一字转成sitting：</p>
-<ol>
-<li>sitten  （k→s）</li>
-<li>sittin  （e→i）</li>
+<ol type="1">
+<li>sitten  （k→s）</li>
+<li>sittin  （e→i）</li>
 <li>sitting （→g）</li>
 </ol>
 <p>对于一个单词，判断其是否存在于字典中。(字典选取Tesseract-OCR词频表)</p>
@@ -144,25 +158,31 @@
 <li><p>若存在</p>
 <ul>
 <li>判断正确，可以直接输出。</li>
-</ul>
-</li>
+</ul></li>
 <li><p>若不存在</p>
 <ul>
 <li>对其进行编辑操作，1次，看是否在字典中，存在则输出</li>
 <li>对其的编辑操作在做一次编辑操作，看是否在字典中，存在则输出</li>
 <li>若以上两个步骤中存在多个单词，则选取频率最高的进行输出</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>纠错样例：</p>
-<p><img src="../images/ocr-procedure/orc-correctWord.jpg" alt="orc-correctWord"></p>
-<h3 id="d-其他测试数据及结果"><a href="#d-其他测试数据及结果" class="headerlink" title="d) 其他测试数据及结果"></a>d) 其他测试数据及结果</h3><p><img src="../images/ocr-procedure/ocr-other-testfile.jpg" alt="ocr-other-testfile"></p>
-<p><img src="../images/ocr-procedure/ocr-other-testfile-result.jpg" alt="ocr-other-testfile-result"></p>
-<h2 id="三、小结"><a href="#三、小结" class="headerlink" title="三、小结"></a>三、小结</h2><p>本次实验在上一次的结果中进行了纠错，进一步提高了准确率。</p>
+<figure>
+<img src="../images/ocr-procedure/orc-correctWord.jpg" alt="orc-correctWord" /><figcaption>orc-correctWord</figcaption>
+</figure>
+<h3 id="d-其他测试数据及结果">d) 其他测试数据及结果</h3>
+<figure>
+<img src="../images/ocr-procedure/ocr-other-testfile.jpg" alt="ocr-other-testfile" /><figcaption>ocr-other-testfile</figcaption>
+</figure>
+<figure>
+<img src="../images/ocr-procedure/ocr-other-testfile-result.jpg" alt="ocr-other-testfile-result" /><figcaption>ocr-other-testfile-result</figcaption>
+</figure>
+<h2 id="三小结">三、小结</h2>
+<p>本次实验在上一次的结果中进行了纠错，进一步提高了准确率。</p>
 <p>但仍然存在一些不足，如字符纠错的时候，可以考虑数字0和字母o的相似性，直接进行转化。</p>
 <p>在做的过程中，发现了这个领域上的难度。比如字体的不同可能需要新的训练样本、字母如果过小难以拆分等等。</p>
 <p>总体来说，任务基本完成。也从中学到了许多知识。</p>
-<p>本文所有代码：<a target="_blank" rel="noopener" href="https://github.com/hrwhisper/myOcr">https://github.com/hrwhisper/myOcr</a></p>
+<p>本文所有代码：<a target="_blank" rel="noopener" href="https://github.com/hrwhisper/myOcr" class="uri">https://github.com/hrwhisper/myOcr</a></p>
  
       <!-- reward -->
       
@@ -378,12 +398,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -395,6 +421,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -403,13 +431,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -428,7 +457,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

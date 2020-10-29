@@ -67,9 +67,10 @@
        
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="小伙伴们（排名不分先后）"><a href="#小伙伴们（排名不分先后）" class="headerlink" title="小伙伴们（排名不分先后）"></a>小伙伴们（排名不分先后）</h2><ul>
+  <h2 id="小伙伴们排名不分先后">小伙伴们（排名不分先后）</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://arabelatso.github.io/">Arabelatso</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.liaoqiqi.com/">Knight’s Blog</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.liaoqiqi.com/">Knight's Blog</a></li>
 <li><a target="_blank" rel="noopener" href="https://iamjohnnyzhuang.github.io/">永不冷场的人生、</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.hongweipeng.com/">栖迟於一丘</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.qingdujun.com">飞弦的博客专栏</a></li>
@@ -83,7 +84,9 @@
 <li><a target="_blank" rel="noopener" href="https://www.msmk.me/">最美时刻</a></li>
 <li><a target="_blank" rel="noopener" href="http://azaleasays.com/">azalea says</a></li>
 </ul>
-<h2 id="要成为小伙伴？"><a href="#要成为小伙伴？" class="headerlink" title="要成为小伙伴？"></a>要成为小伙伴？</h2><p>只要你：</p>
+<p> </p>
+<h2 id="要成为小伙伴">要成为小伙伴？</h2>
+<p>只要你：</p>
 <ul>
 <li>踏踏实实写博客，博客内容绝大部分原创，内容有价值</li>
 <li>博客内容以互联网、技术类、生活类为主的，或各种混杂的。</li>
@@ -284,12 +287,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -301,6 +310,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -309,13 +320,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -334,7 +346,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

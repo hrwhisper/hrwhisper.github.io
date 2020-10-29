@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">308</span>
+            <span class="post-count">339</span>
         </span>
     </span>
 
@@ -114,27 +114,45 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>虽然eclipse挺丑，但是还是挺好用的。<br><a id="more"></a></p>
-<h2 id="一、安装java环境"><a href="#一、安装java环境" class="headerlink" title="一、安装java环境"></a>一、安装java环境</h2><p>由于eclipse需要java环境，所以首先在终端中输入java，看看是否已经安装。</p>
+  <p>虽然eclipse挺丑，但是还是挺好用的。 <a id="more"></a> ## 一、安装java环境</p>
+<p>由于eclipse需要java环境，所以首先在终端中输入java，看看是否已经安装。</p>
 <p>如果未安装，输入<code>apt-get insall default-jre</code> 就会自行下载java，并配置好环境。</p>
 <p>装好后可以输入<code>java -version</code> 看看版本号</p>
-<p><img src="../images/linux-eclipse-perl-environment/java安装完后.jpg" alt="java安装完后"></p>
-<h2 id="二、下载解压eclipse"><a href="#二、下载解压eclipse" class="headerlink" title="二、下载解压eclipse"></a>二、下载解压eclipse</h2><p>去eclipse官网下载eclipse,记得选Linux版本：</p>
+<figure>
+<img src="../images/linux-eclipse-perl-environment/java安装完后.jpg" alt="java安装完后" /><figcaption>java安装完后</figcaption>
+</figure>
+<h2 id="二下载解压eclipse">二、下载解压eclipse</h2>
+<p>去eclipse官网下载eclipse,记得选Linux版本：</p>
 <p>下载完后下载到你想安装的目录，用tar -xzvf命令解压，如图：</p>
-<p><img src="../images/linux-eclipse-perl-environment/解压-tar-xzvf.jpg" alt="解压 tar -xzvf"></p>
+<figure>
+<img src="../images/linux-eclipse-perl-environment/解压-tar-xzvf.jpg" alt="解压 tar -xzvf" /><figcaption>解压 tar -xzvf</figcaption>
+</figure>
 <p>解压完成后，会在当前目录下多一个eclipse文件夹，输入./eclipse即可运行。</p>
-<p><img src="../images/linux-eclipse-perl-environment/运行.jpg" alt="运行"></p>
-<h2 id="三、安装perl插件"><a href="#三、安装perl插件" class="headerlink" title="三、安装perl插件"></a>三、安装perl插件</h2><h3 id="一-安装EPCI插件"><a href="#一-安装EPCI插件" class="headerlink" title="(一)安装EPCI插件"></a>(一)安装EPCI插件</h3><p>打开eclipse，点击工具栏，help-&gt; install new software</p>
+<figure>
+<img src="../images/linux-eclipse-perl-environment/运行.jpg" alt="运行" /><figcaption>运行</figcaption>
+</figure>
+<h2 id="三安装perl插件">三、安装perl插件</h2>
+<h3 id="一安装epci插件">(一)安装EPCI插件</h3>
+<p>打开eclipse，点击工具栏，help-&gt; install new software</p>
 <p>在弹出的窗口点击add如图，输入如图内容（Name可以随便写）</p>
-<p><img src="../images/linux-eclipse-perl-environment/安装perl插件.jpg" alt="安装perl插件"></p>
+<figure>
+<img src="../images/linux-eclipse-perl-environment/安装perl插件.jpg" alt="安装perl插件" /><figcaption>安装perl插件</figcaption>
+</figure>
 <p>按ok之后选择EPIC main components 接下来一路next即可。</p>
-<p><img src="../images/linux-eclipse-perl-environment/接下来一路Next.png" alt="接下来一路Next"></p>
-<h3 id="（二）安装PadWalker"><a href="#（二）安装PadWalker" class="headerlink" title="（二）安装PadWalker"></a>（二）安装PadWalker</h3><p>刚才的EPIC只是让我们的eclipse支持perl，但是你可以尝试按下F11进行debugger，会发现提示不能显示变量值。此时需要安装PadWalker</p>
-<p>终端中输入cpan，提示是否打开下载模式，输入y，之后输入install PadWalker  即可</p>
+<figure>
+<img src="../images/linux-eclipse-perl-environment/接下来一路Next.png" alt="接下来一路Next" /><figcaption>接下来一路Next</figcaption>
+</figure>
+<h3 id="二安装padwalker">（二）安装PadWalker</h3>
+<p>刚才的EPIC只是让我们的eclipse支持perl，但是你可以尝试按下F11进行debugger，会发现提示不能显示变量值。此时需要安装PadWalker</p>
+<p>终端中输入cpan，提示是否打开下载模式，输入y，之后输入install PadWalker  即可</p>
 <p>如下图:</p>
-<p><img src="../images/linux-eclipse-perl-environment/cpan.jpg" alt="cpan"></p>
+<figure>
+<img src="../images/linux-eclipse-perl-environment/cpan.jpg" alt="cpan" /><figcaption>cpan</figcaption>
+</figure>
 <p>安装完这两个插件，就可以愉快的进行perl之旅啦~</p>
-<p><img src="../images/linux-eclipse-perl-environment/安装完PadWalker-.png" alt="安装完PadWalker"></p>
+<figure>
+<img src="../images/linux-eclipse-perl-environment/安装完PadWalker-.png" alt="安装完PadWalker" /><figcaption>安装完PadWalker</figcaption>
+</figure>
  
       <!-- reward -->
       
@@ -348,12 +366,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -365,6 +389,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -373,13 +399,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -398,7 +425,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

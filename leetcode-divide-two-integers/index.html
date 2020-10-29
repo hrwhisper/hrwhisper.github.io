@@ -114,7 +114,7 @@
        
   <blockquote>
 <p>Divide two integers without using multiplication, division and mod operator.</p>
-<p>If it is overflow, return MAX_INT.<br><a id="more"></a><br>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/divide-two-integers/">leetcode Divide Two Integers</a></p>
+<p>If it is overflow, return MAX_INT. <a id="more"></a> 题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/divide-two-integers/">leetcode Divide Two Integers</a></p>
 </blockquote>
 <p>题目大意： 给两个数，要求实现除法运算，但是不能用乘法、除法和模运算。</p>
 <p>思路</p>
@@ -125,7 +125,8 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">bit_divide</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> &amp;dividend, <span class="keyword">long</span> <span class="keyword">long</span> divisor)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">long</span> <span class="keyword">long</span> res = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (; (divisor &lt;&lt; <span class="number">1</span>) &lt;= dividend; res &lt;&lt;= <span class="number">1</span>, divisor &lt;&lt;= <span class="number">1</span>) ;</span><br><span class="line">		dividend -= divisor;</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="keyword">int</span> dividend, <span class="keyword">int</span> divisor)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">long</span> <span class="keyword">long</span> dividend_l = <span class="built_in">labs</span>(dividend), divisor_l = <span class="built_in">labs</span>(divisor);</span><br><span class="line">		<span class="keyword">int</span> flag = (dividend &lt; <span class="number">0</span>) ^ (divisor &lt; <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span> (divisor_l &lt;= dividend_l) &#123;</span><br><span class="line">			ans += bit_divide(dividend_l, divisor_l);</span><br><span class="line">			<span class="keyword">if</span> (ans &gt;= INT_MAX) &#123;</span><br><span class="line">				<span class="keyword">if</span> (flag &amp;&amp; -ans == INT_MIN) <span class="keyword">return</span> INT_MIN;</span><br><span class="line">				<span class="keyword">return</span> INT_MAX;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> flag? -ans : ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p><strong>Python</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">divide</span>(<span class="params">self, dividend, divisor</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type dividend: int</span></span><br><span class="line"><span class="string">        :type divisor: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        flag = (dividend &lt; <span class="number">0</span>) ^ (divisor &lt; <span class="number">0</span>)</span><br><span class="line">        dividend, divisor = abs(dividend), abs(divisor)</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> divisor &lt;= dividend:</span><br><span class="line">            temp = <span class="number">1</span></span><br><span class="line">            div = divisor</span><br><span class="line">            <span class="keyword">while</span> (div &lt;&lt; <span class="number">1</span>) &lt;= dividend:</span><br><span class="line">                div &lt;&lt;= <span class="number">1</span></span><br><span class="line">                temp &lt;&lt;= <span class="number">1</span></span><br><span class="line">            dividend -= div</span><br><span class="line">            ans += temp</span><br><span class="line">            <span class="keyword">if</span> ans &gt;= <span class="number">0x7fffffff</span>:</span><br><span class="line">                <span class="keyword">if</span> flag <span class="keyword">and</span> ans == <span class="number">0x80000000</span>:</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">-0x80000000</span></span><br><span class="line">                <span class="keyword">return</span> <span class="number">0x7fffffff</span></span><br><span class="line">        <span class="keyword">return</span> ans <span class="keyword">if</span> <span class="keyword">not</span> flag <span class="keyword">else</span> -ans</span><br></pre></td></tr></table></figure>
-<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p> </p>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -341,12 +342,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -358,6 +365,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -366,13 +375,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -391,7 +401,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">168</span>
+            <span class="post-count">175</span>
         </span>
     </span>
 
@@ -121,18 +121,16 @@
 <li>点击服务标签</li>
 <li>在下方点击 打开服务</li>
 <li>在服务列表找到User Manager，右键属性，将启动类型改为自动</li>
-<li><p>重启电脑即可</p>
-<a id="more"></a>
-<p>Solution:</p>
-</li>
-<li><p>press ctrl + alt + del to open task manager.</p>
-</li>
+<li><p>重启电脑即可 <a id="more"></a> Solution:</p></li>
+<li>press ctrl + alt + del to open task manager.</li>
 <li>change to services tag, and open servies</li>
-<li>find User Manager，click right mouse button ,and click properties.</li>
+<li>find User Manager，click right mouse button ,and click properties.</li>
 <li>change startup type to automatic,and click ok.</li>
-<li>restart your computer , everything will be ok.</li>
+<li><p>restart your computer , everything will be ok.</p></li>
 </ul>
-<p><img src="../images/windows10-start-menu-and-cortana-stop-work-solution/cortana-and-start-menu-stop-work-taskmanager.png" alt="cortana-and-start-menu-stop-work-taskmanager"></p>
+<figure>
+<img src="../images/windows10-start-menu-and-cortana-stop-work-solution/cortana-and-start-menu-stop-work-taskmanager.png" alt="cortana-and-start-menu-stop-work-taskmanager" /><figcaption>cortana-and-start-menu-stop-work-taskmanager</figcaption>
+</figure>
  
       <!-- reward -->
       
@@ -348,12 +346,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -365,6 +369,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -373,13 +379,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -398,7 +405,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

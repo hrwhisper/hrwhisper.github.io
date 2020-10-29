@@ -115,8 +115,8 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>计算机中，有个概念是字节序。</p>
-<p>字节序指的是计算机在存储多字节的时候，字节的存储数据。<br><a id="more"></a></p>
-<h2 id="大端序和小端序概念"><a href="#大端序和小端序概念" class="headerlink" title="大端序和小端序概念"></a>大端序和小端序概念</h2><p>首先介绍两个概念 MSB和LSB</p>
+<p>字节序指的是计算机在存储多字节的时候，字节的存储数据。 <a id="more"></a> ## 大端序和小端序概念</p>
+<p>首先介绍两个概念 MSB和LSB</p>
 <p>• MSB：最高有效位</p>
 <p>• LSB ：最低有效位</p>
 <p>比如，5A6C中， 5A就是MSB 6C为LSB</p>
@@ -136,8 +136,9 @@
 <li>0x13: 12</li>
 </ul>
 <p>可以看出，<strong>大端序可读性很好</strong>，从地址低到高就是我们的数，可读性很好，而小端序完全相反了。</p>
-<p>为什么要有小端序呢？这是因为计算机电路先处理低位字节，效率比较高，因为计算都是从低位开始的。所以，计算机的内部处理都是小端字节序。<br>但是，大端序更符合人类的习惯。所以，除了计算机的内部处理，其他的场合几乎都是大端字节序，比如网络传输和文件储存。</p>
-<h2 id="判断大端序or小端序"><a href="#判断大端序or小端序" class="headerlink" title="判断大端序or小端序"></a>判断大端序or小端序</h2><p>那么，假如面试的时候，面试官让你编写一个C函数，来确定一个计算机的字节序是大端序还是小端序,我们该怎么办呢？</p>
+<p>为什么要有小端序呢？这是因为计算机电路先处理低位字节，效率比较高，因为计算都是从低位开始的。所以，计算机的内部处理都是小端字节序。 但是，大端序更符合人类的习惯。所以，除了计算机的内部处理，其他的场合几乎都是大端字节序，比如网络传输和文件储存。</p>
+<h2 id="判断大端序or小端序">判断大端序or小端序</h2>
+<p>那么，假如面试的时候，面试官让你编写一个C函数，来确定一个计算机的字节序是大端序还是小端序,我们该怎么办呢？</p>
 <p>我们知道，要看是大小端，我们只需要看最低的地址是高位还是低位，于是，我们可以用数字1，若是大端序，则最低地址应该为0，若为小端序，则最低地址应该为1。</p>
 <p>那么对于一个int类型，如何才知道最低地址呢？</p>
 <p>用一个char的指针指向一个int即可。</p>
@@ -360,12 +361,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -377,6 +384,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -385,13 +394,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -410,7 +420,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

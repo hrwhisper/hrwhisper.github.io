@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">364</span>
+            <span class="post-count">366</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">2 min</span>
         </span>
     </span>
 </div>
@@ -115,13 +115,13 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Top-K-Frequent-Elements"><a href="#leetcode-Top-K-Frequent-Elements" class="headerlink" title="leetcode Top K Frequent Elements"></a>leetcode Top K Frequent Elements</h3><p>Given a non-empty array of integers, return the <strong>_k_</strong> most frequent elements.</p>
-<p>For example,<br>Given <code>[1,1,1,2,2,3]</code> and k = 2, return <code>[1,2]</code>.</p>
-<p><strong>Note:</strong> </p>
+<h3 id="leetcode-top-k-frequent-elements">leetcode Top K Frequent Elements</h3>
+<p>Given a non-empty array of integers, return the <strong><em>k</em></strong> most frequent elements.</p>
+<p>For example, Given <code>[1,1,1,2,2,3]</code> and k = 2, return <code>[1,2]</code>.</p>
+<p><strong>Note:</strong></p>
 <ul>
-<li>You may assume _k_ is always valid, 1 ≤ _k_ ≤ number of unique elements.</li>
-<li>Your algorithm’s time complexity <strong>must be</strong> better than O(_n_ log _n_), where _n_ is the array’s size.<a id="more"></a>
-题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/top-k-frequent-elements/">leetcode Top K Frequent Elements</a> </li>
+<li>You may assume <em>k</em> is always valid, 1 ≤ <em>k</em> ≤ number of unique elements.</li>
+<li>Your algorithm's time complexity <strong>must be</strong> better than O(<em>n</em> log <em>n</em>), where <em>n</em> is the array's size. <a id="more"></a> 题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/top-k-frequent-elements/">leetcode Top K Frequent Elements</a></li>
 </ul>
 </blockquote>
 <p>题意：</p>
@@ -129,10 +129,12 @@
 <p>思路：</p>
 <p>首先扫一遍数组进行计数。</p>
 <p>接着用一个长度为k 堆，存储出现次数最多的元素（堆顶的元素最小，每次和堆顶的元素比较即可）</p>
-<p><strong>C++</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">pair</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; P;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">topKFrequent</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">		<span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; cnt;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x : nums) 	cnt[x] ++;</span><br><span class="line">		<span class="built_in">priority_queue</span>&lt;P, <span class="built_in">vector</span>&lt;P&gt;, greater&lt;P&gt; &gt; q;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> &amp;x : cnt) &#123;</span><br><span class="line">			<span class="keyword">if</span> (q.size() &lt; k)</span><br><span class="line">				q.push(<span class="built_in">make_pair</span>(x.second, x.first));</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (q.top().first &lt; x.second) &#123;</span><br><span class="line">					q.pop();</span><br><span class="line">					q.push(<span class="built_in">make_pair</span>(x.second, x.first));</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ans;</span><br><span class="line">		<span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">			ans.push_back(q.top().second);</span><br><span class="line">			q.pop();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">topKFrequent</span>(<span class="params">self, nums, k</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        counts = collections.Counter(nums)</span><br><span class="line">        heap = []</span><br><span class="line">        <span class="keyword">for</span> key, cnt <span class="keyword">in</span> counts.items():</span><br><span class="line">            <span class="keyword">if</span> len(heap) &lt; k:</span><br><span class="line">                heapq.heappush(heap, (cnt, key))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> heap[<span class="number">0</span>][<span class="number">0</span>] &lt; cnt:</span><br><span class="line">                    heapq.heappop(heap)</span><br><span class="line">                    heapq.heappush(heap, (cnt, key))</span><br><span class="line">        <span class="keyword">return</span> [x[<span class="number">1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> heap]</span><br></pre></td></tr></table></figure></p>
-<p>本题是leetcode 347 Top K Frequent Elements  题解，</p>
-<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p><strong>C++</strong> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">pair</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; P;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">topKFrequent</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">		<span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; cnt;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x : nums) 	cnt[x] ++;</span><br><span class="line">		<span class="built_in">priority_queue</span>&lt;P, <span class="built_in">vector</span>&lt;P&gt;, greater&lt;P&gt; &gt; q;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> &amp;x : cnt) &#123;</span><br><span class="line">			<span class="keyword">if</span> (q.size() &lt; k)</span><br><span class="line">				q.push(<span class="built_in">make_pair</span>(x.second, x.first));</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (q.top().first &lt; x.second) &#123;</span><br><span class="line">					q.pop();</span><br><span class="line">					q.push(<span class="built_in">make_pair</span>(x.second, x.first));</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ans;</span><br><span class="line">		<span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">			ans.push_back(q.top().second);</span><br><span class="line">			q.pop();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p> </p>
+<p><strong>Python</strong> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">topKFrequent</span>(<span class="params">self, nums, k</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        counts = collections.Counter(nums)</span><br><span class="line">        heap = []</span><br><span class="line">        <span class="keyword">for</span> key, cnt <span class="keyword">in</span> counts.items():</span><br><span class="line">            <span class="keyword">if</span> len(heap) &lt; k:</span><br><span class="line">                heapq.heappush(heap, (cnt, key))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> heap[<span class="number">0</span>][<span class="number">0</span>] &lt; cnt:</span><br><span class="line">                    heapq.heappop(heap)</span><br><span class="line">                    heapq.heappush(heap, (cnt, key))</span><br><span class="line">        <span class="keyword">return</span> [x[<span class="number">1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> heap]</span><br></pre></td></tr></table></figure></p>
+<p> </p>
+<p>本题是leetcode 347 Top K Frequent Elements  题解，</p>
+<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -348,12 +350,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -365,6 +373,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -373,13 +383,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -398,7 +409,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

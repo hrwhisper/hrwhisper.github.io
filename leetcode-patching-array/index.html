@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">545</span>
+            <span class="post-count">550</span>
         </span>
     </span>
 
@@ -115,27 +115,31 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Patching-Array"><a href="#leetcode-Patching-Array" class="headerlink" title="leetcode Patching Array"></a>leetcode Patching Array</h3><p>Given a sorted positive integer array _nums_ and an integer _n_, add/patch elements to the array such that any number in range <code>[1, n]</code> inclusive can be formed by the sum of some elements in the array. Return the minimum number of patches required.</p>
-<p><strong>Example 1:</strong><br>_nums_ = <code>[1, 3]</code>, _n_ = <code>6</code><br>Return <code>1</code>.</p>
-<p>Combinations of _nums_ are <code>[1], [3], [1,3]</code>, which form possible sums of: <code>1, 3, 4</code>.<br>Now if we add/patch <code>2</code> to _nums_, the combinations are: <code>[1], [2], [3], [1,3], [2,3], [1,2,3]</code>.<br>Possible sums are <code>1, 2, 3, 4, 5, 6</code>, which now covers the range <code>[1, 6]</code>.<br>So we only need <code>1</code> patch.<br><a id="more"></a><br><strong>Example 2:</strong><br>_nums_ = <code>[1, 5, 10]</code>, _n_ = <code>20</code><br>Return <code>2</code>.<br>The two patches can be <code>[2, 4]</code>.</p>
+<h3 id="leetcode-patching-array">leetcode Patching Array</h3>
+<p>Given a sorted positive integer array <em>nums</em> and an integer <em>n</em>, add/patch elements to the array such that any number in range <code>[1, n]</code> inclusive can be formed by the sum of some elements in the array. Return the minimum number of patches required.</p>
+<p><strong>Example 1:</strong> <em>nums</em> = <code>[1, 3]</code>, <em>n</em> = <code>6</code> Return <code>1</code>.</p>
+<p>Combinations of <em>nums</em> are <code>[1], [3], [1,3]</code>, which form possible sums of: <code>1, 3, 4</code>. Now if we add/patch <code>2</code> to <em>nums</em>, the combinations are: <code>[1], [2], [3], [1,3], [2,3], [1,2,3]</code>. Possible sums are <code>1, 2, 3, 4, 5, 6</code>, which now covers the range <code>[1, 6]</code>. So we only need <code>1</code> patch. <a id="more"></a> <strong>Example 2:</strong> <em>nums</em> = <code>[1, 5, 10]</code>, <em>n</em> = <code>20</code> Return <code>2</code>. The two patches can be <code>[2, 4]</code>.</p>
 </blockquote>
-<p><strong>Example 3:</strong><br>_nums_ = <code>[1, 2, 2]</code>, _n_ = <code>5</code><br>Return <code>0</code>.<br>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/patching-array/">leetcode Patching Array</a></p>
+<p><strong>Example 3:</strong> <em>nums</em> = <code>[1, 2, 2]</code>, <em>n</em> = <code>5</code> Return <code>0</code>. 题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/patching-array/">leetcode Patching Array</a></p>
 <p>题意：给定一个数组nums和一个数n，求添加最少的数使得[1,n]中的每个数都可以由数组中元素和组成</p>
 <p>思路：</p>
 <p>一开始开了个数组标志已经可以被组合的数，然后从小到大看，哪个还不能被表示的就添加进去，然后更新（加上其他能被组合的数），然后RE了，看了下数据，2147483647， = = 这么大的数组。。不爆才怪。</p>
-<p>然后参考了discuss的思路：<a target="_blank" rel="noopener" href="https://leetcode.com/discuss/82822/solution-explanation">https://leetcode.com/discuss/82822/solution-explanation</a></p>
+<p>然后参考了discuss的思路：<a target="_blank" rel="noopener" href="https://leetcode.com/discuss/82822/solution-explanation" class="uri">https://leetcode.com/discuss/82822/solution-explanation</a></p>
 <p>就是用known_sum表示已知的连续和为[1,known_sum)，有了这个表示那就简单了：</p>
 <ul>
 <li>nums[i] &lt;= known_sum，更新已知范围为：[1,known_sum + nums[i] )</li>
-<li>nums[i] &gt;  known_sum,  添加known_sum进数组才能达到最大的范围，所以已知范围更新为：[1,known_sum *2  )</li>
+<li>nums[i] &gt;  known_sum,  添加known_sum进数组才能达到最大的范围，所以已知范围更新为：[1,known_sum *2  )</li>
 </ul>
+<p> </p>
 <p><strong>C++ 8ms</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">minPatches</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> cnt = <span class="number">0</span>, i = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">long</span> known_sum = <span class="number">1</span>; known_sum &lt;= n;) &#123;</span><br><span class="line">			<span class="keyword">if</span> (i &lt; nums.size() &amp;&amp; nums[i] &lt;= known_sum) &#123;</span><br><span class="line">				known_sum += nums[i++];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				known_sum &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">				cnt++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> cnt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p><strong>Java 1ms</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minPatches</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>,i=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">long</span> known_sum = <span class="number">1</span>;known_sum &lt;= n;)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i &lt; nums.length &amp;&amp; known_sum &gt;= nums[i])&#123;</span><br><span class="line">                known_sum += nums[i++];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                known_sum &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">                cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minPatches</span>(<span class="params">self, nums, n</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        i = cnt = <span class="number">0</span></span><br><span class="line">        known_sum = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> known_sum &lt;= n:</span><br><span class="line">            <span class="keyword">if</span> i &lt; len(nums) <span class="keyword">and</span> nums[i] &lt;= known_sum:</span><br><span class="line">                known_sum += nums[i]</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                known_sum &lt;&lt;= <span class="number">1</span></span><br><span class="line">                cnt += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> cnt</span><br></pre></td></tr></table></figure></p>
-<p>本文是leetcode 330 Patching Array  的题解，更多题解可见</p>
-<p><a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p><strong>Python</strong> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minPatches</span>(<span class="params">self, nums, n</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        i = cnt = <span class="number">0</span></span><br><span class="line">        known_sum = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> known_sum &lt;= n:</span><br><span class="line">            <span class="keyword">if</span> i &lt; len(nums) <span class="keyword">and</span> nums[i] &lt;= known_sum:</span><br><span class="line">                known_sum += nums[i]</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                known_sum &lt;&lt;= <span class="number">1</span></span><br><span class="line">                cnt += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> cnt</span><br></pre></td></tr></table></figure></p>
+<p> </p>
+<p>本文是leetcode 330 Patching Array  的题解，更多题解可见</p>
+<p><a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -351,12 +355,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -368,6 +378,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -376,13 +388,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -401,7 +414,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

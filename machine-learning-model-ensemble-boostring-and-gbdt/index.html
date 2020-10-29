@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">5.8k</span>
+            <span class="post-count">5.9k</span>
         </span>
     </span>
 
@@ -121,171 +121,186 @@
 <li>GBDT</li>
 </ul>
 <a id="more"></a>
-<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p>Boosting也叫提升法，是一类将弱学习器提升为强学习器的算法。</p>
+<h2 id="boosting">Boosting</h2>
+<p>Boosting也叫提升法，是一类将弱学习器提升为强学习器的算法。</p>
 <p>这类算法的工作机制类似：先从初始训练集中训练出一个基学习器，再根据学习器的表现<strong>对训练样本分布进行调整</strong>，使得先前基学习器做错的样本在后续受到更多的关注，然后基于调整后的样本分布来训练下一个基学习器；如此重复进行，直到基学习器数目达到事先指定的T，最终将T个基学习器进行加权结合。</p>
-<h2 id="Adaboost"><a href="#Adaboost" class="headerlink" title="Adaboost"></a>Adaboost</h2><p>首先给出Adaboost的算法：</p>
+<h2 id="adaboost">Adaboost</h2>
+<p>首先给出Adaboost的算法：</p>
 <blockquote>
-<p>输入:   训练集 $Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}$; </p>
-<p>​            训练轮数T， </p>
-<p>​            训练算法G</p>
-<p>过程： </p>
-<p>​            初始化样本权重 $D_{1,i} = \frac{1}{N}, i=1,2,\cdots,N$</p>
-<p>​            for  t = 1 to T do</p>
-<p>​                   $h_t = G({\rm Data} , D_t)$                      # 用训练算法G基于权重$D_t$训练出当前的分类器$h_t$</p>
-<p>​                   $\epsilon_t = \sum_{i=1}^N D_{t,i}I(h_t(x_i) \ne y_i)$    # 计算误差</p>
-<p>​                   if $\epsilon_t &gt; 0.5$ then break                </p>
-<p>​                   $\alpha_t = \frac{1}{2}\ln(\frac{1 - \epsilon_t }{\epsilon_t})$                              #计算分类器$h_t$的权重</p>
-<p>​                   $D_{t+1,i} = \frac{1}{Z_t}\left( D_{t,i} \cdot exp(-y_i\alpha_th_t({\bf x_i}))\right)$   # 更新样本权重，其中，归一化因子：$Z_t = {\sum_{i=1}^N D_{t,i}}\cdot exp\left(-y_i\alpha_th_t({\bf x_i}) \right)$</p>
+<p>输入: 训练集 <span class="math inline">\(Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}\)</span>;</p>
+<p>​ 训练轮数T，</p>
+<p>​ 训练算法G</p>
+<p>过程：</p>
+<p>​ 初始化样本权重 <span class="math inline">\(D_{1,i} = \frac{1}{N}, i=1,2,\cdots,N\)</span></p>
+<p>​ for t = 1 to T do</p>
+<p>​ <span class="math inline">\(h_t = G({\rm Data} , D_t)\)</span> # 用训练算法G基于权重<span class="math inline">\(D_t\)</span>训练出当前的分类器<span class="math inline">\(h_t\)</span></p>
+<p>​ <span class="math inline">\(\epsilon_t = \sum_{i=1}^N D_{t,i}I(h_t(x_i) \ne y_i)\)</span> # 计算误差</p>
+<p>​ if <span class="math inline">\(\epsilon_t &gt; 0.5\)</span> then break</p>
+<p>​ <span class="math inline">\(\alpha_t = \frac{1}{2}\ln(\frac{1 - \epsilon_t }{\epsilon_t})\)</span> #计算分类器<span class="math inline">\(h_t\)</span>的权重</p>
+<p>​ <span class="math inline">\(D_{t+1,i} = \frac{1}{Z_t}\left( D_{t,i} \cdot exp(-y_i\alpha_th_t({\bf x_i}))\right)\)</span> # 更新样本权重，其中，归一化因子：<span class="math inline">\(Z_t = {\sum_{i=1}^N D_{t,i}}\cdot exp\left(-y_i\alpha_th_t({\bf x_i}) \right)\)</span></p>
 <p>输出：</p>
-<p>​            $H({\bf x}) = sign(\sum_{t=1}^T \alpha_t h_t({\bf x}))$</p>
+<p>​ <span class="math inline">\(H({\bf x}) = sign(\sum_{t=1}^T \alpha_t h_t({\bf x}))\)</span></p>
 </blockquote>
 <p>一张直观的图如下：</p>
-<p><img src="../images/machine-learning-model-ensemble-boostring-and-gbdt/adboost2.png" alt="adboost"></p>
+<figure>
+<img src="../images/machine-learning-model-ensemble-boostring-and-gbdt/adboost2.png" alt="adboost" /><figcaption>adboost</figcaption>
+</figure>
 <p>描述起来好像很容易的样子：</p>
 <ul>
 <li>初始化每个样本权值均等，都为1 / N</li>
-<li>然后迭代T轮，在每一轮中学习中根据错误率$\epsilon_t$改变训练数据的权值分布，增加分类错误的权重，减少分类正确的样本权重。这样，新一轮的学习中将会更加重视对之前分错的样本。</li>
-<li>将T轮得到的T个分类器$h_t({\bf x})$和对应的分类器权重$\alpha_t$进行线性组合，就得到最终结果$H({\bf x}) = sign(\sum_{t=1}^T \alpha_t h_t({\bf x}))$</li>
+<li>然后迭代T轮，在每一轮中学习中根据错误率<span class="math inline">\(\epsilon_t\)</span>改变训练数据的权值分布，增加分类错误的权重，减少分类正确的样本权重。这样，新一轮的学习中将会更加重视对之前分错的样本。</li>
+<li>将T轮得到的T个分类器<span class="math inline">\(h_t({\bf x})\)</span>和对应的分类器权重<span class="math inline">\(\alpha_t\)</span>进行线性组合，就得到最终结果<span class="math inline">\(H({\bf x}) = sign(\sum_{t=1}^T \alpha_t h_t({\bf x}))\)</span></li>
 </ul>
-<p>注意到当错误率$\epsilon \gt 0.5$的时候，我们不再计算。因为对于二分类问题，错误率大于一半意味着不如随机乱猜，留之无用。</p>
+<p>注意到当错误率<span class="math inline">\(\epsilon \gt 0.5\)</span>的时候，我们不再计算。因为对于二分类问题，错误率大于一半意味着不如随机乱猜，留之无用。</p>
 <p>Adaboost模型让人困惑的地方有两个：</p>
-<ol>
-<li>分类器权重$\alpha_t$为啥等于$\frac{1}{2}ln(\frac{1 - \epsilon_t }{\epsilon_t})$</li>
+<ol type="1">
+<li>分类器权重<span class="math inline">\(\alpha_t\)</span>为啥等于<span class="math inline">\(\frac{1}{2}ln(\frac{1 - \epsilon_t }{\epsilon_t})\)</span></li>
 <li>样本权重公式和归一化因子是怎么来的？</li>
 </ol>
-<h3 id="分类器权重的由来"><a href="#分类器权重的由来" class="headerlink" title="分类器权重的由来"></a>分类器权重的由来</h3><p>Adaboost的分类器权重公式为：$\alpha_t = \frac{1}{2}ln(\frac{1 - \epsilon_t }{\epsilon_t})$ ，这是怎么来的呢？</p>
-<p>可以从最小化训练误差界来推导，也可以从最小化损失函数进行推导。这两种本质上是一样的，都是极小化某式得到的$\alpha_t$。</p>
+<h3 id="分类器权重的由来">分类器权重的由来</h3>
+<p>Adaboost的分类器权重公式为：<span class="math inline">\(\alpha_t = \frac{1}{2}ln(\frac{1 - \epsilon_t }{\epsilon_t})\)</span> ，这是怎么来的呢？</p>
+<p>可以从最小化训练误差界来推导，也可以从最小化损失函数进行推导。这两种本质上是一样的，都是极小化某式得到的<span class="math inline">\(\alpha_t\)</span>。</p>
 <p>这里采用最小化训练误差界来推导。</p>
-<h4 id="训练误差界"><a href="#训练误差界" class="headerlink" title="训练误差界"></a>训练误差界</h4><p>Adaboost的训练误差界为：</p>
-<script type="math/tex; mode=display">
-\frac{1}{N}\sum_{i=1}^N I \left(H({\bf x_i}) \ne y_i \right) \le  \frac{1}{N}\sum_{i=1}^N exp(-y_if({\bf x_i})) = \prod_{t}Z_t \tag{2-1}</script><p>其中$f({\bf x}) = \sum_t \alpha_th_t({\bf x})； H({\bf x}) = \rm sign(f({\bf x}))$</p>
-<p>好像很复杂，我们先来不管最后那个等式，只看前面的不等式，就是说指数损失是0-1损失函数的上界。这个很好证明，当$H({\bf x_i}) \ne y_i$时，$-y_if({\bf x_i})&lt; 0  \Rightarrow exp(-y_if({\bf x_i})) \ge 1$。</p>
-<p>在证明右边的等式之前，我们先回顾一下权重的定义：</p>
-<script type="math/tex; mode=display">
+<h4 id="训练误差界">训练误差界</h4>
+<p>Adaboost的训练误差界为： <span class="math display">\[
+\frac{1}{N}\sum_{i=1}^N I \left(H({\bf x_i}) \ne y_i \right) \le  \frac{1}{N}\sum_{i=1}^N exp(-y_if({\bf x_i})) = \prod_{t}Z_t \tag{2-1}
+\]</span> 其中<span class="math inline">\(f({\bf x}) = \sum_t \alpha_th_t({\bf x})； H({\bf x}) = \rm sign(f({\bf x}))\)</span></p>
+<p>好像很复杂，我们先来不管最后那个等式，只看前面的不等式，就是说指数损失是0-1损失函数的上界。这个很好证明，当<span class="math inline">\(H({\bf x_i}) \ne y_i\)</span>时，<span class="math inline">\(-y_if({\bf x_i})&lt; 0 \Rightarrow exp(-y_if({\bf x_i})) \ge 1\)</span>。</p>
+<p>在证明右边的等式之前，我们先回顾一下权重的定义： <span class="math display">\[
 \begin{align*}
-& D_{t+1,i} = \frac{D_{t,i}}{Z_t}\cdot \exp(-y_i\alpha_th_t({\bf x_i})) \\
-\Rightarrow \ & Z_tD_{t+1,i} = D_{t,i}\cdot \exp(-y_i\alpha_th_t({\bf x_i})) \tag{2-2}
-\end{align*}</script><p>现推导如下：</p>
-<script type="math/tex; mode=display">
+&amp; D_{t+1,i} = \frac{D_{t,i}}{Z_t}\cdot \exp(-y_i\alpha_th_t({\bf x_i})) \\
+\Rightarrow \ &amp; Z_tD_{t+1,i} = D_{t,i}\cdot \exp(-y_i\alpha_th_t({\bf x_i})) \tag{2-2}
+\end{align*}
+\]</span> 现推导如下： <span class="math display">\[
 \begin{align*}
-   \frac{1}{N}\sum_{i=1}^N \exp(-y_if({\bf x_i})) &=  \frac{1}{N}\sum_{i=1}^N \exp\left (\sum_{t=1}^T-y_i\alpha_th_t({\bf x})\right)
-\\& =\sum_{i=1}^N D_{1,i} \prod_{t=1}^{T} \exp\left (-y_i\alpha_th_t({\bf x})\right)   \hspace{5ex} D_{1,i}= \frac{1}{N}
-\\& =Z_1\sum_{i=1}^N D_{2,i} \prod_{t=2}^{T}  \exp\left (-y_i\alpha_th_t({\bf x})\right)  \hspace{5ex} 式2-2
-\\& =Z_1Z_2\sum_{i=1}^N D_{3,i} \prod_{t=3}^{T}  \exp\left (-y_i\alpha_th_t({\bf x})\right)
-\\& =Z_1Z_2\cdots Z_{T-1}\sum_{i=1}^N D_{T,i} \prod_{t=T}^{T}  \exp\left (-y_i\alpha_th_t({\bf x})\right)
-\\& =Z_1Z_2\cdots Z_{T}\sum_{i=1}^N D_{T + 1,i}
-\\& =Z_1Z_2\cdots Z_{T}\sum_{i=1}^N D_{T + 1,i}   \hspace{7ex}  \sum_{i=1}^N D_{T + 1,i}=1
-\\& =\prod_{t=1}^TZ_t
-\end{align*}</script><p>即我们最小化$\prod_{t=1}^TZ_t$等价于最小化指数损失函数，我们可以在每一轮都最小化$Z_t$</p>
-<script type="math/tex; mode=display">
+   \frac{1}{N}\sum_{i=1}^N \exp(-y_if({\bf x_i})) &amp;=  \frac{1}{N}\sum_{i=1}^N \exp\left (\sum_{t=1}^T-y_i\alpha_th_t({\bf x})\right)
+\\&amp; =\sum_{i=1}^N D_{1,i} \prod_{t=1}^{T} \exp\left (-y_i\alpha_th_t({\bf x})\right)   \hspace{5ex} D_{1,i}= \frac{1}{N}
+\\&amp; =Z_1\sum_{i=1}^N D_{2,i} \prod_{t=2}^{T}  \exp\left (-y_i\alpha_th_t({\bf x})\right)  \hspace{5ex} 式2-2
+\\&amp; =Z_1Z_2\sum_{i=1}^N D_{3,i} \prod_{t=3}^{T}  \exp\left (-y_i\alpha_th_t({\bf x})\right)
+\\&amp; =Z_1Z_2\cdots Z_{T-1}\sum_{i=1}^N D_{T,i} \prod_{t=T}^{T}  \exp\left (-y_i\alpha_th_t({\bf x})\right)
+\\&amp; =Z_1Z_2\cdots Z_{T}\sum_{i=1}^N D_{T + 1,i}
+\\&amp; =Z_1Z_2\cdots Z_{T}\sum_{i=1}^N D_{T + 1,i}   \hspace{7ex}  \sum_{i=1}^N D_{T + 1,i}=1
+\\&amp; =\prod_{t=1}^TZ_t
+\end{align*}
+\]</span> 即我们最小化<span class="math inline">\(\prod_{t=1}^TZ_t\)</span>等价于最小化指数损失函数，我们可以在每一轮都最小化<span class="math inline">\(Z_t\)</span> <span class="math display">\[
 \begin{align*}
-Z_t &= {\sum_{i=1}^N D_{t,i}}\cdot \exp\left(-y_i\alpha_th_t({\bf x_i}) \right)
-\\&= {\sum_{i: \ y_i \ne h_t(x_i)} D_{t,i}}\exp(\alpha_t) + {\sum_{i: \ y_i = h_t(x_i)} D_{t,i}}\exp(-\alpha_t)
-\\&=  \epsilon_te^{\alpha_t} + (1 - \epsilon_t)e^{-\alpha_t}
-\end{align*}\tag{2-3}</script><p><strong>对$\alpha_t$求导得得到权重公式</strong>：</p>
-<script type="math/tex; mode=display">
-\frac{\partial Z_t}{\partial \alpha_t} = \epsilon_te^{\alpha_t} - (1 - \epsilon_t)e^{-\alpha_t} = 0 \hspace{4ex}\Rightarrow  \alpha_t= \frac{1}{2}\ln\frac{1-\epsilon_t}{\epsilon_t}\tag{2-4}</script><p>将2-4带入2-3得：</p>
-<script type="math/tex; mode=display">
-Z_t = 2\sqrt{\epsilon_t(1-\epsilon_t)} = \sqrt{1 - (1-2\epsilon_t)^2} = \sqrt{1 - 4\gamma_t^2} \hspace{4ex}  设\gamma_t = \frac{1}{2} - \epsilon_t</script><p>因此，2-1的训练误差界可以写为：</p>
-<script type="math/tex; mode=display">
-\frac{1}{N}\sum_{i=1}^N I \left(H({\bf x_i}) \ne y_i \right) \le \prod_{t}Z_t = \prod_{t} \sqrt{1 - 4\gamma_t^2}  \le exp(-2\sum_{t=1}^T\gamma_t^2)\tag{2-5}</script><p>李航老师的书中说：2-5的最后一个式子可先由$e^x$和$\sqrt{1-x}$在点x = 0的泰勒展开式推出不等式$\sqrt{1 - 4\gamma_t^2} \le exp(-2\gamma_t^2)$进而得到。</p>
+Z_t &amp;= {\sum_{i=1}^N D_{t,i}}\cdot \exp\left(-y_i\alpha_th_t({\bf x_i}) \right)
+\\&amp;= {\sum_{i: \ y_i \ne h_t(x_i)} D_{t,i}}\exp(\alpha_t) + {\sum_{i: \ y_i = h_t(x_i)} D_{t,i}}\exp(-\alpha_t)
+\\&amp;=  \epsilon_te^{\alpha_t} + (1 - \epsilon_t)e^{-\alpha_t}
+\end{align*}\tag{2-3}
+\]</span> <strong>对<span class="math inline">\(\alpha_t\)</span>求导得得到权重公式</strong>： <span class="math display">\[
+\frac{\partial Z_t}{\partial \alpha_t} = \epsilon_te^{\alpha_t} - (1 - \epsilon_t)e^{-\alpha_t} = 0 \hspace{4ex}\Rightarrow  \alpha_t= \frac{1}{2}\ln\frac{1-\epsilon_t}{\epsilon_t}\tag{2-4}
+\]</span> 将2-4带入2-3得： <span class="math display">\[
+Z_t = 2\sqrt{\epsilon_t(1-\epsilon_t)} = \sqrt{1 - (1-2\epsilon_t)^2} = \sqrt{1 - 4\gamma_t^2} \hspace{4ex}  设\gamma_t = \frac{1}{2} - \epsilon_t
+\]</span> 因此，2-1的训练误差界可以写为： <span class="math display">\[
+\frac{1}{N}\sum_{i=1}^N I \left(H({\bf x_i}) \ne y_i \right) \le \prod_{t}Z_t = \prod_{t} \sqrt{1 - 4\gamma_t^2}  \le exp(-2\sum_{t=1}^T\gamma_t^2)\tag{2-5}
+\]</span> 李航老师的书中说：2-5的最后一个式子可先由<span class="math inline">\(e^x\)</span>和<span class="math inline">\(\sqrt{1-x}\)</span>在点x = 0的泰勒展开式推出不等式<span class="math inline">\(\sqrt{1 - 4\gamma_t^2} \le exp(-2\gamma_t^2)\)</span>进而得到。</p>
 <p>这表明Adaboost的训练误差是<strong>以指数速率</strong>下降的。</p>
 <p>PS： Adaboost能适应弱分类器各自的训练误差，这也是它的名字（适应的提升）的由来。Ada是Adaptive的简写。</p>
-<h2 id="加法模型和前向分布算法"><a href="#加法模型和前向分布算法" class="headerlink" title="加法模型和前向分布算法"></a>加法模型和前向分布算法</h2><p>本小节主要介绍加法模型。</p>
+<h2 id="加法模型和前向分布算法">加法模型和前向分布算法</h2>
+<p>本小节主要介绍加法模型。</p>
 <p>Adaboost可以看出是<strong>加法模型</strong>、损失函数为指数损失函数、学习算法为<strong>前向分布算法</strong>时的二分类学习方法。此外，之后要介绍的GBDT也可以看出是加法模型。</p>
-<p>加法模型即：</p>
-<script type="math/tex; mode=display">
-F({\bf x}) =\sum_{t=1}^T \alpha_t h_t({\bf x}; {\bf w_t}) = \sum_{i=1}^Tf_t({\bf x}; {\bf w_t}) \tag{3-1}</script><p>其中,$h_t({\bf x}; {\bf w_t})$为基学习器， $\bf x$为输入样本，$\bf w$为基学习器的参数，而$\alpha_t$为每个基学习器$h_t$的权重</p>
-<p>可以通过最小化损失函数进行求解，即求经验风险极小化问题：</p>
-<script type="math/tex; mode=display">
-\min_{\alpha,\bf w}  \sum_{i=1}^N L\left(y_i, \sum_{t=1}^T \alpha_t h_t({\bf x}; {\bf w_t})\right)\tag{3-2}</script><p>要求解这个问题，是NP难的，一般用贪心法进行求解，即<strong>前向分布算法</strong>：从前往后，每一步只学习一个基函数及其系数，逐步优化3-2式。前向分布算法可以描述如下：</p>
+<p>加法模型即： <span class="math display">\[
+F({\bf x}) =\sum_{t=1}^T \alpha_t h_t({\bf x}; {\bf w_t}) = \sum_{i=1}^Tf_t({\bf x}; {\bf w_t}) \tag{3-1}
+\]</span> 其中,<span class="math inline">\(h_t({\bf x}; {\bf w_t})\)</span>为基学习器， <span class="math inline">\(\bf x\)</span>为输入样本，<span class="math inline">\(\bf w\)</span>为基学习器的参数，而<span class="math inline">\(\alpha_t\)</span>为每个基学习器<span class="math inline">\(h_t\)</span>的权重</p>
+<p>可以通过最小化损失函数进行求解，即求经验风险极小化问题： <span class="math display">\[
+\min_{\alpha,\bf w}  \sum_{i=1}^N L\left(y_i, \sum_{t=1}^T \alpha_t h_t({\bf x}; {\bf w_t})\right)\tag{3-2}
+\]</span> 要求解这个问题，是NP难的，一般用贪心法进行求解，即<strong>前向分布算法</strong>：从前往后，每一步只学习一个基函数及其系数，逐步优化3-2式。前向分布算法可以描述如下：</p>
 <blockquote>
-<p>输入:   训练集 $Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}$; </p>
-<p>​            损失函数L</p>
-<p>过程： </p>
-<p>​            for  t = 1 to T do</p>
-<p>​                   $(\alpha_t, w_t) = \arg\min_{\alpha_t,w_t}  \sum_{i=1}^N L\left(y_i,  f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x}; {\bf w_t})\right)$ # 得到参数和基学习器权重</p>
-<p>​                       更新$f_t({\bf x}) = f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x}; {\bf w_t})$</p>
+<p>输入: 训练集 <span class="math inline">\(Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}\)</span>;</p>
+<p>​ 损失函数L</p>
+<p>过程：</p>
+<p>​ for t = 1 to T do</p>
+<p>​ <span class="math inline">\((\alpha_t, w_t) = \arg\min_{\alpha_t,w_t} \sum_{i=1}^N L\left(y_i, f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x}; {\bf w_t})\right)\)</span> # 得到参数和基学习器权重</p>
+<p>​ 更新<span class="math inline">\(f_t({\bf x}) = f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x}; {\bf w_t})\)</span></p>
 <p>得到加法模型</p>
-<p>​            $F({\bf x}) = f_{t}({\bf x}) = \sum_{t=1}^T \alpha_t h_t({\bf x}; {\bf w_t})$</p>
+<p>​ <span class="math inline">\(F({\bf x}) = f_{t}({\bf x}) = \sum_{t=1}^T \alpha_t h_t({\bf x}; {\bf w_t})\)</span></p>
 </blockquote>
-<p>这样，便将同时求解t = 1到T的所有参数$\alpha_t, \bf w_t$的优化问题转化为逐步求解各个$\alpha_t, \bf w_t$的问题。</p>
-<h3 id="再谈Adaboost"><a href="#再谈Adaboost" class="headerlink" title="再谈Adaboost"></a>再谈Adaboost</h3><p>上面说到，Adaboost是加法模型，损失函数为指数损失函数，并采用前向分布算法。</p>
+<p>这样，便将同时求解t = 1到T的所有参数<span class="math inline">\(\alpha_t, \bf w_t\)</span>的优化问题转化为逐步求解各个<span class="math inline">\(\alpha_t, \bf w_t\)</span>的问题。</p>
+<h3 id="再谈adaboost">再谈Adaboost</h3>
+<p>上面说到，Adaboost是加法模型，损失函数为指数损失函数，并采用前向分布算法。</p>
 <p>下面进行证明：</p>
 <blockquote>
-<p>前向分布分布算法学习的是加法模型，当基函数为基本分类器时，该加法模型等价于Adaboost的最终分类器。$H({\bf x}) = \sum_{t=1}^T \alpha_t h_t({\bf x})$</p>
+<p>前向分布分布算法学习的是加法模型，当基函数为基本分类器时，该加法模型等价于Adaboost的最终分类器。<span class="math inline">\(H({\bf x}) = \sum_{t=1}^T \alpha_t h_t({\bf x})\)</span></p>
 </blockquote>
-<h4 id="指数损失函数"><a href="#指数损失函数" class="headerlink" title="指数损失函数"></a>指数损失函数</h4><p>首先证明前向分布算法的损失函数是指数损失函数$L(y, F({\bf x})) = \exp(-yF({\bf x}))$时，其学习的具体操作等价于Adaboost算法学习的具体操作。</p>
-<p>假设经过t - 1轮迭代前向分步算法已经得到$f_{t-1}({\bf x}) = f_{t-2}({\bf x}) + \alpha_{t-1}h_{t-1}({\bf x}) =  \alpha_{1}h_1({\bf x}) + \cdots +  \alpha_{t-1}h_{t-1}({\bf x})$</p>
-<p>则在第t轮迭代应该寻找最优的$\alpha_t, h_t$使得指数损失最小即  $(\alpha_t, h_t) = \arg\min_{\alpha_t,h_t}  \sum_{i=1}^N L\left(y_i,  f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x})\right)$ </p>
-<p>从而得到$f_{t}({\bf x}) = f_{t-1}({\bf x}) + \alpha_{t}h_t({\bf x})$。而指数损失最小可以写为：</p>
-<script type="math/tex; mode=display">
+<h4 id="指数损失函数">指数损失函数</h4>
+<p>首先证明前向分布算法的损失函数是指数损失函数<span class="math inline">\(L(y, F({\bf x})) = \exp(-yF({\bf x}))\)</span>时，其学习的具体操作等价于Adaboost算法学习的具体操作。</p>
+<p>假设经过t - 1轮迭代前向分步算法已经得到<span class="math inline">\(f_{t-1}({\bf x}) = f_{t-2}({\bf x}) + \alpha_{t-1}h_{t-1}({\bf x}) = \alpha_{1}h_1({\bf x}) + \cdots + \alpha_{t-1}h_{t-1}({\bf x})\)</span></p>
+<p>则在第t轮迭代应该寻找最优的<span class="math inline">\(\alpha_t, h_t\)</span>使得指数损失最小即 <span class="math inline">\((\alpha_t, h_t) = \arg\min_{\alpha_t,h_t} \sum_{i=1}^N L\left(y_i, f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x})\right)\)</span></p>
+<p>从而得到<span class="math inline">\(f_{t}({\bf x}) = f_{t-1}({\bf x}) + \alpha_{t}h_t({\bf x})\)</span>。而指数损失最小可以写为： <span class="math display">\[
 \begin{align*}
-(\alpha_t, h_t) &=\mathop{\arg\min}_{\alpha_t,h_t}  \sum_{i=1}^N \exp\left(-y_i(f_{t-1}({\bf x_i}) + \alpha_th_t({\bf x}))\right) \\
-&=\mathop{\arg\min}_{\alpha_t,h_t}  \sum_{i=1}^N D_{t,i}\exp\left( -y_i\alpha_th_t({\bf x})\right)\tag{3-3}
-\end{align*}</script><p>其中$D_{ti} = Error_{(t-1,i)} = \exp(-y_if_{t-1}({\bf x_i}))$与当前的优化目标无关，只与之前的有关，因此为指数损失函数。</p>
-<h4 id="基分类器求解和权重推导"><a href="#基分类器求解和权重推导" class="headerlink" title="基分类器求解和权重推导"></a>基分类器求解和权重推导</h4><p>接着证明使得式子3-3达到最小的$\alpha_t^<em>$和$h_t^</em>({\bf x})$就是Adaboost算法得到的$\alpha_t$和$h_t({\bf x})$。</p>
-<p>求解3-3可以分为两步，首先求$h_t({\bf x})$，对于任意的$\alpha_t \gt 0$，使3-3最小的$h_t({\bf x})$由下式得到：</p>
-<script type="math/tex; mode=display">
-h_t^*({\bf x}) = \mathop{\arg\min}_h \sum_{i=1}^ND_{t,i}I(y_i\ne h({\bf x}))</script><p>其中$D_{t,i}= \exp(-y_if_{t-1}(\bf x_i))$。</p>
-<p>这样就得到了基分类器$h_t^*({\bf x})$，而该分类器就是Adaboost算法的基本分类器$h_t({\bf x})$，因为它是第t轮加权训练数据分类误差率最小的基本分类器。</p>
-<p>接下来求$\alpha_t$, 式在3-3中：</p>
-<script type="math/tex; mode=display">
+(\alpha_t, h_t) &amp;=\mathop{\arg\min}_{\alpha_t,h_t}  \sum_{i=1}^N \exp\left(-y_i(f_{t-1}({\bf x_i}) + \alpha_th_t({\bf x}))\right) \\
+&amp;=\mathop{\arg\min}_{\alpha_t,h_t}  \sum_{i=1}^N D_{t,i}\exp\left( -y_i\alpha_th_t({\bf x})\right)\tag{3-3}
+\end{align*}
+\]</span> 其中<span class="math inline">\(D_{ti} = Error_{(t-1,i)} = \exp(-y_if_{t-1}({\bf x_i}))\)</span>与当前的优化目标无关，只与之前的有关，因此为指数损失函数。</p>
+<h4 id="基分类器求解和权重推导">基分类器求解和权重推导</h4>
+<p>接着证明使得式子3-3达到最小的<span class="math inline">\(\alpha_t^*\)</span>和<span class="math inline">\(h_t^*({\bf x})\)</span>就是Adaboost算法得到的<span class="math inline">\(\alpha_t\)</span>和<span class="math inline">\(h_t({\bf x})\)</span>。</p>
+<p>求解3-3可以分为两步，首先求<span class="math inline">\(h_t({\bf x})\)</span>，对于任意的<span class="math inline">\(\alpha_t \gt 0\)</span>，使3-3最小的<span class="math inline">\(h_t({\bf x})\)</span>由下式得到： <span class="math display">\[
+h_t^*({\bf x}) = \mathop{\arg\min}_h \sum_{i=1}^ND_{t,i}I(y_i\ne h({\bf x}))
+\]</span> 其中<span class="math inline">\(D_{t,i}= \exp(-y_if_{t-1}(\bf x_i))\)</span>。</p>
+<p>这样就得到了基分类器<span class="math inline">\(h_t^*({\bf x})\)</span>，而该分类器就是Adaboost算法的基本分类器<span class="math inline">\(h_t({\bf x})\)</span>，因为它是第t轮加权训练数据分类误差率最小的基本分类器。</p>
+<p>接下来求<span class="math inline">\(\alpha_t\)</span>, 式在3-3中： <span class="math display">\[
 \begin{align*}
  \sum_{i=1}^N D_{t,i}\exp\left( -y_i\alpha_th_t({\bf x})\right) 
- & = \sum_{y_i=h_t(\bf x)}D_{t,i} e^{-\alpha} +  \sum_{y_i\ne h_t(\bf x)}D_{t,i}e^{\alpha}  \\
- &=e^{-\alpha}\sum_{i=1}^ND_{t,i} + (e^{\alpha} - e^{-\alpha})\sum_{i=1}^N D_{t,i}I(y_i\ne h_t({\bf x_i})) \tag{3-4}
-\end{align*}</script><p>最后一个变换可以认为是第一项多加了不相等时候的$e^{-\alpha}$, 因此在第二项的时候减去。1-8对$\alpha$求导，并使导数为0，得到使得3-3最小的$\alpha_t$</p>
-<script type="math/tex; mode=display">
-\alpha_t = \frac{1}{2} \ln(\frac{1 - \epsilon_t }{\epsilon_t})</script><p>其中$\epsilon_t$为分类误差率</p>
-<script type="math/tex; mode=display">
-\epsilon_t = \frac{\sum_{i=1}^N D_{t,i}I(y_i\ne h_t({\bf x}))}{\sum_{i=1}^N D_{t,i}} = \sum_{i=1}^N \tilde D_{t,i}I(h_t(x_i) \ne y_i)</script><p>可以看出和之前更新$\alpha_t$一致。</p>
-<p>最后来看每一轮样本的权值更新，由$f_{t}({\bf x}) = f_{t-1}({\bf x}) + \alpha_{t}h_t({\bf x})$和$D_{t,i}= \exp(-y_if_{t-1}(\bf x_i))$可得：</p>
-<script type="math/tex; mode=display">
+ &amp; = \sum_{y_i=h_t(\bf x)}D_{t,i} e^{-\alpha} +  \sum_{y_i\ne h_t(\bf x)}D_{t,i}e^{\alpha}  \\
+ &amp;=e^{-\alpha}\sum_{i=1}^ND_{t,i} + (e^{\alpha} - e^{-\alpha})\sum_{i=1}^N D_{t,i}I(y_i\ne h_t({\bf x_i})) \tag{3-4}
+\end{align*}
+\]</span> 最后一个变换可以认为是第一项多加了不相等时候的<span class="math inline">\(e^{-\alpha}\)</span>, 因此在第二项的时候减去。1-8对<span class="math inline">\(\alpha\)</span>求导，并使导数为0，得到使得3-3最小的<span class="math inline">\(\alpha_t\)</span> <span class="math display">\[
+\alpha_t = \frac{1}{2} \ln(\frac{1 - \epsilon_t }{\epsilon_t})
+\]</span> 其中<span class="math inline">\(\epsilon_t\)</span>为分类误差率 <span class="math display">\[
+\epsilon_t = \frac{\sum_{i=1}^N D_{t,i}I(y_i\ne h_t({\bf x}))}{\sum_{i=1}^N D_{t,i}} = \sum_{i=1}^N \tilde D_{t,i}I(h_t(x_i) \ne y_i)
+\]</span> 可以看出和之前更新<span class="math inline">\(\alpha_t\)</span>一致。</p>
+<p>最后来看每一轮样本的权值更新，由<span class="math inline">\(f_{t}({\bf x}) = f_{t-1}({\bf x}) + \alpha_{t}h_t({\bf x})\)</span>和<span class="math inline">\(D_{t,i}= \exp(-y_if_{t-1}(\bf x_i))\)</span>可得： <span class="math display">\[
 \begin{align*}
 D_{t + 1,i} 
-&= \exp(-y_if_{t}(\bf x_i))\\
-&= \exp(-y_i( f_{t-1}({\bf x_i}) + \alpha_{t}h_t({\bf x_i}))\\
-&= D_{(t,i)}\exp(- \alpha_{t}y_{i}h_t({\bf x_i}))\\
-\end{align*}</script><p>这与之前的Adaboost的样本权值更新公式相比，只差规范化因子，因而等价。</p>
-<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><p>GBDT全称为：Gradient Boosting Decision Tree，即梯度提升决策树。可以理解为<strong>梯度 + 提升 + 决策树</strong>。</p>
+&amp;= \exp(-y_if_{t}(\bf x_i))\\
+&amp;= \exp(-y_i( f_{t-1}({\bf x_i}) + \alpha_{t}h_t({\bf x_i}))\\
+&amp;= D_{(t,i)}\exp(- \alpha_{t}y_{i}h_t({\bf x_i}))\\
+\end{align*}
+\]</span> 这与之前的Adaboost的样本权值更新公式相比，只差规范化因子，因而等价。</p>
+<h2 id="gbdt">GBDT</h2>
+<p>GBDT全称为：Gradient Boosting Decision Tree，即梯度提升决策树。可以理解为<strong>梯度 + 提升 + 决策树</strong>。</p>
 <p>在介绍GBDT之前，先介绍比较简单的提升树（Boosting Decision Tree）</p>
-<h3 id="提升树"><a href="#提升树" class="headerlink" title="提升树"></a>提升树</h3><p>提升树实际上就是加法模型和前向分布算法，然后以CART决策树为基学习器。</p>
-<p>可以表示为决策树的前向分布算法</p>
-<script type="math/tex; mode=display">
+<h3 id="提升树">提升树</h3>
+<p>提升树实际上就是加法模型和前向分布算法，然后以CART决策树为基学习器。</p>
+<p>可以表示为决策树的前向分布算法 <span class="math display">\[
 \begin{align*}
-F_0({\bf x}) &= 0\\
-F_t({\bf x}) &= F_{t-1}({\bf x})  + h_t({\bf x}), t=1,2,\cdots ,T\\
-F_T({\bf x}) &= \sum_{t=1}^Th_t({\bf x})
-\end{align*}</script><p>在前向分布算法的第t步，给定当前模型$F_{t-1}({\bf x})$，需要求解</p>
-<script type="math/tex; mode=display">
-h_t^*({\bf x}) = \mathop{\arg\min}_{h_t} \sum_{i=1}^NL(y_i, F_{t-1}({\bf x}) + h_t({\bf x}))</script><p>得到第t棵树$F_{t}({\bf x})$。针对不同问题的提升树学习方法，<strong>主要区别在于使用的损失函数不同</strong>。比如平方误差损失函数的回归问题，用指数损失函数的分类问题，以及用一般损失函数的问题。</p>
-<p>采用平方损失函数时，有：</p>
-<script type="math/tex; mode=display">
+F_0({\bf x}) &amp;= 0\\
+F_t({\bf x}) &amp;= F_{t-1}({\bf x})  + h_t({\bf x}), t=1,2,\cdots ,T\\
+F_T({\bf x}) &amp;= \sum_{t=1}^Th_t({\bf x})
+\end{align*}
+\]</span></p>
+<p>在前向分布算法的第t步，给定当前模型<span class="math inline">\(F_{t-1}({\bf x})\)</span>，需要求解 <span class="math display">\[
+h_t^*({\bf x}) = \mathop{\arg\min}_{h_t} \sum_{i=1}^NL(y_i, F_{t-1}({\bf x}) + h_t({\bf x}))
+\]</span> 得到第t棵树<span class="math inline">\(F_{t}({\bf x})\)</span>。针对不同问题的提升树学习方法，<strong>主要区别在于使用的损失函数不同</strong>。比如平方误差损失函数的回归问题，用指数损失函数的分类问题，以及用一般损失函数的问题。</p>
+<p>采用平方损失函数时，有： <span class="math display">\[
 \begin{align*}
 L\left(y,  F_{t-1}({\bf x}\right)  + h_t({\bf x})) 
-&=\left(y -  F_{t-1}({\bf x} ) - h_t({\bf x})\right)^2\\
-&=(r - h_t({\bf x}))^2
-\end{align*}</script><p>其中$r = y -  F_{t-1}({\bf x})$ 称为<strong>残差</strong>(Residual)。因此，对<strong>回归树的提升树算法来说，只需要简单的拟合当前模型的残差</strong>即可。注意这里的是回归树。</p>
+&amp;=\left(y -  F_{t-1}({\bf x} ) - h_t({\bf x})\right)^2\\
+&amp;=(r - h_t({\bf x}))^2
+\end{align*}
+\]</span> 其中<span class="math inline">\(r = y - F_{t-1}({\bf x})\)</span> 称为<strong>残差</strong>(Residual)。因此，对<strong>回归树的提升树算法来说，只需要简单的拟合当前模型的残差</strong>即可。注意这里的是回归树。</p>
 <p>因此回归问题的提升树算法可以描述如下：</p>
 <blockquote>
-<p>输入:   训练集 $Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}$; </p>
+<p>输入: 训练集 <span class="math inline">\(Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}\)</span>;</p>
 <p>过程：</p>
-<p>​         初始化$F_0({\bf x}) = 0$</p>
-<p>​         for  t = 1 to T do</p>
-<p>​                    计算残差 $r_{ti} = y_i - F_{t-1}({\bf x}) ,  i=1,2,\cdots,N$</p>
-<p>​                    拟合残差得到一个回归树：$h_t({\bf x})$</p>
-<p>​                    更新$F_t({\bf x}) = F_{t-1}({\bf x_i}) +  h_t({\bf x})$</p>
-<p>得到加法模型$F({\bf x}) = \sum_{t=1}^T  h_t({\bf x})$    </p>
+<p>​ 初始化<span class="math inline">\(F_0({\bf x}) = 0\)</span></p>
+<p>​ for t = 1 to T do</p>
+<p>​ 计算残差 <span class="math inline">\(r_{ti} = y_i - F_{t-1}({\bf x}) , \ i=1,2,\cdots,N\)</span></p>
+<p>​ 拟合残差得到一个回归树：<span class="math inline">\(h_t({\bf x})\)</span></p>
+<p>​ 更新<span class="math inline">\(F_t({\bf x}) = F_{t-1}({\bf x_i}) + h_t({\bf x})\)</span></p>
+<p>得到加法模型<span class="math inline">\(F({\bf x}) = \sum_{t=1}^T h_t({\bf x})\)</span></p>
 </blockquote>
 <p>该算法可以用下面的图表示：</p>
-<p><img src="../images/machine-learning-model-ensemble-boostring-and-gbdt/Boosting-tree.png" alt="Boosting tree"></p>
-<p><strong>对比Adaboost来说，该算法可以说是修改样本的”label”，而AdaBoost则是修改样本的权重。</strong></p>
-<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>继续搬出之前的决策树中的例子</p>
-<div class="table-container">
+<figure>
+<img src="../images/machine-learning-model-ensemble-boostring-and-gbdt/Boosting-tree.png" alt="Boosting tree" /><figcaption>Boosting tree</figcaption>
+</figure>
+<p><strong>对比Adaboost来说，该算法可以说是修改样本的&quot;label&quot;，而AdaBoost则是修改样本的权重。</strong></p>
+<h4 id="例子">例子</h4>
+<p>继续搬出之前的决策树中的例子</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>x</th>
 <th>1</th>
 <th>2</th>
@@ -300,7 +315,7 @@ L\left(y,  F_{t-1}({\bf x}\right)  + h_t({\bf x}))
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>y</td>
 <td>5.56</td>
 <td>5.70</td>
@@ -315,18 +330,16 @@ L\left(y,  F_{t-1}({\bf x}\right)  + h_t({\bf x}))
 </tr>
 </tbody>
 </table>
-</div>
-<p>第一轮计算后，我们算出（计算过程看决策树那章）</p>
-<script type="math/tex; mode=display">
+<p>第一轮计算后，我们算出（计算过程看决策树那章） <span class="math display">\[
 h_1(x) =
 \begin{cases}
-6.24, & x\le 6.5 \\
-8.91, & x \gt 6.5 \\
-\end{cases}</script><p>可以算出残差（比如x=1就是5.56 - 6.24 = -0.68）</p>
-<div class="table-container">
+6.24, &amp; x\le 6.5 \\
+8.91, &amp; x \gt 6.5 \\
+\end{cases}
+\]</span> 可以算出残差（比如x=1就是5.56 - 6.24 = -0.68）</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>x</th>
 <th>1</th>
 <th>2</th>
@@ -341,7 +354,7 @@ h_1(x) =
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>y</td>
 <td>-0.68</td>
 <td>-0.54</td>
@@ -356,107 +369,115 @@ h_1(x) =
 </tr>
 </tbody>
 </table>
-</div>
-<p>接着，继续拟合数据，只是拟合的是上面的残差。得到：</p>
-<script type="math/tex; mode=display">
+<p>接着，继续拟合数据，只是拟合的是上面的残差。得到： <span class="math display">\[
 h_2(x) =
 \begin{cases}
--0.52, & x\le 3.5 \\
-0.22, & x \gt 3.5 \\
-\end{cases}</script><p>则$f_2({\bf x})$为：</p>
-<script type="math/tex; mode=display">
+-0.52, &amp; x\le 3.5 \\
+0.22, &amp; x \gt 3.5 \\
+\end{cases}
+\]</span> 则<span class="math inline">\(f_2({\bf x})\)</span>为： <span class="math display">\[
 F_2({\bf x}) = f_1({\bf x}) + f_2({\bf x}) = 
 \begin{cases}
-5.72, & x\le 3.5 \\
-6.46, & 3.5\lt x \le 6.5 \\
-9.13, & 6.5\lt x
-\end{cases}</script><p>以此类推进行计算即可，直到损失$L(y, F_t(\bf x))$满足要求，比如达到迭代次数T。</p>
+5.72, &amp; x\le 3.5 \\
+6.46, &amp; 3.5\lt x \le 6.5 \\
+9.13, &amp; 6.5\lt x
+\end{cases}
+\]</span> 以此类推进行计算即可，直到损失<span class="math inline">\(L(y, F_t(\bf x))\)</span>满足要求，比如达到迭代次数T。</p>
 <p>和决策树CART不同的地方在于，BDT每次拟合的是残差，而CART是经典的分治算法（divide and conquer），不断的划分子空间并在子空间中进一步精确的拟合。</p>
-<h3 id="梯度提升"><a href="#梯度提升" class="headerlink" title="梯度提升"></a>梯度提升</h3><p>前面提到过，GBDT全称为<strong>Gradient Boosting</strong> Decision Tree，<strong>梯度提升</strong>决策树。</p>
+<h3 id="梯度提升">梯度提升</h3>
+<p>前面提到过，GBDT全称为<strong>Gradient Boosting</strong> Decision Tree，<strong>梯度提升</strong>决策树。</p>
 <p>现在我们来介绍通用的“梯度提升”算法。</p>
-<p>当采用平方损失和指数损失的时候，每一步优化是很简单的，但是<strong>一般的损失函数来说，每一步的优化不容易</strong>，因此提出了梯度提升的方法，这是利用梯度下降的近似方法，其关键是利用<strong>损失函数的负梯度在当前模型的值</strong>：</p>
-<script type="math/tex; mode=display">
--\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})}  \right]_{F({\bf x}) = F_{t-1}({\bf x})}\tag{4-1}</script><p>怎么理解这个近似呢？</p>
-<p>以前面的均方损失函数为例，也是可以用这个方法来解释的。为了求导方便，我们在均方损失函数前乘以 1/2。</p>
-<script type="math/tex; mode=display">
+<p>当采用平方损失和指数损失的时候，每一步优化是很简单的，但是<strong>一般的损失函数来说，每一步的优化不容易</strong>，因此提出了梯度提升的方法，这是利用梯度下降的近似方法，其关键是利用<strong>损失函数的负梯度在当前模型的值</strong>： <span class="math display">\[
+-\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})}  \right]_{F({\bf x}) = F_{t-1}({\bf x})}\tag{4-1}
+\]</span> 怎么理解这个近似呢？</p>
+<p>以前面的均方损失函数为例，也是可以用这个方法来解释的。为了求导方便，我们在均方损失函数前乘以 1/2。 <span class="math display">\[
 \begin{align*}
 L(y_i, F({\bf x_i})) = \frac{1}{2}(y_i - F({\bf x_i}))^2
-\end{align*}</script><p>注意到$F({\bf x_i})$其实只是一些数字而已，我们可以将其像变量一样进行求导：</p>
-<script type="math/tex; mode=display">
+\end{align*}
+\]</span> 注意到<span class="math inline">\(F({\bf x_i})\)</span>其实只是一些数字而已，我们可以将其像变量一样进行求导： <span class="math display">\[
 \begin{align*}
 \frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})} = F({\bf x_i}) - y_i
-\end{align*}</script><p>而前面所说的残差就是上式相反数，即<strong>负梯度</strong>：</p>
-<script type="math/tex; mode=display">
-r_{ti} = y_i - F_{t-1}({\bf x}) =-\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})}  \right]_{F({\bf x}) = F_{t-1}({\bf x})}</script><p>在梯度提升中，就是将式2-1作为残差来进行拟合。由此，我们给出一般的梯度提升算法：</p>
+\end{align*}
+\]</span> 而前面所说的残差就是上式相反数，即<strong>负梯度</strong>： <span class="math display">\[
+r_{ti} = y_i - F_{t-1}({\bf x}) =-\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})}  \right]_{F({\bf x}) = F_{t-1}({\bf x})}
+\]</span> 在梯度提升中，就是将式2-1作为残差来进行拟合。由此，我们给出一般的梯度提升算法：</p>
 <blockquote>
-<p>输入:   训练集 $Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}$; </p>
+<p>输入: 训练集 <span class="math inline">\(Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}\)</span>;</p>
 <p>过程：</p>
-<p>​            初始化$F_0({\bf x}) =\mathop{\arg\min}_{h_0} \sum_{i=1}^NL(y_i,  h_0({\bf x}))$</p>
-<p>​            for  t = 1 to T do</p>
-<p>​                    计算负梯度 ${\tilde y}_{i} = -\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})}  \right]_{F({\bf x}) = F_{t-1}({\bf x})} ,  i=1,2,\cdots,N$</p>
-<p>​                    $w_t = \arg\min_{w_t}  \sum_{i=1}^N \left({\tilde y}_{i} - h_t({\bf x}; {\bf w_t})\right)^2$ # 拟合“残差“得到基学习器权重，也就得到了基学习器</p>
-<p>​                    $\alpha_t= \arg\min_{\alpha_t}  \sum_{i=1}^N L\left(y_i,  f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x}; {\bf w_t})\right)$ # 得到基学习器权重$\alpha_t$</p>
-<p>​                       更新$F_t({\bf x}) = F_{t-1}({\bf x_i}) +  \alpha_th_t({\bf x}; {\bf w_t})$</p>
+<p>​ 初始化<span class="math inline">\(F_0({\bf x}) =\mathop{\arg\min}_{h_0} \sum_{i=1}^NL(y_i, h_0({\bf x}))\)</span></p>
+<p>​ for t = 1 to T do</p>
+<p>​ 计算负梯度 <span class="math inline">\({\tilde y}_{i} = -\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})} \right]_{F({\bf x}) = F_{t-1}({\bf x})} , \ i=1,2,\cdots,N\)</span></p>
+<p>​ <span class="math inline">\(w_t = \arg\min_{w_t} \sum_{i=1}^N \left({\tilde y}_{i} - h_t({\bf x}; {\bf w_t})\right)^2\)</span> # 拟合“残差“得到基学习器权重，也就得到了基学习器</p>
+<p>​ <span class="math inline">\(\alpha_t= \arg\min_{\alpha_t} \sum_{i=1}^N L\left(y_i, f_{t-1}({\bf x_i}) + \alpha_t h_t({\bf x}; {\bf w_t})\right)\)</span> # 得到基学习器权重<span class="math inline">\(\alpha_t\)</span></p>
+<p>​ 更新<span class="math inline">\(F_t({\bf x}) = F_{t-1}({\bf x_i}) + \alpha_th_t({\bf x}; {\bf w_t})\)</span></p>
 </blockquote>
-<p>对比提升树来说，提升树没有基学习器参权重$\alpha_t$</p>
-<h3 id="GBDT-1"><a href="#GBDT-1" class="headerlink" title="GBDT"></a>GBDT</h3><p>至此，我们可以给出GBDT的算法了。就是采用梯度提升的决策树（CART）而已嘛。PS: 上面给出的是梯度提升。</p>
-<p>前面提到过，CART回归将空间划分为K个不相交的区域。可以用数学公式描述为：</p>
-<script type="math/tex; mode=display">
-f(\mathbf{X}) = \sum_{k=1}^K c_k I(\mathbf{X} \in R_k)</script><p>GBDT算法(回归)描述如下：</p>
+<p>对比提升树来说，提升树没有基学习器参权重<span class="math inline">\(\alpha_t\)</span></p>
+<h3 id="gbdt-1">GBDT</h3>
+<p>至此，我们可以给出GBDT的算法了。就是采用梯度提升的决策树（CART）而已嘛。PS: 上面给出的是梯度提升。</p>
+<p>前面提到过，CART回归将空间划分为K个不相交的区域。可以用数学公式描述为： <span class="math display">\[
+f(\mathbf{X}) = \sum_{k=1}^K c_k I(\mathbf{X} \in R_k)
+\]</span> GBDT算法(回归)描述如下：</p>
 <blockquote>
-<p>输入:   训练集 $Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}$; </p>
+<p>输入: 训练集 <span class="math inline">\(Data =\{({\bf x_1},y_1),({\bf x_2},y_2),\cdots,({\bf x_N},y_N)\}, y_i \in\{+1, -1\}\)</span>;</p>
 <p>过程：</p>
-<p>​            初始化$F_0({\bf x}) =\mathop{\arg\min}_{h_0} \sum_{i=1}^NL(y_i,  h_0({\bf x})) =\mathop{\arg\min}_{c} \sum_{i=1}^NL(y_i, c))$</p>
-<p>​            for  t = 1 to T do</p>
-<p>​                    计算残差 ${\tilde y}_{i} = -\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})}  \right]_{F({\bf x}) = F_{t-1}({\bf x})} ,  i=1,2,\cdots,N$</p>
-<p>​                    拟合残差${\tilde y}_{i}$得到一个回归树，得到第t棵树的叶结点区域$R_{tk}$：$h_t({\bf x})= \sum_{k=1}^K c_k I(\mathbf{X} \in R_{tk})$ </p>
-<p>​                       更新$F_t({\bf x}) = F_{t-1}({\bf x_i}) +  h_t({\bf x}) = F_{t-1}({\bf x_i}) + \sum_{k=1}^K c_k I(\mathbf{X} \in R_{tk})$</p>
+<p>​ 初始化<span class="math inline">\(F_0({\bf x}) =\mathop{\arg\min}_{h_0} \sum_{i=1}^NL(y_i, h_0({\bf x})) =\mathop{\arg\min}_{c} \sum_{i=1}^NL(y_i, c))\)</span></p>
+<p>​ for t = 1 to T do</p>
+<p>​ 计算残差 <span class="math inline">\({\tilde y}_{i} = -\left[\frac{\partial L(y_i, F({\bf x_i}))}{\partial F({\bf x_i})} \right]_{F({\bf x}) = F_{t-1}({\bf x})} , \ i=1,2,\cdots,N\)</span></p>
+<p>​ 拟合残差<span class="math inline">\({\tilde y}_{i}\)</span>得到一个回归树，得到第t棵树的叶结点区域<span class="math inline">\(R_{tk}\)</span>：<span class="math inline">\(h_t({\bf x})= \sum_{k=1}^K c_k I(\mathbf{X} \in R_{tk})\)</span></p>
+<p>​ 更新<span class="math inline">\(F_t({\bf x}) = F_{t-1}({\bf x_i}) + h_t({\bf x}) = F_{t-1}({\bf x_i}) + \sum_{k=1}^K c_k I(\mathbf{X} \in R_{tk})\)</span></p>
 <p>得到加法模型</p>
-<p>​            $F({\bf x}) = \sum_{t=1}^T  h_t({\bf x})$</p>
+<p>​ <span class="math inline">\(F({\bf x}) = \sum_{t=1}^T h_t({\bf x})\)</span></p>
 </blockquote>
-<p>可以说，如果我们的任务是回归的话，并且使用RMSE作为损失函数，就和上面的boosting tree一样。因为负梯度算出来就是残差:$\left(y -  F_{t-1}({\bf x} ) - h_t({\bf x})\right)^2=(r - h_t({\bf x}))^2$</p>
-<h3 id="GBDT-分类"><a href="#GBDT-分类" class="headerlink" title="GBDT 分类"></a>GBDT 分类</h3><p>如果要将GBDT用于分类问题，怎么做呢？ 首先要明确的是，GBDT用于分类时使用的仍然是<strong>CART回归树</strong>。回想我们做回归问题的时候，每次对残差（负梯度）进行拟合。而分类问题要怎么每次对残差拟合？要知道类别相减是没有意义的。因此，可以用<strong>Softmax进行概率的映射</strong>，然后拟合<strong>概率的残差</strong>！</p>
+<p>可以说，如果我们的任务是回归的话，并且使用RMSE作为损失函数，就和上面的boosting tree一样。因为负梯度算出来就是残差:<span class="math inline">\(\left(y - F_{t-1}({\bf x} ) - h_t({\bf x})\right)^2=(r - h_t({\bf x}))^2\)</span></p>
+<h3 id="gbdt-分类">GBDT 分类</h3>
+<p>如果要将GBDT用于分类问题，怎么做呢？ 首先要明确的是，GBDT用于分类时使用的仍然是<strong>CART回归树</strong>。回想我们做回归问题的时候，每次对残差（负梯度）进行拟合。而分类问题要怎么每次对残差拟合？要知道类别相减是没有意义的。因此，可以用<strong>Softmax进行概率的映射</strong>，然后拟合<strong>概率的残差</strong>！</p>
 <p>具体的做法如下：</p>
-<ol>
-<li><strong>针对每个类别都先训练一个回归树</strong>，如三个类别，训练三棵树。就是比如对于样本$\bf x_i$为第二类，则输入三棵树分别为：$({\bf x_i}, 0), ({\bf x_i},1); ({\bf x_i}, 0)$这其实是典型的OneVsRest的多分类训练方式。 而每棵树的训练过程就是CART的训练过程。这样，对于样本$\bf x_i$就得出了三棵树的预测值$F_1({\bf x_i}),F_2({\bf x_i}),F_3({\bf x_i})$，模仿多分类的逻辑回归，用Softmax来产生概率，以类别1为例：$p_{1}({\bf x_i})=\exp(F_{1}{({\bf x_i})})/\sum_{l= 1}^{3}\exp(F_{l}{({\bf x_i})})$</li>
-<li>对每个类别分别计算残差，如类别1：${\tilde y}_{i1}= 0 - p_1({\bf x_i})$,  类别2： ${\tilde y}_{i2}= 1 - p_2({\bf x_i})$， 类别3：${\tilde y}_{i3}= 0 - p_3({\bf x_i})$</li>
-<li>开始第二轮的训练，针对第一类 输入为$({\bf x_i}, {\tilde y}_{i1})$, 针对第二类输入为$({\bf x_i}, {\tilde y}_{i2})$ ，针对第三类输入为 $({\bf x_i}, {\tilde y}_{i3})$，继续训练出三颗树。</li>
+<ol type="1">
+<li><strong>针对每个类别都先训练一个回归树</strong>，如三个类别，训练三棵树。就是比如对于样本<span class="math inline">\(\bf x_i\)</span>为第二类，则输入三棵树分别为：<span class="math inline">\(({\bf x_i}, 0), ({\bf x_i},1); ({\bf x_i}, 0)\)</span>这其实是典型的OneVsRest的多分类训练方式。 而每棵树的训练过程就是CART的训练过程。这样，对于样本<span class="math inline">\(\bf x_i\)</span>就得出了三棵树的预测值<span class="math inline">\(F_1({\bf x_i}),F_2({\bf x_i}),F_3({\bf x_i})\)</span>，模仿多分类的逻辑回归，用Softmax来产生概率，以类别1为例：<span class="math inline">\(p_{1}({\bf x_i})=\exp(F_{1}{({\bf x_i})})/\sum_{l= 1}^{3}\exp(F_{l}{({\bf x_i})})\)</span></li>
+<li>对每个类别分别计算残差，如类别1：<span class="math inline">\({\tilde y}_{i1}= 0 - p_1({\bf x_i})\)</span>, 类别2： <span class="math inline">\({\tilde y}_{i2}= 1 - p_2({\bf x_i})\)</span>， 类别3：<span class="math inline">\({\tilde y}_{i3}= 0 - p_3({\bf x_i})\)</span></li>
+<li>开始第二轮的训练，针对第一类 输入为<span class="math inline">\(({\bf x_i}, {\tilde y}_{i1})\)</span>, 针对第二类输入为<span class="math inline">\(({\bf x_i}, {\tilde y}_{i2})\)</span> ，针对第三类输入为 <span class="math inline">\(({\bf x_i}, {\tilde y}_{i3})\)</span>，继续训练出三颗树。</li>
 <li>重复3直到迭代M轮，就得到了最后的模型。预测的时候只要找出概率最高的即为对应的类别。</li>
 </ol>
 <p>和上面的回归问题是大同小异的。</p>
-<h4 id="被忽略的第三步"><a href="#被忽略的第三步" class="headerlink" title="被忽略的第三步"></a>被忽略的第三步</h4><p>在原始的论文中，多分类的GBDT描述如下图（注意这里的m代表的是树的个数，N为样本数, K为类别数）</p>
-<p><img src="../images/machine-learning-model-ensemble-boostring-and-gbdt/GBDT-classification.png" alt="GBDT-classification"></p>
-<p>可以看出，和上面的一样，首先计算各个类的概率。然后对于每个类，计算出残差，然后用CART回归树拟合。这里和上面描述的是一样的。但是之后的倒数第五行那是什么鬼？在原论文中，描述为：拟合完后，每棵树有J个叶结点，对应区域$\{R_{jkm}\}_{j=1}^J$，模型通过下式的解更新这些${\gamma}_{jkm}$</p>
-<script type="math/tex; mode=display">
+<h4 id="被忽略的第三步">被忽略的第三步</h4>
+<p>在原始的论文中，多分类的GBDT描述如下图（注意这里的m代表的是树的个数，N为样本数, K为类别数）</p>
+<figure>
+<img src="../images/machine-learning-model-ensemble-boostring-and-gbdt/GBDT-classification.png" alt="GBDT-classification" /><figcaption>GBDT-classification</figcaption>
+</figure>
+<p>可以看出，和上面的一样，首先计算各个类的概率。然后对于每个类，计算出残差，然后用CART回归树拟合。这里和上面描述的是一样的。但是之后的倒数第五行那是什么鬼？在原论文中，描述为：拟合完后，每棵树有J个叶结点，对应区域<span class="math inline">\(\{R_{jkm}\}_{j=1}^J\)</span>，模型通过下式的解更新这些<span class="math inline">\({\gamma}_{jkm}\)</span> <span class="math display">\[
 {\gamma}_{jkm} =  \mathop{\arg\min}_{\gamma_{jk}} \sum_{i=1}^N\sum_{k=1}^{K}  \phi \left(y_{ik}, F_{k,m-1}({\bf x}) + \sum_{j=1}^J\gamma_{jk}I({\bf x_i} \in R_{jm})\right) \\
-\phi(y_{k}, F_k)= -y_k\log p_k = p_{1}({\bf x_i})= -y_k\frac{exp(F_{k}{({\bf x_i})})}{\sum_{l= 1}^{K}exp(F_{l}{({\bf x_i})})}</script><p>但是这个式子没有闭式解。因此用牛顿法(Newton-Raphson step)进行近似。就是上面倒数第五行的结果。不过比较丢脸的是，这个我没有推出来。Sklearn中的GBDT实现中(MultinomialDeviance)，又略有不同，因此如果读者你会推的话就告诉博主把~</p>
+\phi(y_{k}, F_k)= -y_k\log p_k = p_{1}({\bf x_i})= -y_k\frac{exp(F_{k}{({\bf x_i})})}{\sum_{l= 1}^{K}exp(F_{l}{({\bf x_i})})}
+\]</span> 但是这个式子没有闭式解。因此用牛顿法(Newton-Raphson step)进行近似。就是上面倒数第五行的结果。不过比较丢脸的是，这个我没有推出来。Sklearn中的GBDT实现中(MultinomialDeviance)，又略有不同，因此如果读者你会推的话就告诉博主把~</p>
 <p>虽然说没有推出来，但是大多数情况下，可以通过设置步长（Step-size，也有的叫收缩率Shrinkage）的方式来省略这一步。因此很多资料很往往不介绍这一步。关于步长，本文最后有介绍。</p>
-<h4 id="Sklearn-GBDT二分类实现-BinomialDeviance"><a href="#Sklearn-GBDT二分类实现-BinomialDeviance" class="headerlink" title="Sklearn GBDT二分类实现 - BinomialDeviance"></a>Sklearn GBDT二分类实现 - BinomialDeviance</h4><p>在GBDT二分类中，可以用Logistic函数进行概率映射，而可以不用多分类的SoftMax。</p>
+<h4 id="sklearn-gbdt二分类实现---binomialdeviance">Sklearn GBDT二分类实现 - BinomialDeviance</h4>
+<p>在GBDT二分类中，可以用Logistic函数进行概率映射，而可以不用多分类的SoftMax。</p>
 <p>为了挽回一点面子，讲讲sklearn二分类的BinomialDeviance的实现。代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinomialDeviance</span>(<span class="params">ClassificationLossFunction</span>):</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, y, pred, sample_weight=None</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Compute the deviance (= 2 * negative log-likelihood). &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># logaddexp(0, v) == log(1.0 + exp(v))</span></span><br><span class="line">        pred = pred.ravel()</span><br><span class="line">        <span class="keyword">if</span> sample_weight <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-2.0</span> * np.mean((y * pred) - np.logaddexp(<span class="number">0.0</span>, pred))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> (<span class="number">-2.0</span> / sample_weight.sum() *</span><br><span class="line">                    np.sum(sample_weight * ((y * pred) - np.logaddexp(<span class="number">0.0</span>, pred))))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">negative_gradient</span>(<span class="params">self, y, pred, **kargs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Compute the residual (= negative gradient). &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> y - expit(pred.ravel())</span><br></pre></td></tr></table></figure>
-<p>首先是损失函数，忽略sample_weight权重设置，看看代码第八行。翻译过来就是</p>
-<script type="math/tex; mode=display">
--2.0 \frac{1}{N}(yP - \log(1 + exp(P)))</script><p>怎么感觉和对率损失不太一样？</p>
-<script type="math/tex; mode=display">
+<p>首先是损失函数，忽略sample_weight权重设置，看看代码第八行。翻译过来就是 <span class="math display">\[
+-2.0 \frac{1}{N}(yP - \log(1 + exp(P)))
+\]</span> 怎么感觉和对率损失不太一样？ <span class="math display">\[
 \begin{align*}
-L = -(y \log(h) + (1-y) \log(1 - h) &= -\left( \log(1 - h) + y \log \left( \frac{h}{1-h}\right)  \right) \\ 
-&=-\log(h(-P))- y P\hspace{4ex} 其中h(P) = \frac{1}{1+e^{-P}} \\
-&=\log(1+ \exp(P)) - yP
-\end{align*}</script><p>这正是Sklearn使用的损失函数。</p>
-<p>而负的梯度呢？</p>
-<script type="math/tex; mode=display">
--\frac{\partial L}{\partial P}  = y - \frac{\exp(P)}{1+ \exp(P)} = y- h(P)</script><p>就是上面的y - expit(pred.ravel())</p>
+L = -(y \log(h) + (1-y) \log(1 - h) &amp;= -\left( \log(1 - h) + y \log \left( \frac{h}{1-h}\right)  \right) \\ 
+&amp;=-\log(h(-P))- y P\hspace{4ex} 其中h(P) = \frac{1}{1+e^{-P}} \\
+&amp;=\log(1+ \exp(P)) - yP
+\end{align*}
+\]</span> 这正是Sklearn使用的损失函数。</p>
+<p>而负的梯度呢？ <span class="math display">\[
+-\frac{\partial L}{\partial P}  = y - \frac{\exp(P)}{1+ \exp(P)} = y- h(P)
+\]</span> 就是上面的y - expit(pred.ravel())</p>
 <p>再来看看牛顿法更新：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_update_terminal_region</span>(<span class="params">self, tree, terminal_regions, leaf, X, y,</span></span></span><br><span class="line"><span class="function"><span class="params">                            residual, pred, sample_weight</span>):</span></span><br><span class="line">    terminal_region = np.where(terminal_regions == leaf)[<span class="number">0</span>]</span><br><span class="line">    residual = residual.take(terminal_region, axis=<span class="number">0</span>)</span><br><span class="line">    y = y.take(terminal_region, axis=<span class="number">0</span>)</span><br><span class="line">    sample_weight = sample_weight.take(terminal_region, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    numerator = np.sum(sample_weight * residual)</span><br><span class="line">    denominator = np.sum(sample_weight * (y - residual) * (<span class="number">1</span> - y + residual))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># prevents overflow and division by zero</span></span><br><span class="line">    <span class="keyword">if</span> abs(denominator) &lt; <span class="number">1e-150</span>:</span><br><span class="line">        tree.value[leaf, <span class="number">0</span>, <span class="number">0</span>] = <span class="number">0.0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tree.value[leaf, <span class="number">0</span>, <span class="number">0</span>] = numerator / denominator</span><br></pre></td></tr></table></figure>
-<p>主要查看numerator和denominator的计算，这里$residual = y - h(P)$</p>
-<p>分子就是上面的负梯度，即$residual  = y - h(P)$</p>
-<p>分母为二阶导，即$h(P)(1-h(P))= (y-residual)*(1-y+residual))$</p>
-<h3 id="GBDT-正则化"><a href="#GBDT-正则化" class="headerlink" title="GBDT 正则化"></a>GBDT 正则化</h3><p>为了避免过拟合，可以从两方面入手：</p>
+<p>主要查看numerator和denominator的计算，这里<span class="math inline">\(residual = y - h(P)\)</span></p>
+<p>分子就是上面的负梯度，即<span class="math inline">\(residual = y - h(P)\)</span></p>
+<p>分母为二阶导，即<span class="math inline">\(h(P)(1-h(P))= (y-residual)*(1-y+residual))\)</span></p>
+<h3 id="gbdt-正则化">GBDT 正则化</h3>
+<p>为了避免过拟合，可以从两方面入手：</p>
 <ul>
 <li>弱算法的个数T， 上面描述的算法中，记得么？就是迭代T轮。T的大小就影响着算法的复杂度</li>
-<li>步长（Shrinkage）在每一轮迭代中，原来采用$F_t({\bf x}) = F_{t-1}({\bf x}) +  \alpha_th_t({\bf x}; {\bf w_t})$进行更新，可以加入步长v，使得一次不更新那么多：$F_t({\bf x}) = F_{t-1}({\bf x}) +  v   \alpha_th_t({\bf x}; {\bf w_t}); v\in(0,1]$</li>
+<li>步长（Shrinkage）在每一轮迭代中，原来采用<span class="math inline">\(F_t({\bf x}) = F_{t-1}({\bf x}) + \alpha_th_t({\bf x}; {\bf w_t})\)</span>进行更新，可以加入步长v，使得一次不更新那么多：<span class="math inline">\(F_t({\bf x}) = F_{t-1}({\bf x}) + v \  \alpha_th_t({\bf x}; {\bf w_t}); v\in(0,1]\)</span></li>
 </ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li>机器学习技法 - 林轩田</li>
 <li>《机器学习》 - 周志华</li>
 <li>《统计学习方法》 - 李航</li>
@@ -470,7 +491,7 @@ L = -(y \log(h) + (1-y) \log(1 - h) &= -\left( \log(1 - h) + y \log \left( \frac
 <ul>
 <li><a target="_blank" rel="noopener" href="https://statweb.stanford.edu/~jhf/ftp/trebst.pdf">Greedy Function Approximation: A Gradient Boosting Machine</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.ccs.neu.edu/home/vip/teach/MLcourse/4_boosting/slides/gradient_boosting.pdf">A Gentle Introduction to Gradient Boosting</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ModifyRong/p/7744987.html">https://www.cnblogs.com/ModifyRong/p/7744987.html</a></li>
+<li>https://www.cnblogs.com/ModifyRong/p/7744987.html</li>
 </ul>
  
       <!-- reward -->
@@ -687,12 +708,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -704,6 +731,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -712,13 +741,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -737,7 +767,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

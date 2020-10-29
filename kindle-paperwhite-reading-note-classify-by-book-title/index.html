@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">797</span>
+            <span class="post-count">802</span>
         </span>
     </span>
 
@@ -114,29 +114,43 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="Cool-Idea"><a href="#Cool-Idea" class="headerlink" title="Cool Idea"></a>Cool Idea</h2><p>kindle 是我最喜欢的设备之一，入手一年以来，在上面我已经阅读了将近70本书，而又喜欢原版的系统（因为可以接受各种推送。如浏览网页直接 推送到kindle上等），刷了多看又卸载掉。kindle的原书笔记很丑。而且按照标记笔记时间进行排列。要是我同时读的有多本，标记的也有多本呢？那笔记会十分混乱。所以决定写下代码，帮助我进行分类。</p>
+  <h2 id="cool-idea">Cool Idea</h2>
+<p>kindle 是我最喜欢的设备之一，入手一年以来，在上面我已经阅读了将近70本书，而又喜欢原版的系统（因为可以接受各种推送。如浏览网页直接 推送到kindle上等），刷了多看又卸载掉。kindle的原书笔记很丑。而且按照标记笔记时间进行排列。要是我同时读的有多本，标记的也有多本呢？那笔记会十分混乱。所以决定写下代码，帮助我进行分类。</p>
 <p>之前在CSDN写过C++的，版本称为1.0吧，不过有bug就是中文字符什么的。</p>
-<p>现在更新pyhon2.0版。<br><a id="more"></a></p>
-<h2 id="创作过程"><a href="#创作过程" class="headerlink" title="创作过程"></a><strong>创作过程</strong></h2><h3 id="1-分析-kindle-原装笔记格式"><a href="#1-分析-kindle-原装笔记格式" class="headerlink" title="1.分析 kindle 原装笔记格式"></a>1.分析 kindle 原装笔记格式</h3><ol>
-<li>每条笔记都以书名起始，”==========”结束</li>
+<p>现在更新pyhon2.0版。 <a id="more"></a> ## <strong>创作过程</strong></p>
+<h3 id="分析-kindle-原装笔记格式">1.分析 kindle 原装笔记格式</h3>
+<ol type="1">
+<li>每条笔记都以书名起始，&quot;==========&quot;结束</li>
 <li>书名和内容之间有两行空格</li>
 </ol>
+<p> </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">行者无疆 (余秋雨)</span><br><span class="line">- 您在位置 #1635-1636的标注  添加于 2014年8月26日星期二 下午11:33:04</span><br><span class="line"></span><br><span class="line">看城市潜力，拥挤的市中心不是标志。市中心是一个旋涡，把衰草污浊旋到了外缘。真正的潜力忽闪在小巷的窗台下，近郊的庭园里。</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">行者无疆 (余秋雨)</span><br><span class="line">- 您在位置 #1642-1643的标注  添加于 2014年8月26日星期二 下午11:33:33</span><br><span class="line"></span><br><span class="line">这就像写作，当形容词如女郎盛妆、排比句如情人并肩，那就一定尚未进入文章之道。文章的极致如老街疏桐，桐下旧座，座间闲谈，精致散漫。 城市这篇文章，也是这样。</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2.具体实现"></a>2.具体实现</h3><ol>
+<p> </p>
+<h3 id="具体实现">2.具体实现</h3>
+<ol type="1">
 <li>每次读取书名，如果书名不存在，将其存入字典（py为dic,c++为map)</li>
 <li>读完书名读两行，因为一行为日期，一行为空行。</li>
 <li>用字典去寻找title对应下标index，将当前的笔记内容存入对应的content</li>
 </ol>
-<h3 id="3-Fix-bugs"><a href="#3-Fix-bugs" class="headerlink" title="3.Fix bugs"></a>3.Fix bugs</h3><ol>
-<li>每次读取content应该去除末尾换行符’\n’，否则判断和’==========’是否相等总为False</li>
-<li>第一次读取title的时候，会读取\xef\xbb\xbf 三个字符，这是UTF引入的BOM来表示自身编码。去除即可。</li>
+<p> </p>
+<h3 id="fix-bugs">3.Fix bugs</h3>
+<ol type="1">
+<li>每次读取content应该去除末尾换行符''，否则判断和'=========='是否相等总为False</li>
+<li>第一次读取title的时候，会读取三个字符，这是UTF引入的BOM来表示自身编码。去除即可。</li>
 <li>修复linux下换行符引起的无限循环的问题（2015.4.7 ）</li>
 </ol>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>windows下：将 kindle 笔记 My Clippings.txt放于 e盘根目录下，运行代码后，会在e盘生成result.txt</p>
+<p> </p>
+<h2 id="使用方法">使用方法</h2>
+<p>windows下：将 kindle 笔记 My Clippings.txt放于 e盘根目录下，运行代码后，会在e盘生成result.txt</p>
 <p>linux下：自行修改路径，看备注直接使用当前路径也可以。</p>
-<h2 id="展示结果"><a href="#展示结果" class="headerlink" title="展示结果"></a>展示结果</h2><p><img src="../images/kindle-paperwhite-reading-note-classify-by-book-title/the-result-of-kindle-note-distribution-.jpg" alt="the result of kindle note distribution"></p>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>最终代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#kindle note v2.1</span></span><br><span class="line"><span class="comment">#author: hrwhisper</span></span><br><span class="line"><span class="comment">#date:   2015.4.7</span></span><br><span class="line"></span><br><span class="line">MyClippingsPath=<span class="string">&#x27;e:\\My Clippings.txt&#x27;</span> <span class="comment">#My Clippings.txt   =&gt;linux当前目录</span></span><br><span class="line">OutPutPath=<span class="string">&#x27;e:\\result.txt&#x27;</span>            <span class="comment">#result.txt         =&gt;linux</span></span><br><span class="line"></span><br><span class="line">title,content,dic=[],[],&#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">0</span>&#125;</span><br><span class="line"><span class="keyword">with</span> open(MyClippingsPath,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    line = f.readline().strip(<span class="string">&#x27;\xef\xbb\xbf&#x27;</span>)</span><br><span class="line">    <span class="keyword">while</span> line :</span><br><span class="line">        index=dic.get(line,<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> index == <span class="number">-1</span>:</span><br><span class="line">            index = dic[line]=len(title)           </span><br><span class="line">            title.append(line)</span><br><span class="line">            content.append(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        f.readline() <span class="comment">#time</span></span><br><span class="line">        f.readline() <span class="comment">#blank line</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:  <span class="comment">#content start</span></span><br><span class="line">            line = f.readline().strip() </span><br><span class="line">            <span class="keyword">if</span> line == <span class="string">&#x27;==========&#x27;</span> : <span class="keyword">break</span> <span class="comment">#content end</span></span><br><span class="line">            content[index]+=line</span><br><span class="line">        content[index]+=<span class="string">&#x27;\n&#x27;</span>*<span class="number">3</span></span><br><span class="line">        line = f.readline() <span class="comment">#next clipping title</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(OutPutPath,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i , titleName <span class="keyword">in</span> enumerate(title):</span><br><span class="line">        f.write(titleName+<span class="string">&#x27;\n\n&#x27;</span>)</span><br><span class="line">        f.write(content[dic[titleName]]) </span><br><span class="line">        f.write(<span class="string">&#x27;\n\n==========\n\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br></pre></td></tr></table></figure> 
+<h2 id="展示结果">展示结果</h2>
+<figure>
+<img src="../images/kindle-paperwhite-reading-note-classify-by-book-title/the-result-of-kindle-note-distribution-.jpg" alt="the result of kindle note distribution" /><figcaption>the result of kindle note distribution</figcaption>
+</figure>
+<h2 id="code">Code</h2>
+<p>最终代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#kindle note v2.1</span></span><br><span class="line"><span class="comment">#author: hrwhisper</span></span><br><span class="line"><span class="comment">#date:   2015.4.7</span></span><br><span class="line"></span><br><span class="line">MyClippingsPath=<span class="string">&#x27;e:\\My Clippings.txt&#x27;</span> <span class="comment">#My Clippings.txt   =&gt;linux当前目录</span></span><br><span class="line">OutPutPath=<span class="string">&#x27;e:\\result.txt&#x27;</span>            <span class="comment">#result.txt         =&gt;linux</span></span><br><span class="line"></span><br><span class="line">title,content,dic=[],[],&#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">0</span>&#125;</span><br><span class="line"><span class="keyword">with</span> open(MyClippingsPath,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    line = f.readline().strip(<span class="string">&#x27;\xef\xbb\xbf&#x27;</span>)</span><br><span class="line">    <span class="keyword">while</span> line :</span><br><span class="line">        index=dic.get(line,<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> index == <span class="number">-1</span>:</span><br><span class="line">            index = dic[line]=len(title)           </span><br><span class="line">            title.append(line)</span><br><span class="line">            content.append(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        f.readline() <span class="comment">#time</span></span><br><span class="line">        f.readline() <span class="comment">#blank line</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:  <span class="comment">#content start</span></span><br><span class="line">            line = f.readline().strip() </span><br><span class="line">            <span class="keyword">if</span> line == <span class="string">&#x27;==========&#x27;</span> : <span class="keyword">break</span> <span class="comment">#content end</span></span><br><span class="line">            content[index]+=line</span><br><span class="line">        content[index]+=<span class="string">&#x27;\n&#x27;</span>*<span class="number">3</span></span><br><span class="line">        line = f.readline() <span class="comment">#next clipping title</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(OutPutPath,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i , titleName <span class="keyword">in</span> enumerate(title):</span><br><span class="line">        f.write(titleName+<span class="string">&#x27;\n\n&#x27;</span>)</span><br><span class="line">        f.write(content[dic[titleName]]) </span><br><span class="line">        f.write(<span class="string">&#x27;\n\n==========\n\n&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br></pre></td></tr></table></figure>
+ 
       <!-- reward -->
       
       <div id="reword-out">
@@ -351,12 +365,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -368,6 +388,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -376,13 +398,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -401,7 +424,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

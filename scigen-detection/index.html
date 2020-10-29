@@ -116,100 +116,123 @@
        
   <blockquote>
 <p>SCIgen is a program that generates random Computer Science research papers, including graphs, figures, and citations. It uses a hand-written context-free grammar to form all elements of the papers. Our aim here is to maximize amusement, rather than coherence.</p>
-<p>One useful purpose for such a program is to auto-generate submissions to conferences that you suspect might have very low submission standards. A prime example, which you may recognize from spam in your inbox, is SCI/IIIS and its dozens of co-located conferences (check out the very broad conference description on the WMSCI 2005 website). There’s also a list of known bogus conferences. Using SCIgen to generate submissions for conferences like this gives us pleasure to no end. In fact, one of our papers was accepted to SCI 2005! See Examples for more details.<br><a id="more"></a><br>scigen 是一个自动的论文生成软件，利用上下文无关文法自动生成无意义的英文科学研究论文，内容包含图片、表格、流程图和参考文献等。有的scigen生成的论文在竟然被权威机构给收录！（如WMSCI 2005）本博文探讨如何进行对scigen生成的伪论文进行判别。即类似于 scigen detection 的工作</p>
+<p>One useful purpose for such a program is to auto-generate submissions to conferences that you suspect might have very low submission standards. A prime example, which you may recognize from spam in your inbox, is SCI/IIIS and its dozens of co-located conferences (check out the very broad conference description on the WMSCI 2005 website). There's also a list of known bogus conferences. Using SCIgen to generate submissions for conferences like this gives us pleasure to no end. In fact, one of our papers was accepted to SCI 2005! See Examples for more details. <a id="more"></a> scigen 是一个自动的论文生成软件，利用上下文无关文法自动生成无意义的英文科学研究论文，内容包含图片、表格、流程图和参考文献等。有的scigen生成的论文在竟然被权威机构给收录！（如WMSCI 2005）本博文探讨如何进行对scigen生成的伪论文进行判别。即类似于 scigen detection 的工作</p>
 </blockquote>
-<h2 id="一、任务目标"><a href="#一、任务目标" class="headerlink" title="一、任务目标"></a>一、任务目标</h2><p>给定一篇（些）论文，判断其是否为真论文，即非scigen生成的论文。</p>
-<h2 id="二、数据预处理"><a href="#二、数据预处理" class="headerlink" title="二、数据预处理"></a>二、数据预处理</h2><h3 id="一-获取训练样本"><a href="#一-获取训练样本" class="headerlink" title="(一) 获取训练样本"></a>(一) 获取训练样本</h3><ul>
-<li><p>正样本来源：由老师给定的各种论文样本</p>
-</li>
-<li><p>负样本来源：于MIT scigen上爬取下来的论文</p>
-</li>
+<h2 id="一任务目标">一、任务目标</h2>
+<p>给定一篇（些）论文，判断其是否为真论文，即非scigen生成的论文。</p>
+<h2 id="二数据预处理">二、数据预处理</h2>
+<h3 id="一-获取训练样本">(一) 获取训练样本</h3>
+<ul>
+<li><p>正样本来源：由老师给定的各种论文样本</p></li>
+<li><p>负样本来源：于MIT scigen上爬取下来的论文</p></li>
 </ul>
 <p>Python爬虫爬取的代码如下：(保存在j://unrealpdf/文件夹中，每次捕获200篇)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">功能    ： 下载scigen生成的论文</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_file</span>(<span class="params">url,local_filename</span>):</span></span><br><span class="line">    r = requests.get(url, stream=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">with</span> open(local_filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> chunk <span class="keyword">in</span> r.iter_content(chunk_size=<span class="number">1024</span>):</span><br><span class="line">            <span class="keyword">if</span> chunk: <span class="comment"># filter out keep-alive new chunks</span></span><br><span class="line">                f.write(chunk)</span><br><span class="line">                f.flush()</span><br><span class="line">    <span class="keyword">return</span> local_filename</span><br><span class="line"></span><br><span class="line">savePath = <span class="string">&#x27;j://unrealpdf/&#x27;</span></span><br><span class="line">url = <span class="string">&#x27;http://pdos.csail.mit.edu/cgi-bin/sciredirect.cgi?author=&amp;author=&amp;author=&amp;author=&amp;author=&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">200</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r=requests.get(url)</span><br><span class="line">        <span class="keyword">if</span> r.status_code==<span class="number">200</span>:</span><br><span class="line">            soup=BeautifulSoup(r.text)   </span><br><span class="line">            link = soup.find_all(<span class="string">&#x27;a&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">            new_link=<span class="string">&#x27;http://scigen.csail.mit.edu&#x27;</span>+link.get(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            filename = r.url.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>][:<span class="number">-4</span>]+<span class="string">&#x27;pdf&#x27;</span></span><br><span class="line">            file_path=download_file(new_link,savePath + filename)</span><br><span class="line">            <span class="keyword">print</span> str(i+<span class="number">1</span>) + <span class="string">&#x27;  downloading: &#x27;</span>+filename</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">&#x27;errors: &#x27;</span> +str(i)</span><br><span class="line">    <span class="keyword">except</span> Exception,e:</span><br><span class="line">        <span class="keyword">print</span> e</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="二-将pdf转化为txt"><a href="#二-将pdf转化为txt" class="headerlink" title="(二)将pdf转化为txt"></a>(二)将pdf转化为txt</h3><p>该步骤仍是预处理的阶段，目的是便于处理相应的论文。</p>
+<p> </p>
+<h3 id="二将pdf转化为txt">(二)将pdf转化为txt</h3>
+<p>该步骤仍是预处理的阶段，目的是便于处理相应的论文。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">功能    ： 下载scigen生成的论文</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_file</span>(<span class="params">url,local_filename</span>):</span></span><br><span class="line">    r = requests.get(url, stream=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">with</span> open(local_filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> chunk <span class="keyword">in</span> r.iter_content(chunk_size=<span class="number">1024</span>):</span><br><span class="line">            <span class="keyword">if</span> chunk: <span class="comment"># filter out keep-alive new chunks</span></span><br><span class="line">                f.write(chunk)</span><br><span class="line">                f.flush()</span><br><span class="line">    <span class="keyword">return</span> local_filename</span><br><span class="line"></span><br><span class="line">savePath = <span class="string">&#x27;j://unrealpdf/&#x27;</span></span><br><span class="line">url = <span class="string">&#x27;http://pdos.csail.mit.edu/cgi-bin/sciredirect.cgi?author=&amp;author=&amp;author=&amp;author=&amp;author=&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">200</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r=requests.get(url)</span><br><span class="line">        <span class="keyword">if</span> r.status_code==<span class="number">200</span>:</span><br><span class="line">            soup=BeautifulSoup(r.text)   </span><br><span class="line">            link = soup.find_all(<span class="string">&#x27;a&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">            new_link=<span class="string">&#x27;http://scigen.csail.mit.edu&#x27;</span>+link.get(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            filename = r.url.split(<span class="string">&#x27;/&#x27;</span>)[<span class="number">-1</span>][:<span class="number">-4</span>]+<span class="string">&#x27;pdf&#x27;</span></span><br><span class="line">            file_path=download_file(new_link,savePath + filename)</span><br><span class="line">            <span class="keyword">print</span> str(i+<span class="number">1</span>) + <span class="string">&#x27;  downloading: &#x27;</span>+filename</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">&#x27;errors: &#x27;</span> +str(i)</span><br><span class="line">    <span class="keyword">except</span> Exception,e:</span><br><span class="line">        <span class="keyword">print</span> e</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>转化结果还是十分不错的。</p>
-<h3 id="三-文档预处理："><a href="#三-文档预处理：" class="headerlink" title="(三) 文档预处理："></a>(三) 文档预处理：</h3><p>我将文档的去除分为以下几个方面：</p>
+<h3 id="三-文档预处理">(三) 文档预处理：</h3>
+<p>我将文档的去除分为以下几个方面：</p>
 <ul>
-<li><p><strong>去除图和表格</strong></p>
-<ol>
+<li><strong>去除图和表格</strong>
+<ol type="1">
 <li>论文的图和表格主要是起解释说明的作用，而且难以进行判断</li>
 <li>去除方法：在pdf转化为txt已经自动进行了“去除”</li>
-</ol>
-</li>
-<li><p><strong>去除标题和作者信息</strong> </p>
-<ol>
+</ol></li>
+<li><p><strong>去除标题和作者信息</strong></p>
+<ol type="1">
 <li>至于作者只是署名文章的所有权，对文意并不会产生影响</li>
 <li>去除方法：论文读取从“Abstract”开始</li>
-</ol>
-</li>
+</ol></li>
 <li><p><strong>去除Reference</strong> <strong>信息</strong></p>
-<ol>
+<ol type="1">
 <li>参考文献，由于大部分是人名/书名等，去除其对论文判别几乎不会产生任何影响（毕竟scigen也可以加入这些信息）。</li>
 <li>去除方法：读取到reference时候该论文不再读取</li>
-</ol>
-</li>
-<li><p><strong>去除论文引用的标号 []</strong> </p>
-<ol>
+</ol></li>
+<li><p><strong>去除论文引用的标号 []</strong></p>
+<ol type="1">
 <li>文章的一些[]括号主要是标注了参考文献的信息，可以删去</li>
 <li>去除方法： 正则表达式</li>
-</ol>
-</li>
+</ol></li>
 <li><p><strong>将其他括号，标点符号替换为空</strong></p>
-<ol>
+<ol type="1">
 <li>（）主要是起到解释说明的作用，去除这些符号对原文大意几乎无影响。而其他的标点符号主要用于断句，也可考虑去除。</li>
 <li>去除方法： 正则表达式</li>
-</ol>
-</li>
+</ol></li>
 <li><p><strong>所有单词转化为小写</strong></p>
-<ol>
+<ol type="1">
 <li>大小写其实是一个单词，只有是是否位于句首的区别而已。若不统一，可能会出现Smart 和 smart 被认为是两个单词。</li>
 <li>解决方法：用python内置函数转化为小写字母</li>
-</ol>
-</li>
+</ol></li>
 <li><p><strong>数字归一化处理</strong></p>
-<ol>
+<ol type="1">
 <li>论文中的数字可能只是表示数量多少，大小等等，可以将其统一转为某个表明其为数字的符号，或者用某个具体的数来替代，减少一些重复。</li>
 <li>解决方法：正则表达式</li>
-</ol>
-</li>
+</ol></li>
 </ul>
+<p> </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">功能    :  对pdf转化成的txt进行预处理，如删除作者信息</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> re, os</span><br><span class="line">refer = re.compile(<span class="string">r&#x27;\[\d*\]&#x27;</span>)</span><br><span class="line">other = re.compile(<span class="string">r&#x27;[(),&lt;&gt;-_&quot;]&#x27;</span>)</span><br><span class="line">num = re.compile(<span class="string">r&#x27;\d+(.\d+)?&#x27;</span>)</span><br><span class="line">txtpath = <span class="string">r&#x27;./testpaper/&#x27;</span></span><br><span class="line">outpath = <span class="string">r&#x27;./testpaper/&#x27;</span></span><br><span class="line"></span><br><span class="line">files = os.walk(txtpath).next()[<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">print</span> file</span><br><span class="line">    <span class="keyword">with</span> open(txtpath+file,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        content = f.read().lower()</span><br><span class="line">        <span class="comment">#去除作者信息</span></span><br><span class="line">        temp_index = content.find(<span class="string">&#x27;abstract&#x27;</span>) </span><br><span class="line">        <span class="keyword">if</span> temp_index != <span class="number">-1</span>: content = content[temp_index+<span class="number">8</span>:]</span><br><span class="line">        <span class="comment">#去除参考文献信息</span></span><br><span class="line">        temp_index = content.rfind(<span class="string">&#x27;references&#x27;</span>)    </span><br><span class="line">        <span class="keyword">if</span> temp_index != <span class="number">-1</span>: content = content[:temp_index]</span><br><span class="line">        f.close()</span><br><span class="line">        <span class="keyword">with</span> open(outpath+file, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> wf:   </span><br><span class="line">            wf.write(num.sub(<span class="string">&#x27;1&#x27;</span>,other.sub(<span class="string">&#x27; &#x27;</span>,refer.sub(<span class="string">&#x27;&#x27;</span>,content))))</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="三、识别方法探究"><a href="#三、识别方法探究" class="headerlink" title="三、识别方法探究"></a>三、识别方法探究</h2><p>判别scigen可以说就是一个二分类问题，给定一篇论文，判断其是否为scigen生成的。</p>
+<p> </p>
+<h2 id="三识别方法探究">三、识别方法探究</h2>
+<p>判别scigen可以说就是一个二分类问题，给定一篇论文，判断其是否为scigen生成的。</p>
 <p>在以上的几个步骤中，已经完成了样本从PDF转为TXT纯文本形式，并对其进行了预处理。</p>
 <p>接下来主要在于进行提取文档的特征，来加以区分真假论文。</p>
-<h3 id="一-词同现网络"><a href="#一-词同现网络" class="headerlink" title="(一)词同现网络"></a>(一)词同现网络</h3><h4 id="1-词同现网络简介及网络构建"><a href="#1-词同现网络简介及网络构建" class="headerlink" title="1.词同现网络简介及网络构建"></a>1.词同现网络简介及网络构建</h4><p>词同现网络：若两个词汇在同一单元（如邻接、段落）中共现，则认为它们存在关联关系。</p>
+<h3 id="一词同现网络">(一)词同现网络</h3>
+<h4 id="词同现网络简介及网络构建">1.词同现网络简介及网络构建</h4>
+<p>词同现网络：若两个词汇在同一单元（如邻接、段落）中共现，则认为它们存在关联关系。</p>
 <p>词同现网络的思想是：对于每一个单词，对应词同现网络中的一个节点。若一个句子中的两个词之间间隔为n时存在词同现关系，即在网络中有边相连。</p>
 <p>而大量的实践表明，n=2是比较合适的。两个词在句子中相邻出现是比较常见的。</p>
 <p>如：lovely girl 间距为1，buy an apple的buy 和apple间距为2。</p>
 <p>而如果n取过大，会引入大量的无关的词语，增加模型的复杂度。</p>
 <p>在我构建的词同现网络中，段和段之间相对是独立的，而一个段落里说明的内容是相关的。即一个段落中的两个相邻句子之间是有关联的。对于一个段落中相邻的两个句子，将其处理为第一个句子的最后一个词和第二个句子的第一个词之间的间距为2。</p>
 <p>对于一篇论文的词同现网络，我们可以计算出它的：计算出它的<strong>结点数、边数、平均度数、平均路径长度、网络直径、聚集系数</strong>，并且用这六个特征来表示这个网络。</p>
-<h4 id="2-分类器的选择"><a href="#2-分类器的选择" class="headerlink" title="2.分类器的选择"></a>2.分类器的选择</h4><p>我分别尝试了SVM和KNN进行训练和识别，结果如下：</p>
-<p><img src="../images/scigen-detection/scigen-detection-svm.png" alt="scigen-detection-svm"></p>
+<h4 id="分类器的选择">2.分类器的选择</h4>
+<p>我分别尝试了SVM和KNN进行训练和识别，结果如下：</p>
+<figure>
+<img src="../images/scigen-detection/scigen-detection-svm.png" alt="scigen-detection-svm" /><figcaption>scigen-detection-svm</figcaption>
+</figure>
 <p>▲SVM</p>
-<p><img src="../images/scigen-detection/scigen-detection-knn.png" alt="scigen-detection-knn"></p>
+<figure>
+<img src="../images/scigen-detection/scigen-detection-knn.png" alt="scigen-detection-knn" /><figcaption>scigen-detection-knn</figcaption>
+</figure>
 <p>▲KNN</p>
 <p>在测试样本一共894篇的情况下，SVM有97.87%的准确率，而KNN有99.33%的准确率。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">功能    ： 使用knn/svm进行判别</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"></span><br><span class="line">knn = <span class="literal">False</span></span><br><span class="line">realPath = <span class="string">&#x27;./data/paper.data&#x27;</span></span><br><span class="line">unRealPath = <span class="string">&#x27;./data/scigen.data&#x27;</span></span><br><span class="line">testPath = <span class="string">&#x27;./data/test.data&#x27;</span></span><br><span class="line">realNum = <span class="number">176</span></span><br><span class="line">unrealNum = <span class="number">176</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTestCase</span>(<span class="params">path,isReal</span>):</span></span><br><span class="line">    test_input ,fileNames = [],[] </span><br><span class="line">    <span class="keyword">with</span> open(path,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            line = line.strip()</span><br><span class="line">            content = line.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">            fileName = content[<span class="number">0</span>]</span><br><span class="line">            fileNames.append(fileName)</span><br><span class="line">            temp = []</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> content[<span class="number">1</span>:<span class="number">-1</span>]:</span><br><span class="line">                temp.append(float(i))</span><br><span class="line">            test_input.append(temp)</span><br><span class="line">    <span class="keyword">return</span> fileNames,test_input, [isReal <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(test_input))]</span><br><span class="line"></span><br><span class="line">fileNames,input1,output1 = getTestCase(realPath,<span class="literal">True</span>)</span><br><span class="line">fileNames,input2 , output2 = getTestCase(unRealPath,<span class="literal">False</span>)</span><br><span class="line">train_input , train_output = input1[:realNum] + input2[:unrealNum] ,output1[:realNum]+output2[:unrealNum]</span><br><span class="line">fileNames,test_input , test_output = getTestCase(testPath,<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">clf = KNeighborsClassifier(n_neighbors=<span class="number">3</span>) <span class="keyword">if</span> knn <span class="keyword">else</span> svm.SVC(gamma=<span class="number">0.4</span>,C=<span class="number">2</span>)</span><br><span class="line">clf.fit(train_input,train_output)</span><br><span class="line">predicted = clf.predict(test_input)</span><br><span class="line"><span class="keyword">for</span> filename,result <span class="keyword">in</span> zip(fileNames,predicted):</span><br><span class="line">    <span class="keyword">print</span> filename,result</span><br></pre></td></tr></table></figure>
-<h3 id="二-层次聚类"><a href="#二-层次聚类" class="headerlink" title="(二) 层次聚类"></a>(二) 层次聚类</h3><h4 id="1-文档距离描述"><a href="#1-文档距离描述" class="headerlink" title="1.文档距离描述"></a>1.文档距离描述</h4><p><img src="../images/scigen-detection/scigen-bow-distance.png" alt="scigen-bow-distance"></p>
-<h4 id="2-层次聚类（Hierarchical-clustering）"><a href="#2-层次聚类（Hierarchical-clustering）" class="headerlink" title="2. 层次聚类（Hierarchical clustering）"></a>2. 层次聚类（Hierarchical clustering）</h4><p>层次聚类通过不断的将最为相似的群组两两合并，来构造出一个群组的层级结构。具体的可以由如下图表示：</p>
-<p><img src="../images/scigen-detection/Hierarchical-clustering.png" alt="Hierarchical-clustering"></p>
+<p> </p>
+<h3 id="二-层次聚类">(二) 层次聚类</h3>
+<h4 id="文档距离描述">1.文档距离描述</h4>
+<figure>
+<img src="../images/scigen-detection/scigen-bow-distance.png" alt="scigen-bow-distance" /><figcaption>scigen-bow-distance</figcaption>
+</figure>
+<h4 id="层次聚类hierarchical-clustering">2. 层次聚类（Hierarchical clustering）</h4>
+<p>层次聚类通过不断的将最为相似的群组两两合并，来构造出一个群组的层级结构。具体的可以由如下图表示：</p>
+<figure>
+<img src="../images/scigen-detection/Hierarchical-clustering.png" alt="Hierarchical-clustering" /><figcaption>Hierarchical-clustering</figcaption>
+</figure>
 <p>同样的，我用上述的距离描述方法，对正负样本进行了层次聚类，结果如下（200个的也是同样的效果显著）</p>
-<p><img src="../images/scigen-detection/scigen-detection-hierarchical-clustering-result.png" alt="scigen-detection-hierarchical-clustering-result"></p>
+<figure>
+<img src="../images/scigen-detection/scigen-detection-hierarchical-clustering-result.png" alt="scigen-detection-hierarchical-clustering-result" /><figcaption>scigen-detection-hierarchical-clustering-result</figcaption>
+</figure>
 <p>可以看出的是，scigen生成的伪论文都聚在一起。</p>
 <p>证明这个距离的度量方法还是可靠的。</p>
-<h4 id="3-判别方法"><a href="#3-判别方法" class="headerlink" title="3. 判别方法"></a>3. 判别方法</h4><p>对于一篇论文直接找最近距离的效果并不是很好，于是我想到了类似KNN的思想，求出距离后，进行排序，看更接近哪个类。</p>
+<h4 id="判别方法">3. 判别方法</h4>
+<p>对于一篇论文直接找最近距离的效果并不是很好，于是我想到了类似KNN的思想，求出距离后，进行排序，看更接近哪个类。</p>
 <p>结果如图：</p>
-<p><img src="../images/scigen-detection/scigen-detection-bow.png" alt="scigen-detection-bow"></p>
+<figure>
+<img src="../images/scigen-detection/scigen-detection-bow.png" alt="scigen-detection-bow" /><figcaption>scigen-detection-bow</figcaption>
+</figure>
 <p>识别率高达99.55%</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8 -*-</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">author:  hrwhipser</span></span><br><span class="line"><span class="string">功能    ： 使用bag of words测试</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> fabs</span><br><span class="line"></span><br><span class="line">truePath = <span class="string">r&#x27;./data/true&#x27;</span></span><br><span class="line">falsePath = <span class="string">r&#x27;./data/false&#x27;</span></span><br><span class="line">testPaper = <span class="string">r&#x27;./testpaper/&#x27;</span></span><br><span class="line">separator = re.compile(<span class="string">r&#x27;[!?.\n\t\r]&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calFrequent</span>(<span class="params">path,num,isTrain=True</span>):</span></span><br><span class="line">    frequencies = &#123;&#125;</span><br><span class="line">    files = os.walk(path).next()[<span class="number">-1</span>][:num] <span class="keyword">if</span> isTrain <span class="keyword">else</span> os.walk(path).next()[<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">for</span> fileName <span class="keyword">in</span> files:</span><br><span class="line">        content = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">with</span> open(path + <span class="string">&#x27;/&#x27;</span> + fileName, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            content = f.read()</span><br><span class="line">        content = separator.sub(<span class="string">&#x27; &#x27;</span>, content)</span><br><span class="line">        words = content.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        curDic = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">            <span class="keyword">if</span> word:</span><br><span class="line">                curDic.setdefault(word, <span class="number">0</span>)</span><br><span class="line">                curDic[word] += <span class="number">1</span></span><br><span class="line">                </span><br><span class="line">        frequencies[fileName] = curDic</span><br><span class="line">    <span class="comment"># dic&#123; filename dic&#123;word:wordCnt&#125; &#125;</span></span><br><span class="line">    <span class="keyword">return</span> frequencies</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calPaperDistance</span>(<span class="params">dicA, dicB</span>):</span></span><br><span class="line">    NA = sum([cnt <span class="keyword">for</span> word, cnt <span class="keyword">in</span> dicA.items()])</span><br><span class="line">    NB = sum([cnt <span class="keyword">for</span> word, cnt <span class="keyword">in</span> dicB.items()])</span><br><span class="line">    <span class="comment">#if NA==0 or NB==0:return 0x7ffffff</span></span><br><span class="line">    rate = NA * <span class="number">1.0</span> / NB</span><br><span class="line">    dis = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> dicA:</span><br><span class="line">        <span class="keyword">if</span> word  <span class="keyword">in</span> dicB: dis = dis + fabs(dicA[word] - dicB[word] * rate)</span><br><span class="line">        <span class="keyword">elif</span> (dicA[word] &gt;&gt; <span class="number">1</span>) != <span class="number">0</span>: dis = dis + dicA[word]</span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> dicB:</span><br><span class="line">        <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> dicA : dis = dis + dicB[word]</span><br><span class="line">    <span class="keyword">return</span> dis * <span class="number">1.0</span> / (NA &lt;&lt; <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">trainNum = <span class="number">176</span></span><br><span class="line">trueFre = calFrequent(truePath,trainNum,isTrain=<span class="literal">True</span>)</span><br><span class="line">falseFre = calFrequent(falsePath,trainNum,isTrain=<span class="literal">True</span>)</span><br><span class="line">train_data = dict(trueFre , **falseFre)</span><br><span class="line">train_fileName = [name[<span class="number">0</span>] <span class="keyword">for</span> i , name <span class="keyword">in</span> enumerate(train_data.items())]</span><br><span class="line"></span><br><span class="line">test_data = calFrequent(testPaper,trainNum,isTrain=<span class="literal">False</span>)</span><br><span class="line">test_fileName = [name[<span class="number">0</span>] <span class="keyword">for</span> i , name <span class="keyword">in</span> enumerate(train_data.items())]</span><br><span class="line"></span><br><span class="line">k = <span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> fileName , wordCnt <span class="keyword">in</span> test_data.items():</span><br><span class="line">    distances  = [(fileTrain,calPaperDistance(wordCnt, wordCntTrain)) <span class="keyword">for</span>  fileTrain,wordCntTrain <span class="keyword">in</span> train_data.items()]</span><br><span class="line">    distances.sort(key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>])</span><br><span class="line">    truePaper = falsePaper = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> name , dis <span class="keyword">in</span> distances[:k]:</span><br><span class="line">        temp_tag = <span class="literal">False</span> <span class="keyword">if</span> name.find(<span class="string">&#x27;scimakelatex&#x27;</span>)!=<span class="number">-1</span> <span class="keyword">else</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> temp_tag: truePaper+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>: falsePaper+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">print</span> fileName,<span class="literal">True</span> <span class="keyword">if</span> truePaper &gt; falsePaper <span class="keyword">else</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="四、小结"><a href="#四、小结" class="headerlink" title="四、小结"></a>四、小结</h2><p>本次通过分类器的方法，对论文的真假进行了判断，是在前两次实验的基础上建立的。</p>
+<p> </p>
+<h2 id="四小结">四、小结</h2>
+<p>本次通过分类器的方法，对论文的真假进行了判断，是在前两次实验的基础上建立的。</p>
 <p>第一次实验进行了scigen源代码的解读，了解了其生成论文的方法(上下文无关法)</p>
 <p>第二次主要是对样本的收集及数据的预处理。</p>
 <p>无论是用词同现网络还是分层聚类，能得出良好结果的根本原因都在于scigen生成的论文词汇量有限，与自然语言还存在着一定的区别。</p>
-<p>本文 所有代码详见github : <a target="_blank" rel="noopener" href="https://github.com/hrwhisper/scigen-detection">https://github.com/hrwhisper/scigen-detection</a></p>
+<p>本文 所有代码详见github : <a target="_blank" rel="noopener" href="https://github.com/hrwhisper/scigen-detection" class="uri">https://github.com/hrwhisper/scigen-detection</a></p>
  
       <!-- reward -->
       
@@ -425,12 +448,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -442,6 +471,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -450,13 +481,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -475,7 +507,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

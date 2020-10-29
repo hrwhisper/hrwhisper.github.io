@@ -112,13 +112,13 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>一纸闲愁8 写于2013.11.19<br><a id="more"></a><br>他也会难过，为什么那么深的爱了，却又那么轻易的放弃。</p>
+  <p>一纸闲愁8 写于2013.11.19 <a id="more"></a> 他也会难过，为什么那么深的爱了，却又那么轻易的放弃。</p>
 <p>时光走过，那么就不会再来。人来人往，要走的，终究是留不住的。</p>
 <p>而那些新生的绿意却总是与自己格格不入。或许这就是年轮的代价，每个人都必须付出的代价，时光不容许你讨价还价，该散去的，终究会不再属于你。</p>
 <p>而记忆中的你会依然笑着，没心没肺，像个永远长不大的孩子。</p>
 <p>就这样，即便各安天涯，你好好的，我也好好的，是否晴天也已经不重要。</p>
 <p>结束，也是开始，明天又是新的一天，准备好了吗？Let’s go！</p>
-<p>My way and My heart :)<br>Believe myself.<br>2013/11/19</p>
+<p>My way and My heart :) Believe myself. 2013/11/19</p>
  
       <!-- reward -->
       
@@ -334,12 +334,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -351,6 +357,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -359,13 +367,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -384,7 +393,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

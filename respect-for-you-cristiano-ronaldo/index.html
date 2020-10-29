@@ -113,7 +113,7 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>我总是欣赏努力的人，</p>
-<p>因为我也同样的努力。<br><a id="more"></a><br>[player autoplay=”1”]</p>
+<p>因为我也同样的努力。 <a id="more"></a> [player autoplay=&quot;1&quot;]</p>
 <p>欧冠。</p>
 <p>清晨醒来，打开手机，看看赛事结果。</p>
 <p>看到皇马输给了尤文，心里暗暗高兴。</p>
@@ -123,7 +123,9 @@
 <p>我突然觉得心软了。</p>
 <p>也许这场比赛过后，双骄时代结束了。</p>
 <p>突然很心疼C罗。</p>
-<p><img src="../images/respect-for-you-cristiano-ronaldo/Cristiano-Ronaldo2.jpg" alt="Cristiano Ronaldo1"></p>
+<figure>
+<img src="../images/respect-for-you-cristiano-ronaldo/Cristiano-Ronaldo2.jpg" alt="Cristiano Ronaldo1" /><figcaption>Cristiano Ronaldo1</figcaption>
+</figure>
 <p>我也曾一度的觉得，哪来的绝代双骄，这是梅西一个人的时代。</p>
 <p>在球场上，白衣飘飘的CR7对红蓝10号说，我一定会超过你。</p>
 <p>而红蓝10号只会笑着说，来吧。</p>
@@ -141,6 +143,7 @@
 <blockquote>
 <p>在同一个球门前，C罗领悟到了命运的安排。1比0领先时，他曾创造出一个绝佳机会，晃倒尤文后卫，却没有选择自己射门，而是把球传向了门前，当队友的再次横传被破坏后，C罗懊恼的用手击打门柱，随后仰天长叹……输掉半决赛，C罗清楚，他可能已经永远错失了追赶梅西的机会，年初他信誓旦旦的说，要力争金球奖总数追平阿根廷人，但到了年底时，3比4很可能变成3比5，而他那时已经31岁了。</p>
 </blockquote>
+<p> </p>
 <p>C罗继承了足球上一个伟大的姓氏，注定了他是不平凡的，</p>
 <p>然而他是那么的努力，却始终超越不了梅西，</p>
 <p>因为梅西是那个注定站在这个时代顶端的人。</p>
@@ -151,7 +154,7 @@
 <p>会不会还有人记得，那永远在梅球王后面追赶他的那个小小罗？</p>
 <p>C罗，累了的话，就回到那个回到曼彻斯特，那个梦开始的地方吧。</p>
 <p>即使我希望他仍然能和梅西再战几年。</p>
-<p>我仍然记得13年看到他说的，you’d better bring, cause I’ll bring every I’ve got it.（你最好全神贯注，因为我定会全力以赴！）仍然这么的让人热血沸腾。</p>
+<p>我仍然记得13年看到他说的，you'd better bring, cause I'll bring every I've got it.（你最好全神贯注，因为我定会全力以赴！）仍然这么的让人热血沸腾。</p>
 <p>而我总是欣赏努力的人，因为我也同样的努力。</p>
 <p>而我却不知道这艘船，将要驶向何方。</p>
 <p>会是徒劳吗？心中总有那么个锥心的问号。</p>
@@ -372,12 +375,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -389,6 +398,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -397,13 +408,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -422,7 +434,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

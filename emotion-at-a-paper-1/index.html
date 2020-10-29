@@ -112,7 +112,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>一纸闲愁一，写于2012.6.11。高考完后第三天。<br><a id="more"></a><br>Part1 一年总结</p>
+  <p>一纸闲愁一，写于2012.6.11。高考完后第三天。 <a id="more"></a> Part1 一年总结</p>
 <p>不知不觉一年的时光也如白驹过隙，蓦然回首旧城往事已昨昔今非。</p>
 <p>一年来是那独上高楼，望尽天涯路的期许，还是那衣带渐宽终不悔的执着？</p>
 <p>抑或是“尽吾志也不能至者，可以无悔矣”的蓦然回首？</p>
@@ -137,7 +137,7 @@
 <p>我所恋者，是廷海的热情奔放，还是其它老师的熠熠生辉？</p>
 <p>感谢有你，在我成长的时刻。</p>
 <p>感谢阿娜对我的鼓舞“记住学习不是为了考试”“上差点的学校也没关系”“下次再加油”……</p>
-<p>也感谢廷海“稳中求进”的建议，“学习是让人自信的过程”“把它当成一种挑战，这是你是否具备能力的检测” ……</p>
+<p>也感谢廷海“稳中求进”的建议，“学习是让人自信的过程”“把它当成一种挑战，这是你是否具备能力的检测” ……</p>
 <p>等等。</p>
 <p>你们的教导，吾岂敢忘怀。</p>
 <p>明天去看阿娇o(∩_∩)o</p>
@@ -174,11 +174,11 @@
 <p>关键句：你拿你一生的幸福做赌注，我怎么舍得让你输。</p>
 <p>总结。</p>
 <blockquote>
-<p>“高远的目标不会让我望而生畏，虽然在达到目标以前可能屡受挫折。摔倒了，再爬起来，我不灰心，因为每个人在抵达目标前都会受到挫折。只有小爬虫不必担心摔倒。我不是小爬虫，不是洋葱，不是绵羊。我是一个人。让别人作他们的粘土造洞穴吧，我只要造一座城堡。<br>如迅疾而过的风，扬起沉夜里不可阻挡的熹微，正如初日终会降临。在这一刻迈步，甩开那些仍在沉睡的呼吸，傲然奔行。汹涌的晨光流泻在用黑色勾出的绝美的身影里，铸成滚烫的护身符。一切取决于你。若你决定灿烂，山无遮，海无拦。”</p>
+<p>&quot;高远的目标不会让我望而生畏，虽然在达到目标以前可能屡受挫折。摔倒了，再爬起来，我不灰心，因为每个人在抵达目标前都会受到挫折。只有小爬虫不必担心摔倒。我不是小爬虫，不是洋葱，不是绵羊。我是一个人。让别人作他们的粘土造洞穴吧，我只要造一座城堡。 如迅疾而过的风，扬起沉夜里不可阻挡的熹微，正如初日终会降临。在这一刻迈步，甩开那些仍在沉睡的呼吸，傲然奔行。汹涌的晨光流泻在用黑色勾出的绝美的身影里，铸成滚烫的护身符。一切取决于你。若你决定灿烂，山无遮，海无拦。&quot;</p>
 </blockquote>
 <p>不管你愿不愿意，一个新的起跑线又划在这里。前行吧。</p>
 <ul>
-<li>THE END- </li>
+<li>THE END-</li>
 </ul>
 <p>2012.6.11</p>
 <p>修正了一个错别字。2012.6.12</p>
@@ -393,12 +393,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -410,6 +416,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -418,13 +426,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -443,7 +452,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

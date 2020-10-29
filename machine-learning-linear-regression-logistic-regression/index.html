@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">5.7k</span>
+            <span class="post-count">5.9k</span>
         </span>
     </span>
 
@@ -119,173 +119,197 @@
 <li>线性回归</li>
 <li>逻辑回归</li>
 <li>Softmax</li>
-<li>并行化逻辑回归<a id="more"></a>
-</li>
+<li>并行化逻辑回归 <a id="more"></a></li>
 </ul>
-<h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>回归问题举个简单的例子，如预测股票的价格，输出空间y不再是一个标签，而是一个实数集。</p>
-<p>对此，线性回归问题的假设是：</p>
-<script type="math/tex; mode=display">
-f({\bf x}) = {\bf w^T x} + b</script><p>可以看出和感知机的模型很像，只不过不用取sign，因为最后结果就是个连续的值。</p>
-<p>有时为了方便表示，将b吸收进<strong>w</strong>，而把所有的样本<strong>x</strong>添加一列为1，成为一个矩阵X：</p>
-<script type="math/tex; mode=display">
-{\bf w} = ({\bf w_{old} },b)</script><script type="math/tex; mode=display">
+<h2 id="线性回归">线性回归</h2>
+<p>回归问题举个简单的例子，如预测股票的价格，输出空间y不再是一个标签，而是一个实数集。</p>
+<p>对此，线性回归问题的假设是： <span class="math display">\[
+f({\bf x}) = {\bf w^T x} + b
+\]</span></p>
+<p>可以看出和感知机的模型很像，只不过不用取sign，因为最后结果就是个连续的值。</p>
+<p>有时为了方便表示，将b吸收进<strong>w</strong>，而把所有的样本<strong>x</strong>添加一列为1，成为一个矩阵X： <span class="math display">\[
+{\bf w} = ({\bf w_{old} },b)
+\]</span></p>
+<p><span class="math display">\[
 \rm X = \begin{bmatrix}
-x_{11}   & x_{12}     & \cdots & x_{1d} & 1    \\
-x_{21}   & x_{22}     & \cdots & x_{2d} & 1    \\
-\vdots & \vdots & \ddots & \vdots & \vdots \\
-x_{n1}   & x_{n2}     & \cdots & x_{nd} & 1    \\
-\end{bmatrix}</script><p>于是得到：</p>
-<script type="math/tex; mode=display">
-f({\bf x}) = \rm X{\bf w}</script><p>设样本数为n，特征数为d，则维度为：</p>
+x_{11}   &amp; x_{12}     &amp; \cdots &amp; x_{1d} &amp; 1    \\
+x_{21}   &amp; x_{22}     &amp; \cdots &amp; x_{2d} &amp; 1    \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+x_{n1}   &amp; x_{n2}     &amp; \cdots &amp; x_{nd} &amp; 1    \\
+\end{bmatrix}
+\]</span></p>
+<p>于是得到： <span class="math display">\[
+f({\bf x}) = \rm X{\bf w}
+\]</span></p>
+<p>设样本数为n，特征数为d，则维度为：</p>
 <ul>
-<li>$\rm X$: n * (d + 1)</li>
-<li>${\bf y}$: n * 1</li>
-<li>${\bf w}$:  (d + 1) * 1</li>
+<li><span class="math inline">\(\rm X\)</span>: n * (d + 1)</li>
+<li><span class="math inline">\({\bf y}\)</span>: n * 1</li>
+<li><span class="math inline">\({\bf w}\)</span>: (d + 1) * 1</li>
 </ul>
-<h3 id="优化目标"><a href="#优化目标" class="headerlink" title="优化目标"></a>优化目标</h3><p>在回归问题中，<strong>均方误差</strong>是常见的性能度量，公式如下：</p>
-<script type="math/tex; mode=display">
-{\rm err}(f({\bf x}),  y) = (f({\bf x}) - y)^2</script><p>均方误差对应了常见的欧几里得距离，基于均方误差最小化来进行模型求解的方法称为<strong>最小二乘法</strong>。</p>
-<p>线性回归便是用均方误差作为损失函数，</p>
-<script type="math/tex; mode=display">
+<h3 id="优化目标">优化目标</h3>
+<p>在回归问题中，<strong>均方误差</strong>是常见的性能度量，公式如下： <span class="math display">\[
+{\rm err}(f({\bf x}),  y) = (f({\bf x}) - y)^2
+\]</span> 均方误差对应了常见的欧几里得距离，基于均方误差最小化来进行模型求解的方法称为<strong>最小二乘法</strong>。</p>
+<p>线性回归便是用均方误差作为损失函数， <span class="math display">\[
 \begin{align*}  L({\bf w}) 
-& = (f({\bf x}) - {\bf y})^2 \\
-& = (\rm X{\bf w} - {\bf y})^T (\rm X{\bf w} - {\bf y})
-\end{align*}</script><p>其实也就是找一个<strong>w</strong>使得损失函数最小：</p>
-<script type="math/tex; mode=display">
-{\bf w}^* = \rm{arg min_{\bf w} }  (X{\bf w} - {\bf y})^T (X{\bf w} - {\bf y})</script><h3 id="求解"><a href="#求解" class="headerlink" title="求解"></a>求解</h3><p>对<strong>w</strong>求导得：</p>
-<script type="math/tex; mode=display">
-\frac{\partial L({\bf w})}{\partial {\bf w} } = 2\rm X^T(\rm X{\bf w} - {\bf y})</script><p>若$\rm X^TX$是可逆的，令导数为0便得到：</p>
-<script type="math/tex; mode=display">
-{\bf w}^* = ({\rm X^TX})^{-1}{\rm X^T}{\bf y}</script><p>通常有特征数d &lt;&lt; 样本数m，使得$\rm X^TX$满秩，有唯一解。</p>
-<p>但是也有许多情况m &lt; d,这样$\rm X^TX$不是满秩的，会有多组解。此时可以解出多个<strong>w</strong>，都能使均方误差最小化。选择哪一解作为输出将由学习算法归纳偏好决定。</p>
-<p>实际求解过程中，一般都直接求解$\rm (X^TX)^{−1}X^T$ ，$\rm (X^TX)^{−1}X^T$称为$\rm X$的伪逆，记作${\rm X}^\dagger$。</p>
-<p>求解出伪逆后，线性回归模型为：</p>
-<script type="math/tex; mode=display">
-f({\bf x}) = \rm X (X^\dagger {\bf y})</script><h3 id="空间变换"><a href="#空间变换" class="headerlink" title="空间变换"></a>空间变换</h3><p>线性回归可以进行输出空间的变换。</p>
-<p>比如当我们觉得样本的是在指数尺度上变化，我们可以加个指数的变换使得$f({\bf x})$接近y</p>
-<script type="math/tex; mode=display">
-f({\bf x}) = e^{ {\bf w^Tx}+b}</script><p>也就是求解：</p>
-<script type="math/tex; mode=display">
-\ln y = {\bf w^T x }+b</script><p>便得到了对数线性回归，如图（图来自周志华的《机器学习》）：</p>
-<p><img src="../images/machine-learning-linear-regression-logistic-regression/log-linear-regression.png" alt="Logistic-curve"></p>
+&amp; = (f({\bf x}) - {\bf y})^2 \\
+&amp; = (\rm X{\bf w} - {\bf y})^T (\rm X{\bf w} - {\bf y})
+\end{align*}
+\]</span> 其实也就是找一个<strong>w</strong>使得损失函数最小：</p>
+<p><span class="math display">\[
+{\bf w}^* = \rm{arg min_{\bf w} }  (X{\bf w} - {\bf y})^T (X{\bf w} - {\bf y})
+\]</span></p>
+<h3 id="求解">求解</h3>
+<p>对<strong>w</strong>求导得： <span class="math display">\[
+\frac{\partial L({\bf w})}{\partial {\bf w} } = 2\rm X^T(\rm X{\bf w} - {\bf y})
+\]</span> 若<span class="math inline">\(\rm X^TX\)</span>是可逆的，令导数为0便得到： <span class="math display">\[
+{\bf w}^* = ({\rm X^TX})^{-1}{\rm X^T}{\bf y}
+\]</span></p>
+<p>通常有特征数d &lt;&lt; 样本数m，使得<span class="math inline">\(\rm X^TX\)</span>满秩，有唯一解。</p>
+<p>但是也有许多情况m &lt; d,这样<span class="math inline">\(\rm X^TX\)</span>不是满秩的，会有多组解。此时可以解出多个<strong>w</strong>，都能使均方误差最小化。选择哪一解作为输出将由学习算法归纳偏好决定。</p>
+<p>实际求解过程中，一般都直接求解<span class="math inline">\(\rm (X^TX)^{−1}X^T\)</span> ，<span class="math inline">\(\rm (X^TX)^{−1}X^T\)</span>称为<span class="math inline">\(\rm X\)</span>的伪逆，记作<span class="math inline">\({\rm X}^\dagger\)</span>。</p>
+<p>求解出伪逆后，线性回归模型为： <span class="math display">\[
+f({\bf x}) = \rm X (X^\dagger {\bf y})
+\]</span></p>
+<h3 id="空间变换">空间变换</h3>
+<p>线性回归可以进行输出空间的变换。</p>
+<p>比如当我们觉得样本的是在指数尺度上变化，我们可以加个指数的变换使得<span class="math inline">\(f({\bf x})\)</span>接近y <span class="math display">\[
+f({\bf x}) = e^{ {\bf w^Tx}+b}
+\]</span> 也就是求解： <span class="math display">\[
+\ln y = {\bf w^T x }+b
+\]</span> 便得到了对数线性回归，如图（图来自周志华的《机器学习》）：</p>
+<figure>
+<img src="../images/machine-learning-linear-regression-logistic-regression/log-linear-regression.png" alt="Logistic-curve" /><figcaption>Logistic-curve</figcaption>
+</figure>
 <p>这里对数函数起到了将线性回归模型的预测值与真实值联系起来的作用。</p>
-<p>更一般的，考虑单调可谓函数g，令：</p>
-<script type="math/tex; mode=display">
-y = g^{-1}({\bf w^Tx}+b)</script><p>这样的模型称为”<strong>广义线性模型</strong>“。g称为联系函数，显然对数线性回归是g = ln时的特例。</p>
-<h2 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h2><p>现在来讲讲逻辑回归（Logistic Regression），虽然它的名字叫“回归”，但其实它用于<strong>分类</strong>任务。</p>
-<p>在二分类问题中，我们的训练数据集是 $T = \{(x_1,y_1), \cdots,(x_n,y_n)\}$ ，其中$y_i \in \{-1, +1\}$。训练数据的标签是-1和+1，那么我们预测也是输出+1或者-1标签。但是有时候我们想知道的是概率，即为正例或负例的概率是多少。比如用于医院的任务中，给定一个病人，预测其是否得某种病a。不仅是关心ta是否得病，还关心得病的概率是多少。这个问题与原来的二分类问题有所差别，被称作“<strong>软二元分类</strong>”问题。求解此问题得到的值越高，说明越有可能是得病a的，否则越有可能是不得病a的。此时目标函数会变化成$f({\bf x})=P(+1|{\bf x})∈[0,1]$的形式</p>
-<p>和之前一样，我们仍可以假设计算加权分数，即</p>
-<script type="math/tex; mode=display">
-z = \sum_{j=0}^d w_jx_j = {\bf w^Tx}</script><p>然后，将该分数缩放到[0, 1]这个区间。而缩放操作通常使用<strong>Logistic函数</strong>来完成，因此这个问题称为Logistic回归问题，假设也被称为Logistic假设。</p>
-<h3 id="Logistic函数与逻辑回归模型"><a href="#Logistic函数与逻辑回归模型" class="headerlink" title="Logistic函数与逻辑回归模型"></a>Logistic函数与逻辑回归模型</h3><p>现在介绍神奇的Logistic函数</p>
-<script type="math/tex; mode=display">
-\sigma(z)= \frac{e^{\bf z} }{1+e^{\bf z} } = \frac{1}{1+e^{-{\bf z} }}</script><p>画出二维的图：</p>
-<p><img src="../images/machine-learning-linear-regression-logistic-regression/Logistic-curve.png" alt="Logistic-curve"></p>
+<p>更一般的，考虑单调可谓函数g，令： <span class="math display">\[
+y = g^{-1}({\bf w^Tx}+b)
+\]</span> 这样的模型称为”<strong>广义线性模型</strong>“。g称为联系函数，显然对数线性回归是g = ln时的特例。</p>
+<h2 id="逻辑回归">逻辑回归</h2>
+<p>现在来讲讲逻辑回归（Logistic Regression），虽然它的名字叫“回归”，但其实它用于<strong>分类</strong>任务。</p>
+<p>在二分类问题中，我们的训练数据集是 <span class="math inline">\(T = \{(x_1,y_1), \cdots,(x_n,y_n)\}\)</span> ，其中<span class="math inline">\(y_i \in \{-1, +1\}\)</span>。训练数据的标签是-1和+1，那么我们预测也是输出+1或者-1标签。但是有时候我们想知道的是概率，即为正例或负例的概率是多少。比如用于医院的任务中，给定一个病人，预测其是否得某种病a。不仅是关心ta是否得病，还关心得病的概率是多少。这个问题与原来的二分类问题有所差别，被称作“<strong>软二元分类</strong>”问题。求解此问题得到的值越高，说明越有可能是得病a的，否则越有可能是不得病a的。此时目标函数会变化成<span class="math inline">\(f({\bf x})=P(+1|{\bf x})∈[0,1]\)</span>的形式</p>
+<p>和之前一样，我们仍可以假设计算加权分数，即 <span class="math display">\[
+z = \sum_{j=0}^d w_jx_j = {\bf w^Tx}
+\]</span> 然后，将该分数缩放到[0, 1]这个区间。而缩放操作通常使用<strong>Logistic函数</strong>来完成，因此这个问题称为Logistic回归问题，假设也被称为Logistic假设。</p>
+<h3 id="logistic函数与逻辑回归模型">Logistic函数与逻辑回归模型</h3>
+<p>现在介绍神奇的Logistic函数 <span class="math display">\[
+\sigma(z)= \frac{e^{\bf z} }{1+e^{\bf z} } = \frac{1}{1+e^{-{\bf z} }}
+\]</span> 画出二维的图：</p>
+<figure>
+<img src="../images/machine-learning-linear-regression-logistic-regression/Logistic-curve.png" alt="Logistic-curve" /><figcaption>Logistic-curve</figcaption>
+</figure>
 <p>从上图可以看出，对数几率函数是一种<strong>Sigmoid函数</strong>(即形似s的函数)，它将z值转化为接近0或1的y值。</p>
-<p>将上面的假设带入Logistic函数，便得到我们的<strong>逻辑回归模型</strong>，这里设为$h({\bf x})$ :</p>
-<script type="math/tex; mode=display">
-h({\bf x}) = \sigma({\bf w^Tx}) = \frac{1}{1+e^{-({\bf w^Tx})} } \tag{2-1}</script><p>按照上面的说法，我们进行了”映射“，这就是输出为正例的概率，因此</p>
-<script type="math/tex; mode=display">
+<p>将上面的假设带入Logistic函数，便得到我们的<strong>逻辑回归模型</strong>，这里设为<span class="math inline">\(h({\bf x})\)</span> : <span class="math display">\[
+h({\bf x}) = \sigma({\bf w^Tx}) = \frac{1}{1+e^{-({\bf w^Tx})} } \tag{2-1}
+\]</span> 按照上面的说法，我们进行了”映射“，这就是输出为正例的概率，因此 <span class="math display">\[
 \begin{align}
-p(Y = 1 | {\bf x}) &= h({\bf x}) = \frac{1}{1+e^{-{\bf w^Tx} }} \\
-p(Y = 0 | {\bf x}) &= 1-P(Y = 1|{\bf x}) \\
-                    &= \frac{1}{1+e^{ {\bf w^Tx} }} \\
-\end{align}</script><p>现在可以讨论Logistic函数的特点了，一个事件的<strong>几率</strong>(odds) 是该事件发生的概率与该事件不发生概率的比值，如果事件发生的概率为p，那么该事件的几率是$\frac{p}{1-p}$，该事件的<strong>对数几率</strong>（就是取对数）是：</p>
-<script type="math/tex; mode=display">
-\ln \frac{p}{1-p}</script><p>对于逻辑回归而言：</p>
-<script type="math/tex; mode=display">
-\ln \frac{P(Y = 1|{\bf x}) }{1-P(Y = 1|{\bf x}) } = \ln \frac{\frac{e^{\bf w^Tx} }{1+e^{\bf w^Tx} }}{\frac{1}{1+e^{\bf w^Tx} }} =  {\bf w^Tx}</script><p>因此可以看出，实际上我们的逻辑回归模型是<strong>用线性回归模型的预测结果去逼近真实标记的对数几率。</strong></p>
-<p>因此，我们用Logistic函数，并使用了线性函数$\bf w^Tx$完成了实数域到输出区间[0,1]（概率值）的转化。</p>
-<h3 id="参数估计与损失函数"><a href="#参数估计与损失函数" class="headerlink" title="参数估计与损失函数"></a>参数估计与损失函数</h3><p>那么，如何确定逻辑回归模型中的<strong>w</strong>呢？我们可以使用<strong>极大似然法（maximum likelihood method）</strong>估计模型参数<strong>w</strong>。</p>
-<p>写出似然函数为：</p>
-<script type="math/tex; mode=display">
-\prod_{i=1}^N h({\bf x_i})^{y_i} (1- h({\bf x_i}))^{1-y_i}\\</script><p>取对数似然为：</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]</script><p>求上式的最大值即可得到<strong>w</strong>的估计值。但实际中，我们一般喜欢优化极小值，因此取个负号，得到我们逻辑回归的损失函数：</p>
-<script type="math/tex; mode=display">
-L(w) = -\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]\tag{2-2}</script><h3 id="梯度下降求解"><a href="#梯度下降求解" class="headerlink" title="梯度下降求解"></a>梯度下降求解</h3><p>式2-2给出了损失函数L(<strong>w</strong>)，该函数是关于<strong>w</strong>的高阶可导连续凸函数，可以用梯度下降法、牛顿法求解。</p>
+p(Y = 1 | {\bf x}) &amp;= h({\bf x}) = \frac{1}{1+e^{-{\bf w^Tx} }} \\
+p(Y = 0 | {\bf x}) &amp;= 1-P(Y = 1|{\bf x}) \\
+                    &amp;= \frac{1}{1+e^{ {\bf w^Tx} }} \\
+\end{align}
+\]</span> 现在可以讨论Logistic函数的特点了，一个事件的<strong>几率</strong>(odds) 是该事件发生的概率与该事件不发生概率的比值，如果事件发生的概率为p，那么该事件的几率是<span class="math inline">\(\frac{p}{1-p}\)</span>，该事件的<strong>对数几率</strong>（就是取对数）是： <span class="math display">\[
+\ln \frac{p}{1-p}
+\]</span> 对于逻辑回归而言： <span class="math display">\[
+\ln \frac{P(Y = 1|{\bf x}) }{1-P(Y = 1|{\bf x}) } = \ln \frac{\frac{e^{\bf w^Tx} }{1+e^{\bf w^Tx} }}{\frac{1}{1+e^{\bf w^Tx} }} =  {\bf w^Tx}
+\]</span> 因此可以看出，实际上我们的逻辑回归模型是<strong>用线性回归模型的预测结果去逼近真实标记的对数几率。</strong></p>
+<p>因此，我们用Logistic函数，并使用了线性函数<span class="math inline">\(\bf w^Tx\)</span>完成了实数域到输出区间[0,1]（概率值）的转化。</p>
+<h3 id="参数估计与损失函数">参数估计与损失函数</h3>
+<p>那么，如何确定逻辑回归模型中的<strong>w</strong>呢？我们可以使用<strong>极大似然法（maximum likelihood method）</strong>估计模型参数<strong>w</strong>。</p>
+<p>写出似然函数为： <span class="math display">\[
+\prod_{i=1}^N h({\bf x_i})^{y_i} (1- h({\bf x_i}))^{1-y_i}\\
+\]</span> 取对数似然为： <span class="math display">\[
+\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]
+\]</span></p>
+<p>求上式的最大值即可得到<strong>w</strong>的估计值。但实际中，我们一般喜欢优化极小值，因此取个负号，得到我们逻辑回归的损失函数： <span class="math display">\[
+L(w) = -\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]\tag{2-2}
+\]</span></p>
+<h3 id="梯度下降求解">梯度下降求解</h3>
+<p>式2-2给出了损失函数L(<strong>w</strong>)，该函数是关于<strong>w</strong>的高阶可导连续凸函数，可以用梯度下降法、牛顿法求解。</p>
 <p>下面使用最常用的梯度下降法。</p>
-<p>为了方便的求解偏导，首先计算sigmoid函数的导数$\sigma(z) = \frac{1}{1+e^{-z} }$的偏导：</p>
-<script type="math/tex; mode=display">
+<p>为了方便的求解偏导，首先计算sigmoid函数的导数<span class="math inline">\(\sigma(z) = \frac{1}{1+e^{-z} }\)</span>的偏导： <span class="math display">\[
 \begin{align*}
-\frac{\partial \sigma}{\partial z} &= -\left(\frac{1}{1+e^{-z} }\right)^2 \frac{\partial e^{-z} }{\partial z}\\
-&= -\left(\frac{1}{1+e^{-z} }\right)^2  e^{-z} (-1)\\
-&= \sigma(z) \left(\frac{ e^{-z} }{1+e^{-z} }\right) \\
-&=\sigma(z)(1 - \sigma(z))
-\end{align*}</script><p>对于$h({\bf x_i})$对$w_j$的偏导则为：</p>
-<script type="math/tex; mode=display">
+\frac{\partial \sigma}{\partial z} &amp;= -\left(\frac{1}{1+e^{-z} }\right)^2 \frac{\partial e^{-z} }{\partial z}\\
+&amp;= -\left(\frac{1}{1+e^{-z} }\right)^2  e^{-z} (-1)\\
+&amp;= \sigma(z) \left(\frac{ e^{-z} }{1+e^{-z} }\right) \\
+&amp;=\sigma(z)(1 - \sigma(z))
+\end{align*}
+\]</span> 对于<span class="math inline">\(h({\bf x_i})\)</span>对<span class="math inline">\(w_j\)</span>的偏导则为： <span class="math display">\[
 \begin{align*}
-\frac{\partial h({\bf x_i})}{\partial w_j} &= -\left(\frac{1}{1+e^{-z} }\right)^2 \frac{\partial e^{-z} }{\partial z}\frac{\partial z}{\partial w_j}\\
-&=\sigma(z)(1 - \sigma(z)) x_{ij} \\
-&= h({\bf x_i})(1-h({\bf x_i}))x_{ij}
-\end{align*}</script><p>求完前面，现在可以容易求L(<strong>w</strong>)对$w_j$求偏导啦：</p>
-<script type="math/tex; mode=display">
+\frac{\partial h({\bf x_i})}{\partial w_j} &amp;= -\left(\frac{1}{1+e^{-z} }\right)^2 \frac{\partial e^{-z} }{\partial z}\frac{\partial z}{\partial w_j}\\
+&amp;=\sigma(z)(1 - \sigma(z)) x_{ij} \\
+&amp;= h({\bf x_i})(1-h({\bf x_i}))x_{ij}
+\end{align*}
+\]</span> 求完前面，现在可以容易求L(<strong>w</strong>)对<span class="math inline">\(w_j\)</span>求偏导啦： <span class="math display">\[
 \begin{align*} \frac{\partial L(\bf w)}{\partial w_j} 
-    &= -\sum_{i=1}^N [y_i(1-h({\bf x_i}))x_{ij} - (1-y_i)h({\bf x_i})x_{ij}]\\
-    &= \sum_{i=1}^N[-y_ix_{ij} + h({\bf x_i})x_{ij}] \\
-     &= \sum_{i=1}^N \left(h({\bf x_i}) -y_i \right)x_{ij}
-\end{align*}</script><p>于是，<strong>w</strong>的更新公式为：</p>
-<script type="math/tex; mode=display">
-w_j = w_j - \eta\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij}\tag{2-3}</script><p>注意上述的更新公式有连加符号，在python的实现中，如果用for是非常慢的，我们希望能向量化上述式子，从而使用Numpy来加速过程。</p>
+    &amp;= -\sum_{i=1}^N [y_i(1-h({\bf x_i}))x_{ij} - (1-y_i)h({\bf x_i})x_{ij}]\\
+    &amp;= \sum_{i=1}^N[-y_ix_{ij} + h({\bf x_i})x_{ij}] \\
+     &amp;= \sum_{i=1}^N \left(h({\bf x_i}) -y_i \right)x_{ij}
+\end{align*}
+\]</span> 于是，<strong>w</strong>的更新公式为： <span class="math display">\[
+w_j = w_j - \eta\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij}\tag{2-3}
+\]</span></p>
+<p>注意上述的更新公式有连加符号，在python的实现中，如果用for是非常慢的，我们希望能向量化上述式子，从而使用Numpy来加速过程。</p>
 <p>查了半天资料，基本没个详细的，自己推吧。</p>
 <p>那么，怎么加速呢？</p>
-<p>分析公式2-3，我们发现$w_j$更新是$w_j$减去步长 乘上 每个训练数据的$h({\bf x_i})-y_i$并乘上对应的$\bf x_i$的j维。</p>
-<p>如何消去累加?  联想到向量乘法或者矩阵乘法就是有累加的过程！</p>
+<p>分析公式2-3，我们发现<span class="math inline">\(w_j\)</span>更新是<span class="math inline">\(w_j\)</span>减去步长 乘上 每个训练数据的<span class="math inline">\(h({\bf x_i})-y_i\)</span>并乘上对应的<span class="math inline">\(\bf x_i\)</span>的j维。</p>
+<p>如何消去累加? 联想到向量乘法或者矩阵乘法就是有累加的过程！</p>
 <p>本文最开始的时候讲过：</p>
 <blockquote>
-<script type="math/tex; mode=display">
+<p><span class="math display">\[
 \rm X = \begin{bmatrix}
-x_{11}   & x_{12}     & \cdots & x_{1d} & 1    \\
-x_{21}   & x_{22}     & \cdots & x_{2d} & 1    \\
-\vdots & \vdots & \ddots & \vdots & \vdots \\
-x_{n1}   & x_{n2}     & \cdots & x_{nd} & 1    \\
-\end{bmatrix}</script><p>维度如下：</p>
+x_{11}   &amp; x_{12}     &amp; \cdots &amp; x_{1d} &amp; 1    \\
+x_{21}   &amp; x_{22}     &amp; \cdots &amp; x_{2d} &amp; 1    \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+x_{n1}   &amp; x_{n2}     &amp; \cdots &amp; x_{nd} &amp; 1    \\
+\end{bmatrix}
+\]</span></p>
+<p>维度如下：</p>
 <ul>
 <li>X: N * (d + 1)</li>
-<li>${\bf y}$: N * 1</li>
-<li>${\bf w}$:  (d + 1) * 1</li>
+<li><span class="math inline">\({\bf y}\)</span>: N * 1</li>
+<li><span class="math inline">\({\bf w}\)</span>: (d + 1) * 1</li>
 </ul>
 </blockquote>
-<p>我们可以构造矩阵</p>
-<script type="math/tex; mode=display">
+<p>我们可以构造矩阵 <span class="math display">\[
 \begin{align}
 X^T(h(x) - y) 
-&= \begin{bmatrix} 
-            x_{11}   & x_{12}     & \cdots & x_{1d} & 1    \\
-            x_{21}   & x_{22}     & \cdots & x_{2d} & 1    \\
-            \vdots & \vdots & \ddots & \vdots & \vdots \\
-            x_{n1}   & x_{n2}     & \cdots & x_{nd} & 1    \\
+&amp;= \begin{bmatrix} 
+            x_{11}   &amp; x_{12}     &amp; \cdots &amp; x_{1d} &amp; 1    \\
+            x_{21}   &amp; x_{22}     &amp; \cdots &amp; x_{2d} &amp; 1    \\
+            \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+            x_{n1}   &amp; x_{n2}     &amp; \cdots &amp; x_{nd} &amp; 1    \\
     \end{bmatrix} ^T 
     \begin{bmatrix}h(x_1) - y_1  \\h(x_2) - y_2    \\ \vdots  \\h(x_n) - y_n   \\\end{bmatrix}
-\\& = \begin{bmatrix} 
-                x_{11}   & x_{21}     & \cdots & x_{n1}     \\
-                x_{12}   & x_{22}     & \cdots & x_{n2}     \\
-                \vdots & \vdots & \ddots & \vdots  \\
-                x_{1d}   & x_{2d}     & \cdots & x_{nd}    \\
-                1   & 1     & \cdots &1   \\
+\\&amp; = \begin{bmatrix} 
+                x_{11}   &amp; x_{21}     &amp; \cdots &amp; x_{n1}     \\
+                x_{12}   &amp; x_{22}     &amp; \cdots &amp; x_{n2}     \\
+                \vdots &amp; \vdots &amp; \ddots &amp; \vdots  \\
+                x_{1d}   &amp; x_{2d}     &amp; \cdots &amp; x_{nd}    \\
+                1   &amp; 1     &amp; \cdots &amp;1   \\
          \end{bmatrix} 
     \begin{bmatrix}h(x_1) - y_1  \\h(x_2) - y_2    \\ \vdots  \\h(x_n) - y_n   \\\end{bmatrix}
-\\&= \begin{bmatrix} 
-                x_{11}   & x_{21}     & \cdots & x_{n1}     \\
-                x_{12}   & x_{22}     & \cdots & x_{n2}     \\
-                \vdots & \vdots & \ddots & \vdots  \\
-                x_{1d}   & x_{2d}     & \cdots & x_{nd}    \\
-                x_{1(d+1)}   & x_{2(d+1)}     & \cdots & x_{n(d+1)}    \\
+\\&amp;= \begin{bmatrix} 
+                x_{11}   &amp; x_{21}     &amp; \cdots &amp; x_{n1}     \\
+                x_{12}   &amp; x_{22}     &amp; \cdots &amp; x_{n2}     \\
+                \vdots &amp; \vdots &amp; \ddots &amp; \vdots  \\
+                x_{1d}   &amp; x_{2d}     &amp; \cdots &amp; x_{nd}    \\
+                x_{1(d+1)}   &amp; x_{2(d+1)}     &amp; \cdots &amp; x_{n(d+1)}    \\
          \end{bmatrix} 
          \begin{bmatrix}h(x_1) - y_1  \\h(x_2) - y_2    \\ \vdots  \\h(x_n) - y_n  \\\end{bmatrix}
-\\&= \begin{bmatrix} 
+\\&amp;= \begin{bmatrix} 
                 \sum_{i=1}^n(h(x_i)-y_i) x_{i1}    \\
                 \sum_{i=1}^n(h(x_i)-y_i) x_{i2}   \\
                 \vdots   \\
                  \sum_{i=1}^n(h(x_i)-y_i) x_{id}   \\
                 \sum_{i=1}^n(h(x_i)-y_i) x_{i(d+1)}  \\
          \end{bmatrix}
-\end{align}</script><p>推导到这很明显了吧？</p>
-<p>还不明显，那么继续：</p>
-<script type="math/tex; mode=display">
+\end{align}
+\]</span> 推导到这很明显了吧？</p>
+<p>还不明显，那么继续： <span class="math display">\[
 \begin{align}
-{\bf w} &= {\bf w}- \eta {\rm X^T}(h({\bf x}) - {\bf y}) 
-\\& =  \begin{bmatrix} 
+{\bf w} &amp;= {\bf w}- \eta {\rm X^T}(h({\bf x}) - {\bf y}) 
+\\&amp; =  \begin{bmatrix} 
                 w_1 \\
                 w_2 \\
                 \vdots\\
@@ -299,128 +323,149 @@ X^T(h(x) - y)
                  \sum_{i=1}^n(h(x_i)-y_i) x_{id}   \\
                 \sum_{i=1}^n(h(x_i)-y_i) x_{i(d+1)}  \\
          \end{bmatrix}
-  \\& = \begin{bmatrix} 
+  \\&amp; = \begin{bmatrix} 
                 w_1 - \eta\sum_{i=1}^n(h(x_i)-y_i) x_{i1}    \\
                 w_2- \eta\sum_{i=1}^n(h(x_i)-y_i) x_{i2}   \\
                 \vdots   \\
                  w_d - \eta\sum_{i=1}^n(h(x_i)-y_i) x_{id}   \\
                w_{d+1} - \eta \sum_{i=1}^n(h(x_i)-y_i) x_{i(d+1)}  \\
          \end{bmatrix} \tag{2-4}
-\end{align}</script><p>看到这里就懂了吧？ 式2-4是2-3等价的矩阵表示。</p>
+\end{align}
+\]</span> 看到这里就懂了吧？ 式2-4是2-3等价的矩阵表示。</p>
 <p>因此我们可以用式2-4来写程序~</p>
 <p>这也是《机器学习实战》中倒数第二行式子的由来：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscent</span>(<span class="params">dataMatIn, classLabels</span>):</span></span><br><span class="line">	dataMatrix = np.mat(dataMatIn)</span><br><span class="line">	labelMat = np.mat(classLabels).transpose()</span><br><span class="line">	m, n = np.shape(dataMatrix)</span><br><span class="line">	alpha = <span class="number">0.001</span></span><br><span class="line">	maxCycles = <span class="number">500</span>	</span><br><span class="line">	weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> range(maxCycles):</span><br><span class="line">		h = sigmoid(dataMatrix * weights)</span><br><span class="line">		error = labelMat - h</span><br><span class="line">		weights = weights + alpha * dataMatrix.transpose() * error</span><br><span class="line">	<span class="keyword">return</span> weights.getA()	</span><br></pre></td></tr></table></figure>
-<h3 id="另一种似然函数"><a href="#另一种似然函数" class="headerlink" title="另一种似然函数"></a>另一种似然函数</h3><p>在上面推导损失函数2-2的时候，我们y的标签为{0，1}，如果我们我们假设标签为{-1, +1}，那么同样用极大似然估计，会得到很多材料上的另一种类似的似然函数。</p>
-<p>推导如下：</p>
-<script type="math/tex; mode=display">
+<h3 id="另一种似然函数">另一种似然函数</h3>
+<p>在上面推导损失函数2-2的时候，我们y的标签为{0，1}，如果我们我们假设标签为{-1, +1}，那么同样用极大似然估计，会得到很多材料上的另一种类似的似然函数。</p>
+<p>推导如下： <span class="math display">\[
 \begin{align}
-p(Y = +1 | {\bf x}) &= h({\bf x}) = \frac{1}{1+e^{-{\bf w^Tx} }} \\
-p(Y = -1 | {\bf x}) &= 1-P(Y = 1|{\bf x}) \\
-                    &= \frac{1}{1+e^{ {\bf w^Tx} }}
-\end{align}</script><p>由于sigmoid有性质$h(-x) = 1 - h(x)$，因此上面两式可以合并为：</p>
-<script type="math/tex; mode=display">
-p(y |{\bf x}) = h(y{\bf x}) = \frac{1}{1+e^{-y{\bf w^Tx} }}</script><p>写出似然函数为：</p>
-<script type="math/tex; mode=display">
+p(Y = +1 | {\bf x}) &amp;= h({\bf x}) = \frac{1}{1+e^{-{\bf w^Tx} }} \\
+p(Y = -1 | {\bf x}) &amp;= 1-P(Y = 1|{\bf x}) \\
+                    &amp;= \frac{1}{1+e^{ {\bf w^Tx} }}
+\end{align}
+\]</span> 由于sigmoid有性质<span class="math inline">\(h(-x) = 1 - h(x)\)</span>，因此上面两式可以合并为： <span class="math display">\[
+p(y |{\bf x}) = h(y{\bf x}) = \frac{1}{1+e^{-y{\bf w^Tx} }}
+\]</span> 写出似然函数为： <span class="math display">\[
 \begin{align*}
-\prod_{i=1}^n p(y_i |{\bf x_i})  &= \prod_{i=1}^n h(y_i{\bf x_i}) 
-\\ &=\prod_{i=1}^n\frac{1}{1+e^{-y_i{\bf w^Tx_i} }}
-\end{align*}</script><p>取对数似然有：</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^n \ln\frac{1}{1+e^{-y_i{\bf w^Tx_i} }} = -\sum_{i=1}^n \ln(1+e^{-y_i{\bf w^Tx_i} })</script><p>取负值就得到另一种损失函数</p>
-<script type="math/tex; mode=display">
-L(w) =\sum_{i=1}^n\ln(1+e^{-y_i{\bf w^Tx_i} })\tag{2-5}</script><h2 id="Softmax"><a href="#Softmax" class="headerlink" title="Softmax"></a>Softmax</h2><p>逻辑回归是处理二分类的问题，我们可以将它推广到多分类的情况，就是Softmax：</p>
-<script type="math/tex; mode=display">
-h({\bf x}) = \left[ \begin{aligned}z_1 \\z_2 \\ ...\\z_K \end{aligned}\right]=\frac{1}{\sum_{j=1}^Ke^{\bf w_j^Tx} }\left[ \begin{aligned}e^{\bf w_1^Tx} \\e^{\bf w_2^Tx} \\ ...\\e^{\bf w_K^Tx} \end{aligned}\right]\tag{3-1}</script><p>看上去仿佛很复杂，因为它输出的是一个向量，向量中每一项分别表示对应类别的概率。而对于每个类别都有一个$w_k$</p>
-<p>假如说求解第k个类别的概率，那么输出就是一个实数：</p>
-<script type="math/tex; mode=display">
-P(y=k|\ {\bf x,w}) = h_k({\bf x}) =\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }\tag{3-2}</script><p>这里的数据集形式为：$\{ {(\bf x_1, y_1}), ({\bf x_2, y_2}), \cdots, ({\bf x_N, y_N}) \}$</p>
-<p>这里$\bf x$是一个D <em> 1的向量（D为特征数）。而${\bf y_i}$则是一个只有一个数字为1，其余都是0的K </em> 1维向量，用来表示这个样本属于哪个类别。</p>
-<h3 id="Softmax学习"><a href="#Softmax学习" class="headerlink" title="Softmax学习"></a>Softmax学习</h3><p>和逻辑回归一样，采用极大似然估计。对于单个服从多项分布的<strong>单个</strong>样本，其似然函数为：</p>
-<script type="math/tex; mode=display">
+\prod_{i=1}^n p(y_i |{\bf x_i})  &amp;= \prod_{i=1}^n h(y_i{\bf x_i}) 
+\\ &amp;=\prod_{i=1}^n\frac{1}{1+e^{-y_i{\bf w^Tx_i} }}
+\end{align*}
+\]</span> 取对数似然有： <span class="math display">\[
+\sum_{i=1}^n \ln\frac{1}{1+e^{-y_i{\bf w^Tx_i} }} = -\sum_{i=1}^n \ln(1+e^{-y_i{\bf w^Tx_i} })
+\]</span> 取负值就得到另一种损失函数 <span class="math display">\[
+L(w) =\sum_{i=1}^n\ln(1+e^{-y_i{\bf w^Tx_i} })\tag{2-5}
+\]</span></p>
+<h2 id="softmax">Softmax</h2>
+<p>逻辑回归是处理二分类的问题，我们可以将它推广到多分类的情况，就是Softmax： <span class="math display">\[
+h({\bf x}) = \left[ \begin{aligned}z_1 \\z_2 \\ ...\\z_K \end{aligned}\right]=\frac{1}{\sum_{j=1}^Ke^{\bf w_j^Tx} }\left[ \begin{aligned}e^{\bf w_1^Tx} \\e^{\bf w_2^Tx} \\ ...\\e^{\bf w_K^Tx} \end{aligned}\right]\tag{3-1}
+\]</span> 看上去仿佛很复杂，因为它输出的是一个向量，向量中每一项分别表示对应类别的概率。而对于每个类别都有一个<span class="math inline">\(w_k\)</span></p>
+<p>假如说求解第k个类别的概率，那么输出就是一个实数： <span class="math display">\[
+P(y=k|\ {\bf x,w}) = h_k({\bf x}) =\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }\tag{3-2}
+\]</span></p>
+<p>这里的数据集形式为：<span class="math inline">\(\{ {(\bf x_1, y_1}), ({\bf x_2, y_2}), \cdots, ({\bf x_N, y_N}) \}\)</span></p>
+<p>这里<span class="math inline">\(\bf x\)</span>是一个D * 1的向量（D为特征数）。而<span class="math inline">\({\bf y_i}\)</span>则是一个只有一个数字为1，其余都是0的K * 1维向量，用来表示这个样本属于哪个类别。</p>
+<h3 id="softmax学习">Softmax学习</h3>
+<p>和逻辑回归一样，采用极大似然估计。对于单个服从多项分布的<strong>单个</strong>样本，其似然函数为： <span class="math display">\[
 \prod_{k=1}^K h_k^{y_k},\\
- 其中，h_k = h_k({\bf x})=\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }</script><p>老样子，我们采用对数似然，并取相反数得：</p>
-<script type="math/tex; mode=display">
-L({\bf W}) = -\sum_{k=1}^K y_k\ln h_k\tag{3-3}</script><p>3-3也被称为<strong>交叉熵损失</strong>（cross entropy  loss）。注意这里的符号是大写加粗的$\bf W$，表示为一个矩阵，形式为$\bf [w_1, w_2,\cdots,w_K]$,每个类别都有一个d维的参数$w_k$，合起来就是d * K。</p>
+ 其中，h_k = h_k({\bf x})=\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }
+\]</span> 老样子，我们采用对数似然，并取相反数得：</p>
+<p><span class="math display">\[
+L({\bf W}) = -\sum_{k=1}^K y_k\ln h_k\tag{3-3}
+\]</span> 3-3也被称为<strong>交叉熵损失</strong>（cross entropy loss）。注意这里的符号是大写加粗的<span class="math inline">\(\bf W\)</span>，表示为一个矩阵，形式为<span class="math inline">\(\bf [w_1, w_2,\cdots,w_K]\)</span>,每个类别都有一个d维的参数<span class="math inline">\(w_k\)</span>，合起来就是d * K。</p>
 <p>要优化3-2，可以用梯度下降的方法进行求导。</p>
-<p>为了简单起见，我们先让$h_k$对$\bf w_j$求偏导,求导需要注意有$j=k$和$j \ne k$两种情况，需要分开计算。</p>
-<p>对于$j=k$的情况，有:</p>
-<script type="math/tex; mode=display">
+<p>为了简单起见，我们先让<span class="math inline">\(h_k\)</span>对<span class="math inline">\(\bf w_j\)</span>求偏导,求导需要注意有<span class="math inline">\(j=k\)</span>和<span class="math inline">\(j \ne k\)</span>两种情况，需要分开计算。</p>
+<p>对于<span class="math inline">\(j=k\)</span>的情况，有: <span class="math display">\[
 \begin{align*}
-\frac{\partial h_k}{\partial \bf w_j} &=  \frac{e^{\bf w_k^Tx} }{\sum_{a=1}^Ke^{\bf w_a^Tx} } {\bf x} - \frac{e^{\bf w_k^Tx} }{(\sum_{a=1}^Ke^{\bf w_a^Tx})^2} e^{\bf w_j^Tx} {\bf x}\\
-&=h_k (1 - h_j){\bf x} \\
-&=h_j (1 - h_j){\bf x} \tag{3-4}
-\end{align*}</script><p>对于$j \ne k$的求导，有:</p>
-<script type="math/tex; mode=display">
+\frac{\partial h_k}{\partial \bf w_j} &amp;=  \frac{e^{\bf w_k^Tx} }{\sum_{a=1}^Ke^{\bf w_a^Tx} } {\bf x} - \frac{e^{\bf w_k^Tx} }{(\sum_{a=1}^Ke^{\bf w_a^Tx})^2} e^{\bf w_j^Tx} {\bf x}\\
+&amp;=h_k (1 - h_j){\bf x} \\
+&amp;=h_j (1 - h_j){\bf x} \tag{3-4}
+\end{align*}
+\]</span> 对于<span class="math inline">\(j \ne k\)</span>的求导，有: <span class="math display">\[
 \begin{align*}
-\frac{\partial h_k}{\partial \bf w_j} &=  - \frac{e^{\bf w_k^Tx} }{(\sum_{a=1}^Ke^{\bf w_a^Tx})^2} e^{\bf w_j^Tx} {\bf x}\\
-&=-h_k h_j{\bf x}\tag{3-5}
-\end{align*}</script><p>于是，我们现在就可以求3-3 <strong>单个样本</strong>的交叉熵的导数了：</p>
-<script type="math/tex; mode=display">
+\frac{\partial h_k}{\partial \bf w_j} &amp;=  - \frac{e^{\bf w_k^Tx} }{(\sum_{a=1}^Ke^{\bf w_a^Tx})^2} e^{\bf w_j^Tx} {\bf x}\\
+&amp;=-h_k h_j{\bf x}\tag{3-5}
+\end{align*}
+\]</span> 于是，我们现在就可以求3-3 <strong>单个样本</strong>的交叉熵的导数了： <span class="math display">\[
 \begin{align*}
-\frac{\partial L({\bf W})}{\partial \bf w_j} & = -\sum_{k} y_k \frac{\partial \log h_k}{\partial \bf w_j}\\
-&= -\sum_{k} y_k \frac{1}{h_k}\frac{\partial h_k}{\partial \bf w_j}\\
-&= -y_j  \frac{1}{h_j}h_j (1 - h_j){\bf x} + \sum_{k\ne j}y_k \frac{1}{h_k}h_kh_j{\bf x}\\
-&=- y_j (1 - h_j){\bf x} + \sum_{k\ne j}y_k h_j{\bf x}\\
-&= \left(-y_j +y_jh_j+ \sum_{k\ne j}y_kh_j\right) {\bf x}\\
-&= \left(-y_j +\sum_{k}y_kh_j\right) {\bf x} \\
-&= \left(-y_j +h_j\sum_{k}y_k\right) {\bf x} \\
-&= \left(h_j -y_j\right) {\bf x} \\
-\end{align*}</script><p>进一步的，如果要计算整个训练集的损失，可以求：</p>
-<script type="math/tex; mode=display">
-L({\bf W}) = -\sum_{i=1}^N\sum_{i=1}^K y_k\ln h_k({\bf x_i})\tag{3-4}</script><h3 id="参数的冗余性"><a href="#参数的冗余性" class="headerlink" title="参数的冗余性"></a>参数的冗余性</h3><p>Softmax 回归有一个不寻常的特点：它有一个“冗余”的参数集。 比如说，我们对每个类别参数$\bf w_k$都减去一个向量$\theta$，得：</p>
-<script type="math/tex; mode=display">
+\frac{\partial L({\bf W})}{\partial \bf w_j} &amp; = -\sum_{k} y_k \frac{\partial \log h_k}{\partial \bf w_j}\\
+&amp;= -\sum_{k} y_k \frac{1}{h_k}\frac{\partial h_k}{\partial \bf w_j}\\
+&amp;= -y_j  \frac{1}{h_j}h_j (1 - h_j){\bf x} + \sum_{k\ne j}y_k \frac{1}{h_k}h_kh_j{\bf x}\\
+&amp;=- y_j (1 - h_j){\bf x} + \sum_{k\ne j}y_k h_j{\bf x}\\
+&amp;= \left(-y_j +y_jh_j+ \sum_{k\ne j}y_kh_j\right) {\bf x}\\
+&amp;= \left(-y_j +\sum_{k}y_kh_j\right) {\bf x} \\
+&amp;= \left(-y_j +h_j\sum_{k}y_k\right) {\bf x} \\
+&amp;= \left(h_j -y_j\right) {\bf x} \\
+\end{align*}
+\]</span> 进一步的，如果要计算整个训练集的损失，可以求： <span class="math display">\[
+L({\bf W}) = -\sum_{i=1}^N\sum_{i=1}^K y_k\ln h_k({\bf x_i})\tag{3-4}
+\]</span></p>
+<h3 id="参数的冗余性">参数的冗余性</h3>
+<p>Softmax 回归有一个不寻常的特点：它有一个“冗余”的参数集。 比如说，我们对每个类别参数<span class="math inline">\(\bf w_k\)</span>都减去一个向量<span class="math inline">\(\theta\)</span>，得： <span class="math display">\[
 \begin{align*}
-P(y=k|\ {\bf x,w}) = h_k({\bf x}) &=\frac{e^{\bf (w_k - \theta)^Tx} }{\sum_{j=1}^Ke^{\bf (w_j- \theta)^Tx} }\\
-&=\frac{e^{\bf w_k ^Tx} e^{\bf - \theta^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx}e^{\bf - \theta^Tx} }\\
-&=\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }
-\end{align*}</script><p>可以看到减去一个向量完全不影响预测结果！这说明如果参数$\bf (w_1, w_2,\cdots , w_k)$是已经根据损失函数求解后的极小值点，那么$\bf (w_1 - \theta, w_2 - \theta,\cdots , w_k - \theta)$同样也是极小值点。因此解不唯一。</p>
+P(y=k|\ {\bf x,w}) = h_k({\bf x}) &amp;=\frac{e^{\bf (w_k - \theta)^Tx} }{\sum_{j=1}^Ke^{\bf (w_j- \theta)^Tx} }\\
+&amp;=\frac{e^{\bf w_k ^Tx} e^{\bf - \theta^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx}e^{\bf - \theta^Tx} }\\
+&amp;=\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }
+\end{align*}
+\]</span> 可以看到减去一个向量完全不影响预测结果！这说明如果参数<span class="math inline">\(\bf (w_1, w_2,\cdots , w_k)\)</span>是已经根据损失函数求解后的极小值点，那么<span class="math inline">\(\bf (w_1 - \theta, w_2 - \theta,\cdots , w_k - \theta)\)</span>同样也是极小值点。因此解不唯一。</p>
 <p>解决这个问题可以加入权重衰减（weight decay），说白了就是<strong>加入L2正则项</strong>。</p>
-<p>3-4就变为：</p>
-<script type="math/tex; mode=display">
-L({\bf W}) = -\sum_{i=1}^N\sum_{k=1}^K y_k\ln h_k({\bf x_i}) + \sum_{i=1}^d \sum_{k=1}^Kw_{ij}^2 \tag{3-4}</script><h3 id="和逻辑回归的关系"><a href="#和逻辑回归的关系" class="headerlink" title="和逻辑回归的关系"></a>和逻辑回归的关系</h3><p>当k = 2时，Softmax表达式为：</p>
-<script type="math/tex; mode=display">
-h({\bf x}) = \frac{1}{e^{\bf w_1^Tx}+e^{\bf w_2^Tx} }\left[ \begin{aligned}e^{\bf w_1^Tx} \\e^{\bf w_2^Tx}  \end{aligned}\right]</script><p>利用冗余性的特点，参数都减去$w_1$，得：</p>
-<script type="math/tex; mode=display">
+<p>3-4就变为： <span class="math display">\[
+L({\bf W}) = -\sum_{i=1}^N\sum_{k=1}^K y_k\ln h_k({\bf x_i}) + \sum_{i=1}^d \sum_{k=1}^Kw_{ij}^2 \tag{3-4}
+\]</span></p>
+<h3 id="和逻辑回归的关系">和逻辑回归的关系</h3>
+<p>当k = 2时，Softmax表达式为： <span class="math display">\[
+h({\bf x}) = \frac{1}{e^{\bf w_1^Tx}+e^{\bf w_2^Tx} }\left[ \begin{aligned}e^{\bf w_1^Tx} \\e^{\bf w_2^Tx}  \end{aligned}\right]
+\]</span> 利用冗余性的特点，参数都减去<span class="math inline">\(w_1\)</span>，得： <span class="math display">\[
 \begin{align*}
-h({\bf x}) &= \frac{1}{e^{\bf (w_1 - w_1)^Tx}+e^{\bf (w_2 - w_1)^Tx} }\left[ \begin{aligned}e^{\bf (w_1 - w_1)^Tx} \\e^{\bf (w_2 - w_1)^Tx}  \end{aligned}\right]\\
-&=  \frac{1}{1+e^{\bf (w_2 - w_1)^Tx} }\left[ \begin{aligned} 1 \\e^{\bf (w_2 - w_1)^Tx}  \end{aligned}\right] \\
-&= \left[ \begin{aligned}  \frac{1}{1+e^{\bf (w_2 - w_1)^Tx} } \\  \frac{e^{\bf (w_2 - w_1)^Tx} }{1+e^{\bf (w_2 - w_1)^Tx} } \end{aligned}\right] \\
-&= \left[ \begin{aligned}  \frac{1}{1+e^{\bf (w_2 - w_1)^Tx} } \\  1 -\frac{1}{1+e^{\bf (w_2 - w_1)^Tx} } \end{aligned}\right] \\
-\end{align*}</script><p>令$\bf w = w_2 - w_1$，得一个类别的概率为$\frac{1}{1+e^{\bf w^Tx} }$，另一个类别的概率为$1 - \frac{1}{1+e^{\bf w^Tx} }$，这和逻辑回归是一样的。</p>
+h({\bf x}) &amp;= \frac{1}{e^{\bf (w_1 - w_1)^Tx}+e^{\bf (w_2 - w_1)^Tx} }\left[ \begin{aligned}e^{\bf (w_1 - w_1)^Tx} \\e^{\bf (w_2 - w_1)^Tx}  \end{aligned}\right]\\
+&amp;=  \frac{1}{1+e^{\bf (w_2 - w_1)^Tx} }\left[ \begin{aligned} 1 \\e^{\bf (w_2 - w_1)^Tx}  \end{aligned}\right] \\
+&amp;= \left[ \begin{aligned}  \frac{1}{1+e^{\bf (w_2 - w_1)^Tx} } \\  \frac{e^{\bf (w_2 - w_1)^Tx} }{1+e^{\bf (w_2 - w_1)^Tx} } \end{aligned}\right] \\
+&amp;= \left[ \begin{aligned}  \frac{1}{1+e^{\bf (w_2 - w_1)^Tx} } \\  1 -\frac{1}{1+e^{\bf (w_2 - w_1)^Tx} } \end{aligned}\right] \\
+\end{align*}
+\]</span> 令<span class="math inline">\(\bf w = w_2 - w_1\)</span>，得一个类别的概率为<span class="math inline">\(\frac{1}{1+e^{\bf w^Tx} }\)</span>，另一个类别的概率为<span class="math inline">\(1 - \frac{1}{1+e^{\bf w^Tx} }\)</span>，这和逻辑回归是一样的。</p>
 <p>因此，可以说Softmax是Logistic 回归的一般形式，当K=2时，Softmax退化为logistic回归。</p>
-<h3 id="使用Softmax-还是K个逻辑回归"><a href="#使用Softmax-还是K个逻辑回归" class="headerlink" title="使用Softmax 还是K个逻辑回归"></a>使用Softmax 还是K个逻辑回归</h3><p>如果你在开发一个音乐分类的应用，需要对k种类型的音乐进行识别，那么是选择使用 Softmax 分类器呢，还是使用 logistic 回归算法建立 k 个独立的二元分类器呢？ </p>
+<h3 id="使用softmax-还是k个逻辑回归">使用Softmax 还是K个逻辑回归</h3>
+<p>如果你在开发一个音乐分类的应用，需要对k种类型的音乐进行识别，那么是选择使用 Softmax 分类器呢，还是使用 logistic 回归算法建立 k 个独立的二元分类器呢？</p>
 <p><strong>如果你的类别是互斥的，那么用Softmax，否则用K个逻辑回归</strong>：</p>
 <blockquote>
-<p>这一选择取决于你的类别之间是否互斥，例如，如果你有四个类别的音乐，分别为：古典音乐、乡村音乐、摇滚乐和爵士乐，那么你可以假设每个训练样本只会被打上一个标签（即：一首歌只能属于这四种音乐类型的其中一种），此时你应该使用类别数 k = 4 的Softmax回归。（如果在你的数据集中，有的歌曲不属于以上四类的其中任何一类，那么你可以添加一个“其他类”，并将类别数 <em>k</em> 设为5。） </p>
-<p>如果你的四个类别如下：人声音乐、舞曲、影视原声、流行歌曲，那么这些类别之间并不是互斥的。例如：一首歌曲可以来源于影视原声，同时也包含人声  。这种情况下，使用4个二分类的 logistic 回归分类器更为合适。这样，对于每个新的音乐作品，我们的算法可以分别判断它是否属于各个类别。 </p>
+<p>这一选择取决于你的类别之间是否互斥，例如，如果你有四个类别的音乐，分别为：古典音乐、乡村音乐、摇滚乐和爵士乐，那么你可以假设每个训练样本只会被打上一个标签（即：一首歌只能属于这四种音乐类型的其中一种），此时你应该使用类别数 k = 4 的Softmax回归。（如果在你的数据集中，有的歌曲不属于以上四类的其中任何一类，那么你可以添加一个“其他类”，并将类别数 <em>k</em> 设为5。）</p>
+<p>如果你的四个类别如下：人声音乐、舞曲、影视原声、流行歌曲，那么这些类别之间并不是互斥的。例如：一首歌曲可以来源于影视原声，同时也包含人声 。这种情况下，使用4个二分类的 logistic 回归分类器更为合适。这样，对于每个新的音乐作品，我们的算法可以分别判断它是否属于各个类别。</p>
 <p>现在我们来看一个计算视觉领域的例子，你的任务是将图像分到三个不同类别中。</p>
-<ol>
-<li>假设这三个类别分别是：室内场景、户外城区场景、户外荒野场景。你会使用Softmax回归还是 3个logistic 回归分类器呢？ </li>
-<li>现在假设这三个类别分别是室内场景、黑白图片、包含人物的图片，你又会选择 Softmax回归还是多个 logistic 回归分类器呢？ </li>
+<ol type="1">
+<li>假设这三个类别分别是：室内场景、户外城区场景、户外荒野场景。你会使用Softmax回归还是 3个logistic 回归分类器呢？</li>
+<li>现在假设这三个类别分别是室内场景、黑白图片、包含人物的图片，你又会选择 Softmax回归还是多个 logistic 回归分类器呢？</li>
 </ol>
-<p>在第一个例子中，三个类别是互斥的，因此更适于选择Softmax回归分类器 。而在第二个例子中，建立三个独立的 logistic回归分类器更加合适。 </p>
+<p>在第一个例子中，三个类别是互斥的，因此更适于选择Softmax回归分类器 。而在第二个例子中，建立三个独立的 logistic回归分类器更加合适。</p>
 </blockquote>
-<h2 id="并行化逻辑回归"><a href="#并行化逻辑回归" class="headerlink" title="并行化逻辑回归"></a>并行化逻辑回归</h2><p>逻辑回归虽然简单，但是在真实环境中，数据量大，也往往对其做并行化处理。</p>
-<p>这里，我们首先要复习一下逻辑回归的更新公式2-3：</p>
-<script type="math/tex; mode=display">
+<h2 id="并行化逻辑回归">并行化逻辑回归</h2>
+<p>逻辑回归虽然简单，但是在真实环境中，数据量大，也往往对其做并行化处理。</p>
+<p>这里，我们首先要复习一下逻辑回归的更新公式2-3： <span class="math display">\[
 w_j = w_j - \eta\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij}\\
-其中，h({\bf x_i}) = \frac{1}{1+e^{-({\bf w^Tx_i})} }</script><p>注意到$\bf w$的维度为d，需要对数据的每一维都使用上式更新。可以看到，一次更新的开销数据量N以及维度d有关。</p>
-<h3 id="数据并行"><a href="#数据并行" class="headerlink" title="数据并行"></a>数据并行</h3><p>这是最简单也是最容易想到的数据并行方式了，假设有a台机器，则把数据随机分到a台机器上，每台机器数据不重复，这样每台机器有N/a条样本，每个样本有d个特征。每台机器分别对其样本计算$(h({\bf x_i}) -y_i )x_{ij}$，最后求和合并即可。</p>
+其中，h({\bf x_i}) = \frac{1}{1+e^{-({\bf w^Tx_i})} }
+\]</span> 注意到<span class="math inline">\(\bf w\)</span>的维度为d，需要对数据的每一维都使用上式更新。可以看到，一次更新的开销数据量N以及维度d有关。</p>
+<h3 id="数据并行">数据并行</h3>
+<p>这是最简单也是最容易想到的数据并行方式了，假设有a台机器，则把数据随机分到a台机器上，每台机器数据不重复，这样每台机器有N/a条样本，每个样本有d个特征。每台机器分别对其样本计算<span class="math inline">\((h({\bf x_i}) -y_i )x_{ij}\)</span>，最后求和合并即可。</p>
 <p>这个方式解决了数据量大的问题，但是实际中特征数量可能很高。</p>
-<h3 id="特征并行"><a href="#特征并行" class="headerlink" title="特征并行"></a>特征并行</h3><p>特征并行就是对特征进行划分，假设有b台机器，那么，每台机器的有$\frac{d}{b}$个特征，N个样本，每台机器对其拥有的特征j分别计算$(h({\bf x_i}) -y_i )x_{ij}$，然后和其它机器同步更新后的参数即可。</p>
-<h3 id="数据-特征并行"><a href="#数据-特征并行" class="headerlink" title="数据+特征并行"></a>数据+特征并行</h3><p>数据+特征并行就是上面两种的结合，如下图所示，将数据分为a * b块，其中，即将数据按水平划分，又在特征上垂直划分。</p>
-<p><img src="../images/machine-learning-linear-regression-logistic-regression/lr-data-feature-parallel.png" alt="lr-data-feature-parallel"></p>
-<p>看看公式2-3，我们需要计算$\bf w^Tx$，因此，我们可以对所有机器分别计算$\sum_{j} w_jx_{ij}$，然后按照行号相同的进行归并，就得到了$\bf w^Tx_i$。</p>
-<p>此外，我们需要计算$\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij}$，这就是要让列号相同的结点进行归并。</p>
-<h3 id="Google-DistBelief"><a href="#Google-DistBelief" class="headerlink" title="Google DistBelief"></a>Google DistBelief</h3><p>Google实现了一个名为DistBelief的框架，采用parameter server来同步参数，如下图：</p>
-<p><img src="../images/machine-learning-linear-regression-logistic-regression/Google-DistBelief.png" alt="Google-DistBelief"></p>
+<h3 id="特征并行">特征并行</h3>
+<p>特征并行就是对特征进行划分，假设有b台机器，那么，每台机器的有<span class="math inline">\(\frac{d}{b}\)</span>个特征，N个样本，每台机器对其拥有的特征j分别计算<span class="math inline">\((h({\bf x_i}) -y_i )x_{ij}\)</span>，然后和其它机器同步更新后的参数即可。</p>
+<h3 id="数据特征并行">数据+特征并行</h3>
+<p>数据+特征并行就是上面两种的结合，如下图所示，将数据分为a * b块，其中，即将数据按水平划分，又在特征上垂直划分。</p>
+<figure>
+<img src="../images/machine-learning-linear-regression-logistic-regression/lr-data-feature-parallel.png" alt="lr-data-feature-parallel" /><figcaption>lr-data-feature-parallel</figcaption>
+</figure>
+<p>看看公式2-3，我们需要计算<span class="math inline">\(\bf w^Tx\)</span>，因此，我们可以对所有机器分别计算<span class="math inline">\(\sum_{j} w_jx_{ij}\)</span>，然后按照行号相同的进行归并，就得到了<span class="math inline">\(\bf w^Tx_i\)</span>。</p>
+<p>此外，我们需要计算<span class="math inline">\(\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij}\)</span>，这就是要让列号相同的结点进行归并。</p>
+<h3 id="google-distbelief">Google DistBelief</h3>
+<p>Google实现了一个名为DistBelief的框架，采用parameter server来同步参数，如下图：</p>
+<figure>
+<img src="../images/machine-learning-linear-regression-logistic-regression/Google-DistBelief.png" alt="Google-DistBelief" /><figcaption>Google-DistBelief</figcaption>
+</figure>
 <p>将训练数据划分为若干个子集，并<strong>在每一个子集上运行一个单独的模型副本</strong>，各模型副本通过参数服务器来交换梯度信息，参数服务器用来维护模型参数当前的状态，它也分布在多台机器上（假如有10台机器，那么每台机器将负责存储和更新1/10的模型参数，因此，每个模型副本只需要和parameters中和该结点有关的模型参数那部分结点进行通信）。</p>
 <p>可以看出，这里面有两种异步性：</p>
-<ol>
+<ol type="1">
 <li>模型副本之间的运行是独立的</li>
 <li>参数服务器之间的机器也是独立的</li>
 </ol>
-<p>如果每个模型副本处理完一个样本就和参数服务器进行通信，那么通信量会很大，为了减少通信的开销，设置了两个参数：$n_{fetch}$和$n_{push}$，每$n_{fetch}$向服务器取一次参数，每$n_{push}$次向服务器推送结果，$n_{fetch}$不一定等于$n_{push}$</p>
+<p>如果每个模型副本处理完一个样本就和参数服务器进行通信，那么通信量会很大，为了减少通信的开销，设置了两个参数：<span class="math inline">\(n_{fetch}\)</span>和<span class="math inline">\(n_{push}\)</span>，每<span class="math inline">\(n_{fetch}\)</span>向服务器取一次参数，每<span class="math inline">\(n_{push}\)</span>次向服务器推送结果，<span class="math inline">\(n_{fetch}\)</span>不一定等于<span class="math inline">\(n_{push}\)</span></p>
 <p>此外，</p>
 <ul>
 <li>一个Model replicas失效并不影响其它的Model replicas，因此鲁棒性很强</li>
@@ -429,30 +474,27 @@ w_j = w_j - \eta\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij}\\
 <li>参数服务器的每个节点更新参数的次数不一定相同，有一定的随机性</li>
 </ul>
 <p>然而，这样的异步处理方式使得模型具有很大的随机性，主要体现在一个模型计算样本的梯度的时候，采用的是一组稍微过时的参数，因为它在计算梯度时，其它副本很可能已经对参数服务器中的参数进行了更新；并且某一个时刻，各个机器上的参数更新次数和更新顺序不一定相同。这样的做法缺乏理论基础，但最后得到的模型效果还是不错的。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li>《机器学习》 周志华</li>
 <li>《统计学习方法》 - 李航</li>
 <li>机器学习基石 - 林轩田</li>
-<li>机器学习—Logistic回归计算过程的推导<ul>
-<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/ligang_csdn/article/details/53838743">http://blog.csdn.net/ligang_csdn/article/details/53838743</a></li>
-<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/jediael_lu/article/details/77852060">http://blog.csdn.net/jediael_lu/article/details/77852060</a></li>
-</ul>
-</li>
-<li><p>Softmax</p>
+<li>机器学习--Logistic回归计算过程的推导
+<ul>
+<li>http://blog.csdn.net/ligang_csdn/article/details/53838743</li>
+<li>http://blog.csdn.net/jediael_lu/article/details/77852060</li>
+</ul></li>
+<li>Softmax
 <ul>
 <li><a target="_blank" rel="noopener" href="http://deeplearning.stanford.edu/wiki/index.php/Softmax%E5%9B%9E%E5%BD%92">Softmax回归</a></li>
-<li><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/ooon/p/5690848.html">Logistic 与 softmax</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://deepnotes.io/softmax-crossentropy">https://deepnotes.io/softmax-crossentropy</a></p>
-</li>
-</ul>
-</li>
-<li><p>并行化逻辑回归</p>
+<li><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/ooon/p/5690848.html">Logistic 与 softmax</a></p></li>
+<li><p>https://deepnotes.io/softmax-crossentropy</p></li>
+</ul></li>
+<li>并行化逻辑回归
 <ul>
 <li><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_6cb8e53d0101oetv.html">并行逻辑回归</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/itplus/article/details/31831661">DistBelief 框架下的并行随机梯度下降法 - Downpour SGD</a></li>
-</ul>
-</li>
+</ul></li>
 </ul>
  
       <!-- reward -->
@@ -669,12 +711,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -686,6 +734,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -694,13 +744,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -719,7 +770,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

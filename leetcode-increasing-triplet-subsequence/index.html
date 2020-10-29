@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">475</span>
+            <span class="post-count">476</span>
         </span>
     </span>
 
@@ -115,29 +115,31 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Increasing-Triplet-Subsequence"><a href="#leetcode-Increasing-Triplet-Subsequence" class="headerlink" title="leetcode Increasing Triplet Subsequence"></a>leetcode Increasing Triplet Subsequence</h3><p>Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array.</p>
+<h3 id="leetcode-increasing-triplet-subsequence">leetcode Increasing Triplet Subsequence</h3>
+<p>Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array.</p>
 <p>Formally the function should:</p>
-<p>Return true if there exists _i, j, k_<br>such that _arr[i]_ &lt; _arr[j]_ &lt; _arr[k]_ given 0 ≤ _i_ &lt; _j_ &lt; _k_ ≤ _n_-1 else return false.Your algorithm should run in O(_n_) time complexity and O(_1_) space complexity.</p>
-<p><strong>Examples:</strong><br>Given <code>[1, 2, 3, 4, 5]</code>,<br>return <code>true</code>.</p>
-<p>Given <code>[5, 4, 3, 2, 1]</code>,<br>return <code>false</code>.<br><a id="more"></a><br>题目地址: <a target="_blank" rel="noopener" href="https://leetcode.com/problems/increasing-triplet-subsequence/">leetcode Increasing Triplet Subsequence</a></p>
+<p>Return true if there exists <em>i, j, k</em> such that <em>arr[i]</em> &lt; <em>arr[j]</em> &lt; <em>arr[k]</em> given 0 ≤ <em>i</em> &lt; <em>j</em> &lt; <em>k</em> ≤ <em>n</em>-1 else return false.Your algorithm should run in O(<em>n</em>) time complexity and O(<em>1</em>) space complexity.</p>
+<p><strong>Examples:</strong> Given <code>[1, 2, 3, 4, 5]</code>, return <code>true</code>.</p>
+<p>Given <code>[5, 4, 3, 2, 1]</code>, return <code>false</code>. <a id="more"></a> 题目地址: <a target="_blank" rel="noopener" href="https://leetcode.com/problems/increasing-triplet-subsequence/">leetcode Increasing Triplet Subsequence</a></p>
 </blockquote>
 <p>题意：给定一个长度为n的乱序的数组arr，让你求是否有i,j,k三个数，使得 arr[i] &lt; arr[j] &lt; arr[k] ( 0 ≤ i &lt; j &lt; k ≤ n-1)</p>
 <p>思路：</p>
-<p>设 x1为到目前为止的最小值 ，  x2为到目前为止至少有一个数比x2小的最小的数。</p>
+<p>设 x1为到目前为止的最小值 ，  x2为到目前为止至少有一个数比x2小的最小的数。</p>
 <p>初始时设置x1 = x2 = INT_MAX ，然后遍历数组,不断的更新x1和x2 具体如下</p>
 <ul>
-<li>num &lt;= x1,  此时将x1设置为num</li>
+<li>num &lt;= x1,  此时将x1设置为num</li>
 <li>若 x1 &lt; num &lt;= x2，则 把x2 设置为num</li>
-<li>x2 &lt; num  说明有解，返回true即可</li>
+<li>x2 &lt; num  说明有解，返回true即可</li>
 </ul>
 <p>简单的说，上述的过程就是不断的缩小x1和x2，看看是否有第三个数 比x2大。</p>
 <p>如果出现第三个数 num &gt; x2，则之前必定还有个数x 小于x2，就是说满足 x &lt; x2 &lt; num，就是说有答案啦。</p>
-<p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">increasingTriplet</span>(<span class="params">self, nums</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        x1 = x2 = <span class="number">0x7fffffff</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> num &lt;= x1:</span><br><span class="line">                x1 = num</span><br><span class="line">            <span class="keyword">elif</span> num &lt;= x2:  <span class="comment"># x1 &lt; num &lt;= x2</span></span><br><span class="line">                x2 = num</span><br><span class="line">            <span class="keyword">else</span>:            <span class="comment"># x &lt; x2 &lt; num , so it return true</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>C++</strong> </p>
+<p><strong>Python</strong> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">increasingTriplet</span>(<span class="params">self, nums</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        x1 = x2 = <span class="number">0x7fffffff</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> num &lt;= x1:</span><br><span class="line">                x1 = num</span><br><span class="line">            <span class="keyword">elif</span> num &lt;= x2:  <span class="comment"># x1 &lt; num &lt;= x2</span></span><br><span class="line">                x2 = num</span><br><span class="line">            <span class="keyword">else</span>:            <span class="comment"># x &lt; x2 &lt; num , so it return true</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>C++</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">increasingTriplet</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> x1 = <span class="number">0x7fffffff</span>, x2 = <span class="number">0x7fffffff</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)&#123;</span><br><span class="line">            <span class="keyword">if</span>(num &lt;= x1) x1 = num;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(num &lt;=x2) x2 = num;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>Java</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">increasingTriplet</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> x1 = <span class="number">0x7fffffff</span>, x2 = <span class="number">0x7fffffff</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)&#123;</span><br><span class="line">            <span class="keyword">if</span>(num &lt;= x1) x1 = num;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(num &lt;=x2) x2 = num;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>本题是leetcode 334 Increasing Triplet Subsequence题解，</p>
-<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p><strong>Java</strong> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">increasingTriplet</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> x1 = <span class="number">0x7fffffff</span>, x2 = <span class="number">0x7fffffff</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)&#123;</span><br><span class="line">            <span class="keyword">if</span>(num &lt;= x1) x1 = num;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(num &lt;=x2) x2 = num;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> </p>
+<p>本题是leetcode 334 Increasing Triplet Subsequence题解，</p>
+<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -353,12 +355,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -370,6 +378,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -378,13 +388,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -403,7 +414,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

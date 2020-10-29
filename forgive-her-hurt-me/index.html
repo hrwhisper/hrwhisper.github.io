@@ -112,7 +112,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>不知怎么，就听这首歌听了一整天。<br><a id="more"></a><br>原谅把你带走的雨天<br>在突然醒来的黑夜<br>发现我终于没有再流泪<br>原谅被你带走的永远<br>时钟就快要走到明天<br>痛会随着时间好一点</p>
+  <p>不知怎么，就听这首歌听了一整天。 <a id="more"></a> 原谅把你带走的雨天 在突然醒来的黑夜 发现我终于没有再流泪 原谅被你带走的永远 时钟就快要走到明天 痛会随着时间好一点</p>
 <p>——《原谅》张玉华</p>
 <p>一学妹问，最近好吗。</p>
 <p>我说还好啊。</p>
@@ -179,9 +179,9 @@
 <p>把回忆放在阳光照不到的地方，不过是内心的阴影；</p>
 <p>把记忆埋藏在寸草不生的土地，不过是内心的贫瘠。</p>
 <p>世界上大多数的恨，都是来源于爱。</p>
-<p>毕竟是我爱的人，<br>我能够怪你什么。</p>
+<p>毕竟是我爱的人， 我能够怪你什么。</p>
 <p>那么我就这么原谅。</p>
-<p>原谅把你带走的雨天，<br>原谅被你带走的永远，</p>
+<p>原谅把你带走的雨天， 原谅被你带走的永远，</p>
 <p>原谅了那些伤害，</p>
 <p>原谅了那些我看起来的不在意，</p>
 <p>原谅了她未尽到一个女友的责任……</p>
@@ -420,12 +420,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -437,6 +443,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -445,13 +453,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -470,7 +479,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

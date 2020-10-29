@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">638</span>
+            <span class="post-count">639</span>
         </span>
     </span>
 
@@ -115,8 +115,9 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Find-Median-from-Data-Stream"><a href="#leetcode-Find-Median-from-Data-Stream" class="headerlink" title="leetcode Find Median from Data Stream"></a>leetcode Find Median from Data Stream</h3><p>Median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle value.</p>
-<p>Examples:<br><code>[2,3,4]</code> , the median is <code>3</code></p>
+<h3 id="leetcode-find-median-from-data-stream">leetcode Find Median from Data Stream</h3>
+<p>Median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle value.</p>
+<p>Examples: <code>[2,3,4]</code> , the median is <code>3</code></p>
 <p><code>[2,3]</code>, the median is <code>(2 + 3) / 2 = 2.5</code></p>
 <p>Design a data structure that supports the following two operations:</p>
 <ul>
@@ -129,8 +130,7 @@
 <li>add(2)</li>
 <li>findMedian() -&gt; 1.5</li>
 <li>add(3)</li>
-<li>findMedian() -&gt; 2<a id="more"></a>
-题目地址： <a target="_blank" rel="noopener" href="https://leetcode.com/problems/find-median-from-data-stream/">leetcode Find Median from Data Stream</a></li>
+<li>findMedian() -&gt; 2 <a id="more"></a> 题目地址： <a target="_blank" rel="noopener" href="https://leetcode.com/problems/find-median-from-data-stream/">leetcode Find Median from Data Stream</a></li>
 </ul>
 </blockquote>
 <p>题意：</p>
@@ -140,18 +140,20 @@
 <p>O(logn)插入，O(1)查询：建立一个最大堆和最小堆，思路是这两个堆顶指向中间的元素，这样可以达到O(1)查询。</p>
 <p>最大堆负责存储这些数左边的，最小堆则负责右边的。每次插入时候判断是插入左边还是右边，然后看看是否要平衡一下两个堆的元素个数。</p>
 <p>以 1，2，3，4插入为例，最大堆命名为small（因为是左边的元素），最小堆为large</p>
-<ol>
-<li>1进来，放进small</li>
-<li>轮到2，仍然放进small，但是small的元素比large多2，不平衡，于是取出2放入large</li>
+<ol type="1">
+<li> 1进来，放进small</li>
+<li> 轮到2，仍然放进small，但是small的元素比large多2，不平衡，于是取出2放入large</li>
 <li>轮到3，3比large的2来得大，直接放入large</li>
-<li>轮到4，4比large的2来得大，直接放入large，但是large的元素比small多2，不平衡，于是取出2放入small</li>
+<li> 轮到4，4比large的2来得大，直接放入large，但是large的元素比small多2，不平衡，于是取出2放入small</li>
 </ol>
 <p>查询时，根据个数大小判断应该是返回small还是large的。</p>
 <p>个数相等则说明为偶数个，返回均值。</p>
 <p>实现上我用了priority_queue，这个是个最大堆，所以右边的（large）插入取相反数。</p>
-<p><strong>C++</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MedianFinder</span> &#123;</span></span><br><span class="line">	<span class="built_in">priority_queue</span>&lt;<span class="keyword">int</span>&gt; small, large;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// Adds a number into the data structure.</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">addNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!large.empty() &amp;&amp; -large.top() &lt; num)</span><br><span class="line">			large.push(-num);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			small.push(num);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (small.size() - large.size() == <span class="number">2</span>) &#123;</span><br><span class="line">			large.push(-small.top());</span><br><span class="line">			small.pop();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (small.size() - large.size() == <span class="number">-2</span>) &#123;</span><br><span class="line">			small.push(-large.top());</span><br><span class="line">			large.pop();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Returns the median of current data stream</span></span><br><span class="line">	<span class="function"><span class="keyword">double</span> <span class="title">findMedian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (small.size() &gt; large.size()) <span class="keyword">return</span> small.top();</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (small.size() &lt; large.size()) <span class="keyword">return</span> -large.top();</span><br><span class="line">		<span class="keyword">return</span> (small.top() - large.top()) / <span class="number">2.0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><strong>C++</strong> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MedianFinder</span> &#123;</span></span><br><span class="line">	<span class="built_in">priority_queue</span>&lt;<span class="keyword">int</span>&gt; small, large;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// Adds a number into the data structure.</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">addNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!large.empty() &amp;&amp; -large.top() &lt; num)</span><br><span class="line">			large.push(-num);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			small.push(num);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (small.size() - large.size() == <span class="number">2</span>) &#123;</span><br><span class="line">			large.push(-small.top());</span><br><span class="line">			small.pop();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (small.size() - large.size() == <span class="number">-2</span>) &#123;</span><br><span class="line">			small.push(-large.top());</span><br><span class="line">			large.pop();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Returns the median of current data stream</span></span><br><span class="line">	<span class="function"><span class="keyword">double</span> <span class="title">findMedian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (small.size() &gt; large.size()) <span class="keyword">return</span> small.top();</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (small.size() &lt; large.size()) <span class="keyword">return</span> -large.top();</span><br><span class="line">		<span class="keyword">return</span> (small.top() - large.top()) / <span class="number">2.0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p> </p>
 <p>看了discuss有比我简单的代码，不过比我慢。毕竟做了无用的push和pop</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MedianFinder</span> &#123;</span></span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;<span class="keyword">long</span>&gt; small, large;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        small.push(num);</span><br><span class="line">        large.push(-small.top());</span><br><span class="line">        small.pop();</span><br><span class="line">        <span class="keyword">if</span> (small.size() &lt; large.size()) &#123;</span><br><span class="line">            small.push(-large.top());</span><br><span class="line">            large.pop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">findMedian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> small.size() &gt; large.size()</span><br><span class="line">               ? small.top()</span><br><span class="line">               : (small.top() - large.top()) / <span class="number">2.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure> 
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MedianFinder</span> &#123;</span></span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;<span class="keyword">long</span>&gt; small, large;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        small.push(num);</span><br><span class="line">        large.push(-small.top());</span><br><span class="line">        small.pop();</span><br><span class="line">        <span class="keyword">if</span> (small.size() &lt; large.size()) &#123;</span><br><span class="line">            small.push(-large.top());</span><br><span class="line">            large.pop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">findMedian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> small.size() &gt; large.size()</span><br><span class="line">               ? small.top()</span><br><span class="line">               : (small.top() - large.top()) / <span class="number">2.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+ 
       <!-- reward -->
       
       <div id="reword-out">
@@ -366,12 +368,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -383,6 +391,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -391,13 +401,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -416,7 +427,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

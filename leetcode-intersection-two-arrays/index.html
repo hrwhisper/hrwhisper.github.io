@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">541</span>
+            <span class="post-count">544</span>
         </span>
     </span>
 
@@ -115,26 +115,29 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Intersection-of-Two-Arrays"><a href="#leetcode-Intersection-of-Two-Arrays" class="headerlink" title="leetcode Intersection of Two Arrays"></a>leetcode Intersection of Two Arrays</h3><p>Given two arrays, write a function to compute their intersection.</p>
-<p><strong>Example:</strong><br>Given _nums1_ = <code>[1, 2, 2, 1]</code>, _nums2_ = <code>[2, 2]</code>, return <code>[2]</code>.</p>
+<h3 id="leetcode-intersection-of-two-arrays">leetcode Intersection of Two Arrays</h3>
+<p>Given two arrays, write a function to compute their intersection.</p>
+<p><strong>Example:</strong> Given <em>nums1</em> = <code>[1, 2, 2, 1]</code>, <em>nums2</em> = <code>[2, 2]</code>, return <code>[2]</code>.</p>
 <p><strong>Note:</strong></p>
 <ul>
 <li>Each element in the result must be unique.</li>
-<li>The result can be in any order.<a id="more"></a>
-题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/intersection-of-two-arrays/">leetcode Intersection of Two Arrays</a></li>
+<li>The result can be in any order. <a id="more"></a> 题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/intersection-of-two-arrays/">leetcode Intersection of Two Arrays</a></li>
 </ul>
 </blockquote>
 <p>题意：给定两个数组，求他们的交集（不算重复）</p>
 <p>思路：太TM水了，直接上哈希表即可。。。</p>
-<p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">intersection</span>(<span class="params">self, nums1, nums2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums1: List[int]</span></span><br><span class="line"><span class="string">        :type nums2: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ans = []</span><br><span class="line">        nums1 = set(nums1)</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums2:</span><br><span class="line">            <span class="keyword">if</span> num <span class="keyword">in</span> nums1:</span><br><span class="line">                ans.append(num)</span><br><span class="line">        <span class="keyword">return</span> list(set(ans)) <span class="comment">#remove duplicate</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>Python</strong> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">intersection</span>(<span class="params">self, nums1, nums2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums1: List[int]</span></span><br><span class="line"><span class="string">        :type nums2: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ans = []</span><br><span class="line">        nums1 = set(nums1)</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums2:</span><br><span class="line">            <span class="keyword">if</span> num <span class="keyword">in</span> nums1:</span><br><span class="line">                ans.append(num)</span><br><span class="line">        <span class="keyword">return</span> list(set(ans)) <span class="comment">#remove duplicate</span></span><br></pre></td></tr></table></figure></p>
+<p> </p>
 <p>当然也可以one line</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">intersection</span>(<span class="params">self, nums1, nums2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums1: List[int]</span></span><br><span class="line"><span class="string">        :type nums2: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> list(set(nums1) &amp; set(nums2))</span><br></pre></td></tr></table></figure>
-<p><strong>C++</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">intersection</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">		<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; vis;</span><br><span class="line">		<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; intersection;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ans;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> num : nums1) vis.insert(num);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> num : nums2) <span class="keyword">if</span> (vis.find(num) != vis.end()) intersection.insert(num);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> num : intersection) ans.push_back(num);</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><strong>Java</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] intersection(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">        HashSet&lt;Integer&gt; vis1 = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">        HashSet&lt;Integer&gt; intersection = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums1) vis1.add(num);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums2) <span class="keyword">if</span>(vis1.contains(num)) intersection.add(num);</span><br><span class="line">        <span class="keyword">int</span> []ans = <span class="keyword">new</span> <span class="keyword">int</span>[intersection.size()];</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:intersection)</span><br><span class="line">            ans[i++] = num;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h3 id="leetcode-Intersection-of-Two-Arrays-II"><a href="#leetcode-Intersection-of-Two-Arrays-II" class="headerlink" title="leetcode Intersection of Two Arrays II"></a>leetcode Intersection of Two Arrays II</h3><blockquote>
+<p><strong>C++</strong> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">intersection</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">		<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; vis;</span><br><span class="line">		<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; intersection;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ans;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> num : nums1) vis.insert(num);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> num : nums2) <span class="keyword">if</span> (vis.find(num) != vis.end()) intersection.insert(num);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> num : intersection) ans.push_back(num);</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Java</strong> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] intersection(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">        HashSet&lt;Integer&gt; vis1 = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">        HashSet&lt;Integer&gt; intersection = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums1) vis1.add(num);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums2) <span class="keyword">if</span>(vis1.contains(num)) intersection.add(num);</span><br><span class="line">        <span class="keyword">int</span> []ans = <span class="keyword">new</span> <span class="keyword">int</span>[intersection.size()];</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:intersection)</span><br><span class="line">            ans[i++] = num;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> </p>
+<hr />
+<h3 id="leetcodeintersection-of-two-arrays-ii">leetcode Intersection of Two Arrays II</h3>
+<blockquote>
 <p>Given two arrays, write a function to compute their intersection.</p>
-<p><strong>Example:</strong><br>Given _nums1_ = <code>[1, 2, 2, 1]</code>, _nums2_ = <code>[2, 2]</code>, return <code>[2, 2]</code>.</p>
+<p><strong>Example:</strong> Given <em>nums1</em> = <code>[1, 2, 2, 1]</code>, <em>nums2</em> = <code>[2, 2]</code>, return <code>[2, 2]</code>.</p>
 <p><strong>Note:</strong></p>
 <ul>
 <li>Each element in the result should appear as many times as it shows in both arrays.</li>
@@ -143,7 +146,7 @@
 <p><strong>Follow up:</strong></p>
 <ul>
 <li>What if the given array is already sorted? How would you optimize your algorithm?</li>
-<li>What if nums1’s size is small compared to num2’s size? Which algorithm is better?</li>
+<li>What if nums1's size is small compared to num2's size? Which algorithm is better?</li>
 <li>What if elements of nums2 are stored on disk, and the memory is limited such that you cannot load all elements into the memory at once?</li>
 </ul>
 </blockquote>
@@ -151,8 +154,9 @@
 <p>题意：给定两个数组，求他们的交集（可以重复）</p>
 <p>思路：用个字典。。。计数即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">intersect</span>(<span class="params">self, nums1, nums2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums1: List[int]</span></span><br><span class="line"><span class="string">        :type nums2: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ans = []</span><br><span class="line">        nums1 = collections.Counter(nums1)</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> nums2:</span><br><span class="line">            <span class="keyword">if</span> x <span class="keyword">in</span> nums1:</span><br><span class="line">                ans.append(x)</span><br><span class="line">                nums1[x] -= <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> nums1[x] == <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">del</span> nums1[x]</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
-<p>本题是leetcode 349 Intersection of Two Arrays  和 leetcode 350 Intersection of Two Arrays II题解</p>
-<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p> </p>
+<p>本题是leetcode 349 Intersection of Two Arrays  和 leetcode 350 Intersection of Two Arrays II题解</p>
+<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -368,12 +372,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -385,6 +395,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -393,13 +405,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -418,7 +431,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

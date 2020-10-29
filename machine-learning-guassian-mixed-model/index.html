@@ -114,33 +114,34 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>高斯混合模型（Guassian Mixed Model, 简称GMM）是一种常见的聚类方法，与K-means类似，同样使用了EM算法进行迭代计算。<br><a id="more"></a></p>
-<h2 id="高斯混合模型"><a href="#高斯混合模型" class="headerlink" title="高斯混合模型"></a>高斯混合模型</h2><p>高斯混合模型假设每个簇的数据都是符合高斯分布的，当前数据呈现的分布就是各个簇的高斯分布叠加在一起的结果。于是高斯混合模型采用<strong>线性组合</strong>来对数据分布进行拟合，理论上高斯混合模型可以拟合出任意类型的分布。</p>
-<p>具体的，我们想要将数据分为K个簇（cluster），可以假设<strong>不同簇中的样本各自服从不同的高斯分布</strong>，K个簇就有K个高斯分布，将K个高斯分布加起来就得到了GMM模型。对于每一个高斯模型，其均值$\mu_k$和方差$\sigma_k$都是待估计的参数，此外，每个模型还有一个参数$\alpha_k$，表示该模型的权重，该参数满足$\sum_{k=1}^K \alpha_k =1$。</p>
-<script type="math/tex; mode=display">
+  <p>高斯混合模型（Guassian Mixed Model, 简称GMM）是一种常见的聚类方法，与K-means类似，同样使用了EM算法进行迭代计算。 <a id="more"></a></p>
+<h2 id="高斯混合模型">高斯混合模型</h2>
+<p>高斯混合模型假设每个簇的数据都是符合高斯分布的，当前数据呈现的分布就是各个簇的高斯分布叠加在一起的结果。于是高斯混合模型采用<strong>线性组合</strong>来对数据分布进行拟合，理论上高斯混合模型可以拟合出任意类型的分布。</p>
+<p>具体的，我们想要将数据分为K个簇（cluster），可以假设<strong>不同簇中的样本各自服从不同的高斯分布</strong>，K个簇就有K个高斯分布，将K个高斯分布加起来就得到了GMM模型。对于每一个高斯模型，其均值<span class="math inline">\(\mu_k\)</span>和方差<span class="math inline">\(\sigma_k\)</span>都是待估计的参数，此外，每个模型还有一个参数<span class="math inline">\(\alpha_k\)</span>，表示该模型的权重，该参数满足<span class="math inline">\(\sum_{k=1}^K \alpha_k =1\)</span>。 <span class="math display">\[
 \begin{align*}
-p(x) &=\sum_{k=1}^K P(k)P(x\mid k)\\
-&=\sum_{k=1}^K\alpha_k \mathcal{N}({x}\mid{\mu}_k,{\sigma}_k)\tag{2-1}\\
-\end{align*}</script><p>其中，</p>
-<script type="math/tex; mode=display">
+p(x) &amp;=\sum_{k=1}^K P(k)P(x\mid k)\\
+&amp;=\sum_{k=1}^K\alpha_k \mathcal{N}({x}\mid{\mu}_k,{\sigma}_k)\tag{2-1}\\
+\end{align*}
+\]</span> 其中， <span class="math display">\[
 \begin{align*}
 \mathcal{N}({\bf x}\mid{\mu}_k,{\sigma}_k) = \frac{1}{\sigma_k\sqrt{2\pi}} \exp\left(-\frac{(x-\mu_k)^2}{2\sigma_k^2}\right) \\
 \sum_{k=1}^K \alpha_k=1
-\end{align*}</script><p>若$\bf x$为向量，则可以写成：</p>
-<script type="math/tex; mode=display">
+\end{align*}
+\]</span> 若<span class="math inline">\(\bf x\)</span>为向量，则可以写成： <span class="math display">\[
 \begin{align*}
-p({\bf x}) &= \sum_{k=1}^K\alpha_k \mathcal{N}({\bf x}\mid{\bf \mu}_k,{\bf \Sigma}_k)\\
-\mathcal{N}({\bf x}\mid{\bf \mu}_k,{\bf \Sigma}_k) &= \frac{1}{\sqrt{(2\pi)^K|\Sigma_k|}} \exp\left(-\frac{1}{2}({\bf x} - {\bf \mu}_k)^T\Sigma_k^{-1}({\bf x} - {\bf \mu_k})\right) \\
-\sum_{k=1}^K \alpha_k&=1
-\end{align*}</script><p>为了方便讲解，下面我们采用非向量的方式进行讲解。</p>
-<p>高斯混合模型是一个生成式的模型，<strong>数据可以看成是从多个高斯分布生成出来的</strong>。具体的说，对于一个样本，按照概率$\alpha_k$选择第k个分布，然后从第k分布$\mathcal{N}({x}\mid{\mu}_k,{\sigma}_k)$生成数据x。</p>
-<p>在实际中，我们已知的是样本点，要来估计上面提到的参数$\alpha_k,  \mu_k,  \bf \sigma_k$, 假设我们采用极大似然法，可以写出对数似然函数如下：</p>
-<script type="math/tex; mode=display">
-l = \sum_{i=1}^N \log P(x_i) = \sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right) \tag{2-2}</script><p>这是一个复杂的非凸函数。对于每个观测数据点来说，事先并不知道它是属于哪个子分布的（hidden variable）。此外，$\log P$中的$P$里面还有求和项， K 个高斯模型的和不是一个高斯模型，对于每个子模型都有未知的, $\alpha_k,  \mu_k,  \bf \sigma_k$直接求导无法计算，<strong>需要通过迭代的方法求解</strong>。</p>
+p({\bf x}) &amp;= \sum_{k=1}^K\alpha_k \mathcal{N}({\bf x}\mid{\bf \mu}_k,{\bf \Sigma}_k)\\
+\mathcal{N}({\bf x}\mid{\bf \mu}_k,{\bf \Sigma}_k) &amp;= \frac{1}{\sqrt{(2\pi)^K|\Sigma_k|}} \exp\left(-\frac{1}{2}({\bf x} - {\bf \mu}_k)^T\Sigma_k^{-1}({\bf x} - {\bf \mu_k})\right) \\
+\sum_{k=1}^K \alpha_k&amp;=1
+\end{align*}
+\]</span> 为了方便讲解，下面我们采用非向量的方式进行讲解。</p>
+<p>高斯混合模型是一个生成式的模型，<strong>数据可以看成是从多个高斯分布生成出来的</strong>。具体的说，对于一个样本，按照概率<span class="math inline">\(\alpha_k\)</span>选择第k个分布，然后从第k分布<span class="math inline">\(\mathcal{N}({x}\mid{\mu}_k,{\sigma}_k)\)</span>生成数据x。</p>
+<p>在实际中，我们已知的是样本点，要来估计上面提到的参数<span class="math inline">\(\alpha_k, \ \mu_k, \ \bf \sigma_k\)</span>, 假设我们采用极大似然法，可以写出对数似然函数如下： <span class="math display">\[
+l = \sum_{i=1}^N \log P(x_i) = \sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right) \tag{2-2}
+\]</span> 这是一个复杂的非凸函数。对于每个观测数据点来说，事先并不知道它是属于哪个子分布的（hidden variable）。此外，<span class="math inline">\(\log P\)</span>中的<span class="math inline">\(P\)</span>里面还有求和项， K 个高斯模型的和不是一个高斯模型，对于每个子模型都有未知的, <span class="math inline">\(\alpha_k, \ \mu_k, \ \bf \sigma_k\)</span>直接求导无法计算，<strong>需要通过迭代的方法求解</strong>。</p>
 <p>因此，求解高斯混合模型采用的是EM算法：</p>
-<ol>
+<ol type="1">
 <li>E-step： 根据当前的参数，计算每个点由某个分模型生成的概率</li>
-<li>M-step：使用E步估计出的概率，来改进每个分模型的$\alpha_k,  \mu_k,  \bf \sigma_k$</li>
+<li>M-step：使用E步估计出的概率，来改进每个分模型的<span class="math inline">\(\alpha_k, \ \mu_k, \ \bf \sigma_k\)</span></li>
 </ol>
 <p>高斯分布和K-means都需要指定K值，都是用EM算法来求解，同时往往也只能收敛到局部最优。它比K-means更优的地方在于：</p>
 <ul>
@@ -148,88 +149,101 @@ l = \sum_{i=1}^N \log P(x_i) = \sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \ma
 <li>除了聚类外，还可以用于概率密度的估计</li>
 <li>可以用于生成新的样本点</li>
 </ul>
-<h2 id="求解推导"><a href="#求解推导" class="headerlink" title="求解推导"></a>求解推导</h2><p>本小节主要是推导EM算法中的E-step和M-step</p>
-<h3 id="引入隐变量"><a href="#引入隐变量" class="headerlink" title="引入隐变量"></a>引入隐变量</h3><p>首先对式2-1做一下变换，引入一个服从<strong>多项分布</strong>的随机变量$\bf z$，简单的说$\bf z$就是一个One-hot的向量:</p>
-<script type="math/tex; mode=display">
+<h2 id="求解推导">求解推导</h2>
+<p>本小节主要是推导EM算法中的E-step和M-step</p>
+<h3 id="引入隐变量">引入隐变量</h3>
+<p>首先对式2-1做一下变换，引入一个服从<strong>多项分布</strong>的随机变量<span class="math inline">\(\bf z\)</span>，简单的说<span class="math inline">\(\bf z\)</span>就是一个One-hot的向量: <span class="math display">\[
 z_{k}  = \begin{cases} 
-    1，&\text{样本来自第k个分模型} \\
-    0, &\text{否则}
-\end{cases}</script><p>假设$z_k$之间是独立同分布的，则容易写出联合概率：</p>
-<script type="math/tex; mode=display">
-p({\bf z}) = p(z_1) p(z_2)...p(z_K) = \prod_{k=1}^K \alpha_k^{z_k} \tag{2-2}</script><p>则给定$\bf z$之后，可以求出$P(x \mid z)$(相当于选择第k个分布)：</p>
-<script type="math/tex; mode=display">
-p(x\mid {\bf z}) = \prod_{k=1}^K \mathcal{N}({\bf x}\mid{\mu}_k,{\bf \sigma}_k)^{z_k} \tag{2-3}</script><p>于是可以根据联合概率求出：</p>
-<script type="math/tex; mode=display">
+    1，&amp;\text{样本来自第k个分模型} \\
+    0, &amp;\text{否则}
+\end{cases}
+\]</span></p>
+<p>假设<span class="math inline">\(z_k\)</span>之间是独立同分布的，则容易写出联合概率： <span class="math display">\[
+p({\bf z}) = p(z_1) p(z_2)...p(z_K) = \prod_{k=1}^K \alpha_k^{z_k} \tag{2-2}
+\]</span> 则给定<span class="math inline">\(\bf z\)</span>之后，可以求出<span class="math inline">\(P(x \mid z)\)</span>(相当于选择第k个分布)： <span class="math display">\[
+p(x\mid {\bf z}) = \prod_{k=1}^K \mathcal{N}({\bf x}\mid{\mu}_k,{\bf \sigma}_k)^{z_k} \tag{2-3}
+\]</span> 于是可以根据联合概率求出： <span class="math display">\[
 \begin{align*}
-p({\bf x}) &= \sum_z p(z)p(x\mid z)\\
-&= \sum_{k=1}^K\alpha_k \mathcal{N}({\bf x}\mid{\mu}_k,{\bf \Sigma}_k) \tag{2-4}
-\end{align*}</script><p>2-4是忽略了$z_k=0$的项，因为值为1。可以发现和2-1等价。</p>
-<p>这样，我们引入了隐变量$\bf z$，用来描述样本是由第j个高斯分布产生的。</p>
-<h3 id="E-step"><a href="#E-step" class="headerlink" title="E-step"></a>E-step</h3><p>在EM算法中，我们提到E-step求的Q函数形式为$P(z \mid x)$，对于GMM模型来说，我们可以用贝叶斯公式求出$p(z_k = 1 \mid x)$：</p>
-<script type="math/tex; mode=display">
+p({\bf x}) &amp;= \sum_z p(z)p(x\mid z)\\
+&amp;= \sum_{k=1}^K\alpha_k \mathcal{N}({\bf x}\mid{\mu}_k,{\bf \Sigma}_k) \tag{2-4}
+\end{align*}
+\]</span> 2-4是忽略了<span class="math inline">\(z_k=0\)</span>的项，因为值为1。可以发现和2-1等价。</p>
+<p>这样，我们引入了隐变量<span class="math inline">\(\bf z\)</span>，用来描述样本是由第j个高斯分布产生的。</p>
+<h3 id="e-step">E-step</h3>
+<p>在EM算法中，我们提到E-step求的Q函数形式为<span class="math inline">\(P(z \mid x)\)</span>，对于GMM模型来说，我们可以用贝叶斯公式求出<span class="math inline">\(p(z_k = 1 \mid x)\)</span>： <span class="math display">\[
 \begin{align*}
-\gamma(z_k) = P(z_k=1\mid x) &= \frac{P(x, z_k=1)}{P(x)} \\
-&= \frac{P(x\mid z_k =1)P(z_k =1)}{P(x)}\\
-&= \frac{\alpha_k \mathcal{N}({\bf x}\mid{\mu}_k,{\bf \Sigma}_k)}{\sum_{j=1}^K\alpha_j \mathcal{N}({\bf x}\mid{\mu}_j,{\bf \Sigma}_j)} \tag{2-5}
-\end{align*}</script><h3 id="M-Step"><a href="#M-Step" class="headerlink" title="M-Step"></a>M-Step</h3><p>现在我们知道了2-5的形式，就可以求导来优化$\mu$等参数了。回顾一下对数似然函数2-2：</p>
-<script type="math/tex; mode=display">
-l = \sum_{i=1}^N \log P(x_i) = \sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right) \tag{2-2}</script><p>2-2对$\mu_k$求导，并令导数为0，有</p>
-<script type="math/tex; mode=display">
+\gamma(z_k) = P(z_k=1\mid x) &amp;= \frac{P(x, z_k=1)}{P(x)} \\
+&amp;= \frac{P(x\mid z_k =1)P(z_k =1)}{P(x)}\\
+&amp;= \frac{\alpha_k \mathcal{N}({\bf x}\mid{\mu}_k,{\bf \Sigma}_k)}{\sum_{j=1}^K\alpha_j \mathcal{N}({\bf x}\mid{\mu}_j,{\bf \Sigma}_j)} \tag{2-5}
+\end{align*}
+\]</span></p>
+<h3 id="m-step">M-Step</h3>
+<p>现在我们知道了2-5的形式，就可以求导来优化<span class="math inline">\(\mu\)</span>等参数了。回顾一下对数似然函数2-2： <span class="math display">\[
+l = \sum_{i=1}^N \log P(x_i) = \sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right) \tag{2-2}
+\]</span> 2-2对<span class="math inline">\(\mu_k\)</span>求导，并令导数为0，有 <span class="math display">\[
 \begin{align*}
-\frac{\partial l}{\partial \mu_k} &= \sum_{i=1}^N \frac{\alpha_k \frac{\partial \mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\partial \mu_k}}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
-&=\sum_{i=1}^N \frac{\alpha_k \frac{1}{\sigma_k\sqrt{2\pi}} \exp\left(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\right) (\frac{1}{\sigma_k^2}(x_i-\mu_k)(-1)) }{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
-&= -\sum_{i=1}^N \frac{\alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) }{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)} \frac{x_i-\mu_k}{\sigma_k^2}\\
-&= -\sum_{i=1}^N \gamma(z_{ik})\frac{x_i-\mu_k}{\sigma_k^2} = 0
-\end{align*}</script><p>得：</p>
-<script type="math/tex; mode=display">
-\mu_k = \frac{\sum_{i=1}^N \gamma(z_{ik})\ x_i}{\sum_{i=1}^N \gamma(z_{ik})}</script><p>2-2对$\sigma_k$求导有：</p>
-<script type="math/tex; mode=display">
+\frac{\partial l}{\partial \mu_k} &amp;= \sum_{i=1}^N \frac{\alpha_k \frac{\partial \mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\partial \mu_k}}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
+&amp;=\sum_{i=1}^N \frac{\alpha_k \frac{1}{\sigma_k\sqrt{2\pi}} \exp\left(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\right) (\frac{1}{\sigma_k^2}(x_i-\mu_k)(-1)) }{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
+&amp;= -\sum_{i=1}^N \frac{\alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) }{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)} \frac{x_i-\mu_k}{\sigma_k^2}\\
+&amp;= -\sum_{i=1}^N \gamma(z_{ik})\frac{x_i-\mu_k}{\sigma_k^2} = 0
+\end{align*}
+\]</span> 得： <span class="math display">\[
+\mu_k = \frac{\sum_{i=1}^N \gamma(z_{ik})\ x_i}{\sum_{i=1}^N \gamma(z_{ik})}
+\]</span> 2-2对<span class="math inline">\(\sigma_k\)</span>求导有： <span class="math display">\[
 \begin{align*}
-\frac{\partial l}{\partial \sigma_k} &= \sum_{i=1}^N \frac{\alpha_k \frac{\partial \mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\partial \sigma_k}}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
-&= \sum_{i=1}^N \frac{\alpha_k \left( -\frac{1}{\sqrt{2\pi}\sigma_k^2}\exp(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}) + \frac{1}{\sqrt{2\pi} \sigma_k} \exp(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2})\frac{(x_i-\mu_k)^2}{2\sigma_k^4} 2\sigma_k\right)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
-&= \sum_{i=1}^N \frac{\alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k)\left( -\frac{1}{\sigma_k}+ \frac{(x_i-\mu_k)^2}{\sigma_k^3} \right)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
-&= \sum_{i=1}^N \gamma(z_{ik})\left( -\frac{1}{\sigma_k}+ \frac{(x_i-\mu_k)^2}{\sigma_k^3} \right) = 0
-\end{align*}</script><p>令其导数为0，有 </p>
-<script type="math/tex; mode=display">
-\sigma_k^2 = \frac{\sum_{i=1}^N \gamma({z_{ik}})(x_i-\mu_k)^2}{\sum_{i=1}^N\gamma({z_{ik}})}</script><p>由于$\sum_k \alpha_k = 1$，这是有约束条件的，所以需要引入拉格朗日算子然后在对$\alpha_k$求偏导：</p>
-<script type="math/tex; mode=display">
+\frac{\partial l}{\partial \sigma_k} &amp;= \sum_{i=1}^N \frac{\alpha_k \frac{\partial \mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\partial \sigma_k}}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
+&amp;= \sum_{i=1}^N \frac{\alpha_k \left( -\frac{1}{\sqrt{2\pi}\sigma_k^2}\exp(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}) + \frac{1}{\sqrt{2\pi} \sigma_k} \exp(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2})\frac{(x_i-\mu_k)^2}{2\sigma_k^4} 2\sigma_k\right)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
+&amp;= \sum_{i=1}^N \frac{\alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k)\left( -\frac{1}{\sigma_k}+ \frac{(x_i-\mu_k)^2}{\sigma_k^3} \right)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}\\
+&amp;= \sum_{i=1}^N \gamma(z_{ik})\left( -\frac{1}{\sigma_k}+ \frac{(x_i-\mu_k)^2}{\sigma_k^3} \right) = 0
+\end{align*}
+\]</span> 令其导数为0，有 <span class="math display">\[
+\sigma_k^2 = \frac{\sum_{i=1}^N \gamma({z_{ik}})(x_i-\mu_k)^2}{\sum_{i=1}^N\gamma({z_{ik}})}
+\]</span> 由于<span class="math inline">\(\sum_k \alpha_k = 1\)</span>，这是有约束条件的，所以需要引入拉格朗日算子然后在对<span class="math inline">\(\alpha_k\)</span>求偏导： <span class="math display">\[
 \begin{align*}
-l_2 &= \sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right) + \sum_{k=1}^K\lambda_k (\alpha_k - 1)\\
-\frac{\partial l_2}{\partial \alpha_k} &= \sum_{i=1}^N \frac{ \mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)} + \lambda= 0
-\end{align*}</script><p>两边同乘以$\alpha_k$得到：</p>
-<script type="math/tex; mode=display">
+l_2 &amp;= \sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right) + \sum_{k=1}^K\lambda_k (\alpha_k - 1)\\
+\frac{\partial l_2}{\partial \alpha_k} &amp;= \sum_{i=1}^N \frac{ \mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)} + \lambda= 0
+\end{align*}
+\]</span> 两边同乘以<span class="math inline">\(\alpha_k\)</span>得到： <span class="math display">\[
 \sum_{i=1}^N \frac{ \alpha_k\mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}+\lambda \alpha_k = 0\\
-\sum_{i=1}^N\gamma(z_{ik}) = -\lambda a_k</script><p>这里有个技巧就是对k求和，有</p>
-<script type="math/tex; mode=display">
-\begin{align*}\sum_{k=1}^ K\sum_{i=1}^N \gamma(z_{ik}) &= \sum_{i=1}^N \frac{ \sum_{k=1}^{K} \alpha_k\mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}  \\
-&= N \\
-&= -\lambda \sum_{k=1}^K a_k\\
-&= -\lambda
-\end{align*}</script><p>因此，有</p>
-<script type="math/tex; mode=display">
-\alpha_k = \frac{\sum_{i=1}^N \gamma(z_{ik})}{N}</script><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>GMM模型采用EM算法进行求解，步骤如下：</p>
-<ol>
-<li>设定K的值，随机初始化K个高斯分布的参数$\alpha_k, \mu_k, \sigma_k$</li>
-<li>E-step，根据当前的$\alpha_k$计算后验概率$\hat\gamma(z_{ik})$</li>
+\sum_{i=1}^N\gamma(z_{ik}) = -\lambda a_k
+\]</span> 这里有个技巧就是对k求和，有 <span class="math display">\[
+\begin{align*}\sum_{k=1}^ K\sum_{i=1}^N \gamma(z_{ik}) &amp;= \sum_{i=1}^N \frac{ \sum_{k=1}^{K} \alpha_k\mathcal{N}({x}_k\mid{\mu}_k,{\sigma}_k)}{\sum_{j=1}^K \alpha_j \mathcal{N}({x}_i\mid{\mu}_j,{\sigma}_j)}  \\
+&amp;= N \\
+&amp;= -\lambda \sum_{k=1}^K a_k\\
+&amp;= -\lambda
+\end{align*}
+\]</span> 因此，有 <span class="math display">\[
+\alpha_k = \frac{\sum_{i=1}^N \gamma(z_{ik})}{N}
+\]</span></p>
+<h3 id="小结">小结</h3>
+<p>GMM模型采用EM算法进行求解，步骤如下：</p>
+<ol type="1">
+<li>设定K的值，随机初始化K个高斯分布的参数<span class="math inline">\(\alpha_k, \mu_k, \sigma_k\)</span></li>
+<li>E-step，根据当前的<span class="math inline">\(\alpha_k\)</span>计算后验概率<span class="math inline">\(\hat\gamma(z_{ik})\)</span></li>
 </ol>
-<script type="math/tex; mode=display">
+<p><span class="math display">\[
 \begin{align*}
-\hat\gamma(z_{ik}) = P(z_k=1\mid x_i) &= \frac{\alpha_k \mathcal{N}({\bf x_i}\mid{\mu}_k,{\bf \Sigma}_k)}{\sum_{j=1}^K\alpha_j \mathcal{N}({\bf x_i}\mid{\mu}_j,{\bf \Sigma}_j)}
-\end{align*}</script><ol>
-<li>M-step, 根据E-step中计算的$\gamma(z_{ik})$再计算新的$\hat\alpha_k, \hat\mu_k, \hat\sigma_k$</li>
+\hat\gamma(z_{ik}) = P(z_k=1\mid x_i) &amp;= \frac{\alpha_k \mathcal{N}({\bf x_i}\mid{\mu}_k,{\bf \Sigma}_k)}{\sum_{j=1}^K\alpha_j \mathcal{N}({\bf x_i}\mid{\mu}_j,{\bf \Sigma}_j)}
+\end{align*}
+\]</span></p>
+<ol start="3" type="1">
+<li>M-step, 根据E-step中计算的<span class="math inline">\(\gamma(z_{ik})\)</span>再计算新的<span class="math inline">\(\hat\alpha_k, \hat\mu_k, \hat\sigma_k\)</span></li>
 </ol>
-<script type="math/tex; mode=display">
+<p><span class="math display">\[
 \begin{align*}
-\hat \mu_k &= \frac{\sum_{i=1}^N \hat\gamma(z_{ik})\ x_i}{\sum_{i=1}^N \gamma(z_{ik})}\\
-\hat \sigma_k^2 &= \frac{\sum_{i=1}^N \hat\gamma({z_{ik}})(x_i-\mu_k)^2}{\sum_{i=1}^N\hat\gamma({z_{ik}})}\\
-\hat\alpha_k &= \frac{\sum_{i=1}^N \hat\gamma(z_{ik})}{N}
-\end{align*}</script><ol>
-<li>计算对数似然函数$\sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right)$，看是否收敛，若不收敛，返回2步</li>
+\hat \mu_k &amp;= \frac{\sum_{i=1}^N \hat\gamma(z_{ik})\ x_i}{\sum_{i=1}^N \gamma(z_{ik})}\\
+\hat \sigma_k^2 &amp;= \frac{\sum_{i=1}^N \hat\gamma({z_{ik}})(x_i-\mu_k)^2}{\sum_{i=1}^N\hat\gamma({z_{ik}})}\\
+\hat\alpha_k &amp;= \frac{\sum_{i=1}^N \hat\gamma(z_{ik})}{N}
+\end{align*}
+\]</span></p>
+<ol start="4" type="1">
+<li>计算对数似然函数<span class="math inline">\(\sum_{i=1}^N \log \left(\sum_{k=1}^K \alpha_k \mathcal{N}({x}_i\mid{\mu}_k,{\sigma}_k) \right)\)</span>，看是否收敛，若不收敛，返回2步</li>
 </ol>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] 《百面机器学习》<br>[2]<a target="_blank" rel="noopener" href="https://blog.csdn.net/jinping_shi/article/details/59613054">高斯混合模型（GMM）及其EM算法的理解</a></p>
-<p><a target="_blank" rel="noopener" href="https://brilliant.org/wiki/gaussian-mixture-model/">https://brilliant.org/wiki/gaussian-mixture-model/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/gaussian-mixture-model/">https://www.geeksforgeeks.org/gaussian-mixture-model/</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lpsl1882/article/details/53072907">https://blog.csdn.net/lpsl1882/article/details/53072907</a></p>
+<h2 id="参考资料">参考资料</h2>
+<p>[1] 《百面机器学习》 [2]<a target="_blank" rel="noopener" href="https://blog.csdn.net/jinping_shi/article/details/59613054">高斯混合模型（GMM）及其EM算法的理解</a></p>
+<p>https://brilliant.org/wiki/gaussian-mixture-model/</p>
+<p>https://www.geeksforgeeks.org/gaussian-mixture-model/</p>
+<p>https://blog.csdn.net/lpsl1882/article/details/53072907</p>
  
       <!-- reward -->
       
@@ -445,12 +459,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -462,6 +482,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -470,13 +492,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -495,7 +518,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

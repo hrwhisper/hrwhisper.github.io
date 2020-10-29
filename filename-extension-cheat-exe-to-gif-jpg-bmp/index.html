@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">261</span>
+            <span class="post-count">270</span>
         </span>
     </span>
 
@@ -118,15 +118,22 @@
 <p>比如：钓鱼网站。</p>
 <p>今天我写的这个仅仅是一个很小的技巧。</p>
 <p>如图，这是一个应用程序，但是它的后缀是jpg！！！</p>
-<p><img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/2015.3.28-afterChangeName.jpg" alt="2015.3.28 afterChangeName"><br><a id="more"></a></p>
-<h1 id="具体方法"><a href="#具体方法" class="headerlink" title="具体方法"></a><strong>具体方法</strong></h1><p>首先，新建一个名为：hrwhisper.gpj.exe的文件</p>
-<p><img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/2015.3.28-beforeChangeName.jpg" alt="2015.3.28 beforeChangeName"></p>
+<p><img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/2015.3.28-afterChangeName.jpg" alt="2015.3.28 afterChangeName" /> <a id="more"></a> # <strong>具体方法</strong></p>
+<p>首先，新建一个名为：hrwhisper.gpj.exe的文件</p>
+<figure>
+<img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/2015.3.28-beforeChangeName.jpg" alt="2015.3.28 beforeChangeName" /><figcaption>2015.3.28 beforeChangeName</figcaption>
+</figure>
 <p>接着，按F2重命名，在第一个.（也就是g）的前面右键，插入unicode控制字符，选RLO</p>
-<p><img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/changingName.jpg" alt="changingName"></p>
+<figure>
+<img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/changingName.jpg" alt="changingName" /><figcaption>changingName</figcaption>
+</figure>
 <p>完成后大功告成！</p>
-<p><img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/2015.3.28-afterChangeName.jpg" alt="2015.3.28 afterChangeName"></p>
+<figure>
+<img src="../images/filename-extension-cheat-exe-to-gif-jpg-bmp/2015.3.28-afterChangeName.jpg" alt="2015.3.28 afterChangeName" /><figcaption>2015.3.28 afterChangeName</figcaption>
+</figure>
 <p>其实这个是利用unicode的控制字符进行翻转字符串，而你也可以同理的使得exe伪装为其他任意文件格式！</p>
-<h1 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h1><p>这么简单的东西有什么用呢？</p>
+<h1 id="用途">用途</h1>
+<p>这么简单的东西有什么用呢？</p>
 <p>假设场景如下：</p>
 <p>如果对方是小白，那几乎不需要这种方法。</p>
 <p>如果对方是大白：那么你发给他，他一看后缀，图片格式嘛！一打开，就中招了。（你的exe甚至可以写执行自己的恶意代码并且打开一个图像！这样他压根不会发觉！）</p>
@@ -343,12 +350,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -360,6 +373,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -368,13 +383,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -393,7 +409,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

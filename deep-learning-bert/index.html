@@ -122,7 +122,8 @@
 <li><a target="_blank" rel="noopener" href="https://www.hrwhisper.me/deep-learning-word2vec/">Word2Vec</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.hrwhisper.me/deep-learning-attention-is-all-you-need-transformer/">Attention is All You Need : Transformer模型</a></li>
 </ul>
-<h2 id="词向量对比"><a href="#词向量对比" class="headerlink" title="词向量对比"></a>词向量对比</h2><p>从word2vec到ELMo在到Bert发生了什么变化呢？这里引用<a target="_blank" rel="noopener" href="https://www.cnblogs.com/rucwxb/p/10277217.html">【NLP】彻底搞懂BERT</a>的评价：</p>
+<h2 id="词向量对比">词向量对比</h2>
+<p>从word2vec到ELMo在到Bert发生了什么变化呢？这里引用<a target="_blank" rel="noopener" href="https://www.cnblogs.com/rucwxb/p/10277217.html">【NLP】彻底搞懂BERT</a>的评价：</p>
 <blockquote>
 <p>word2vec——&gt;ELMo：</p>
 <p>　　结果：上下文无关的static向量变成上下文相关的dynamic向量，比如苹果在不同语境vector不同</p>
@@ -132,75 +133,103 @@
 <p>　　操作：使用句子级负采样获得句子表示/句对关系，Transformer模型代替LSTM提升表达和时间上的效率，masked LM解决“自己看到自己”的问题</p>
 </blockquote>
 <p>下面会讲讲ELMo，然后在讲解BERT</p>
-<h2 id="ELMO"><a href="#ELMO" class="headerlink" title="ELMO"></a>ELMO</h2><p>前面提到过，ELMO会将静态的词转变成上下文相关的动态词向量。</p>
+<h2 id="elmo">ELMO</h2>
+<p>前面提到过，ELMO会将静态的词转变成上下文相关的动态词向量。</p>
 <p>这有什么好处呢？比如体会一下下面几个bank的意思：</p>
 <blockquote>
 <p>It is safest to deposit your money in the <strong>bank</strong>.</p>
-<p>They stood on the river <strong>bank</strong> to fish.  </p>
+<p>They stood on the river <strong>bank</strong> to fish.</p>
 <p>The hospital has its own blood <strong>bank</strong>.</p>
 </blockquote>
-<p>第一个是银行的意思，第二个则是河畔的意思，第三个则是库存的意思。虽然都是”bank”，但是和使用的上下文有关系，而word2vec学习出来的是静态的向量。</p>
+<p>第一个是银行的意思，第二个则是河畔的意思，第三个则是库存的意思。虽然都是&quot;bank&quot;，但是和使用的上下文有关系，而word2vec学习出来的是静态的向量。</p>
 <p>因此，ELMO进行了改进，通过RNN来训练语言模型，即给定上一个TOKEN，来预测下一个token。分别进行前向、后向的训练，将中间的hidden向量拼接起来就得到了词的vector。这是因为RNN输出某个词会考虑前面读过的句子，也就考虑了上下文，因此能得到动态的词向量。（注：这里后向的训练相当于原来句子逆向，比如正向是“潮水退了就知道” 逆向的输如则是“知道就退了潮水”）。</p>
-<p><img src="../images/deep-learning-bert/elmo.png" alt="elmo"></p>
+<figure>
+<img src="../images/deep-learning-bert/elmo.png" alt="elmo" /><figcaption>elmo</figcaption>
+</figure>
 <p>对于多层的RNN，每一层都有隐向量，ELMO的做法是”我全都要“。假设忘了有两层，则会输出两个隐向量（分别是下图黄色和绿色的），ELMO会对他们进行加权相加，具体的权重是通过具体任务学习出来的。</p>
-<p><img src="../images/deep-learning-bert/elmo-multi-layer.png" alt="elmo-multi-layer"></p>
+<figure>
+<img src="../images/deep-learning-bert/elmo-multi-layer.png" alt="elmo-multi-layer" /><figcaption>elmo-multi-layer</figcaption>
+</figure>
 <p>由上面可以看到，ELMO采用了前向和后向两个RNN分别的训练，这是为什么呢？</p>
 <p>因为采用双向的RNN会导致”看见答案“的问题（或者说看见自己see itself），以上面的“潮水退了就知道”这个为例，正向的RNN在预测“退了”的时候，会考虑到前面“潮水”的信息，这两个词的信息都被放入了RNN的隐向量中。而如果考虑还有一个反向的RNN，在预测”退了“的时候，会有将要预测的”就“的信息被考虑了进来，这就相当于看到了答案。因此ELMO采用了前向和后向两个RNN分别训练，从而避免了这个问题。</p>
-<h2 id="BERT"><a href="#BERT" class="headerlink" title="BERT"></a>BERT</h2><p>BERT主要是预训练+fine tuning，通过在大量的语料库中得到了词的基本表示，然后在具体的任务中进行fine tuning。</p>
+<h2 id="bert">BERT</h2>
+<p>BERT主要是预训练+fine tuning，通过在大量的语料库中得到了词的基本表示，然后在具体的任务中进行fine tuning。</p>
 <p>BERT的结构如下图左边所示，其基本的单元是transformer的encoder的模块。</p>
-<p><img src="../images/deep-learning-bert/bert-gpt-elmo-compare.png" alt="bert-gpt-elmo-compare"></p>
+<figure>
+<img src="../images/deep-learning-bert/bert-gpt-elmo-compare.png" alt="bert-gpt-elmo-compare" /><figcaption>bert-gpt-elmo-compare</figcaption>
+</figure>
 <p>回想之前提到的ELMO，是使用两个单向的RNN来代替一个双向的RNN，从而使得不会有看到答案的问题。而GPT是用通过mask得分矩阵避免当前字看到之后所要预测的字，GPT只有正向的，缺失了反向的信息。而BERT呢？采用的是将预测的字用[MASK]字符代替，因此无论你是正向的还是反向的，你都不知道[MASK]这个字符原来的字是什么，只有结合[MASK]左右两边的词语信息来预测，这就达到了用双向模型训练的目的，这个细节会在后面讨论。而还有更新的XLnet模型结合了GPT和BERT的思想，用mask得分矩阵的方法来替代[MASK]这个字符，取得了更好的效果。</p>
 <p>下面开始介绍BERT细节的东西。</p>
-<h3 id="预训练"><a href="#预训练" class="headerlink" title="预训练"></a>预训练</h3><p>之所以先讲预训练，而不是模型的输入是因为BERT的训练思想会体现在输入中。训练的部分也是BERT关键创新的部分。</p>
+<h3 id="预训练">预训练</h3>
+<p>之所以先讲预训练，而不是模型的输入是因为BERT的训练思想会体现在输入中。训练的部分也是BERT关键创新的部分。</p>
 <p>在训练的语料库的选取方面，作者强调<strong>要选用document-level的而不是sentence-level的，从而具备抽象连续长序列特征的能力。</strong></p>
 <blockquote>
 <p>It is critical to use a document-level corpus rather than a shuffled sentence-level corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to extract long contiguous sequences.</p>
 </blockquote>
-<h4 id="Masked-LM"><a href="#Masked-LM" class="headerlink" title="Masked LM"></a>Masked LM</h4><p>前面提到过，为了防止”看见答案”的问题，BERT将预测的字来进行替代，具体的图如下:</p>
-<p><img src="../images/deep-learning-bert/bert-train-masked-lm.png" alt="bert-train-masked-lm"></p>
+<h4 id="masked-lm">Masked LM</h4>
+<p>前面提到过，为了防止&quot;看见答案&quot;的问题，BERT将预测的字来进行替代，具体的图如下:</p>
+<figure>
+<img src="../images/deep-learning-bert/bert-train-masked-lm.png" alt="bert-train-masked-lm" /><figcaption>bert-train-masked-lm</figcaption>
+</figure>
 <p>随机选择15%的word，将预测的word用[MASK]字符替代，然后用线性的分类器去预测这个word，避免了”看见答案“的问题，因为无论正向反向都不知道这个word原来是什么，从而迫使模型结合上下文来进行推测，这样就达到了用双向模型训练的目的。</p>
 <p>但是这也引入了一个问题，就是预训练和finetuning之间是不匹配的：因为在finetuning期间从未看到[MASK]token。为了解决这个问题，BERT并不总是用实际的[MASK]来替换被mask的词汇，而是：</p>
 <blockquote>
 <ul>
 <li>80% of the time: Replace the word with the [MASK] token, e.g., my dog is hairy ! my dog is [MASK]</li>
 <li>10% of the time: Replace the word with a random word, e.g., my dog is hairy ! my dog is apple</li>
-<li>10% of the time: Keep the word unchanged, e.g., my dog is hairy ! my dog is hairy. The purpose of this is to bias the<br>representation towards the actual observed word.  </li>
+<li>10% of the time: Keep the word unchanged, e.g., my dog is hairy ! my dog is hairy. The purpose of this is to bias the representation towards the actual observed word.</li>
 </ul>
 </blockquote>
 <p>即80%的实际用[MASK]标记替换单词，10%的时间用一个随机的单词替换该单词，还有10％的时间：保持单词不变。这样做的目的是将表示偏向于实际观察到的单词。</p>
-<h4 id="Next-Sentence-Prediction"><a href="#Next-Sentence-Prediction" class="headerlink" title="Next Sentence Prediction"></a>Next Sentence Prediction</h4><p>许多重要的下游任务，如问答（QA）和自然语言推理（NLI）都是基于理解两个句子之间的关系，语言建模并没有获得这个关系。因此，为了解决这个问题，提出了Next Sentence prediction训练的方法，如下图所示：</p>
-<p><img src="../images/deep-learning-bert/bert-train-next-sentence-prediction.png" alt="bert-train-next-sentence-prediction"></p>
+<h4 id="next-sentence-prediction">Next Sentence Prediction</h4>
+<p>许多重要的下游任务，如问答（QA）和自然语言推理（NLI）都是基于理解两个句子之间的关系，语言建模并没有获得这个关系。因此，为了解决这个问题，提出了Next Sentence prediction训练的方法，如下图所示：</p>
+<figure>
+<img src="../images/deep-learning-bert/bert-train-next-sentence-prediction.png" alt="bert-train-next-sentence-prediction" /><figcaption>bert-train-next-sentence-prediction</figcaption>
+</figure>
 <p>即一开始是一个[CLS]的字符，用来做二分类的输出；两个句子用[SEP]字符进行隔开。在训练时句子A后面跟着的句子B有50%是真实跟在A后面的，也有50%是来自语料库随机的句子。</p>
-<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>BERT的输入如下：</p>
-<p><img src="../images/deep-learning-bert/bert-input.jpg" alt="bert-input"></p>
+<h3 id="输入">输入</h3>
+<p>BERT的输入如下：</p>
+<figure>
+<img src="../images/deep-learning-bert/bert-input.jpg" alt="bert-input" /><figcaption>bert-input</figcaption>
+</figure>
 <p>这是三部分的叠加：</p>
-<ol>
-<li><p>Token Embedding，第一个单词是CLS标志，可以用于之后的分类任务</p>
-</li>
-<li><p>Segment Embeddings用来区别两种句子，因为有Next Sentence Prediction的任务</p>
-</li>
-<li><p>Position Embeddings：加入位置信息，和Transformer用三角函数不同，这里的embedding是学习出来的</p>
-</li>
+<ol type="1">
+<li><p>Token Embedding，第一个单词是CLS标志，可以用于之后的分类任务</p></li>
+<li><p>Segment Embeddings用来区别两种句子，因为有Next Sentence Prediction的任务</p></li>
+<li><p>Position Embeddings：加入位置信息，和Transformer用三角函数不同，这里的embedding是学习出来的</p></li>
 </ol>
-<h3 id="Fine-Tuning"><a href="#Fine-Tuning" class="headerlink" title="Fine Tuning"></a>Fine Tuning</h3><p>前面提到过，BERT在具体任务上会进行fine tuning调整，下面对几种常见的情况做介绍。</p>
-<h4 id="Single-Sentence-Classification-Task"><a href="#Single-Sentence-Classification-Task" class="headerlink" title="Single Sentence Classification Task"></a>Single Sentence Classification Task</h4><p>BERT做分类fine tuning比较简单，在[CLS]标识符的输出接个线性的分类器即可。如下图所示：</p>
-<p><img src="../images/deep-learning-bert/bert-fine-tuning-single-sentence-classification-task.png" alt="bert-fine-tuning-single-sentence-classification-task"></p>
-<h4 id="Single-Sentence-tagging-tasks"><a href="#Single-Sentence-tagging-tasks" class="headerlink" title="Single Sentence tagging tasks"></a>Single Sentence tagging tasks</h4><p>还有一种如Slot filling的任务，需要对输入的句子的每个词输出其类别，这个也比较简单，在每个词输出的向量用线性分类器就行。</p>
-<p><img src="../images/deep-learning-bert/bert-fine-tuning-single-sentence-tagging-tasks.png" alt="bert-fine-tuning-single-sentence-tagging-tasks"></p>
-<h4 id="Sentence-pair-classification-task"><a href="#Sentence-pair-classification-task" class="headerlink" title="Sentence pair classification task"></a>Sentence pair classification task</h4><p>接下来的例子稍微复杂一点，给定前提（句子A）和假设（句子B），让你判断给定前提能否推出假设，输出ture/false/unknown。</p>
+<h3 id="fine-tuning">Fine Tuning</h3>
+<p>前面提到过，BERT在具体任务上会进行fine tuning调整，下面对几种常见的情况做介绍。</p>
+<h4 id="single-sentence-classification-task">Single Sentence Classification Task</h4>
+<p>BERT做分类fine tuning比较简单，在[CLS]标识符的输出接个线性的分类器即可。如下图所示：</p>
+<figure>
+<img src="../images/deep-learning-bert/bert-fine-tuning-single-sentence-classification-task.png" alt="bert-fine-tuning-single-sentence-classification-task" /><figcaption>bert-fine-tuning-single-sentence-classification-task</figcaption>
+</figure>
+<h4 id="single-sentence-tagging-tasks">Single Sentence tagging tasks</h4>
+<p>还有一种如Slot filling的任务，需要对输入的句子的每个词输出其类别，这个也比较简单，在每个词输出的向量用线性分类器就行。</p>
+<figure>
+<img src="../images/deep-learning-bert/bert-fine-tuning-single-sentence-tagging-tasks.png" alt="bert-fine-tuning-single-sentence-tagging-tasks" /><figcaption>bert-fine-tuning-single-sentence-tagging-tasks</figcaption>
+</figure>
+<h4 id="sentence-pair-classification-task">Sentence pair classification task</h4>
+<p>接下来的例子稍微复杂一点，给定前提（句子A）和假设（句子B），让你判断给定前提能否推出假设，输出ture/false/unknown。</p>
 <p>其实就是三个类别的分类问题，也是在一开始的CLS上接个线性的分类器：</p>
-<p><img src="../images/deep-learning-bert/bert-fine-tuning-sentence-pair-classification-task.png" alt="bert-fine-tuning-sentence-pair-classification-task"></p>
-<h4 id="Question-Answer-task"><a href="#Question-Answer-task" class="headerlink" title="Question Answer task"></a>Question Answer task</h4><p>给定文章和问题，要让你输出答案在文章中的开始位置和结束位置（假设答案一定出现在文章中）<img src="../images/deep-learning-bert/bert-fine-tuning-question-answer-task-example.png" alt="bert-fine-tuning-question-answer-task-example"></p>
+<figure>
+<img src="../images/deep-learning-bert/bert-fine-tuning-sentence-pair-classification-task.png" alt="bert-fine-tuning-sentence-pair-classification-task" /><figcaption>bert-fine-tuning-sentence-pair-classification-task</figcaption>
+</figure>
+<h4 id="question-answer-task">Question Answer task</h4>
+<p>给定文章和问题，要让你输出答案在文章中的开始位置和结束位置（假设答案一定出现在文章中）<img src="../images/deep-learning-bert/bert-fine-tuning-question-answer-task-example.png" alt="bert-fine-tuning-question-answer-task-example" /></p>
 <p>具体的做法是将question和document的分别输入bert，然后对每个词都会有一个黄色的vector输出。让模型在学习两个vector（下面的红色和蓝色的），分别用来表示答案开始和结束的位置的向量。红色的和每个黄色的vector进行点层，放入softmax，得到概率最高的就是s，蓝色的同理得到e（若e &lt; s则无解）。</p>
-<p><img src="../images/deep-learning-bert/bert-fine-tuning-question-answer-task.png" alt="bert-fine-tuning-question-answer-task"></p>
-<h2 id="Erine"><a href="#Erine" class="headerlink" title="Erine"></a>Erine</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/59436589">https://zhuanlan.zhihu.com/p/59436589</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<figure>
+<img src="../images/deep-learning-bert/bert-fine-tuning-question-answer-task.png" alt="bert-fine-tuning-question-answer-task" /><figcaption>bert-fine-tuning-question-answer-task</figcaption>
+</figure>
+<h2 id="erine">Erine</h2>
+<p>https://zhuanlan.zhihu.com/p/59436589</p>
+<h2 id="参考">参考</h2>
+<ol type="1">
 <li>李宏毅老师的MLDS</li>
-<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/51413773">NLP必读：十分钟读懂谷歌BERT模型</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/codertimo/BERT-pytorch">BERT-pytorch实现</a></p>
-</li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/rucwxb/p/10277217.html">https://www.cnblogs.com/rucwxb/p/10277217.html</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/51413773">NLP必读：十分钟读懂谷歌BERT模型</a></p></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/codertimo/BERT-pytorch">BERT-pytorch实现</a></li>
+<li><p>https://www.cnblogs.com/rucwxb/p/10277217.html</p></li>
 </ol>
  
       <!-- reward -->
@@ -408,12 +437,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -425,6 +460,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -433,13 +470,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -458,7 +496,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

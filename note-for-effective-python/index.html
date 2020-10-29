@@ -114,13 +114,15 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>《Effective Python》的读书笔记~<br><a id="more"></a></p>
-<h2 id="Pythonic-Thinking"><a href="#Pythonic-Thinking" class="headerlink" title="Pythonic Thinking"></a>Pythonic Thinking</h2><ul>
+  <p>《Effective Python》的读书笔记~ <a id="more"></a> ## Pythonic Thinking</p>
+<ul>
 <li>Python开发者用Pythonic这个形容词来形容那种符合特定风格的代码。</li>
 <li>用import this 可以以查看python的编程之禅</li>
 </ul>
-<h3 id="PEP8风格指南"><a href="#PEP8风格指南" class="headerlink" title="PEP8风格指南"></a>PEP8风格指南</h3><p>针对Python代码格式编订的风格指南</p>
-<h4 id="空白Whitespace"><a href="#空白Whitespace" class="headerlink" title="空白Whitespace"></a>空白Whitespace</h4><ul>
+<h3 id="pep8风格指南">PEP8风格指南</h3>
+<p>针对Python代码格式编订的风格指南</p>
+<h4 id="空白whitespace">空白Whitespace</h4>
+<ul>
 <li>使用空格而不是制表符来缩进</li>
 <li>和语法相关的为4个空格</li>
 <li>每行字符不超过79</li>
@@ -130,7 +132,8 @@
 <li>对于下表取值、函数调用、给关键字参数赋值不要在两旁写空格</li>
 <li>变量赋值时赋值符号各自写<strong>一个</strong>空格</li>
 </ul>
-<h4 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h4><ul>
+<h4 id="命名">命名</h4>
+<ul>
 <li>函数、变量和属性用小写+下划线的形式</li>
 <li>受保护的实例属性用单下划线开头_leading_underscore</li>
 <li>私有的实例属性用两个下划线开头__double_leading_underscore</li>
@@ -139,175 +142,180 @@
 <li>类中的实例方法首个参数命名为self，表示对象本身</li>
 <li>类方法class method首个参数应该用cls，表示该类自身</li>
 </ul>
-<h4 id="表达式和语句"><a href="#表达式和语句" class="headerlink" title="表达式和语句"></a>表达式和语句</h4><ul>
+<h4 id="表达式和语句">表达式和语句</h4>
+<ul>
 <li>使用(if a is not b)而不是if not a is b</li>
 <li>不要通过长度检测 if len(somelist) == 0 来判断是否为空，直接用if not somelist这种方式来判断，空值默认判断为False</li>
-<li>检测somelist是否为[1]或’hi’等非空值，也应该直接用if somelist，会把非空为True</li>
+<li>检测somelist是否为[1]或'hi'等非空值，也应该直接用if somelist，会把非空为True</li>
 <li>避免单行的if 、for、while循环以及except复合语句，应该拆分为多行使得更加清晰</li>
 <li>import 语句总是放在文件的开头</li>
 <li>引入模块应该才用绝对的路径而不要用相对的路径，如引入bar中的foo，import bar import foo，而不是import foo</li>
 <li>如果一定要相对名称，就用明确的写法：from . import foo</li>
 <li>import语句应该按顺序分为三部分：<strong>标准库模块、第三方模块、自用模块。每一部分中，各import语句按模块的字母顺序排列</strong></li>
 </ul>
-<h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><ul>
+<h3 id="其它">其它</h3>
+<ul>
 <li><p>在同一个切片操作内，不要同时使用start、end、stride，如果确实需要执行这样的语句，那就考虑将其拆解为两条赋值语句，其中一条作范围切割，另一条做步进切割。如果对时间或者内存要求严格，可以考虑内置itertools中的islice</p>
 <ul>
-<li><p>a = [‘a’, ‘b’, ‘c’, ‘d’, ‘e’, ‘f’, ‘g’, ‘h’]</p>
+<li><p>a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']</p>
 <ul>
-<li>a[::2] # [‘a’, ‘c’, ‘e’, ‘g’]</li>
-<li>a[::-2] # [‘h’, ‘f’, ‘d’, ‘b’]</li>
-</ul>
-</li>
+<li>a[::2] # ['a', 'c', 'e', 'g']</li>
+<li>a[::-2] # ['h', 'f', 'd', 'b']</li>
+</ul></li>
 <li><p>下面的会让人困惑</p>
 <ul>
-<li>a[2::2] # [‘c’, ‘e’, ‘g’]</li>
-<li>a[-2::-2] # [‘g’, ‘e’, ‘c’, ‘a’]</li>
-<li>a[-2:2:-2] # [‘g’, ‘e’],从-2开始取到下标为2，且步长为2</li>
+<li>a[2::2] # ['c', 'e', 'g']</li>
+<li>a[-2::-2] # ['g', 'e', 'c', 'a']</li>
+<li>a[-2:2:-2] # ['g', 'e'],从-2开始取到下标为2，且步长为2</li>
 <li>a[2:2:-2] # []</li>
-</ul>
-</li>
-<li><p>不要使用含有两个以上的列表推导，因为难以理解</p>
-</li>
+</ul></li>
+<li>不要使用含有两个以上的列表推导，因为难以理解</li>
 <li><p>使用生成器表达式来改写数据量较大的列表推导</p>
 <ul>
 <li><strong>把实现列表推导的[]改为()就变成了生成器表达式</strong></li>
 <li>数据量大用列表推导占用太多内存（内存不一定够）</li>
 <li><p>串在一起的生成器表达式执行速度很快</p>
 <ul>
-<li>it = (len(x) for x in open(‘/tmp/my_file.txt’))</li>
+<li>it = (len(x) for x in open('/tmp/my_file.txt'))</li>
 <li>roots = ((x, x**0.5) for x in it)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
+</ul></li>
+</ul></li>
+</ul></li>
 <li>尽量用enurmate取代range</li>
 <li><p>用zip来平行的遍历多个迭代器</p>
 <ul>
 <li>python3中zip相当于生成器。</li>
 <li>如果迭代器长度不等，那么zip会提前自动终止。</li>
 <li>使用zip_longest可以平行遍历多个迭代器</li>
-</ul>
-</li>
+</ul></li>
 <li><p>不要在for 和 while后写else块</p>
 <ul>
 <li>容易让人误解</li>
 <li>只有当整个循环都没有break的时候，循环后面的else才会执行</li>
-</ul>
-</li>
+</ul></li>
 <li><p>合理利用try/except/else/finally中的每个代码块</p>
 <ul>
 <li>无论try块是否发生异常，都可以用finally来执行清理工作</li>
 <li>else 可以用来缩减try块中的代码量，并把没有发生异常时所要执行的语句和try/except代码块隔开</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="在闭包中使用外围作用域的变量"><a href="#在闭包中使用外围作用域的变量" class="headerlink" title="在闭包中使用外围作用域的变量"></a>在闭包中使用外围作用域的变量</h3><ul>
+<h2 id="函数">函数</h2>
+<h3 id="在闭包中使用外围作用域的变量">在闭包中使用外围作用域的变量</h3>
+<ul>
 <li>若是当前作用域没有这个变量，python会把这次赋值视为对变量的定义</li>
 <li>使用<strong>nonlocal</strong>来修改外围作用域中同名变量，但不能延伸到模块级别，防止污染全局作用域</li>
 <li>nonlocal与global互为补充，会直接修改模块作用域里的那个变量</li>
 </ul>
-<h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><ul>
+<h3 id="生成器">生成器</h3>
+<ul>
 <li>生成器是使用yield的函数，调用生成器函数时，并不会真的执行，而是会返回生成器。每个在这个迭代器上面调用next函数时，迭代器把生成器推进到下一个yield表达式那里</li>
 </ul>
-<h3 id="当函数参数若是迭代器…"><a href="#当函数参数若是迭代器…" class="headerlink" title="当函数参数若是迭代器…"></a>当函数参数若是迭代器…</h3><ul>
+<h3 id="当函数参数若是迭代器">当函数参数若是迭代器…</h3>
+<ul>
 <li>需要注意的时，迭代器只能返回一轮结果，在跑出过StopIteration异常的迭代器或生成器上继续迭代第二轮是不会有结果的。因此，如果将迭代器作为参数并在函数中想要遍历两次，那么代码不能按我们期望的方式进行。</li>
 <li>解决的办法是新编一种实现迭代器协议的容器类。</li>
-<li>python在for循环及相关表达式中遍历某种容器的内容时，就要依靠这个迭代器协议。在执行类似for x in foo这样的语句时，python实际上会调用iter(foo)，iter又会调用foo.<strong>iter</strong>这个方法。这个方法返回迭代器对象，而那个迭代器本身，实现了<code>__next__</code>特殊方法，此后for循环在迭代器上反复调用next函数，直到耗尽并产生stopIteration异常。</li>
-<li><p>在使用类时，只需要令自己的类把<strong>iter</strong>方法实现为生成器就可以实现上面的要求</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReadVisits</span>(<span class="params">object</span>):</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data_path</span>):</span></span><br><span class="line">		self.data_path = data_path</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">		<span class="keyword">with</span> open(self.data_path) <span class="keyword">as</span> f:</span><br><span class="line">			<span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">				<span class="keyword">yield</span> int(line)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>想判断某个值是容器还是迭代器，可以拿该值为参数，两次调用iter函数。若结果,相同，则为迭代器<code>if iter(numbers) is iter(numbers)</code></p>
-</li>
+<li>python在for循环及相关表达式中遍历某种容器的内容时，就要依靠这个迭代器协议。在执行类似for x in foo这样的语句时，python实际上会调用iter(foo)，iter又会调用foo.__iter__这个方法。这个方法返回迭代器对象，而那个迭代器本身，实现了<code>__next__</code>特殊方法，此后for循环在迭代器上反复调用next函数，直到耗尽并产生stopIteration异常。</li>
+<li><p>在使用类时，只需要令自己的类把__iter__方法实现为生成器就可以实现上面的要求</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReadVisits</span>(<span class="params">object</span>):</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data_path</span>):</span></span><br><span class="line">		self.data_path = data_path</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">		<span class="keyword">with</span> open(self.data_path) <span class="keyword">as</span> f:</span><br><span class="line">			<span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">				<span class="keyword">yield</span> int(line)</span><br></pre></td></tr></table></figure></li>
+<li><p>想判断某个值是容器还是迭代器，可以拿该值为参数，两次调用iter函数。若结果,相同，则为迭代器<code>if iter(numbers) is iter(numbers)</code></p></li>
 </ul>
-<h3 id="变长参数"><a href="#变长参数" class="headerlink" title="变长参数"></a>变长参数</h3><ul>
+<h3 id="变长参数">变长参数</h3>
+<ul>
 <li>变长参数在传给函数时，总是要先转化为元祖，因此，若对生成器使用*操作符，就会将生成器完整迭代一轮，并把结果每个值都放入元祖中，这可能会消耗大量内存，导致程序崩溃。</li>
 <li>使用<code>*arg</code>参数的第二个问题是将来要给函数添加新的位置参数，就必须修改原来调用函数的代码。为了避免此情况，我们应该使用只以关键字形式指定的参数来扩展接受<code>*args</code>的函数</li>
 </ul>
-<h3 id="关键字参数"><a href="#关键字参数" class="headerlink" title="关键字参数"></a>关键字参数</h3><ul>
+<h3 id="关键字参数">关键字参数</h3>
+<ul>
 <li><p>位置参数必须出现在关键字参数之前</p>
 <ul>
 <li>如这样是错的：<code>remainder(number=20, 7)</code></li>
-</ul>
-</li>
-<li><p>动态默认值的参数应该把形式上的默认值写成None，然后在函数中初始化。因为参数的默认值会在每个模块加载进来的时候求出，而很多模块都在程序启动时加载。模块一旦加载进来，参数默认固定值就不变。</p>
-</li>
-<li>如下代码的when不会变</li>
+</ul></li>
+<li>动态默认值的参数应该把形式上的默认值写成None，然后在函数中初始化。因为参数的默认值会在每个模块加载进来的时候求出，而很多模块都在程序启动时加载。模块一旦加载进来，参数默认固定值就不变。</li>
+<li><p>如下代码的when不会变</p></li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log</span>(<span class="params">message, when=datetime.now(<span class="params"></span>)</span>):</span></span><br><span class="line">	print(‘%s: %s’ % (when, message))</span><br></pre></td></tr></table></figure>
 <ul>
-<li><strong>参数列表里的*号，标志着位置参数就此终结，之后的参数只能以关键字形式来指定</strong>（only py3）</li>
+<li>**参数列表里的*号，标志着位置参数就此终结，之后的参数只能以关键字形式来指定**（only py3）</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safe_division_c</span>(<span class="params">number, divisor, *,</span></span></span><br><span class="line"><span class="function"><span class="params">		ignore_overflow=False,</span></span></span><br><span class="line"><span class="function"><span class="params">		ignore_zero_division=False</span>):</span></span><br></pre></td></tr></table></figure>
-<h2 id="类和继承"><a href="#类和继承" class="headerlink" title="类和继承"></a>类和继承</h2><h3 id="namedtuple"><a href="#namedtuple" class="headerlink" title="namedtuple"></a>namedtuple</h3><ul>
+<p> </p>
+<h2 id="类和继承">类和继承</h2>
+<h3 id="namedtuple">namedtuple</h3>
+<ul>
 <li>如果容器中包含简单又不可变的数据，那么先用<strong>namedtuple</strong>来表示，稍后有需要的时候再修改为完整的类。</li>
 <li>不过无法指定默认参数</li>
 <li>使用例子：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Point = collections.namedtuple(<span class="string">&#x27;Point&#x27;</span>, [<span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>])</span><br><span class="line">p = Point(<span class="number">11</span>, y=<span class="number">22</span>)</span><br><span class="line">print(p[<span class="number">0</span>] + p[<span class="number">1</span>]) <span class="comment"># 33</span></span><br><span class="line">print(p.x + p.y) <span class="comment"># 33</span></span><br></pre></td></tr></table></figure>
-<h3 id="简单的接口应该接受函数而非类的实例"><a href="#简单的接口应该接受函数而非类的实例" class="headerlink" title="简单的接口应该接受函数而非类的实例"></a>简单的接口应该接受函数而非类的实例</h3><ul>
+<h3 id="简单的接口应该接受函数而非类的实例">简单的接口应该接受函数而非类的实例</h3>
+<ul>
 <li>对于连接各种Python的简单接口，通常应该给其直接传入函数，而不是先定义某个类，然后再传入这个类的实例。</li>
 <li>python中的函数和方法都可以像一级类那样引用。</li>
 <li><p>python中的函数之所以能充当挂钩，原因在于<strong>函数是一级对象</strong>,可以像语言中其它值那样传递和引用。</p>
 <ul>
 <li>nums.sort(key=lambda x:len(x))</li>
+</ul></li>
+<li>通过名为<code>__call__</code>的方法，可以使类的实例能像普通的python函数那样得到调用。</li>
+<li><p>如果要用函数来保存状态，那么就定义新的类，并实现<code>__call__</code>方法，而不是定义带状态的闭包。</p></li>
 </ul>
-</li>
-<li><p>通过名为<code>__call__</code>的方法，可以使类的实例能像普通的python函数那样得到调用。</p>
-</li>
-<li>如果要用函数来保存状态，那么就定义新的类，并实现<code>__call__</code>方法，而不是定义带状态的闭包。</li>
-</ul>
-<h3 id="classmethod来多态构建对象"><a href="#classmethod来多态构建对象" class="headerlink" title="@classmethod来多态构建对象"></a>@classmethod来多态构建对象</h3><p>python只允许<strong>init</strong>的构造器方法，可以使用@classmethod的多态。</p>
+<h3 id="classmethod来多态构建对象"><span class="citation" data-cites="classmethod来多态构建对象">@classmethod来多态构建对象</span></h3>
+<p>python只允许__init__的构造器方法，可以使用@classmethod的多态。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_workers</span>(<span class="params">input_list</span>):</span></span><br><span class="line">    workers = []</span><br><span class="line">    <span class="keyword">for</span> input_data <span class="keyword">in</span> input_list:</span><br><span class="line">        workers.append(LineCountWorker(input_data)) </span><br><span class="line">    <span class="keyword">return</span> workers</span><br></pre></td></tr></table></figure>
-<p>上面的例子中， LineCountWorker为Worker的子类。</p>
+<p>上面的例子中， LineCountWorker为Worker的子类。</p>
 <p>假如此时需要处理别的work的话，那就得重写这个函数。</p>
 <p>因此可以这样：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GenericWorker</span>(<span class="params">object</span>):</span></span><br><span class="line"><span class="comment"># …</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">map</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reduce</span>(<span class="params">self, other</span>):</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_workers</span>(<span class="params">cls, input_class, config</span>):</span></span><br><span class="line">        workers = []</span><br><span class="line">        <span class="keyword">for</span> input_data <span class="keyword">in</span> input_class.generate_inputs(config):</span><br><span class="line">            workers.append(cls(input_data))</span><br><span class="line">        <span class="keyword">return</span> workers</span><br></pre></td></tr></table></figure>
 <p>然后让具体的子类继承GenericWorker即可。</p>
-<h3 id="用super初始化父类"><a href="#用super初始化父类" class="headerlink" title="用super初始化父类"></a>用super初始化父类</h3><p>钻石形继承体系：</p>
+<h3 id="用super初始化父类">用super初始化父类</h3>
+<p>钻石形继承体系：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyBaseClass</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        self.value = value</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimesFive</span>(<span class="params">MyBaseClass</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        MyBaseClass.__init__(self, value)</span><br><span class="line">        self.value *= <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PlusTwo</span>(<span class="params">MyBaseClass</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        MyBaseClass.__init__(self, value)</span><br><span class="line">        self.value += <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThisWay</span>(<span class="params">TimesFive, PlusTwo</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        TimesFive.__init__(self, value)</span><br><span class="line">        PlusTwo.__init__(self, value)</span><br><span class="line"></span><br><span class="line">foo = ThisWay(<span class="number">5</span>)</span><br><span class="line">print(foo.value)  <span class="comment"># 7  want to 5 * 5 + 2 = 27</span></span><br></pre></td></tr></table></figure>
-<p>用super的话，钻石顶部的MyBaseClass类中的<strong>init</strong>方法只会运行一次。而其它超类初始化顺序，则与这些超类在class语句中出现的顺序相同。</p>
+<p>用super的话，钻石顶部的MyBaseClass类中的__init__方法只会运行一次。而其它超类初始化顺序，则与这些超类在class语句中出现的顺序相同。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyBaseClass</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        self.value = value</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimesFive</span>(<span class="params">MyBaseClass</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        super().__init__(value)</span><br><span class="line">        self.value *= <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PlusTwo</span>(<span class="params">MyBaseClass</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        super().__init__(value)</span><br><span class="line">        self.value += <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GoodWay</span>(<span class="params">TimesFive, PlusTwo</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value</span>):</span></span><br><span class="line">        super().__init__(value)</span><br><span class="line">        super().__init__(value)</span><br><span class="line"></span><br><span class="line">foo = GoodWay(<span class="number">5</span>)</span><br><span class="line">print(foo.value)  <span class="comment"># 35</span></span><br><span class="line">print(GoodWay.mro())  </span><br><span class="line"><span class="comment"># [&lt;class &#x27;__main__.GoodWay&#x27;&gt;, &lt;class &#x27;__main__.TimesFive&#x27;&gt;, &lt;class &#x27;__main__.PlusTwo&#x27;&gt;, &lt;class &#x27;__main__.MyBaseClass&#x27;&gt;, &lt;class &#x27;object&#x27;&gt;]</span></span><br></pre></td></tr></table></figure>
-<p>可以用mro类方法查询程序的运行顺序，调用GoodWay(5)，首先调用TimesFive.<strong>init</strong>，然后TimesFive.<strong>init</strong>调用PlusTwo.<strong>init</strong>，然后PlusTwo.<strong>init</strong>调用MyBaseClass.<strong>init</strong>，到达顶部后，先设为5，然后PlusTwo.<strong>init</strong>加2，然后TimesFive.<strong>init</strong>乘以5，得到了35。</p>
-<h3 id="只在使用Mix-in组件制作工具类时进行多重继承"><a href="#只在使用Mix-in组件制作工具类时进行多重继承" class="headerlink" title="只在使用Mix-in组件制作工具类时进行多重继承"></a>只在使用Mix-in组件制作工具类时进行多重继承</h3><p>Mix-in可以认为是工具类，继承的子类便具有了这些功能,子类可以复写方法来改进。能用Mix-in组件实现的效果，就不要用多重继承来做。</p>
+<p>可以用mro类方法查询程序的运行顺序，调用GoodWay(5)，首先调用TimesFive.__init__，然后TimesFive.__init__调用PlusTwo.__init__，然后PlusTwo.__init__调用MyBaseClass.__init__，到达顶部后，先设为5，然后PlusTwo.__init__加2，然后TimesFive.__init__乘以5，得到了35。</p>
+<h3 id="只在使用mix-in组件制作工具类时进行多重继承">只在使用Mix-in组件制作工具类时进行多重继承</h3>
+<p>Mix-in可以认为是工具类，继承的子类便具有了这些功能,子类可以复写方法来改进。能用Mix-in组件实现的效果，就不要用多重继承来做。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToDictMixin</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">to_dict</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self._traverse_dict(self.__dict__)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_traverse_dict</span>(<span class="params">self, instance_dict</span>):</span></span><br><span class="line">        output = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> instance_dict.items():</span><br><span class="line">            output[key] = self._traverse(key, value)</span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_traverse</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(value, ToDictMixin):</span><br><span class="line">            <span class="keyword">return</span> value.to_dict()</span><br><span class="line">        <span class="keyword">elif</span> isinstance(value, dict):</span><br><span class="line">            <span class="keyword">return</span> self._traverse_dict(value)</span><br><span class="line">        <span class="keyword">elif</span> isinstance(value, list):</span><br><span class="line">            <span class="keyword">return</span> [self._traverse(key, i) <span class="keyword">for</span> i <span class="keyword">in</span> value]</span><br><span class="line">        <span class="keyword">elif</span> hasattr(value, <span class="string">&#x27;__dict__&#x27;</span>):</span><br><span class="line">            <span class="keyword">return</span> self._traverse_dict(value.__dict__)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span>(<span class="params">ToDictMixin</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, value, left=None, right=None</span>):</span></span><br><span class="line">        self.value = value</span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br><span class="line"></span><br><span class="line">tree = BinaryTree(<span class="number">10</span>,</span><br><span class="line">                  left=BinaryTree(<span class="number">7</span>, right=BinaryTree(<span class="number">9</span>)),</span><br><span class="line">                  right=BinaryTree(<span class="number">13</span>, left=BinaryTree(<span class="number">11</span>)))</span><br><span class="line">print(tree.to_dict())</span><br></pre></td></tr></table></figure>
-<h3 id="多用public属性，少用private属性"><a href="#多用public属性，少用private属性" class="headerlink" title="多用public属性，少用private属性"></a>多用public属性，少用private属性</h3><p>子类无法访问private属性，原因在于变换后的属性名和待访问的属性名称不相符：</p>
+<h3 id="多用public属性少用private属性">多用public属性，少用private属性</h3>
+<p>子类无法访问private属性，原因在于变换后的属性名和待访问的属性名称不相符：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyParentObject</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.__private_field = <span class="number">71</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyChildObject</span>(<span class="params">MyParentObject</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_private_field</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.__private_field</span><br><span class="line"></span><br><span class="line">baz = MyChildObject()</span><br><span class="line">baz.get_private_field()</span><br><span class="line"><span class="comment"># AttributeError: &#x27;MyChildObject&#x27; object has no attribute &#x27;_MyChildObject__private_field&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>调用MyChildObject.get_private_field，它将<code>translates __private_field</code>变换为<code>_MyChildObject__private_field</code>，然后进行访问。而<code>__private_field只在MyParentObject.__init__</code>做了定义，因此这个私有属性的名称是<code>_MyParentObject__private_field</code>。</p>
 <p>因此，上面的代码可以直接用<code>print(baz._MyParentObject__private_field)#71</code> 访问私有属性。</p>
 <p>Python编译器无法严格保证private字段的私密性。宁可叫子类更多地取访问超类的protected属性，也不要设置为private。应当在文档中说明每个protected字段的含义，解释哪些字段是可供子类使用的内部API，哪些字段是完全不应该触碰的数据。</p>
 <p>只有当子类不受自己控制的时候，才可以考虑用private属性来避免名称冲突。</p>
-<h3 id="继承collecions-abc实现自定义容器类型"><a href="#继承collecions-abc实现自定义容器类型" class="headerlink" title="继承collecions.abc实现自定义容器类型"></a>继承collecions.abc实现自定义容器类型</h3><ul>
+<h3 id="继承collecions.abc实现自定义容器类型">继承collecions.abc实现自定义容器类型</h3>
+<ul>
 <li>如果要定制的子类比较简单，可以直接从Python的容器类型继承（如List或dict）</li>
 <li>编写自制的容器类型，可以从collections.abc模块的抽象基类中继承，那些基类能确保我们子类具备适当的接口及行为。如继承Sequence的话，要求实现<code>__getitem__</code>以及<code>__len__</code>方法</li>
 </ul>
-<h2 id="元类及属性"><a href="#元类及属性" class="headerlink" title="元类及属性"></a>元类及属性</h2><p>元类这个词只是模糊的描述了一种高于类又超乎类的概念。就是我们可以把python的class语句转译为元类，并令其在每次定义具体的类时，都提供独特的行为。</p>
+<h2 id="元类及属性">元类及属性</h2>
+<p>元类这个词只是模糊的描述了一种高于类又超乎类的概念。就是我们可以把python的class语句转译为元类，并令其在每次定义具体的类时，都提供独特的行为。</p>
 <p>python还可以动态的定义对属性的访问操作。</p>
-<h3 id="用-property取代get和set方法"><a href="#用-property取代get和set方法" class="headerlink" title="用@property取代get和set方法"></a>用@property取代get和set方法</h3><ul>
+<h3 id="用property取代get和set方法">用@property取代get和set方法</h3>
+<ul>
 <li>如果访问对象的某个属性，需要表现出特殊的行为（如修改电压同时修改电流），可以用@property来修饰方法</li>
 <li>setter和getter的名称必须要相关属性相符</li>
 <li>可以在setter的时候设置相关的属性，或者进行数值验证</li>
-<li>@property方法需要执行得迅速一点，缓慢或复杂的工作应该放在普通方法里</li>
+<li><span class="citation" data-cites="property方法需要执行得迅速一点">@property方法需要执行得迅速一点</span>，缓慢或复杂的工作应该放在普通方法里</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resistor</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, ohms</span>):</span></span><br><span class="line">        self.ohms = ohms</span><br><span class="line">        self.voltage = <span class="number">0</span></span><br><span class="line">        self.current = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedResistance</span>(<span class="params">Resistor</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, ohms</span>):</span></span><br><span class="line">        super().__init__(ohms)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ohms</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self._ohms</span><br><span class="line"></span><br><span class="line"><span class="meta">    @ohms.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ohms</span>(<span class="params">self, ohms</span>):</span></span><br><span class="line">        <span class="keyword">if</span> ohms &lt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&#x27;%f ohms must be &gt; 0&#x27;</span> % ohms)</span><br><span class="line">        self._ohms = ohms</span><br><span class="line"></span><br><span class="line">r3 = BoundedResistance(<span class="number">1e3</span>)  <span class="comment"># 1e3改成0也会ValueError</span></span><br><span class="line">r3.ohms = <span class="number">0</span>  <span class="comment"># raise ValueError(&#x27;%f ohms must be &gt; 0&#x27; % ohms)</span></span><br></pre></td></tr></table></figure>
-<h3 id="用-property代替属性重构"><a href="#用-property代替属性重构" class="headerlink" title="用@property代替属性重构"></a>用@property代替属性重构</h3><p>@property可以把一个原有的属性变为新的。</p>
+<h3 id="用property代替属性重构">用@property代替属性重构</h3>
+<p><span class="citation" data-cites="property可以把一个原有的属性变为新的">@property可以把一个原有的属性变为新的</span>。</p>
 <p>如下面的例子中，原来的属性有quota，现在改成了max_quota和quota_consumed：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bucket</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, period</span>):</span></span><br><span class="line">        self.period_delta = timedelta(seconds=period)</span><br><span class="line">        self.reset_time = datetime.now()</span><br><span class="line">        self.max_quota = <span class="number">0</span></span><br><span class="line">        self.quota_consumed = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&#x27;Bucket(max_quota=%d, quota_consumed=%d)&#x27;</span> % (self.max_quota, self.quota_consumed))</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">quota</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.max_quota - self.quota_consumed</span><br><span class="line"></span><br><span class="line"><span class="meta">    @quota.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">quota</span>(<span class="params">self, amount</span>):</span></span><br><span class="line">        <span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
 <p>如果@property用得太过频繁，那么就应该考虑彻底重构该类并修改相关的调用代码。</p>
-<h3 id="用-getattr、-getattribute、和setattr-实现按需生成的属性"><a href="#用-getattr、-getattribute、和setattr-实现按需生成的属性" class="headerlink" title="用 getattr、 getattribute、和setattr 实现按需生成的属性"></a>用 <strong>getattr</strong>、 <strong>getattribute</strong>、和<strong>setattr</strong> 实现按需生成的属性</h3><p>如果某个类定义了<code>__getattr__</code>，系统在该类对象实例的字典中又找不到待查询的属性，那么系统就会调用这个方法。适合实现<strong>按需访问</strong>，初次执行<code>__getattr__</code>把相关属性加载，以后在访问该属性时，只需从现有的结果中获取即可。</p>
+<h3 id="用-getattr-getattribute和__setattr__-实现按需生成的属性">用 <strong>getattr</strong>、 <strong>getattribute</strong>、和__setattr__ 实现按需生成的属性</h3>
+<p>如果某个类定义了<code>__getattr__</code>，系统在该类对象实例的字典中又找不到待查询的属性，那么系统就会调用这个方法。适合实现<strong>按需访问</strong>，初次执行<code>__getattr__</code>把相关属性加载，以后在访问该属性时，只需从现有的结果中获取即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LazyDB</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.exists = <span class="number">5</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span>(<span class="params">self, name</span>):</span></span><br><span class="line">        value = <span class="string">&#x27;Value for %s&#x27;</span> % name</span><br><span class="line">        setattr(self, name, value)</span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line">data = LazyDB()</span><br><span class="line">print(<span class="string">&#x27;Before:&#x27;</span>, data.__dict__)  <span class="comment"># Before: &#123;&#x27;exists&#x27;: 5&#125;</span></span><br><span class="line">print(<span class="string">&#x27;foo: &#x27;</span>, data.foo)  <span class="comment"># foo:  Value for foo</span></span><br><span class="line">print(<span class="string">&#x27;After: &#x27;</span>, data.__dict__)  <span class="comment"># After:  &#123;&#x27;foo&#x27;: &#x27;Value for foo&#x27;, &#x27;exists&#x27;: 5&#125;</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>__getattribute__</code>方法：每次访问对象属性时，都会调用这个方法（即使属性字典有也会）</li>
+<li> <code>__getattribute__</code>方法：每次访问对象属性时，都会调用这个方法（即使属性字典有也会）</li>
 <li><code>__setattr__</code>：赋值操作时均会触发（无论是内置的setattr函数还是直接赋值）</li>
 <li>如果要在<code>__getattribute__</code>和<code>__setattr__</code>中访问实例属性，那么应该直接通过super()来避免无限递归：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BrokenDictionaryDB</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data</span>):</span></span><br><span class="line">        self._data = data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span>(<span class="params">self, name</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;Called __getattribute__(%s)&#x27;</span> % name)</span><br><span class="line">        <span class="keyword">return</span> self._data[name]</span><br><span class="line"></span><br><span class="line">data = BrokenDictionaryDB(&#123;<span class="string">&#x27;foo&#x27;</span>: <span class="number">3</span>&#125;)</span><br><span class="line">data.foo</span><br></pre></td></tr></table></figure>
 <p>这样才是对的</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BrokenDictionaryDB</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data</span>):</span></span><br><span class="line">        self._data = data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span>(<span class="params">self, name</span>):</span></span><br><span class="line">        _data = super().__getattribute__(<span class="string">&#x27;_data&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> _data[name]</span><br><span class="line"></span><br><span class="line">data = BrokenDictionaryDB(&#123;<span class="string">&#x27;foo&#x27;</span>: <span class="number">3</span>&#125;)</span><br><span class="line">print(data.foo)</span><br></pre></td></tr></table></figure>
-<h3 id="用元类验证子类"><a href="#用元类验证子类" class="headerlink" title="用元类验证子类"></a>用元类验证子类</h3><ul>
+<h3 id="用元类验证子类">用元类验证子类</h3>
+<ul>
 <li>定义元类的时候，要从type中继承。</li>
 <li>对于使用该元类的其他类，python会把那些类的class语句体中所含的相关内容，发送给元类的<code>__new__</code>方法。于是我们可以在系统构建出那个类之前，先修改类的信息。</li>
 </ul>
@@ -316,15 +324,20 @@
 <p><strong>python把子类的整个class语句处理完后，就调用其元类的<code>__new__</code>方法。</strong></p>
 <p>如下面的例子中，多边形至少三条边，而Line设置一条边就不行：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ValidatePolygon</span>(<span class="params">type</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span>(<span class="params">mcs, *args, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># Don&#x27;t validate the abstract Polygon class</span></span><br><span class="line">        name, bases, class_dict = args</span><br><span class="line">        <span class="keyword">if</span> bases != (object,):</span><br><span class="line">            <span class="keyword">if</span> class_dict[<span class="string">&#x27;sides&#x27;</span>] &lt; <span class="number">3</span>:</span><br><span class="line">                <span class="keyword">raise</span> ValueError(<span class="string">&#x27;Polygons need 3+ sides&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> type.__new__(mcs, *args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Polygon</span>(<span class="params">object, metaclass=ValidatePolygon</span>):</span></span><br><span class="line">    sides = <span class="literal">None</span>  <span class="comment"># Specified by subclasses</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">interior_angles</span>(<span class="params">cls</span>):</span></span><br><span class="line">        <span class="keyword">return</span> (cls.sides - <span class="number">2</span>) * <span class="number">180</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Line</span>(<span class="params">Polygon</span>):</span></span><br><span class="line">    sides = <span class="number">1</span> <span class="comment"># raise ValueError(&#x27;Polygons need 3+ sides&#x27;)</span></span><br></pre></td></tr></table></figure>
-<h3 id="用元类注解类的属性"><a href="#用元类注解类的属性" class="headerlink" title="用元类注解类的属性"></a>用元类注解类的属性</h3><p>用下面的代码将数据库的行和列建立对应关系：</p>
+<h3 id="用元类注解类的属性">用元类注解类的属性</h3>
+<p>用下面的代码将数据库的行和列建立对应关系：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Field</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, name</span>):</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.internal_name = <span class="string">&#x27;_&#x27;</span> + self.name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span>(<span class="params">self, instance, instance_type</span>):</span></span><br><span class="line">        <span class="keyword">if</span> instance <span class="keyword">is</span> <span class="literal">None</span>: <span class="keyword">return</span> self</span><br><span class="line">        <span class="keyword">return</span> getattr(instance, self.internal_name, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__set__</span>(<span class="params">self, instance, value</span>):</span></span><br><span class="line">        setattr(instance, self.internal_name, value)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Customer</span>(<span class="params">object</span>):</span></span><br><span class="line">    first_name = Field(<span class="string">&#x27;first_name&#x27;</span>)</span><br><span class="line">    last_name = Field(<span class="string">&#x27;last_name&#x27;</span>)</span><br><span class="line">    prefix = Field(<span class="string">&#x27;prefix&#x27;</span>)</span><br><span class="line"></span><br><span class="line">suffix = Field(<span class="string">&#x27;suffix&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>但是Field还需要指定字段名称如first_name = Field(‘first_name’)，比较繁琐，可以用元类来做</p>
+<p>但是Field还需要指定字段名称如first_name = Field('first_name')，比较繁琐，可以用元类来做</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Field</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.name = <span class="literal">None</span></span><br><span class="line">        self.internal_name = <span class="literal">None</span>  <span class="comment"># &#x27;_&#x27; + self.name</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span>(<span class="params">self, instance, instance_type</span>):</span></span><br><span class="line">        <span class="keyword">if</span> instance <span class="keyword">is</span> <span class="literal">None</span>: <span class="keyword">return</span> self</span><br><span class="line">        <span class="keyword">return</span> getattr(instance, self.internal_name, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__set__</span>(<span class="params">self, instance, value</span>):</span></span><br><span class="line">        setattr(instance, self.internal_name, value)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Meta</span>(<span class="params">type</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span>(<span class="params">mcs, *args, **kwargs</span>):</span></span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> args[<span class="number">2</span>].items():</span><br><span class="line">            <span class="keyword">if</span> isinstance(value, Field):</span><br><span class="line">                value.name = key</span><br><span class="line">                value.internal_name = <span class="string">&#x27;_&#x27;</span> + key</span><br><span class="line">        <span class="keyword">return</span> type.__new__(mcs, *args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DatabaseRow</span>(<span class="params">object, metaclass=Meta</span>):</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BetterCustomer</span>(<span class="params">DatabaseRow</span>):</span></span><br><span class="line">    first_name = Field()</span><br><span class="line">    last_name = Field()</span><br><span class="line">    prefix = Field()</span><br><span class="line">    suffix = Field()</span><br><span class="line"></span><br><span class="line">foo = BetterCustomer()</span><br><span class="line">print(<span class="string">&#x27;Before:&#x27;</span>, repr(foo.first_name), foo.__dict__)</span><br><span class="line"><span class="comment"># Before: &#x27;&#x27; &#123;&#125;</span></span><br><span class="line">foo.first_name = <span class="string">&#x27;Euler&#x27;</span></span><br><span class="line">print(<span class="string">&#x27;After: &#x27;</span>, repr(foo.first_name), foo.__dict__)</span><br><span class="line"><span class="comment"># After:  &#x27;Euler&#x27; &#123;&#x27;_first_name&#x27;: &#x27;Euler&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="并发及并行"><a href="#并发及并行" class="headerlink" title="并发及并行"></a>并发及并行</h2><h3 id="用subprocess来管理子进程"><a href="#用subprocess来管理子进程" class="headerlink" title="用subprocess来管理子进程"></a>用subprocess来管理子进程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">roc = subprocess.Popen([<span class="string">&#x27;ping&#x27;</span>, <span class="string">&#x27;baidu.com&#x27;</span>], stdout=subprocess.PIPE)</span><br><span class="line">out, err = proc.communicate()</span><br><span class="line"></span><br><span class="line">out = subprocess.check_output([<span class="string">&#x27;ping&#x27;</span>, <span class="string">&#x27;baidu.com&#x27;</span>], stderr=subprocess.STDOUT)</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="并发及并行">并发及并行</h2>
+<h3 id="用subprocess来管理子进程">用subprocess来管理子进程</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">roc = subprocess.Popen([<span class="string">&#x27;ping&#x27;</span>, <span class="string">&#x27;baidu.com&#x27;</span>], stdout=subprocess.PIPE)</span><br><span class="line">out, err = proc.communicate()</span><br><span class="line"></span><br><span class="line">out = subprocess.check_output([<span class="string">&#x27;ping&#x27;</span>, <span class="string">&#x27;baidu.com&#x27;</span>], stderr=subprocess.STDOUT)</span><br></pre></td></tr></table></figure>
 <p>可以一边定期查询子进程状态，一遍处理其它事务</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">roc = subprocess.Popen([<span class="string">&#x27;ping&#x27;</span>, <span class="string">&#x27;baidu.com&#x27;</span>], stdout=subprocess.PIPE)</span><br><span class="line">out, err = proc.communicate()</span><br><span class="line"></span><br><span class="line">out = subprocess.check_output([<span class="string">&#x27;ping&#x27;</span>, <span class="string">&#x27;baidu.com&#x27;</span>], stderr=subprocess.STDOUT)</span><br><span class="line"></span><br><span class="line">proc = subprocess.Popen([<span class="string">&#x27;sleep&#x27;</span>, <span class="string">&#x27;0.3&#x27;</span>], stdout=subprocess.PIPE)</span><br><span class="line"><span class="keyword">while</span> proc.poll() <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    print(<span class="string">&quot;working&quot;</span>)</span><br><span class="line">    <span class="comment"># some time-consuming work</span></span><br><span class="line">print(<span class="string">&#x27;Exit status&#x27;</span>, proc.poll())</span><br></pre></td></tr></table></figure>
 <p>还可以给 communicate传入timeout参数，避免子进程死锁或挂起</p>
-<h3 id="python线程并非并行"><a href="#python线程并非并行" class="headerlink" title="python线程并非并行"></a>python线程并非并行</h3><ul>
+<h3 id="python线程并非并行">python线程并非并行</h3>
+<ul>
 <li>标准的python实现叫做CPython，CPython分两步来运行Python程序。首先把文本形式的源代码解析并编译成字节码。然后，用一种基于栈的解释器来运行这份字节码。执行python程序时，字节码解释器必须保持协调一致的状态。Python才用GIL（global interpreter lock，全局解释器锁）来确保这种协调性。</li>
 <li><strong>GIL为一把互斥锁</strong>，用以防止Cpython收到抢占式多线程切换的干扰。由于收到GIL保护，<strong>同一时刻只有一条线程向前执行</strong>。（虽然同一时刻只有一条线程，但仍需锁等机制来防止数据竞争）</li>
 <li><p>可以用concurrent.futures中的ProcessPoolExecutor来执行真正的并行。</p>
@@ -333,56 +346,60 @@
 <li>子进程的GIL是独立的</li>
 <li>原理：将数据通过pickle来执行序列化，变为二进制形式，然后用local socket发给子解释器，子进程用pickle反序列化操作，然后执行。将结果进行序列化操作，然后用socket发送回主进程。主进程反序列化得到结果。主进程和子进程之间，必须进行序列化和反序列化操作，开销较大。</li>
 <li>官方注释如下:</li>
+</ul></li>
 </ul>
-</li>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">|======================= In-process =====================|== Out-of-process ==|</span><br><span class="line"></span><br><span class="line">+----------+     +----------+       +--------+     +-----------+    +---------+</span><br><span class="line">|          |  =&gt; | Work Ids |    =&gt; |        |  =&gt; | Call Q    | =&gt; |         |</span><br><span class="line">|          |     +----------+       |        |     +-----------+    |         |</span><br><span class="line">|          |     | ...      |       |        |     | ...       |    |         |</span><br><span class="line">|          |     | <span class="number">6</span>        |       |        |     | <span class="number">5</span>, call() |    |         |</span><br><span class="line">|          |     | <span class="number">7</span>        |       |        |     | ...       |    |         |</span><br><span class="line">| Process  |     | ...      |       | Local  |     +-----------+    | Process |</span><br><span class="line">|  Pool    |     +----------+       | Worker |                      |  <span class="comment">#1..n  |</span></span><br><span class="line">| Executor |                        | Thread |                      |         |</span><br><span class="line">|          |     +----------- +     |        |     +-----------+    |         |</span><br><span class="line">|          | &lt;=&gt; | Work Items | &lt;=&gt; |        | &lt;=  | Result Q  | &lt;= |         |</span><br><span class="line">|          |     +------------+     |        |     +-----------+    |         |</span><br><span class="line">|          |     | <span class="number">6</span>: call()  |     |        |     | ...       |    |         |</span><br><span class="line">|          |     |    future  |     |        |     | <span class="number">4</span>, result |    |         |</span><br><span class="line">|          |     | ...        |     |        |     | <span class="number">3</span>, <span class="keyword">except</span> |    |         |</span><br><span class="line">+----------+     +------------+     +--------+     +-----------+    +---------+</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Queue(queue中) 为线程安全</p>
+<ul>
+<li>具备阻塞式队列操作</li>
+<li>指定缓冲区尺寸</li>
+<li>join等</li>
+</ul></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">|======================= In-process =====================|== Out-of-process ==|</span><br><span class="line"></span><br><span class="line">+----------+     +----------+       +--------+     +-----------+    +---------+</span><br><span class="line">|          |  =&gt; | Work Ids |    =&gt; |        |  =&gt; | Call Q    | =&gt; |         |</span><br><span class="line">|          |     +----------+       |        |     +-----------+    |         |</span><br><span class="line">|          |     | ...      |       |        |     | ...       |    |         |</span><br><span class="line">|          |     | <span class="number">6</span>        |       |        |     | <span class="number">5</span>, call() |    |         |</span><br><span class="line">|          |     | <span class="number">7</span>        |       |        |     | ...       |    |         |</span><br><span class="line">| Process  |     | ...      |       | Local  |     +-----------+    | Process |</span><br><span class="line">|  Pool    |     +----------+       | Worker |                      |  <span class="comment">#1..n  |</span></span><br><span class="line">| Executor |                        | Thread |                      |         |</span><br><span class="line">|          |     +----------- +     |        |     +-----------+    |         |</span><br><span class="line">|          | &lt;=&gt; | Work Items | &lt;=&gt; |        | &lt;=  | Result Q  | &lt;= |         |</span><br><span class="line">|          |     +------------+     |        |     +-----------+    |         |</span><br><span class="line">|          |     | <span class="number">6</span>: call()  |     |        |     | ...       |    |         |</span><br><span class="line">|          |     |    future  |     |        |     | <span class="number">4</span>, result |    |         |</span><br><span class="line">|          |     | ...        |     |        |     | <span class="number">3</span>, <span class="keyword">except</span> |    |         |</span><br><span class="line">+----------+     +------------+     +--------+     +-----------+    +---------+</span><br></pre></td></tr></table></figure>
-
-*   Queue(queue中) 为线程安全
-
-    *   具备阻塞式队列操作
-    *   指定缓冲区尺寸
-    *   join等
-</code></pre><h3 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h3><ul>
+<h3 id="协程">协程</h3>
+<ul>
 <li><p>线程有三个显著的缺点：</p>
 <ul>
 <li>需要特殊的工具来保证数据的安全。于是多线程的代码更加难懂，不便于扩展维护。</li>
 <li>线程需占用大量内存，每个线程大约需要8MB。如果程序中运行成千上万个函数并且想要用线程来模拟出同时运行的效果，那就会出现问题。</li>
 <li>线程启动开销比较大。</li>
-</ul>
-</li>
-<li><p>Python中的协程可以解决上述的问题。协程，又称微线程，纤程。英文名Coroutine。协程可以理解为用户级线程，协程和线程的区别是：线程是抢占式的调度，而协程是协同式的调度，协程避免了无意义的调度，由此可以提高性能，但也因此，程序员必须自己承担调度的责任，同时，协程也失去了标准线程使用多CPU的能力。</p>
-</li>
+</ul></li>
+<li>Python中的协程可以解决上述的问题。协程，又称微线程，纤程。英文名Coroutine。协程可以理解为用户级线程，协程和线程的区别是：线程是抢占式的调度，而协程是协同式的调度，协程避免了无意义的调度，由此可以提高性能，但也因此，程序员必须自己承担调度的责任，同时，协程也失去了标准线程使用多CPU的能力。</li>
 <li>Python协程的工作原理是：通过send给生成器传值，生成器将yield作为表达式的执行结果。执行完当前的yield，生成器推进到下一个yield表达式那里，并将那个yield关键字右侧的内容，当成send方法的返回值，返回给外界。</li>
 <li>生成器通过这个输出值，来推进其他的生成器函数，使得那些生成器函数也执行到它们各自的下一条yield表达式处。接连推进多个独立的生成器，可以模拟出python线程的并发行为，令程序真正看上去好像是在同时执行多个函数。（用yield from 推进其他的生成器）</li>
-<li>下面的代码中统计当前的最小值统计当前的最小值：</li>
+<li><p>下面的代码中统计当前的最小值统计当前的最小值：</p></li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minimize</span>():</span></span><br><span class="line">    current = <span class="keyword">yield</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        value = <span class="keyword">yield</span> current</span><br><span class="line">        current = min(value, current)</span><br><span class="line"></span><br><span class="line">it = minimize()</span><br><span class="line">next(it)  <span class="comment"># Prime the generator</span></span><br><span class="line">print(it.send(<span class="number">10</span>))  <span class="comment"># 10</span></span><br><span class="line">print(it.send(<span class="number">4</span>))  <span class="comment"># 4</span></span><br><span class="line">print(it.send(<span class="number">22</span>))  <span class="comment"># 4</span></span><br><span class="line">print(it.send(<span class="number">-1</span>))  <span class="comment"># -1</span></span><br></pre></td></tr></table></figure>
-<h2 id="内置模块"><a href="#内置模块" class="headerlink" title="内置模块"></a>内置模块</h2><h3 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h3><h3 id="contextlib和with语句改写try-finally语句"><a href="#contextlib和with语句改写try-finally语句" class="headerlink" title="contextlib和with语句改写try/finally语句"></a>contextlib和with语句改写try/finally语句</h3><ul>
-<li>with open(‘./data’) as f: 比使用try 打开文件然后finally中关闭好得多</li>
+<p> </p>
+<h2 id="内置模块">内置模块</h2>
+<h3 id="装饰器">装饰器</h3>
+<h3 id="contextlib和with语句改写tryfinally语句">contextlib和with语句改写try/finally语句</h3>
+<ul>
+<li>with open('./data') as f: 比使用try 打开文件然后finally中关闭好得多</li>
 <li>一个简单的函数，只需要经过contextlib中的contextmanager修饰，就可以用在with语句中。</li>
 <li>由于py的默认信息级别是WARNING，因此不会打印debug的(只会打印不小于当前级别的)。下面用一个经过contextmanager修饰的函数来临时提升信息的级别，执行完毕后，再恢复原有级别。<strong>yield表达式所在的地方，就是with语句中要执行的地方</strong>。</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_function</span>():</span></span><br><span class="line">    logging.debug(<span class="string">&#x27;Some debug data&#x27;</span>)</span><br><span class="line">    logging.error(<span class="string">&#x27;Error log here&#x27;</span>)</span><br><span class="line">    logging.debug(<span class="string">&#x27;More debug data&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">debug_logging</span>(<span class="params">level</span>):</span></span><br><span class="line">    logger = logging.getLogger()</span><br><span class="line">    old_level = logger.getEffectiveLevel()</span><br><span class="line">    logger.setLevel(level)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        logger.setLevel(old_level)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> debug_logging(logging.DEBUG):</span><br><span class="line">    logging.warning(<span class="string">&#x27;Inside: &#x27;</span>)</span><br><span class="line">    my_function()</span><br><span class="line"></span><br><span class="line">logging.warning(<span class="string">&#x27;After: &#x27;</span>)</span><br><span class="line">my_function()</span><br></pre></td></tr></table></figure>
 <p><strong>如果yield返回一个值，那么此值会赋值给由as关键字所指定的变量。</strong></p>
-<h3 id="用copyreg实现可靠的pickle操作"><a href="#用copyreg实现可靠的pickle操作" class="headerlink" title="用copyreg实现可靠的pickle操作"></a>用copyreg实现可靠的pickle操作</h3><p>pickle处理之后的数据，不一种不安全的格式。如果混入了恶意信息，那么python程序对其进行反序列化操作的时候，这些恶意信息可能对程序照成伤害。</p>
+<h3 id="用copyreg实现可靠的pickle操作">用copyreg实现可靠的pickle操作</h3>
+<p>pickle处理之后的数据，不一种不安全的格式。如果混入了恶意信息，那么python程序对其进行反序列化操作的时候，这些恶意信息可能对程序照成伤害。</p>
 <p>json模块产生的则是一种安全的格式。</p>
 <p>可以把内置的copyreg和pickle结合起来使用，以便为旧数据添加缺失的属性值、进行类的版本管理，并给序列化后的数据提供固定的引入路径。</p>
-<h3 id="用datetime模块来处理本地时间，而非time模块"><a href="#用datetime模块来处理本地时间，而非time模块" class="headerlink" title="用datetime模块来处理本地时间，而非time模块"></a>用datetime模块来处理本地时间，而非time模块</h3><p>time模块需要依赖操作系统而运作。不要用time模块在不同的时区之间进行转换。</p>
+<h3 id="用datetime模块来处理本地时间而非time模块">用datetime模块来处理本地时间，而非time模块</h3>
+<p>time模块需要依赖操作系统而运作。不要用time模块在不同的时区之间进行转换。</p>
 <p>如果要在不同时区之间，进行可靠的转换，应该把内置的datetime模块与开发者社区提供的pytz模块搭配起来使用。</p>
 <p>先把时间转换成UTC格式，然后执行各种转换操作，最后再转换回本地时间。</p>
-<h3 id="使用内置的算法和数据结构"><a href="#使用内置的算法和数据结构" class="headerlink" title="使用内置的算法和数据结构"></a>使用内置的算法和数据结构</h3><ul>
+<h3 id="使用内置的算法和数据结构">使用内置的算法和数据结构</h3>
+<ul>
 <li><p>deque 双向队列</p>
 <ul>
 <li>append</li>
 <li>popleft</li>
 <li>pop</li>
-</ul>
-</li>
-<li><p>OrderedDict 有序字典</p>
-</li>
+</ul></li>
+<li>OrderedDict 有序字典</li>
 <li>heapq 堆</li>
 <li>bisect_left 二分查找</li>
 <li><p>和迭代器有关的：</p>
@@ -393,48 +410,50 @@
 <li>cycle无限重复某个迭代器中各个元素</li>
 <li>tee 把一个迭代器拆分成多个平行的迭代器</li>
 <li>zip_longest：和zip类似，但可以应对长度不同的迭代器</li>
-</ul>
-</li>
+</ul></li>
 <li><p>能够从迭代器中过滤元素的函数</p>
 <ul>
 <li>islice：不进行赋值的前提下，根据索引值来切割迭代器</li>
 <li>takewhile：再判定函数为True的时候，从迭代器中逐个返回元素</li>
 <li>dropwhile：从判定函数为False的地方开始，逐个返回元素</li>
 <li>filterfalse：和filter相反，从迭代器中返回令判定函数为False的所有元素</li>
-</ul>
-</li>
+</ul></li>
 <li><p>把迭代器元素组合起来的函数</p>
 <ul>
 <li>product：根据迭代器中的元素计算笛卡儿积，并将其返回。可以用product来改写深度嵌套的列表推导操作</li>
 <li>permutation：排列</li>
 <li>combination：组合</li>
+</ul></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="在重视精度的场合用decimal"><a href="#在重视精度的场合用decimal" class="headerlink" title="在重视精度的场合用decimal"></a>在重视精度的场合用decimal</h3><p>如下面的代码，按照每分钟rate收费，但是第一个输出我们期望的是0.01，第二个是5.37：</p>
+<h3 id="在重视精度的场合用decimal">在重视精度的场合用decimal</h3>
+<p>如下面的代码，按照每分钟rate收费，但是第一个输出我们期望的是0.01，第二个是5.37：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_cost</span>(<span class="params">rate, second</span>):</span></span><br><span class="line">    cost = rate * second / <span class="number">60</span></span><br><span class="line">    <span class="keyword">return</span> cost, round(cost, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">print(do_cost(<span class="number">0.05</span>, <span class="number">5</span>))  <span class="comment"># (0.004166666666666667, 0.0)</span></span><br><span class="line">print(do_cost(<span class="number">1.45</span>, <span class="number">222</span>))  <span class="comment"># (5.364999999999999, 5.36)</span></span><br></pre></td></tr></table></figure>
 <p>Decimal类中非常适合用在那种对精度要求很高，且对舍入行为要求很严的场合，如涉及货币计算：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_cost</span>(<span class="params">rate, second</span>):</span></span><br><span class="line">    rate = Decimal(str(rate))</span><br><span class="line">    second = Decimal(str(second))</span><br><span class="line">    cost = rate * second / Decimal(<span class="string">&#x27;60&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> cost, cost.quantize(Decimal(<span class="string">&#x27;0.01&#x27;</span>), rounding=ROUND_UP)</span><br><span class="line"></span><br><span class="line">print(do_cost(<span class="number">0.05</span>, <span class="number">5</span>))  <span class="comment"># (Decimal(&#x27;0.004166666666666666666666666667&#x27;), Decimal(&#x27;0.01&#x27;))</span></span><br><span class="line">print(do_cost(<span class="number">1.45</span>, <span class="number">222</span>))  <span class="comment"># (Decimal(&#x27;5.365&#x27;), Decimal(&#x27;5.37&#x27;))</span></span><br></pre></td></tr></table></figure>
-<h2 id="协作开发"><a href="#协作开发" class="headerlink" title="协作开发"></a>协作开发</h2><h3 id="编写文档"><a href="#编写文档" class="headerlink" title="编写文档"></a>编写文档</h3><ul>
+<h2 id="协作开发">协作开发</h2>
+<h3 id="编写文档">编写文档</h3>
+<ul>
 <li>Python将文档视为第一等级(first-class)对象</li>
 <li>通过<code>__doc__</code>来访问文档</li>
-<li>文档应该用三重双引号”””</li>
+<li>文档应该用三重双引号&quot;&quot;&quot;</li>
 </ul>
-<h4 id="为模块编写文档"><a href="#为模块编写文档" class="headerlink" title="为模块编写文档"></a>为模块编写文档</h4><ul>
+<h4 id="为模块编写文档">为模块编写文档</h4>
+<ul>
 <li>每个模块都应有顶级的doctring，用来介绍当前这个模块以及模块中的内容</li>
 <li>文档第一行为一句话，介绍本模块的用途</li>
 <li>它下面的那段话，应该包含一些细节信息，把与本模块的操作有关内容，告诉模块使用者。可以强调本模块中比较重要的类和函数，使得开发者能据此了解该模块的用法。</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;Library for testing words for various linguistic patterns.</span></span><br><span class="line"><span class="string">Testing how words relate to each other can be tricky sometimes!</span></span><br><span class="line"><span class="string">This module provides easy ways to determine when words you’ve</span></span><br><span class="line"><span class="string">found have special properties.</span></span><br><span class="line"><span class="string">Available functions:</span></span><br><span class="line"><span class="string">- palindrome: Determine if a word is a palindrome.</span></span><br><span class="line"><span class="string">- check_anagram: Determine if two words are anagrams.</span></span><br><span class="line"><span class="string">… &quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># …</span></span><br></pre></td></tr></table></figure>
-<h4 id="为类编写文档"><a href="#为类编写文档" class="headerlink" title="为类编写文档"></a>为类编写文档</h4><ul>
+<h4 id="为类编写文档">为类编写文档</h4>
+<ul>
 <li>每个类都应该有类级别的doctring。</li>
 <li>头一行也是一句话介绍该类用途</li>
 <li>类中比较重要的public属性及方法，也应该再这个docstring里面加以强调</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Player</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Represents a player of the game.</span></span><br><span class="line"><span class="string">    Subclasses may override the ‘tick’ method to provide</span></span><br><span class="line"><span class="string">    custom animations for the player’s movement depending</span></span><br><span class="line"><span class="string">    on their power level, etc.</span></span><br><span class="line"><span class="string">    Public attributes:</span></span><br><span class="line"><span class="string">    - power: Unused power-ups (float between 0 and 1).</span></span><br><span class="line"><span class="string">    - coins: Coins found during the level (integer).</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># …</span></span><br></pre></td></tr></table></figure>
-<h4 id="为函数编写文档"><a href="#为函数编写文档" class="headerlink" title="为函数编写文档"></a>为函数编写文档</h4><ul>
+<h4 id="为函数编写文档">为函数编写文档</h4>
+<ul>
 <li>每个函数和方法也应该有docstring</li>
 <li>第一行为一句话描述本函数的功能</li>
 <li>接下来为一段话用来描述具体的行为和参数。(如果函数没有参数，且有且仅有一个简单的返回绘制，那么只需要一句话来描述该函数就够了)</li>
@@ -446,17 +465,20 @@
 <li>如果函数时个协程，那么应该描述协程所产生的返回值，以及这个协程希望通过yield表达式来接纳的值，同时还要说明该协程何时会停止迭代</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_anagrams</span>(<span class="params">word, dictionary</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Find all anagrams for a word.</span></span><br><span class="line"><span class="string">    This function only runs as fast as the test for</span></span><br><span class="line"><span class="string">    membership in the ‘dictionary’ container. It will</span></span><br><span class="line"><span class="string">    be slow if the dictionary is a list and fast if</span></span><br><span class="line"><span class="string">    it’s a set.</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        word: String of the target word.</span></span><br><span class="line"><span class="string">        dictionary: Container with all strings that</span></span><br><span class="line"><span class="string">            are known to be actual words.</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        List of anagrams that were found. Empty if</span></span><br><span class="line"><span class="string">        none were found.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-<h3 id="用包来安排模块"><a href="#用包来安排模块" class="headerlink" title="用包来安排模块"></a>用包来安排模块</h3><p>可以编写<code>__all_</code>_的特殊属性，减少其暴露给外围API使用者的信息。<br><code>__all__</code>时一个列表，其中每个名称都将作为本模块的一条公共API，导出给外部代码。<br>如果外部用户以<code>from foo import *</code>形式使用foo模块，那么只有在<code>__all__</code>里的那些属性才会从foo引入。如果foo没有提供<code>__all__</code>，那么只会引入public属性</p>
+<h3 id="用包来安排模块">用包来安排模块</h3>
+<p>可以编写<code>__all_</code>_的特殊属性，减少其暴露给外围API使用者的信息。 <code>__all__</code>时一个列表，其中每个名称都将作为本模块的一条公共API，导出给外部代码。 如果外部用户以<code>from foo import *</code>形式使用foo模块，那么只有在<code>__all__</code>里的那些属性才会从foo引入。如果foo没有提供<code>__all__</code>，那么只会引入public属性</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># __init__.py</span></span><br><span class="line">__all__ = []</span><br><span class="line"><span class="keyword">from</span> . models <span class="keyword">import</span> *</span><br><span class="line">__all__ += models.__all__</span><br><span class="line"><span class="keyword">from</span> . utils <span class="keyword">import</span> *</span><br><span class="line">__all__ += utils.__all__</span><br></pre></td></tr></table></figure>
-<h3 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h3><p>好处：</p>
+<h3 id="自定义异常">自定义异常</h3>
+<p>好处：</p>
 <ul>
 <li>调用者在使用API的时候，通过捕获根异常，可以知道他们使用的调用代码是否正确</li>
 <li>调用者可以捕获python的Exception基类，帮助模块的研发者寻找API实现中的bug</li>
 </ul>
-<h3 id="用适当的方式打破循环依赖关系"><a href="#用适当的方式打破循环依赖关系" class="headerlink" title="用适当的方式打破循环依赖关系"></a>用适当的方式打破循环依赖关系</h3><p>下面的代码会出异常(AttributeError: ‘module’ object has no attribute ‘prefs’)</p>
+<h3 id="用适当的方式打破循环依赖关系">用适当的方式打破循环依赖关系</h3>
+<p>下面的代码会出异常(AttributeError: ‘module’ object has no attribute ‘prefs’)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dialog.py</span></span><br><span class="line"><span class="keyword">import</span> app</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dialog</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, save_dir</span>):</span></span><br><span class="line">        self.save_dir = save_dir</span><br><span class="line">        <span class="comment"># …</span></span><br><span class="line"></span><br><span class="line">save_dialog = Dialog(app.prefs.get(‘save_dir’))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span>():</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># app.py</span></span><br><span class="line"><span class="keyword">import</span> dialog</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Prefs</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, name</span>):</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line">prefs = Prefs()</span><br><span class="line">dialog.show()</span><br></pre></td></tr></table></figure>
 <p>引入模块的时候，python按照深度优先的顺序执行下列操作：</p>
-<ol>
+<ol type="1">
 <li>在sys.path所制定的路径中，搜寻待引入的模块</li>
 <li>从模块中加载代码，并保证这段代码能够正确编译</li>
 <li>创建与该模块相对应的空对象</li>
@@ -464,19 +486,23 @@
 <li>运行模块对象中的代码，定义其内容</li>
 </ol>
 <p>因为某些属性必须等系统把对用的代码执行完毕之后（第5步），才具备完整的定义。因为app模块在未定义任何内容的时候就引入了dialog模块，然后dialog又引入了app模块。而app模块尚未定义完整个引入的过程，还处在引入dialog的状态之中。按照上面第4步的规则，此时的app模块只是个空壳而已。而dialog模块却需要这个prefs，就抛出了AtrributeError异常。</p>
-<h4 id="方法一调整引入顺序"><a href="#方法一调整引入顺序" class="headerlink" title="方法一调整引入顺序"></a>方法一调整引入顺序</h4><p>在app模块中移动到底部。当dialog模块反向引用app时，第五步几乎执行完 了，于是dialog能找到app.prefs的定义。<br>但是该方法和PEP 8 风格不符（import 应该在顶部）</p>
+<h4 id="方法一调整引入顺序">方法一调整引入顺序</h4>
+<p>在app模块中移动到底部。当dialog模块反向引用app时，第五步几乎执行完 了，于是dialog能找到app.prefs的定义。 但是该方法和PEP 8 风格不符（import 应该在顶部）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Prefs</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line">prefs = Prefs()</span><br><span class="line"><span class="keyword">import</span> dialog <span class="comment"># Moved</span></span><br><span class="line">dialog.show()</span><br></pre></td></tr></table></figure>
-<h3 id="方法二-先引入、在配置、最后运行"><a href="#方法二-先引入、在配置、最后运行" class="headerlink" title="方法二 先引入、在配置、最后运行"></a>方法二 先引入、在配置、最后运行</h3><p>只在模块中给出函数、类和常量的定义，而不要在引入的时候真正去运行那些函数。每个模块都将提供configure函数，等其他模块都引入完毕之后，我们在该模块上面调用一次configure，而这个函数访问其他模块的属性，以便将本模块的状态准备好。</p>
+<h3 id="方法二-先引入在配置最后运行">方法二 先引入、在配置、最后运行</h3>
+<p>只在模块中给出函数、类和常量的定义，而不要在引入的时候真正去运行那些函数。每个模块都将提供configure函数，等其他模块都引入完毕之后，我们在该模块上面调用一次configure，而这个函数访问其他模块的属性，以便将本模块的状态准备好。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dialog.py</span></span><br><span class="line"><span class="keyword">import</span> app</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dialog</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line"></span><br><span class="line">save_dialog = Dialog()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span>():</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">configure</span>():</span></span><br><span class="line">    save_dialog.save_dir = app.prefs.get(‘save_dir’)</span><br><span class="line"></span><br><span class="line"><span class="comment"># app.py</span></span><br><span class="line"><span class="keyword">import</span> dialog</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Prefs</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line">prefs = Prefs()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">configure</span>():</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>调用时：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># main.py</span><br><span class="line"></span><br><span class="line">import app</span><br><span class="line">import dialog</span><br><span class="line">app.configure()</span><br><span class="line">dialog.configure()</span><br><span class="line">dialog.show()</span><br></pre></td></tr></table></figure>
 <p>这个方案在很多情况下都很适合，而且方便开发者实现依赖注入等模式。但是有时候很难从代码中提取configure步骤。</p>
 <p>另外模块内部划分不同阶段，会令代码不易理解（因为把对象的定义和配置分开了）</p>
-<h3 id="方法三-动态引入"><a href="#方法三-动态引入" class="headerlink" title="方法三 动态引入"></a>方法三 动态引入</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dialog.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dialog</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line"></span><br><span class="line">save_dialog = Dialog()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span>():</span></span><br><span class="line">    <span class="keyword">import</span> app  <span class="comment"># Dynamic import</span></span><br><span class="line">    save_dialog.save_dir = app.prefs.get(‘save_dir’)</span><br><span class="line">    <span class="comment"># …</span></span><br></pre></td></tr></table></figure>
+<h3 id="方法三-动态引入">方法三 动态引入</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dialog.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dialog</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="comment"># …</span></span><br><span class="line"></span><br><span class="line">save_dialog = Dialog()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span>():</span></span><br><span class="line">    <span class="keyword">import</span> app  <span class="comment"># Dynamic import</span></span><br><span class="line">    save_dialog.save_dir = app.prefs.get(‘save_dir’)</span><br><span class="line">    <span class="comment"># …</span></span><br></pre></td></tr></table></figure>
 <p>而app模块和最开始的一样。</p>
 <p>一般来说，尽量不要使用这种动态引入的方案，因为import语句的执行开销，还是不小的。折中动态引入方案，还可能会在程序运行时导致非常奇怪的错误，如程序在运行很久后突然抛出SyntaxError异常。</p>
 <p>不过这是最简单的方案，因为即可以缩减重构所花的精力，又可以尽量降低代码的复杂度。</p>
-<h3 id="配置虚拟环境"><a href="#配置虚拟环境" class="headerlink" title="配置虚拟环境"></a>配置虚拟环境</h3><ul>
+<h3 id="配置虚拟环境">配置虚拟环境</h3>
+<ul>
 <li>用pip show xxx可以看依赖那些包</li>
 <li>比如Sphinx和flask都依赖jinja2的包，但是这个包如果发生重大变化，一个需要新版一个需要旧版那系统就没法运行了。</li>
 <li>虚拟环境工具pyvenv工具（python3.4自带）早期python需要 pip install virtualenv，并在命令行通过virtualenv来使用</li>
@@ -500,16 +526,19 @@
 <li><p>新的环境要安装只需要</p>
 <ul>
 <li>(otherproject)$ pip3 install -r /tmp/myproject/requirements.txt</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="通过repr来输出调试信息"><a href="#通过repr来输出调试信息" class="headerlink" title="通过repr来输出调试信息"></a>通过repr来输出调试信息</h3><ul>
+<p> </p>
+<h2 id="部署">部署</h2>
+<h3 id="通过repr来输出调试信息">通过repr来输出调试信息</h3>
+<ul>
 <li>对内置的Python类型调用pring函数，会根据该值打印出一条易于阅读的字符串，<strong>这个字符串隐藏了类型信息</strong>。而repr函数，会根据该值返回一条可供打印的字符串。把这个repr传给内置的eval函数，就可以将其还原为初始的那个值</li>
 <li>在格式字符串使用%s就类似str函数返回的，使用%r就和repr相符</li>
 <li>类中可以定义<code>__repr__</code>方法</li>
 <li>在任意对象上查询<code>__dict__</code>属性，观察其内部信息</li>
 </ul>
-<h3 id="用unitest来测试全部代码"><a href="#用unitest来测试全部代码" class="headerlink" title="用unitest来测试全部代码"></a>用unitest来测试全部代码</h3><ul>
+<h3 id="用unitest来测试全部代码">用unitest来测试全部代码</h3>
+<ul>
 <li>要想确信Python程序能正常运行，唯一的办法就是编写测试。</li>
 <li>内置的unittest是编写测试最简单的方法</li>
 <li>如以下的代码：</li>
@@ -522,8 +551,10 @@
 <li>有时候运行测试方法需要在TestCase类中把测试环境配置好。于是我们就覆写<strong>setUp和tearDown</strong>方法。系统在执行每个测试之前，都会调用一次setUp方法，在执行每个测试之后，执行一次tearDown方法，这样保证各项测试独立运行。</li>
 <li>通常把一组相关的测试放在一个TestCase中（一个模块内的所有函数），如果某函数有很多边界状况，那就针对这个函数专门编写一个TestCase子类，次外也会针对每个类来编写TestCase，来测试该类及类中的所有方法。</li>
 </ul>
-<h3 id="用pdb实现交互测试"><a href="#用pdb实现交互测试" class="headerlink" title="用pdb实现交互测试"></a>用pdb实现交互测试</h3><p>通常写在一行，使得不用能够方便的注释<br><code>import pdb; pdb.set_trace()</code></p>
-<h3 id="先分析性能在优化"><a href="#先分析性能在优化" class="headerlink" title="先分析性能在优化"></a>先分析性能在优化</h3><p>Python提供了内置的性能分析工具，可以计算出程序某个部分的执行时间在总体的执行时间中所占的比率。</p>
+<h3 id="用pdb实现交互测试">用pdb实现交互测试</h3>
+<p>通常写在一行，使得不用能够方便的注释 <code>import pdb; pdb.set_trace()</code></p>
+<h3 id="先分析性能在优化">先分析性能在优化</h3>
+<p>Python提供了内置的性能分析工具，可以计算出程序某个部分的执行时间在总体的执行时间中所占的比率。</p>
 <p>采用内置的cProfile模块比profile模块好，因为对受测代码的效率只会产生很小的影响。</p>
 <p>下面的代码测试插入排序的：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert_value</span>(<span class="params">array, value</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i, existing <span class="keyword">in</span> enumerate(array):</span><br><span class="line">        <span class="keyword">if</span> existing &gt; value:</span><br><span class="line">            array.insert(i, value)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    array.append(value)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span>(<span class="params">data</span>):</span></span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> data:</span><br><span class="line">        insert_value(result, value)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"></span><br><span class="line">max_size = <span class="number">10</span> ** <span class="number">4</span></span><br><span class="line">data = [randint(<span class="number">0</span>, max_size) <span class="keyword">for</span> _ <span class="keyword">in</span> range(max_size)]</span><br><span class="line">test = <span class="keyword">lambda</span>: insertion_sort(data)</span><br><span class="line">profiler = Profile()</span><br><span class="line">profiler.runcall(test)</span><br><span class="line">stats = Stats(profiler)</span><br><span class="line">stats.strip_dirs()</span><br><span class="line">stats.sort_stats(<span class="string">&#x27;cumulative&#x27;</span>)</span><br><span class="line">stats.print_stats()</span><br></pre></td></tr></table></figure>
@@ -531,7 +562,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">20003 function calls in 2.288 seconds</span><br><span class="line"></span><br><span class="line">Ordered by: cumulative time</span><br><span class="line"></span><br><span class="line">ncalls  tottime  percall  cumtime  percall filename:lineno(function)</span><br><span class="line">1    0.000    0.000    2.288    2.288 test.py:36(&lt;lambda&gt;)</span><br><span class="line">1    0.006    0.006    2.288    2.288 test.py:27(insertion_sort)</span><br><span class="line">10000    2.259    0.000    2.282    0.000 test.py:20(insert_value)</span><br><span class="line"> 9992    0.023    0.000    0.023    0.000 &#123;method &#39;insert&#39; of &#39;list&#39; objects&#125;</span><br><span class="line">8    0.000    0.000    0.000    0.000 &#123;method &#39;append&#39; of &#39;list&#39; objects&#125;</span><br><span class="line">1    0.000    0.000    0.000    0.000 &#123;method &#39;disable&#39; of &#39;_lsprof.Profiler&#39; objects&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>说明如下：</p>
 <blockquote>
-<ol>
+<ol type="1">
 <li>ncalls: The number of calls to the function during the profiling period.</li>
 <li>tottime: The number of seconds spent executing the function, excluding time spent executing other functions it calls.</li>
 <li>tottime percall: The average number of seconds spent in the function each time it was called, excluding time spent executing other functions it calls. This is tottime divided by ncalls.</li>
@@ -540,13 +571,15 @@
 </ol>
 </blockquote>
 <p>可以用<strong>stats.print_callers()</strong>查看该函数所消耗的执行时间究竟是哪些调用者分别引发的。</p>
-<h3 id="使用tracemalloc来掌握内存的使用及泄漏情况"><a href="#使用tracemalloc来掌握内存的使用及泄漏情况" class="headerlink" title="使用tracemalloc来掌握内存的使用及泄漏情况"></a>使用tracemalloc来掌握内存的使用及泄漏情况</h3><p>调用内存的使用情况的第一种是内置的gc模块，让它列出垃圾收集器当前所知的每个对象。</p>
+<h3 id="使用tracemalloc来掌握内存的使用及泄漏情况">使用tracemalloc来掌握内存的使用及泄漏情况</h3>
+<p>调用内存的使用情况的第一种是内置的gc模块，让它列出垃圾收集器当前所知的每个对象。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># using_gc.py</span></span><br><span class="line"><span class="keyword">import</span> gc</span><br><span class="line">found_objects = gc.get_objects()</span><br><span class="line">print(<span class="string">&#x27;%d objects before&#x27;</span> % len(found_objects))</span><br><span class="line"><span class="keyword">import</span> waste_memory</span><br><span class="line">x = waste_memory.run()</span><br><span class="line">found_objects = gc.get_objects()</span><br><span class="line">print(<span class="string">&#x27;%d objects after&#x27;</span> % len(found_objects))</span><br><span class="line"><span class="keyword">for</span> obj <span class="keyword">in</span> found_objects[:<span class="number">3</span>]:</span><br><span class="line">	print(repr(obj)[:<span class="number">100</span>])</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line"><span class="number">4756</span> objects before</span><br><span class="line"><span class="number">14873</span> objects after</span><br><span class="line">&lt;waste_memory.MyObject object at <span class="number">0x1063f6940</span>&gt;</span><br><span class="line">&lt;waste_memory.MyObject object at <span class="number">0x1063f6978</span>&gt;</span><br><span class="line">&lt;waste_memory.MyObject object at <span class="number">0x1063f69b0</span>&gt;</span><br></pre></td></tr></table></figure>
 <p>但是gc模块不能告诉我们这些对象是如何分配出来的。可以用tracemalloc解决（Python3.4及之后的才有）</p>
 <p>下面的打印导致内存增大的前三个对象，可以立即看出导致内存变大的主要因素以及分配那些对象的语句在源代码中的位置。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tracemalloc</span><br><span class="line">tracemalloc.start(<span class="number">10</span>) <span class="comment"># Save up to 10 stack frames</span></span><br><span class="line">time1 = tracemalloc.take_snapshot()</span><br><span class="line"><span class="keyword">import</span> waste_memory</span><br><span class="line">x = waste_memory.run()</span><br><span class="line">time2 = tracemalloc.take_snapshot()</span><br><span class="line">stats = time2.compare_to(time1, <span class="string">&#x27;lineno&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> stat <span class="keyword">in</span> stats[:<span class="number">3</span>]:</span><br><span class="line">    print(stat)</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">waste_memory.py:<span class="number">6</span>: size=<span class="number">2235</span> KiB (+<span class="number">2235</span> KiB), count=<span class="number">29981</span> (+<span class="number">29981</span>),</span><br><span class="line">average=<span class="number">76</span> B</span><br><span class="line">waste_memory.py:<span class="number">7</span>: size=<span class="number">869</span> KiB (+<span class="number">869</span> KiB), count=<span class="number">10000</span> (+<span class="number">10000</span>), average=<span class="number">89</span>B </span><br><span class="line">waste_memory.py:<span class="number">12</span>: size=<span class="number">547</span> KiB (+<span class="number">547</span> KiB), count=<span class="number">10000</span> (+<span class="number">10000</span>), average=<span class="number">56</span>B</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>tracemalloc模块也可以打印出py在执行每一个分配内存操作时,具备的完整的堆栈信息.下面找到程中最消耗内存的那个内存分配操作,并将该操作的堆栈信息打印出来.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">§ stats = time2.compare_to(time1, <span class="string">&#x27;traceback&#x27;</span>)</span><br><span class="line">top = stats[<span class="number">0</span>]</span><br><span class="line">print(<span class="string">&#x27;\n&#x27;</span>.join(top.traceback.format()))</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">File “waste_memory.py”, line <span class="number">6</span></span><br><span class="line">self.x = os.urandom(<span class="number">100</span>)</span><br><span class="line">File “waste_memory.py”, line <span class="number">12</span></span><br><span class="line">obj = MyObject()</span><br><span class="line">File “waste_memory.py”, line <span class="number">19</span></span><br><span class="line">deep_values.append(get_data())</span><br><span class="line">File “with_trace.py”, line <span class="number">10</span></span><br><span class="line">x = waste_memory.run()</span><br></pre></td></tr></table></figure> 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">§ stats = time2.compare_to(time1, <span class="string">&#x27;traceback&#x27;</span>)</span><br><span class="line">top = stats[<span class="number">0</span>]</span><br><span class="line">print(<span class="string">&#x27;\n&#x27;</span>.join(top.traceback.format()))</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">File “waste_memory.py”, line <span class="number">6</span></span><br><span class="line">self.x = os.urandom(<span class="number">100</span>)</span><br><span class="line">File “waste_memory.py”, line <span class="number">12</span></span><br><span class="line">obj = MyObject()</span><br><span class="line">File “waste_memory.py”, line <span class="number">19</span></span><br><span class="line">deep_values.append(get_data())</span><br><span class="line">File “with_trace.py”, line <span class="number">10</span></span><br><span class="line">x = waste_memory.run()</span><br></pre></td></tr></table></figure>
+ 
       <!-- reward -->
       
       <div id="reword-out">
@@ -761,12 +794,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -778,6 +817,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -786,13 +827,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -811,7 +853,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

@@ -117,57 +117,61 @@
   <p>本文内容：</p>
 <ul>
 <li>简单介绍验证码</li>
-<li>用tesseract -OCR识别验证码<a id="more"></a>
-<h2 id="现在验证码"><a href="#现在验证码" class="headerlink" title="现在验证码"></a>现在验证码</h2></li>
+<li>用tesseract -OCR识别验证码 <a id="more"></a> ## 现在验证码</li>
 </ul>
 <p>简单的验证码比如如下：</p>
 <ul>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/easy-code.jpg" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/easy-code.jpg" /></li>
 </ul>
 <p>百度的</p>
 <ul>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/baidu-verification-code.png" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/baidu-verification-code.png" /></li>
 </ul>
 <p>当然也有比较不一样的验证码：</p>
 <p>如知乎时让我们点击倒立的文字</p>
 <ul>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/zhihu-verification-code.png" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/zhihu-verification-code.png" /></li>
 </ul>
 <p>比如geetest的滑动验证</p>
 <ul>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/geetest-verification-code.png" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/geetest-verification-code.png" /></li>
 </ul>
 <p>比如12306的被人吐槽的变态验证码：</p>
 <ul>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/12306-verification-code.png" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/12306-verification-code.png" /></li>
 </ul>
-<h2 id="验证码的作用"><a href="#验证码的作用" class="headerlink" title="验证码的作用"></a>验证码的作用</h2><p>验证码是一种较为粗暴的人机判别方式，通过识别提交的验证码是否正确来判断是否是正常的用户，而非机器。</p>
+<p> </p>
+<h2 id="验证码的作用">验证码的作用</h2>
+<p>验证码是一种较为粗暴的人机判别方式，通过识别提交的验证码是否正确来判断是否是正常的用户，而非机器。</p>
 <p>那么有什么用呢？正常来说，对于一个WEB应用，正常的用户会按照操作的流程来使用功能。而总有一些“刁民” 会采用其他的方法，比如直接用程序来模拟自己的行为来得到某些便利。如：选课的时候进行刷课，看看有没有剩余，有的话就选上，毕竟一直盯着费时费力；还有刷票，比如春运 。还有恶意的用户通过枚举密码来暴力破解其它用户的密码……</p>
 <p>而有了验证码之后呢？你必须要能够准确的识别出验证码才能实现你的目的。比如你要用程序以枚举的方式暴力破解别人的 ，要是你的程序识别不出验证码，那么你就无法完成这项工作。</p>
-<h2 id="验证码主要原理"><a href="#验证码主要原理" class="headerlink" title="验证码主要原理"></a>验证码主要原理</h2><p>验证码是如何实现的呢？</p>
+<h2 id="验证码主要原理">验证码主要原理</h2>
+<p>验证码是如何实现的呢？</p>
 <p>首先，可以生成随机的字符串,然后保持在session中，然后通过各种绘图方式将文字输出到图片上（可以假如扭曲、变形、旋转等干扰）。用户提交时，服务器端验证用户提交的验证码是否和session中一致，若不一致返回验证码错误。此外，可能用到AJAX进行验证码更新（如点击换个验证码）</p>
-<h2 id="简单的验证码破解"><a href="#简单的验证码破解" class="headerlink" title="简单的验证码破解"></a>简单的验证码破解</h2><p>国科大教务处现在也有验证码了!</p>
+<h2 id="简单的验证码破解">简单的验证码破解</h2>
+<p>国科大教务处现在也有验证码了!</p>
 <p>老实说，上面那个说刷课啥的就是我 (→_→) 现在有了验证码，登录不上去怎么办！</p>
 <p>下面以UCAS的教务处的密码为例，来介绍用OCR识别的方式来识别验证码。</p>
-<h3 id="UCAS的验证码"><a href="#UCAS的验证码" class="headerlink" title="UCAS的验证码"></a>UCAS的验证码</h3><p>UCAS的验证码如下：</p>
+<h3 id="ucas的验证码">UCAS的验证码</h3>
+<p>UCAS的验证码如下：</p>
 <ul>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code1-.jpg" alt=""></li>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code2.jpg" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code1-.jpg" /></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code2.jpg" /></li>
 </ul>
 <p>看上去挺简单的~</p>
 <p>经过观察发现，貌似只有小写和数字，然后看验证码2连两个r都长一样，说明其干扰其实挺弱的，就那么几种。</p>
 <p>我们直接用OCR（Optical Character Recognition，光学字符识别）即可，比如google的tesseract-OCR</p>
-<h3 id="安装ocr"><a href="#安装ocr" class="headerlink" title="安装ocr"></a>安装ocr</h3><ul>
-<li><p>windows下安装：<a target="_blank" rel="noopener" href="http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe">http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe</a></p>
+<h3 id="安装ocr">安装ocr</h3>
+<ul>
+<li><p>windows下安装：http://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-setup-3.05.00dev.exe</p>
 <ul>
 <li>安装时候勾选 Registry settings</li>
 <li>安装后重起</li>
+</ul></li>
+<li><p>Linux://github.com/tesseract-ocr/tesseract/wiki</p></li>
 </ul>
-</li>
-<li><p>Linux\MACOSX安装见<a target="_blank" rel="noopener" href="https://github.com/tesseract-ocr/tesseract/wiki">https://github.com/tesseract-ocr/tesseract/wiki</a></p>
-</li>
-</ul>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>其使用方式简单，命令行为：</p>
+<h3 id="使用">使用</h3>
+<p>其使用方式简单，命令行为：</p>
 <ul>
 <li>tesseract a.png result</li>
 </ul>
@@ -176,26 +180,30 @@
 <ul>
 <li>tesseract a.png stdout</li>
 </ul>
-<h3 id="python代码"><a href="#python代码" class="headerlink" title="python代码"></a>python代码</h3><p>只需要几行即可</p>
+<h3 id="python代码">python代码</h3>
+<p>只需要几行即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def image_to_string(img):</span><br><span class="line">    res &#x3D; subprocess.check_output(&#39;tesseract &#39; + img + &#39; stdout&#39;).decode()</span><br><span class="line">    return (re.subn(&#39;\W&#39;, &#39;&#39;, res.strip()) if res else (&#39;&#39;, &#39;&#39;))[0].lower()</span><br></pre></td></tr></table></figure>
 <p>上述的代码使用了subprocess来调用tesseract，并获取返回结果。</p>
 <p>由于tesseract-OCR识别可能有非字母非数字的（比如空格），我们用正则表达式去除，然后最后小写并返回。</p>
-<h2 id="提高识别率"><a href="#提高识别率" class="headerlink" title="提高识别率"></a>提高识别率</h2><p>上面简单的调用可能有的处理不是很好，如上面的第一个例子识别为zgta，我们希望能去除背景等来让整个验证码更加的干净，以便于识别。</p>
+<h2 id="提高识别率">提高识别率</h2>
+<p>上面简单的调用可能有的处理不是很好，如上面的第一个例子识别为zgta，我们希望能去除背景等来让整个验证码更加的干净，以便于识别。</p>
 <p>于是先进行预处理，将其小于某个阈值的设为0，大于阈值的设为255,然后二值化，此外，把四周的黑框去除了。</p>
 <p>这里使用了python的装饰器（这是一种添加新功能很好的设计模式）:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import re</span><br><span class="line">import subprocess</span><br><span class="line">from PIL import Image</span><br><span class="line"></span><br><span class="line">devnull &#x3D; open(os.devnull, &#39;w&#39;)</span><br><span class="line">cut_size &#x3D; 1</span><br><span class="line"></span><br><span class="line">def pre_process(func):</span><br><span class="line">    def _wrapper(filename):</span><br><span class="line">        image &#x3D; Image.open(filename).point(lambda p: 255 if p &gt; 127 else 0).convert(&quot;1&quot;)</span><br><span class="line">        w, h &#x3D; image.size</span><br><span class="line">        image &#x3D; image.crop((cut_size, cut_size, w - cut_size, h - cut_size))</span><br><span class="line">        save_name &#x3D; filename + &#39;1.jpg&#39;</span><br><span class="line">        image.save(save_name)</span><br><span class="line">        res &#x3D; func(save_name)</span><br><span class="line">        os.remove(save_name)</span><br><span class="line">        return res</span><br><span class="line">    return _wrapper</span><br><span class="line"></span><br><span class="line">@pre_process</span><br><span class="line">def image_to_string(img):</span><br><span class="line">    res &#x3D; subprocess.check_output(&#39;tesseract &#39; + img + &#39; stdout&#39;, stderr&#x3D;devnull).decode()  # tesseract a.png result</span><br><span class="line">    return (re.subn(&#39;\W&#39;, &#39;&#39;, res.strip()) if res else (&#39;&#39;, &#39;&#39;))[0].lower()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>现在我们可以正确的第一个样例啦。</p>
 <p>处理后效果如下:</p>
 <ul>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code1_after_pre_process.jpg" alt=""></li>
-<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code2_after_pre_process.jpg" alt=""></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code1_after_pre_process.jpg" /></li>
+<li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code2_after_pre_process.jpg" /></li>
 </ul>
-<h2 id="测试识别率"><a href="#测试识别率" class="headerlink" title="测试识别率"></a>测试识别率</h2><p>为了能更好的测试，于是使用如下的代码下载200张图，然后进行人工标注</p>
+<h2 id="测试识别率">测试识别率</h2>
+<p>为了能更好的测试，于是使用如下的代码下载200张图，然后进行人工标注</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_verification_code</span>(<span class="params">save_name</span>):</span></span><br><span class="line">    r = requests.get(<span class="string">&#x27;http://sep.ucas.ac.cn/changePic&#x27;</span>, stream=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&#x27;./img/&#x27;</span>+save_name+<span class="string">&#x27;.jpg&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> chunk <span class="keyword">in</span> r.iter_content(chunk_size=<span class="number">1024</span>):</span><br><span class="line">            <span class="keyword">if</span> chunk:  <span class="comment"># filter out keep-alive new chunks</span></span><br><span class="line">                f.write(chunk)</span><br><span class="line">                f.flush()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">200</span>):</span><br><span class="line">        print(i)</span><br><span class="line">        download_verification_code(str(i))</span><br></pre></td></tr></table></figure>
 <p>测试代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> ocr_test <span class="keyword">import</span> image_to_string <span class="keyword">as</span> img2str1</span><br><span class="line"><span class="keyword">from</span> MyOCR <span class="keyword">import</span> image_to_string <span class="keyword">as</span> img2str2</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">judge</span>(<span class="params">name</span>):</span></span><br><span class="line">    target = name.split(<span class="string">&#x27;.&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">    predict1 = img2str1(<span class="string">&#x27;./img/&#x27;</span> + name)  <span class="comment"># pre</span></span><br><span class="line">    predict2 = img2str2(<span class="string">&#x27;./img/&#x27;</span> + name)</span><br><span class="line">    <span class="keyword">return</span> [predict1 == target, predict2 == target]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    files = next(os.walk(<span class="string">&#x27;./img/&#x27;</span>))[<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">with</span> Pool(<span class="number">3</span>) <span class="keyword">as</span> pool:</span><br><span class="line">        res = pool.map(judge, files)</span><br><span class="line"></span><br><span class="line">    total = len(files)</span><br><span class="line">    c1 = sum([x[<span class="number">0</span>] <span class="keyword">for</span> x <span class="keyword">in</span> res])</span><br><span class="line">    c2 = sum([x[<span class="number">1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> res])</span><br><span class="line">    print(c1, c1 / total)  <span class="comment"># 70 0.35</span></span><br><span class="line">    print(c2, c2 / total)  <span class="comment"># 63 0.315</span></span><br></pre></td></tr></table></figure>
 <p>可以看出有预处理的提升了不少。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>上面我们偷懒使用tesseract-OCR，得到了33%左右的正确率。</p>
+<h2 id="小结">小结</h2>
+<p>上面我们偷懒使用tesseract-OCR，得到了33%左右的正确率。</p>
 <p>其实可以通过简单的训练应该就可以很好的正确率，因为标注的时候发现很多字母或者数字是长一样的。</p>
 <p>PS: 登录脚本的话可以进行优化，比如识别的需要4个字母或者数字，如果不是就重新获取验证码，这样能减少服务器说验证码错误的次数。</p>
 <p>目前登录成功一次平均需要<strong>2.6次</strong>的尝试，还算可以。</p>
@@ -418,12 +426,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -435,6 +449,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -443,13 +459,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -468,7 +485,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

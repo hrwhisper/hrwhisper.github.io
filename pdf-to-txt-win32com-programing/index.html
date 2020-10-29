@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">570</span>
+            <span class="post-count">571</span>
         </span>
     </span>
 
@@ -116,165 +116,170 @@
        
   <p>最近需要将 pdf 批量转为 txt ，用软件效果挺差，想起 word 2013 可以打开pdf ，试了下，效果挺不错的。</p>
 <p>然后 word 可以保存 txt 。</p>
-<p>问题是如何做呢？ word 自带 com编程，直接用python 调用 windows api<br><a id="more"></a><br>最好用SaveAs2,这是2010 和2013的API。之前版本的是SaveAs。</p>
+<p>问题是如何做呢？ word 自带 com编程，直接用python 调用 windows api <a id="more"></a> 最好用SaveAs2,这是2010 和2013的API。之前版本的是SaveAs。</p>
 <p>代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># author: hrwhisper</span></span><br><span class="line"><span class="comment"># blog: hrwhisper.me</span></span><br><span class="line"><span class="keyword">from</span> win32com <span class="keyword">import</span> client <span class="keyword">as</span> wc </span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PdfTotxt</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,pdfPath,savePath</span>):</span></span><br><span class="line">        self.pdfPath  = pdfPath</span><br><span class="line">        self.savePath = savePath</span><br><span class="line">        self.word = wc.Dispatch(<span class="string">&#x27;Word.Application&#x27;</span>) </span><br><span class="line">        <span class="comment"># 后台运行，不显示，不警告</span></span><br><span class="line">        self.word.Visible = <span class="number">0</span>   </span><br><span class="line">        self.word.DisplayAlerts = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">startChange</span>(<span class="params">self</span>):</span> </span><br><span class="line">        <span class="keyword">for</span> path, subdirs, files <span class="keyword">in</span> os.walk(self.pdfPath ): </span><br><span class="line">            <span class="keyword">for</span> pdfFile <span class="keyword">in</span> files: </span><br><span class="line">                pdfFullName = os.path.join(path, pdfFile) </span><br><span class="line">                dotIndex = pdfFile.rfind(<span class="string">&quot;.&quot;</span>) </span><br><span class="line">                fileSuffix = pdfFile[(dotIndex + <span class="number">1</span>) : ] </span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> fileSuffix == <span class="string">&quot;pdf&quot;</span> : </span><br><span class="line">                    <span class="keyword">try</span>:</span><br><span class="line">                        doc = self.word.Documents.Open(pdfFullName) </span><br><span class="line">                        <span class="comment">#至少两百字</span></span><br><span class="line">                        <span class="keyword">if</span> doc.Words.count &lt; <span class="number">200</span>:</span><br><span class="line">                            doc.Close()</span><br><span class="line">                            <span class="keyword">continue</span></span><br><span class="line">                        </span><br><span class="line">                        fileName = pdfFile[ : dotIndex] +<span class="string">&quot;.txt&quot;</span> </span><br><span class="line">                        fileName = os.path.join(self.savePath, fileName) </span><br><span class="line">                        <span class="keyword">print</span> path+ <span class="string">&#x27;\\&#x27;</span> + pdfFile+<span class="string">&quot;  ====&gt;  &quot;</span> + fileName </span><br><span class="line">                        <span class="comment">#, SaveAs method is used in versions before Word 2007. If you use Office 2010, I suggest you try Document.SaveAs2 Method.</span></span><br><span class="line">                        <span class="comment">#https://social.msdn.microsoft.com/Forums/en-US/a4f00910-cb6e-4861-bf96-97b0cfc6cf8f/convert-word-files-from-doc-to-docx-using-python?forum=worddev</span></span><br><span class="line">                        doc.SaveAs2(fileName, FileFormat=<span class="number">2</span>) </span><br><span class="line">                        doc.Close()</span><br><span class="line">                    <span class="keyword">except</span> Exception,e:</span><br><span class="line">                        <span class="keyword">print</span> <span class="string">&#x27;********************ERROR&#x27;</span>,path+ <span class="string">&#x27;\\&#x27;</span> + pdfFile,e</span><br><span class="line">        self.word.Quit() </span><br><span class="line">    </span><br><span class="line">pdfPath = <span class="string">r&#x27;J:\realpdf\test&#x27;</span></span><br><span class="line">savePath = <span class="string">r&#x27;J:\realpdf\test\out&#x27;</span></span><br><span class="line">task = PdfTotxt(pdfPath,savePath) </span><br><span class="line">task.startChange()</span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br></pre></td></tr></table></figure>
-<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>其他的文件保存形式</p>
-<p>只需要修改SaveAs2的参数FileFormat即可（如我保存为TXT FileFormat=2,如果Html则为10）</p>
-<div class="table-container">
+<p> </p>
+<h1 id="附录">附录</h1>
+<p>其他的文件保存形式</p>
+<p>只需要修改SaveAs2的参数FileFormat即可（如我保存为TXT FileFormat=2,如果Html则为10）</p>
 <table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 5%" />
+<col style="width: 60%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left">Name</th>
-<th style="text-align:left">Value</th>
-<th style="text-align:left">Description</th>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left">wdFormatDocument</td>
-<td style="text-align:left">0</td>
-<td style="text-align:left">Microsoft Office Word 97 – 2003 binary file format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatDocument</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">Microsoft Office Word 97 – 2003 binary file format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatDOSText</td>
-<td style="text-align:left">4</td>
-<td style="text-align:left">Microsoft DOS text format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatDOSText</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Microsoft DOS text format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatDOSTextLineBreaks</td>
-<td style="text-align:left">5</td>
-<td style="text-align:left">Microsoft DOS text with line breaks preserved.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatDOSTextLineBreaks</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Microsoft DOS text with line breaks preserved.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatEncodedText</td>
-<td style="text-align:left">7</td>
-<td style="text-align:left">Encoded text format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatEncodedText</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Encoded text format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatFilteredHTML</td>
-<td style="text-align:left">10</td>
-<td style="text-align:left">Filtered HTML format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatFilteredHTML</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">Filtered HTML format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatFlatXML</td>
-<td style="text-align:left">19</td>
-<td style="text-align:left">Open XML file format saved as a single XML file.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatFlatXML</td>
+<td style="text-align: left;">19</td>
+<td style="text-align: left;">Open XML file format saved as a single XML file.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatFlatXML</td>
-<td style="text-align:left">20</td>
-<td style="text-align:left">Open XML file format with macros enabled saved as a single XML file.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatFlatXML</td>
+<td style="text-align: left;">20</td>
+<td style="text-align: left;">Open XML file format with macros enabled saved as a single XML file.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatFlatXMLTemplate</td>
-<td style="text-align:left">21</td>
-<td style="text-align:left">Open XML template format saved as a XML single file.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatFlatXMLTemplate</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">Open XML template format saved as a XML single file.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatFlatXMLTemplateMacroEnabled</td>
-<td style="text-align:left">22</td>
-<td style="text-align:left">Open XML template format with macros enabled saved as a single XML file.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatFlatXMLTemplateMacroEnabled</td>
+<td style="text-align: left;">22</td>
+<td style="text-align: left;">Open XML template format with macros enabled saved as a single XML file.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatOpenDocumentText</td>
-<td style="text-align:left">23</td>
-<td style="text-align:left">OpenDocument Text format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatOpenDocumentText</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">OpenDocument Text format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatHTML</td>
-<td style="text-align:left">8</td>
-<td style="text-align:left">Standard HTML format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatHTML</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Standard HTML format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatRTF</td>
-<td style="text-align:left">6</td>
-<td style="text-align:left">Rich text format (RTF).</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatRTF</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Rich text format (RTF).</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatStrictOpenXMLDocument</td>
-<td style="text-align:left">24</td>
-<td style="text-align:left">Strict Open XML document format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatStrictOpenXMLDocument</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">Strict Open XML document format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatTemplate</td>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Word template format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatTemplate</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Word template format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatText</td>
-<td style="text-align:left">2</td>
-<td style="text-align:left">Microsoft Windows text format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatText</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Microsoft Windows text format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatTextLineBreaks</td>
-<td style="text-align:left">3</td>
-<td style="text-align:left">Windows text format with line breaks preserved.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatTextLineBreaks</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Windows text format with line breaks preserved.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatUnicodeText</td>
-<td style="text-align:left">7</td>
-<td style="text-align:left">Unicode text format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatUnicodeText</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Unicode text format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatWebArchive</td>
-<td style="text-align:left">9</td>
-<td style="text-align:left">Web archive format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatWebArchive</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Web archive format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatXML</td>
-<td style="text-align:left">11</td>
-<td style="text-align:left">Extensible Markup Language (XML) format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatXML</td>
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">Extensible Markup Language (XML) format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatDocument97</td>
-<td style="text-align:left">0</td>
-<td style="text-align:left">Microsoft Word 97 document format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatDocument97</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">Microsoft Word 97 document format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatDocumentDefault</td>
-<td style="text-align:left">16</td>
-<td style="text-align:left">Word default document file format. For Word 2010, this is the DOCX format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatDocumentDefault</td>
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">Word default document file format. For Word 2010, this is the DOCX format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatPDF</td>
-<td style="text-align:left">17</td>
-<td style="text-align:left">PDF format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatPDF</td>
+<td style="text-align: left;">17</td>
+<td style="text-align: left;">PDF format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatTemplate97</td>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Word 97 template format.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatTemplate97</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Word 97 template format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatXMLDocument</td>
-<td style="text-align:left">12</td>
-<td style="text-align:left">XML document format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatXMLDocument</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">XML document format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatXMLDocumentMacroEnabled</td>
-<td style="text-align:left">13</td>
-<td style="text-align:left">XML document format with macros enabled.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatXMLDocumentMacroEnabled</td>
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">XML document format with macros enabled.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatXMLTemplate</td>
-<td style="text-align:left">14</td>
-<td style="text-align:left">XML template format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatXMLTemplate</td>
+<td style="text-align: left;">14</td>
+<td style="text-align: left;">XML template format.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatXMLTemplateMacroEnabled</td>
-<td style="text-align:left">15</td>
-<td style="text-align:left">XML template format with macros enabled.</td>
+<tr class="odd">
+<td style="text-align: left;">wdFormatXMLTemplateMacroEnabled</td>
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">XML template format with macros enabled.</td>
 </tr>
-<tr>
-<td style="text-align:left">wdFormatXPS</td>
-<td style="text-align:left">18</td>
-<td style="text-align:left">XPS format.</td>
+<tr class="even">
+<td style="text-align: left;">wdFormatXPS</td>
+<td style="text-align: left;">18</td>
+<td style="text-align: left;">XPS format.</td>
 </tr>
 </tbody>
 </table>
-</div>
-<p>详见<a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/ff839952.aspx"> https://msdn.microsoft.com/en-us/library/ff839952.aspx</a></p>
+<p>详见<a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/ff839952.aspx" class="uri">https://msdn.microsoft.com/en-us/library/ff839952.aspx</a></p>
  
       <!-- reward -->
       
@@ -490,12 +495,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -507,6 +518,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -515,13 +528,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -540,7 +554,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

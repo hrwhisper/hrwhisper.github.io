@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">384</span>
+            <span class="post-count">385</span>
         </span>
     </span>
 
@@ -115,26 +115,28 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Range-Sum-Query-2D-Immutable"><a href="#leetcode-Range-Sum-Query-2D-Immutable" class="headerlink" title="leetcode Range Sum Query 2D - Immutable"></a>leetcode Range Sum Query 2D - Immutable</h3><p>Given a 2D matrix _matrix_, find the sum of the elements inside the rectangle defined by its upper left corner (_row_1, _col_1) and lower right corner (_row_2, _col_2).</p>
-<p><img src="https://leetcode.com/static/images/courses/range_sum_query_2d.png" alt="Range Sum Query 2D"><br>The above rectangle (with the red border) is defined by (row1, col1) = <strong>(2, 1)</strong> and (row2, col2) = <strong>(4, 3)</strong>, which contains sum = <strong>8</strong>.</p>
+<h3 id="leetcode-range-sum-query-2d---immutable">leetcode Range Sum Query 2D - Immutable</h3>
+<p>Given a 2D matrix <em>matrix</em>, find the sum of the elements inside the rectangle defined by its upper left corner (_row_1, _col_1) and lower right corner (_row_2, _col_2).</p>
+<p><img src="https://leetcode.com/static/images/courses/range_sum_query_2d.png" alt="Range Sum Query 2D" /> The above rectangle (with the red border) is defined by (row1, col1) = <strong>(2, 1)</strong> and (row2, col2) = <strong>(4, 3)</strong>, which contains sum = <strong>8</strong>.</p>
 <p><strong>Example:</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Given matrix &#x3D; [</span><br><span class="line">  [3, 0, 1, 4, 2],</span><br><span class="line">  [5, 6, 3, 2, 1],</span><br><span class="line">  [1, 2, 0, 1, 5],</span><br><span class="line">  [4, 1, 0, 1, 7],</span><br><span class="line">  [1, 0, 3, 0, 5]</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">sumRegion(2, 1, 4, 3) -&gt; 8</span><br><span class="line">sumRegion(1, 1, 2, 2) -&gt; 11</span><br><span class="line">sumRegion(1, 2, 2, 4) -&gt; 12</span><br></pre></td></tr></table></figure>
 <p><strong>Note:</strong></p>
-<ol>
+<ol type="1">
 <li>You may assume that the matrix does not change.</li>
-<li>There are many calls to _sumRegion_ function.</li>
+<li>There are many calls to <em>sumRegion</em> function.</li>
 <li>You may assume that _row_1 ≤ _row_2 and _col_1 ≤ _col_2.</li>
 </ol>
 </blockquote>
 <a id="more"></a>
-<p>题目地址  <a target="_blank" rel="noopener" href="https://leetcode.com/problems/range-sum-query-2d-immutable/">leetcode Range Sum Query 2D - Immutable</a></p>
+<p>题目地址  <a target="_blank" rel="noopener" href="https://leetcode.com/problems/range-sum-query-2d-immutable/">leetcode Range Sum Query 2D - Immutable</a></p>
 <p>题意：</p>
 <p>给定一个矩阵，和两个矩阵的坐标(row1,col1)，（row2,col2），让你计算他们之间元素的和</p>
 <p>思路：</p>
 <p>和之前的那题<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-range-sum-query-immutable/">leetcode Range Sum Query – Immutable</a>很像，只不过这次用二维数组进行和的存储。</p>
 <p>记得多减去的要加回来~</p>
 <p>Code:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NumMatrix</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, matrix</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        initialize your data structure here.</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.false_input =  <span class="keyword">not</span> matrix <span class="keyword">or</span> <span class="keyword">not</span> matrix[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span>  self.false_input: <span class="keyword">return</span></span><br><span class="line">        m, n = len(matrix) + <span class="number">1</span>, len(matrix[<span class="number">0</span>]) + <span class="number">1</span></span><br><span class="line">        self.sum = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> xrange(n)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(m)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>, n):</span><br><span class="line">                self.sum[i][j] = self.sum[i][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>, n):</span><br><span class="line">                self.sum[i][j] = self.sum[i - <span class="number">1</span>][j] + self.sum[i][j]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sumRegion</span>(<span class="params">self, row1, col1, row2, col2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        sum of elements matrix[(row1,col1)..(row2,col2)], inclusive.</span></span><br><span class="line"><span class="string">        :type row1: int</span></span><br><span class="line"><span class="string">        :type col1: int</span></span><br><span class="line"><span class="string">        :type row2: int</span></span><br><span class="line"><span class="string">        :type col2: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span>  self.false_input: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> self.sum[row2 + <span class="number">1</span>][col2 + <span class="number">1</span>]  - self.sum[row2 + <span class="number">1</span>][col1] - self.sum[row1][col2 + <span class="number">1</span>]\</span><br><span class="line">               + self.sum[row1][col1]</span><br></pre></td></tr></table></figure> 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NumMatrix</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, matrix</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        initialize your data structure here.</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.false_input =  <span class="keyword">not</span> matrix <span class="keyword">or</span> <span class="keyword">not</span> matrix[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span>  self.false_input: <span class="keyword">return</span></span><br><span class="line">        m, n = len(matrix) + <span class="number">1</span>, len(matrix[<span class="number">0</span>]) + <span class="number">1</span></span><br><span class="line">        self.sum = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> xrange(n)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(m)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>, n):</span><br><span class="line">                self.sum[i][j] = self.sum[i][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>, n):</span><br><span class="line">                self.sum[i][j] = self.sum[i - <span class="number">1</span>][j] + self.sum[i][j]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sumRegion</span>(<span class="params">self, row1, col1, row2, col2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        sum of elements matrix[(row1,col1)..(row2,col2)], inclusive.</span></span><br><span class="line"><span class="string">        :type row1: int</span></span><br><span class="line"><span class="string">        :type col1: int</span></span><br><span class="line"><span class="string">        :type row2: int</span></span><br><span class="line"><span class="string">        :type col2: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span>  self.false_input: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> self.sum[row2 + <span class="number">1</span>][col2 + <span class="number">1</span>]  - self.sum[row2 + <span class="number">1</span>][col1] - self.sum[row1][col2 + <span class="number">1</span>]\</span><br><span class="line">               + self.sum[row1][col1]</span><br></pre></td></tr></table></figure>
+ 
       <!-- reward -->
       
       <div id="reword-out">
@@ -349,12 +351,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -366,6 +374,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -374,13 +384,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -399,7 +410,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

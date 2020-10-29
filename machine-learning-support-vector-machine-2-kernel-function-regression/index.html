@@ -121,123 +121,132 @@
 <li>支持向量机回归SVR</li>
 </ul>
 <a id="more"></a>
-<h2 id="核线性回归"><a href="#核线性回归" class="headerlink" title="核线性回归"></a>核线性回归</h2><p>现在我们来讨论<strong>回归问题</strong>，之前我们讲过带<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-regularization/">正则项的线性回归（岭回归）</a>，现在我们也想要将它核化。能核化的理论依据我们之前已经证明过了，即表示定理：</p>
+<h2 id="核线性回归">核线性回归</h2>
+<p>现在我们来讨论<strong>回归问题</strong>，之前我们讲过带<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-regularization/">正则项的线性回归（岭回归）</a>，现在我们也想要将它核化。能核化的理论依据我们之前已经证明过了，即表示定理：</p>
 <blockquote>
-<p>对于任何带有L2正则化的线性模型</p>
-<script type="math/tex; mode=display">
-\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w^\mathsf{T}w} + \frac{1}{n}\sum_{i=1}^n {\rm err}(y_i, {\bf w^\mathsf{T}z}_i)</script><p>其最优的${\bf w_*}=\sum_{i=1}^n\beta_i{\bf z_i}$</p>
+<p>对于任何带有L2正则化的线性模型 <span class="math display">\[
+\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w^\mathsf{T}w} + \frac{1}{n}\sum_{i=1}^n {\rm err}(y_i, {\bf w^\mathsf{T}z}_i)
+\]</span> 其最优的<span class="math inline">\({\bf w_*}=\sum_{i=1}^n\beta_i{\bf z_i}\)</span></p>
 </blockquote>
-<p>首先写出原始的带正则项的线性回归， 并进行核化，然后写成矩阵的形式：</p>
-<script type="math/tex; mode=display">
+<p>首先写出原始的带正则项的线性回归， 并进行核化，然后写成矩阵的形式： <span class="math display">\[
 \begin{align*}
-&\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w^\mathsf{T}w} + \frac{1}{n}\sum_{i=1}^n(y_i - {\bf w^\mathsf{T}z}_i)^2 \\ \Rightarrow 
-&\min_{\bf \boldsymbol\beta}\hspace{2ex}\frac{\lambda}{n}\sum_{i=1}^n\sum_{j=1}^n\beta_i\beta_jK({\bf x_i},{\bf x_j}) + \frac{1}{n}\sum_{i=1}^n(y_i - \sum_{j = 1}^n\beta_jK({\bf x_i},{\bf x_j}))^2  \\\Rightarrow 
-&\min_{\bf \boldsymbol\beta}\hspace{2ex}\frac{\lambda}{n} \boldsymbol{\beta}^\mathsf{T}{\rm K}\boldsymbol{\beta} + \frac{1}{n}|\!|{\bf y}- {\bf K}{\boldsymbol \beta} |\!|^2\\ \Rightarrow 
-& \min_\boldsymbol{\beta}\hspace{2ex}\frac{\lambda}{n}\boldsymbol{\beta}^\mathsf{T}{\rm K}\boldsymbol{\beta} + \frac{1}{n}(\boldsymbol{\beta}^\mathsf{T}{\rm K^\mathsf{T}K}\boldsymbol{\beta} - 2\boldsymbol{\beta}^\mathsf{T}{\rm K}^\mathsf{T}{\bf y} + {\bf y^\mathsf{T}y})
-\end{align*}</script><p>对$\beta$求偏导，并令偏导为0。注意由Mercer定理知道<strong>K</strong>为对称的半正定矩阵，得：</p>
-<script type="math/tex; mode=display">
+&amp;\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w^\mathsf{T}w} + \frac{1}{n}\sum_{i=1}^n(y_i - {\bf w^\mathsf{T}z}_i)^2 \\ \Rightarrow 
+&amp;\min_{\bf \boldsymbol\beta}\hspace{2ex}\frac{\lambda}{n}\sum_{i=1}^n\sum_{j=1}^n\beta_i\beta_jK({\bf x_i},{\bf x_j}) + \frac{1}{n}\sum_{i=1}^n(y_i - \sum_{j = 1}^n\beta_jK({\bf x_i},{\bf x_j}))^2  \\\Rightarrow 
+&amp;\min_{\bf \boldsymbol\beta}\hspace{2ex}\frac{\lambda}{n} \boldsymbol{\beta}^\mathsf{T}{\rm K}\boldsymbol{\beta} + \frac{1}{n}|\!|{\bf y}- {\bf K}{\boldsymbol \beta} |\!|^2\\ \Rightarrow 
+&amp; \min_\boldsymbol{\beta}\hspace{2ex}\frac{\lambda}{n}\boldsymbol{\beta}^\mathsf{T}{\rm K}\boldsymbol{\beta} + \frac{1}{n}(\boldsymbol{\beta}^\mathsf{T}{\rm K^\mathsf{T}K}\boldsymbol{\beta} - 2\boldsymbol{\beta}^\mathsf{T}{\rm K}^\mathsf{T}{\bf y} + {\bf y^\mathsf{T}y})
+\end{align*}
+\]</span> 对<span class="math inline">\(\beta\)</span>求偏导，并令偏导为0。注意由Mercer定理知道<strong>K</strong>为对称的半正定矩阵，得： <span class="math display">\[
 \begin{align*}
-\nabla E_{\rm aug}(\boldsymbol{\beta}) &= \frac{2}{n}(\lambda {\rm K^\mathsf{T}I}\boldsymbol{\beta} + {\rm K^\mathsf{T}K}{\boldsymbol{\beta} } - {\rm K^\mathsf{T} }{\bf y}) = \frac{2}{n}{\rm K^\mathsf{T}((\lambda{\rm I+K})\boldsymbol{\beta} - {\bf y})} = 0
-\\ &\Rightarrow  \boldsymbol{\beta} = (\lambda{\rm I+K})^{-1}{\bf y}
-\end{align*}</script><p>因为<strong>K</strong>为半正定矩阵且$\lambda \gt 0$，因此$\lambda{\rm I+K}$是可逆的。求解该问题复杂度$O(n^3)$，就是求逆矩阵的复杂度。预测时需要$O(n)$的复杂度。</p>
-<p> 带正则项的线性回归中, ${\bf w} = {\rm (\lambda I + X^\mathsf{T}X)^{-1}X^\mathsf{T} }{\bf y)}$，求解复杂度$O(d^3 + d^2n)$, 预测时间$O(d)$。</p>
-<p>核线性回归得到的模型相比带正则项的线性回归来说更灵活，但不适合处理大数据。此外，核线性回归得到的结果时稠密的，因为$\beta$和核矩阵<strong>K</strong>有关，而<strong>K</strong>中的值基本上不是0（除非两个向量垂直，否则一般不是0）。</p>
-<h2 id="支持向量回归SVR"><a href="#支持向量回归SVR" class="headerlink" title="支持向量回归SVR"></a>支持向量回归SVR</h2><p>上面提到的核线性回归得到的解不稀疏，计算存储开销大，有没有办法得到稀疏的解呢？</p>
-<p>传统的回归模型采用的是模型输出f(<strong>x</strong>)与真实值y之间的差别计算损失，只有二者完全相同的时候，损失才为0。这样可能太苛刻了，如果适当的放宽条件，假设f(<strong>x</strong>)和y之间最多有$\epsilon$的差距，即<strong>当$|f({\bf x}) - y| &gt; \epsilon$时才计算损失</strong>，即：</p>
-<script type="math/tex; mode=display">
-\rm error(y,f({\bf x})) = \max(0, | f({\bf x}) - y | -\epsilon)</script><p>这种回归任务称为<strong>管道回归(tube  regression)</strong>，对应的损失函数称为 <strong>$\epsilon$-不敏感损失($\epsilon$-insensitive error)</strong>。用大白话说，管道回归希望落在管道内。</p>
+\nabla E_{\rm aug}(\boldsymbol{\beta}) &amp;= \frac{2}{n}(\lambda {\rm K^\mathsf{T}I}\boldsymbol{\beta} + {\rm K^\mathsf{T}K}{\boldsymbol{\beta} } - {\rm K^\mathsf{T} }{\bf y}) = \frac{2}{n}{\rm K^\mathsf{T}((\lambda{\rm I+K})\boldsymbol{\beta} - {\bf y})} = 0
+\\ &amp;\Rightarrow  \boldsymbol{\beta} = (\lambda{\rm I+K})^{-1}{\bf y}
+\end{align*}
+\]</span> 因为<strong>K</strong>为半正定矩阵且<span class="math inline">\(\lambda \gt 0\)</span>，因此<span class="math inline">\(\lambda{\rm I+K}\)</span>是可逆的。求解该问题复杂度<span class="math inline">\(O(n^3)\)</span>，就是求逆矩阵的复杂度。预测时需要<span class="math inline">\(O(n)\)</span>的复杂度。</p>
+<p>带正则项的线性回归中, <span class="math inline">\({\bf w} = {\rm (\lambda I + X^\mathsf{T}X)^{-1}X^\mathsf{T} }{\bf y)}\)</span>，求解复杂度<span class="math inline">\(O(d^3 + d^2n)\)</span>, 预测时间<span class="math inline">\(O(d)\)</span>。</p>
+<p>核线性回归得到的模型相比带正则项的线性回归来说更灵活，但不适合处理大数据。此外，核线性回归得到的结果时稠密的，因为<span class="math inline">\(\beta\)</span>和核矩阵<strong>K</strong>有关，而<strong>K</strong>中的值基本上不是0（除非两个向量垂直，否则一般不是0）。</p>
+<h2 id="支持向量回归svr">支持向量回归SVR</h2>
+<p>上面提到的核线性回归得到的解不稀疏，计算存储开销大，有没有办法得到稀疏的解呢？</p>
+<p>传统的回归模型采用的是模型输出f(<strong>x</strong>)与真实值y之间的差别计算损失，只有二者完全相同的时候，损失才为0。这样可能太苛刻了，如果适当的放宽条件，假设f(<strong>x</strong>)和y之间最多有<span class="math inline">\(\epsilon\)</span>的差距，即<strong>当<span class="math inline">\(|f({\bf x}) - y| &gt; \epsilon\)</span>时才计算损失</strong>，即： <span class="math display">\[
+\rm error(y,f({\bf x})) = \max(0, | f({\bf x}) - y | -\epsilon)
+\]</span> 这种回归任务称为<strong>管道回归(tube regression)</strong>，对应的损失函数称为 <strong><span class="math inline">\(\epsilon\)</span>-不敏感损失(<span class="math inline">\(\epsilon\)</span>-insensitive error)</strong>。用大白话说，管道回归希望落在管道内。</p>
 <p>周志华老师给出了一个直观的图如下：</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-regression/svr-tube-regression.png" alt="svr-tube-regression"></p>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-regression/svr-tube-regression.png" alt="svr-tube-regression" /><figcaption>svr-tube-regression</figcaption>
+</figure>
 <p>对比均方损失如下图：</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-regression/svr-tube-vs-square-error.png" alt="svr-tube-vs-square-error"></p>
-<p>可以看出当$|f({\bf x}) - y|$比较小的时候，管道回归的误差与平方误差大致相等。当$|f({\bf x}) - y|$比较大时，管道回归的误差又远小于均方误差，说明管道回归的误差受离群点影响更小。</p>
-<h3 id="SVR原始问题"><a href="#SVR原始问题" class="headerlink" title="SVR原始问题"></a>SVR原始问题</h3><p>管道回归的目标函数可形式化为：</p>
-<script type="math/tex; mode=display">
-\min_{ {\bf w}, b}\hspace{2ex}\frac{1}{2}{\bf w^\mathsf{T}w} + C\sum_{i=1}^n\max(0, |{\bf w^\mathsf{T}x}_i+b-y_i|-\epsilon)\tag{2-1}</script><p>和hinge损失一样，采用了max所以不是处处可微的，因此使用微分的方法会遇到问题。想想软间隔的SVM和采用hinge损失并带正则化的目标函数的转化，是的，引入边界破坏量$\xi$我们可以将2-1写成二次规划问题：</p>
-<script type="math/tex; mode=display">
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-regression/svr-tube-vs-square-error.png" alt="svr-tube-vs-square-error" /><figcaption>svr-tube-vs-square-error</figcaption>
+</figure>
+<p>可以看出当<span class="math inline">\(|f({\bf x}) - y|\)</span>比较小的时候，管道回归的误差与平方误差大致相等。当<span class="math inline">\(|f({\bf x}) - y|\)</span>比较大时，管道回归的误差又远小于均方误差，说明管道回归的误差受离群点影响更小。</p>
+<h3 id="svr原始问题">SVR原始问题</h3>
+<p>管道回归的目标函数可形式化为： <span class="math display">\[
+\min_{ {\bf w}, b}\hspace{2ex}\frac{1}{2}{\bf w^\mathsf{T}w} + C\sum_{i=1}^n\max(0, |{\bf w^\mathsf{T}x}_i+b-y_i|-\epsilon)\tag{2-1}
+\]</span> 和hinge损失一样，采用了max所以不是处处可微的，因此使用微分的方法会遇到问题。想想软间隔的SVM和采用hinge损失并带正则化的目标函数的转化，是的，引入边界破坏量<span class="math inline">\(\xi\)</span>我们可以将2-1写成二次规划问题： <span class="math display">\[
 \begin{align*}
-\min_{ {\bf w},b, \boldsymbol{\xi} }\hspace{2ex}&\frac{1}{2}{\bf w^\mathsf{T}w} + C\sum_{i=1}^n\xi_i
-\\ {\rm s.t.}\hspace{2ex}& |y_i -({\bf w^\mathsf{T}x}_i+ b) |\le \epsilon + \xi_i
-\\ \hspace{2ex}& \xi_i \ge 0,
-\end{align*}</script><p>但是这样还不是一个二次规划问题，因为有绝对值，为此需要两个变量:</p>
-<script type="math/tex; mode=display">
+\min_{ {\bf w},b, \boldsymbol{\xi} }\hspace{2ex}&amp;\frac{1}{2}{\bf w^\mathsf{T}w} + C\sum_{i=1}^n\xi_i
+\\ {\rm s.t.}\hspace{2ex}&amp; |y_i -({\bf w^\mathsf{T}x}_i+ b) |\le \epsilon + \xi_i
+\\ \hspace{2ex}&amp; \xi_i \ge 0,
+\end{align*}
+\]</span></p>
+<p>但是这样还不是一个二次规划问题，因为有绝对值，为此需要两个变量: <span class="math display">\[
 \begin{align*}
-\min_{ {\bf w},b, \boldsymbol{\xi}^\lor, \boldsymbol{\xi}^\land}\hspace{2ex}&\frac{1}{2}{\bf w^\mathsf{T}w} + C\sum_{i=1}^n(\xi_i^\lor + \xi_i^\land) \tag{2-2}
-\\ {\rm s.t.}\hspace{2ex}& -\epsilon - \xi_i^\lor \le y_i -({\bf w^\mathsf{T}x}_i+ b) \le \epsilon + \xi_i^\land 
-\\ \hspace{2ex}& \xi_i^\lor \ge 0,
-\\ \hspace{2ex}& \xi_i^\land \ge 0
-\end{align*}</script><p>这里有两个$\xi$，一个是$\xi_i^\lor$一个是$\xi_i^\land$，分别y在预测值的下方（小于预测值）和在预测值上方（大于预测值f(x))。</p>
-<h3 id="SVR对偶问题"><a href="#SVR对偶问题" class="headerlink" title="SVR对偶问题"></a>SVR对偶问题</h3><p>到这里应该很熟悉如何推导了吧，毕竟之前已经从硬边距、软边距都推导了一遍。</p>
-<p>首先同样写出拉格朗日函数：</p>
-<script type="math/tex; mode=display">
+\min_{ {\bf w},b, \boldsymbol{\xi}^\lor, \boldsymbol{\xi}^\land}\hspace{2ex}&amp;\frac{1}{2}{\bf w^\mathsf{T}w} + C\sum_{i=1}^n(\xi_i^\lor + \xi_i^\land) \tag{2-2}
+\\ {\rm s.t.}\hspace{2ex}&amp; -\epsilon - \xi_i^\lor \le y_i -({\bf w^\mathsf{T}x}_i+ b) \le \epsilon + \xi_i^\land 
+\\ \hspace{2ex}&amp; \xi_i^\lor \ge 0,
+\\ \hspace{2ex}&amp; \xi_i^\land \ge 0
+\end{align*}
+\]</span> 这里有两个<span class="math inline">\(\xi\)</span>，一个是<span class="math inline">\(\xi_i^\lor\)</span>一个是<span class="math inline">\(\xi_i^\land\)</span>，分别y在预测值的下方（小于预测值）和在预测值上方（大于预测值f(x))。</p>
+<h3 id="svr对偶问题">SVR对偶问题</h3>
+<p>到这里应该很熟悉如何推导了吧，毕竟之前已经从硬边距、软边距都推导了一遍。</p>
+<p>首先同样写出拉格朗日函数： <span class="math display">\[
 \begin{align}
 \mathcal{L}({\bf w},b, {\boldsymbol \xi}^\lor,  {\boldsymbol \xi}^\land,{\boldsymbol \alpha}^\lor,{\boldsymbol \alpha}^\land, {\boldsymbol \beta}^\lor,{\boldsymbol \beta}^\land) =  \frac{1}{2}{\bf w^\mathsf{T}w} + C\sum_{i=1}^n(\xi_i^\lor + \xi_i^\land)  + \sum_{i=1}^n\alpha_i^\land\left(y_i - ({\bf w^T}x_i + b) - \epsilon - \xi_i^\land \right)  \\
 +\sum_{i=1}^n\alpha_i^\lor\left(-y_i + ({\bf w^T}x_i + b)  - \epsilon - \xi_i^\lor  \right) - \sum_{i=1}^n\beta_i^\land\xi_i^\land  - \sum_{i=1}^n\beta_i^\lor\xi_i^\lor  \tag{2-3}
-\end{align}</script><p>$\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta})$对${\bf w}, b, \xi_i^\land ,\xi_i^\lor$求偏导得： </p>
-<script type="math/tex; mode=display">
+\end{align}
+\]</span></p>
+<p><span class="math inline">\(\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta})\)</span>对<span class="math inline">\({\bf w}, b, \xi_i^\land ,\xi_i^\lor\)</span>求偏导得： <span class="math display">\[
 \begin{align*}
-\frac{\partial \mathcal{L} }{\partial \bf w}  &= {\bf w}- \sum_{i=1}^n\alpha_i^\land {\bf x_i} +\sum_{i=1}^n\alpha_i^\lor{\bf x_i}=0\\
-\frac{\partial \mathcal{L} }{\partial b } &=  -\sum_{i=1}^n\alpha_i^\land + \sum_{i=1}^n\alpha_i^\lor   =0\\
-\frac{\partial \mathcal{L} }{\partial \xi_i^\land} &=  C  - \alpha_i^\land  - \beta_i^\land =0\\
-\frac{\partial \mathcal{L} }{\partial \xi_i^\lor} &=  C  - \alpha_i^\lor  - \beta_i^\lor =0\\
-\end{align*}</script><p>整理得：</p>
-<script type="math/tex; mode=display">
+\frac{\partial \mathcal{L} }{\partial \bf w}  &amp;= {\bf w}- \sum_{i=1}^n\alpha_i^\land {\bf x_i} +\sum_{i=1}^n\alpha_i^\lor{\bf x_i}=0\\
+\frac{\partial \mathcal{L} }{\partial b } &amp;=  -\sum_{i=1}^n\alpha_i^\land + \sum_{i=1}^n\alpha_i^\lor   =0\\
+\frac{\partial \mathcal{L} }{\partial \xi_i^\land} &amp;=  C  - \alpha_i^\land  - \beta_i^\land =0\\
+\frac{\partial \mathcal{L} }{\partial \xi_i^\lor} &amp;=  C  - \alpha_i^\lor  - \beta_i^\lor =0\\
+\end{align*}
+\]</span> 整理得： <span class="math display">\[
 \begin{align*}
 \tag{2-4}
  {\bf w} = \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf x_i}\\
 \sum_{i=1}^n(\alpha_i^\lor - \alpha_i^\land ) = 0\\
  C  =\alpha_i^\land + \beta_i^\land \\
  C = \alpha_i^\lor  + \beta_i^\lor\\
-\end{align*}</script><p>将2-4带入2-3得：</p>
-<script type="math/tex; mode=display">
+\end{align*}
+\]</span> 将2-4带入2-3得： <span class="math display">\[
 \begin{align}
 \min_{ {\bf w}, b,{\boldsymbol \xi}^\lor, {\boldsymbol \xi}^\land}\mathcal{L}({\bf w},b, {\boldsymbol \xi}^\lor,  {\boldsymbol \xi}^\land,{\boldsymbol \alpha}^\lor,{\boldsymbol \alpha}^\land, {\boldsymbol \beta}^\lor,{\boldsymbol \beta}^\land) = \sum_{i=1}^ny_i(\alpha_i^\land - \alpha_i^\lor ) - \epsilon (\alpha_i^\land + \alpha_i^\lor )- \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n(\alpha_i^\land - \alpha_i^\lor )(\alpha_j^\land - \alpha_j^\lor ){\bf x_i^T x_j} \tag{2-5}
-\end{align}</script><p>在对2-5求极大得到<strong>SVR的对偶问题</strong>：</p>
-<script type="math/tex; mode=display">
+\end{align} 
+\]</span> 在对2-5求极大得到<strong>SVR的对偶问题</strong>： <span class="math display">\[
 \begin{align*}
-\max_{ {\boldsymbol \alpha^\lor, \alpha^\land} }\hspace{2ex}&  \sum_{i=1}^ny_i(\alpha_i^\land - \alpha_i^\lor ) - \epsilon (\alpha_i^\land + \alpha_i^\lor )- \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n(\alpha_i^\land - \alpha_i^\lor )(\alpha_j^\land - \alpha_j^\lor ){\bf x_i^T x_j}  \tag{2-6}\\
+\max_{ {\boldsymbol \alpha^\lor, \alpha^\land} }\hspace{2ex}&amp;  \sum_{i=1}^ny_i(\alpha_i^\land - \alpha_i^\lor ) - \epsilon (\alpha_i^\land + \alpha_i^\lor )- \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n(\alpha_i^\land - \alpha_i^\lor )(\alpha_j^\land - \alpha_j^\lor ){\bf x_i^T x_j}  \tag{2-6}\\
 {\rm s.t.} 
-\hspace{2ex} & \sum_{i=1}^n(\alpha_i^\lor - \alpha_i^\land ) = 0\\
-\hspace{2ex} & 0  \le \alpha_i^\land ,\alpha_i^\lor\le C
-\end{align*}</script><p>和以往一样，我们省略2-4中的<strong>w</strong>，并用等式约束消去了$\beta_i^\lor, \beta_i^\land$。</p>
+\hspace{2ex} &amp; \sum_{i=1}^n(\alpha_i^\lor - \alpha_i^\land ) = 0\\
+\hspace{2ex} &amp; 0  \le \alpha_i^\land ,\alpha_i^\lor\le C
+\end{align*}
+\]</span> 和以往一样，我们省略2-4中的<strong>w</strong>，并用等式约束消去了<span class="math inline">\(\beta_i^\lor, \beta_i^\land\)</span>。</p>
 <p>OK，接下来是KKT条件：</p>
 <ul>
-<li>主问题可行: $-\epsilon - \xi_i^\lor \le y_i -({\bf w^\mathsf{T}x}_i+ b) \le \epsilon + \xi_i^\land ;\hspace{2ex} \xi_i^\lor \ge 0; \hspace{2ex} \xi_i^\land \ge 0$</li>
-<li>对偶问题可行: $\alpha_i^\land ,\alpha_i^\lor \ge 0; \hspace{2ex} \beta_i^\lor, \beta_i^\land \ge0$</li>
-<li>互补松弛：$\alpha_i^\land\left(y_i - ({\bf w^T}x_i + b) - \epsilon - \xi_i^\land \right) =0; \hspace{2ex} \alpha_i^\lor\left(-y_i + ({\bf w^T}x_i + b)  - \epsilon - \xi_i^\lor  \right)=0;  \hspace{2ex} \beta_i^\land\xi_i^\land = 0  \hspace{2ex} \beta_i^\lor\xi_i^\lor = 0$</li>
-<li>2-4的条件${\bf w} = \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf x_i}; \hspace{2ex} \sum_{i=1}^n(\alpha_i^\lor - \alpha_i^\land ) = 0 ; \hspace{2ex} C  =\alpha_i^\land + \beta_i^\land; \hspace{2ex}  C = \alpha_i^\lor  + \beta_i^\lor$</li>
+<li>主问题可行: <span class="math inline">\(-\epsilon - \xi_i^\lor \le y_i -({\bf w^\mathsf{T}x}_i+ b) \le \epsilon + \xi_i^\land ;\hspace{2ex} \xi_i^\lor \ge 0; \hspace{2ex} \xi_i^\land \ge 0\)</span></li>
+<li>对偶问题可行: <span class="math inline">\(\alpha_i^\land ,\alpha_i^\lor \ge 0; \hspace{2ex} \beta_i^\lor, \beta_i^\land \ge0\)</span></li>
+<li>互补松弛：<span class="math inline">\(\alpha_i^\land\left(y_i - ({\bf w^T}x_i + b) - \epsilon - \xi_i^\land \right) =0; \hspace{2ex} \alpha_i^\lor\left(-y_i + ({\bf w^T}x_i + b) - \epsilon - \xi_i^\lor \right)=0; \hspace{2ex} \beta_i^\land\xi_i^\land = 0 \hspace{2ex} \beta_i^\lor\xi_i^\lor = 0\)</span></li>
+<li>2-4的条件<span class="math inline">\({\bf w} = \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf x_i}; \hspace{2ex} \sum_{i=1}^n(\alpha_i^\lor - \alpha_i^\land ) = 0 ; \hspace{2ex} C =\alpha_i^\land + \beta_i^\land; \hspace{2ex} C = \alpha_i^\lor + \beta_i^\lor\)</span></li>
 </ul>
-<p>此外，还加上两条：$\alpha_i^\land \alpha_i^\lor = 0; \hspace{2ex}\xi_i^\land \xi_i^\lor = 0;$这是因为y不可能同时出现在预测值f(x)的上方和下方，因此它们至少一个为0。</p>
-<h3 id="稀疏性讨论"><a href="#稀疏性讨论" class="headerlink" title="稀疏性讨论"></a>稀疏性讨论</h3><p>SVR的目的是想要一个稀疏的解。那么我们根据对偶问题求解出的是稀疏的么？</p>
-<p>前面的KKT可知 ${\bf w} = \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf x_i}$，记$\beta_i = \alpha_i^\land - \alpha_i^\lor$ 要证明的就是$\beta_i$组成的向量$\boldsymbol \beta$是稀疏的。</p>
-<p>对于在管道中的可以利用互补松弛性可以做如下推导：</p>
-<script type="math/tex; mode=display">
+<p>此外，还加上两条：<span class="math inline">\(\alpha_i^\land \alpha_i^\lor = 0; \hspace{2ex}\xi_i^\land \xi_i^\lor = 0;\)</span>这是因为y不可能同时出现在预测值f(x)的上方和下方，因此它们至少一个为0。</p>
+<h3 id="稀疏性讨论">稀疏性讨论</h3>
+<p>SVR的目的是想要一个稀疏的解。那么我们根据对偶问题求解出的是稀疏的么？</p>
+<p>前面的KKT可知 <span class="math inline">\({\bf w} = \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf x_i}\)</span>，记<span class="math inline">\(\beta_i = \alpha_i^\land - \alpha_i^\lor\)</span> 要证明的就是<span class="math inline">\(\beta_i\)</span>组成的向量<span class="math inline">\(\boldsymbol \beta\)</span>是稀疏的。</p>
+<p>对于在管道中的可以利用互补松弛性可以做如下推导： <span class="math display">\[
 \begin{align*} 
-& |{\bf w^Tx_i } +b - y_i | \lt \epsilon \\
-\Rightarrow \hspace{1ex}& \xi_i^\lor = \xi_i^\land = 0\\
-\Rightarrow  \hspace{1ex}& y_i - ({\bf w^T}x_i + b) - \epsilon - \xi_i^\land \ne0; \hspace{2ex} -y_i + ({\bf w^T}x_i + b)  - \epsilon - \xi_i^\lor \ne0;\\
-\Rightarrow  \hspace{1ex} &\alpha_i^\land =0 ; \hspace{2ex}\alpha_i^\lor=0\\
-\Rightarrow  \hspace{1ex} &\beta_i = \alpha_i^\land - \alpha_i^\lor = 0\\ 
-\end{align*}</script><p>只有不在管道中$\beta_i \ne 0$，此时为支持向量。显然SVR的支持向量仅为训练样本的一部分，即其解具有稀疏性。</p>
-<h3 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h3><p>SVR仍可以核函数：</p>
-<script type="math/tex; mode=display">
+&amp; |{\bf w^Tx_i } +b - y_i | \lt \epsilon \\
+\Rightarrow \hspace{1ex}&amp; \xi_i^\lor = \xi_i^\land = 0\\
+\Rightarrow  \hspace{1ex}&amp; y_i - ({\bf w^T}x_i + b) - \epsilon - \xi_i^\land \ne0; \hspace{2ex} -y_i + ({\bf w^T}x_i + b)  - \epsilon - \xi_i^\lor \ne0;\\
+\Rightarrow  \hspace{1ex} &amp;\alpha_i^\land =0 ; \hspace{2ex}\alpha_i^\lor=0\\
+\Rightarrow  \hspace{1ex} &amp;\beta_i = \alpha_i^\land - \alpha_i^\lor = 0\\ 
+\end{align*}
+\]</span> 只有不在管道中<span class="math inline">\(\beta_i \ne 0\)</span>，此时为支持向量。显然SVR的支持向量仅为训练样本的一部分，即其解具有稀疏性。</p>
+<h3 id="核函数">核函数</h3>
+<p>SVR仍可以核函数： <span class="math display">\[
 \begin{align*} 
-f({\bf x}) &= {\bf w^Tx} + b 
- \\&=  \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf x_i^Tx} + b 
- \\&= \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf K}({\bf x_i},{\bf x}) + b 
-\end{align*}</script><h2 id="常见分类、回归性能比较"><a href="#常见分类、回归性能比较" class="headerlink" title="常见分类、回归性能比较"></a>常见分类、回归性能比较</h2><p>图来自林轩田老师：</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-regression/classification-and-regression-models.png" alt="classification-and-regression-models"></p>
-<p>前两行均为线性模型，其中</p>
+f({\bf x}) &amp;= {\bf w^Tx} + b 
+ \\&amp;=  \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf x_i^Tx} + b 
+ \\&amp;= \sum_{i=1}^n(\alpha_i^\land - \alpha_i^\lor){\bf K}({\bf x_i},{\bf x}) + b 
+\end{align*}
+\]</span></p>
+<h2 id="常见分类回归性能比较">常见分类、回归性能比较</h2>
+<p>图来自林轩田老师：</p>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-regression/classification-and-regression-models.png" alt="classification-and-regression-models" /><figcaption>classification-and-regression-models</figcaption>
+</figure>
+<p>前两行均为线性模型，其中 - 第一行较少使用，因为性能/效果比较差 - 第二行是经典机器学习包liblinear的主力</p>
+<p>后两行均为核模型，其中 - 第三行较少使用，因为支持向量是稠密的 - 第四行是经典机器学习包libsvm的主力</p>
+<h2 id="参考资料">参考资料</h2>
 <ul>
-<li>第一行较少使用，因为性能/效果比较差</li>
-<li>第二行是经典机器学习包liblinear的主力</li>
-</ul>
-<p>后两行均为核模型，其中</p>
-<ul>
-<li>第三行较少使用，因为支持向量是稠密的</li>
-<li>第四行是经典机器学习包libsvm的主力</li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li>机器学习技法 - 林轩田</li>
 <li>《机器学习》 - 周志华</li>
 </ul>
@@ -456,12 +465,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -473,6 +488,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -481,13 +498,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -506,7 +524,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

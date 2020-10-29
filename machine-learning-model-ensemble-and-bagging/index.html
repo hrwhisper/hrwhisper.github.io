@@ -125,37 +125,39 @@
 <li>随机森林</li>
 </ul>
 <a id="more"></a>
-<h2 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h2><p>如果硬要把集成学习进一步分类，可以分为两类，一种是把强分类器进行强强联合，使得融合后的模型效果更强，称为<strong>模型融合</strong>。另一种是将弱分类器通过学习算法集成起来变为很强的分类器，称为<strong>机器学习元算法</strong>。</p>
+<h2 id="集成学习">集成学习</h2>
+<p>如果硬要把集成学习进一步分类，可以分为两类，一种是把强分类器进行强强联合，使得融合后的模型效果更强，称为<strong>模型融合</strong>。另一种是将弱分类器通过学习算法集成起来变为很强的分类器，称为<strong>机器学习元算法</strong>。</p>
 <p>这里我们把用来进行融合的学习器称为<strong>个体学习器</strong>。</p>
 <p>模型融合的代表有：投票法(Voting)、线性混合(Linear Blending)、Stacking。</p>
 <p>而机器学习元算法又可以根据个体学习器之间是否存在依赖关系分为两类，称为Bagging和Boosting:</p>
 <ul>
 <li>Bagging: 个体学习器不存在依赖关系，可同时对样本随机采样并行化生成个体学习器。代表作为随机森林(Random Forest)</li>
-<li>Boosting:  个体学习器存在依赖关系,基于前面模型的训练结果误差生成新的模型，必须串行化生成。代表的算法有：Adaboost、GBDT、XGBoost</li>
+<li>Boosting: 个体学习器存在依赖关系,基于前面模型的训练结果误差生成新的模型，必须串行化生成。代表的算法有：Adaboost、GBDT、XGBoost</li>
 </ul>
 <p>其中，Boosting相关的内容将在集成学习（二）进行介绍。</p>
-<h2 id="模型融合"><a href="#模型融合" class="headerlink" title="模型融合"></a>模型融合</h2><p>上面提到，模型融合是把强分类器进行强强联合，变得更强。</p>
+<h2 id="模型融合">模型融合</h2>
+<p>上面提到，模型融合是把强分类器进行强强联合，变得更强。</p>
 <p>在进行模型融合的时候，也不是说随意的融合就能达到好的效果。进行融合时，所需的集成个体（就是用来集成的模型）应该<strong>好而不同</strong>。好指的是个体学习器的性能要好，不同指的是个体模型的类别不同。</p>
 <p>这里举个西瓜书的例子，在介绍例子之前，首先提前介绍简单投票法，以分类问题为例，就是每个分类器对样例进行投票，哪个类别得到的票数最多的就是融合后模型的结果。</p>
-<p><img src="../images/machine-learning-model-ensemble-and-bagging/ensemble-example.png" alt="ensemble-example"></p>
+<figure>
+<img src="../images/machine-learning-model-ensemble-and-bagging/ensemble-example.png" alt="ensemble-example" /><figcaption>ensemble-example</figcaption>
+</figure>
 <p>在上面的例子中，采用的就是简单的投票法。中间的图b各个模型输出都一样，因此没有什么效果。第三个图c每个分类器的精度只有33%，融合后反而更糟。也就是说，想要模型融合有效果，个体学习器要有一定的准确率，并且要有多样性，学习器之间具有差异，即”好而不同“。</p>
 <p>如何做到好而不同呢？可以由下面几个方面：</p>
 <ul>
 <li>针对输入数据：使用采样的方法得到不同的样本（比如bagging方法采用自助法进行抽样）</li>
 <li>针对特征：对特征进行抽样</li>
-<li><p>针对算法本身：</p>
+<li>针对算法本身：
 <ul>
-<li>个体学习器$h_t$来自不<strong>同的模型集合</strong></li>
-<li>个体学习器$h_t$来自于同一个模型集合的<strong>不同超参数</strong>，例如学习率$\eta$不同</li>
+<li>个体学习器<span class="math inline">\(h_t\)</span>来自不<strong>同的模型集合</strong></li>
+<li>个体学习器<span class="math inline">\(h_t\)</span>来自于同一个模型集合的<strong>不同超参数</strong>，例如学习率<span class="math inline">\(\eta\)</span>不同</li>
 <li><strong>算法本身具有随机性</strong>，例如用不同的随机种子来得到不同的模型</li>
-</ul>
-</li>
-<li><p>针对输出：对输出表示进行操纵以增强多样性</p>
+</ul></li>
+<li>针对输出：对输出表示进行操纵以增强多样性
 <ul>
 <li>如将多分类转化为多个二分类任务来训练单模型</li>
 <li>将分类输出转化为回归输出等</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>那么进行模型融合为什么比较好呢？虽然有俗话说：三个臭皮匠赛过诸葛亮，但是我们还是想知道，究竟是如何“赛过诸葛亮”的。这里摘录西瓜书如下：</p>
 <blockquote>
@@ -163,52 +165,62 @@
 <p>首先，从统计的方面来看，由于学习任务的假设空间往往很大，可能有多个假设在训练集上达到相同的性能，此时若使用单学习器，可能因误选而导致<strong>泛化性能不佳</strong>，结合多个学习器则会减少这一风险；</p>
 <p>第二，从计算的方面来看，学习算法往往会陷入<strong>局部极小</strong>，有的局部极小点所对应的泛化性能可能很糟糕，而通过多次运行之后进行结合，可降低陷入糟糕局部极小点的风险；</p>
 <p>第三，从表示的方面来看，某些学习任务的<strong>真实假设可能不在当前学习算法所考虑的假设空间中</strong>，此时若使用单学习器则肯定无效，而通过结合多个学习器，由于相应的假设空间有所扩大，有可能学得更好的近似。</p>
-<p><img src="../images/machine-learning-model-ensemble-and-bagging/advance-of-ensemble.png" alt="advance-of-ensemble"></p>
+<figure>
+<img src="../images/machine-learning-model-ensemble-and-bagging/advance-of-ensemble.png" alt="advance-of-ensemble" /><figcaption>advance-of-ensemble</figcaption>
+</figure>
 </blockquote>
 <p>下面介绍模型融合常见的方法。</p>
-<h3 id="投票和平均-Voting-and-Average"><a href="#投票和平均-Voting-and-Average" class="headerlink" title="投票和平均 Voting and Average"></a>投票和平均 Voting and Average</h3><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>对于<strong>分类任务</strong>来说，可以使用<strong>投票</strong>的方法：</p>
+<h3 id="投票和平均-voting-and-average">投票和平均 Voting and Average</h3>
+<h4 id="分类">分类</h4>
+<p>对于<strong>分类任务</strong>来说，可以使用<strong>投票</strong>的方法：</p>
 <ul>
-<li>简单投票法： $H({\bf x}) =c_{\underset{x}{\mathrm{argmax}}}\sum_{i=1}^Th_i^j({\bf x})$<ul>
+<li>简单投票法： <span class="math inline">\(H({\bf x}) =c_{\underset{x}{\mathrm{argmax}}}\sum_{i=1}^Th_i^j({\bf x})\)</span>
+<ul>
 <li>即各个分类器输出其预测的类别，取最高票对应的类别作为结果。若有多个类别都是最高票，那么随机选取一个。</li>
-</ul>
-</li>
-<li>加权投票法： $H({\bf x}) =c_{\underset{x}{\mathrm{argmax}}}\sum_{i=1}^T\alpha_i\cdot h_i^j({\bf x})$<ul>
-<li>和上面的简单投票法类似，不过多了权重$\alpha_i$，这样可以区分分类器的重要程度，通常$\alpha_i \ge 0;\hspace{1ex} \sum_{i=1}^T\alpha_i  = 1$</li>
-</ul>
-</li>
-</ul>
-<p>此外，个体学习器可能产生不同的$h_i^j({\bf x})$的值，比如类标记和类概率。</p>
+</ul></li>
+<li>加权投票法： <span class="math inline">\(H({\bf x}) =c_{\underset{x}{\mathrm{argmax}}}\sum_{i=1}^T\alpha_i\cdot h_i^j({\bf x})\)</span>
 <ul>
-<li>类标记$h_i^j({\bf x}) \in \{0, 1\}$，若$h_i$将样本<strong>x</strong>预测为类别$c_j$取值为1，否则为0。使用类标记的投票亦称“硬投票”。(其实就是多分类的输出)，使用类标记的称为<strong>硬投票</strong></li>
-<li>类概率$h_i^j({\bf x}) \in [0, 1]$，即输出类别为$c_j$的概率。使用类概率的投票称为<strong>软投票</strong>。对应sklearn中的VotingClassifier中voting参数设为soft。</li>
+<li>和上面的简单投票法类似，不过多了权重<span class="math inline">\(\alpha_i\)</span>，这样可以区分分类器的重要程度，通常<span class="math inline">\(\alpha_i \ge 0;\hspace{1ex} \sum_{i=1}^T\alpha_i = 1\)</span></li>
+</ul></li>
+</ul>
+<p>此外，个体学习器可能产生不同的<span class="math inline">\(h_i^j({\bf x})\)</span>的值，比如类标记和类概率。</p>
+<ul>
+<li>类标记<span class="math inline">\(h_i^j({\bf x}) \in \{0, 1\}\)</span>，若<span class="math inline">\(h_i\)</span>将样本<strong>x</strong>预测为类别<span class="math inline">\(c_j\)</span>取值为1，否则为0。使用类标记的投票亦称“硬投票”。(其实就是多分类的输出)，使用类标记的称为<strong>硬投票</strong></li>
+<li>类概率<span class="math inline">\(h_i^j({\bf x}) \in [0, 1]\)</span>，即输出类别为<span class="math inline">\(c_j\)</span>的概率。使用类概率的投票称为<strong>软投票</strong>。对应sklearn中的VotingClassifier中voting参数设为soft。</li>
 </ul>
 <p>PS：使用类概率进行结合往往比直接基于类标记的效果好，即使分类器估计出的概率值一般都不太准确。</p>
-<h4 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h4><p>对于<strong>回归任务</strong>来说，采用的为<strong>平均法</strong>：</p>
+<h4 id="回归">回归</h4>
+<p>对于<strong>回归任务</strong>来说，采用的为<strong>平均法</strong>：</p>
 <ul>
-<li>简单平均：$H({\bf x}) =\frac{1}{T} \sum_{i=1}^Th_i({\bf x})$</li>
-<li>加权平均：$H({\bf x}) =\frac{1}{T} \sum_{i=1}^T\alpha_i \cdot h_i({\bf x}) ;   \alpha_i \ge 0;   \sum_{i=1}^T\alpha_i  = 1$</li>
+<li>简单平均：<span class="math inline">\(H({\bf x}) =\frac{1}{T} \sum_{i=1}^Th_i({\bf x})\)</span></li>
+<li>加权平均：<span class="math inline">\(H({\bf x}) =\frac{1}{T} \sum_{i=1}^T\alpha_i \cdot h_i({\bf x}) ; \ \ \alpha_i \ge 0; \ \ \sum_{i=1}^T\alpha_i = 1\)</span></li>
 </ul>
-<h3 id="线性混合-Linear-Blending"><a href="#线性混合-Linear-Blending" class="headerlink" title="线性混合 Linear Blending"></a>线性混合 Linear Blending</h3><p>前面提到过加权平均法，每个个体学习器的权重不再相等，看起来就像<strong>是对每个个体学习器做一个线性组合</strong>，这也是线性混合法名字的由来。那么最优的权重是什么呢？一个直接的想法就是最好的$\alpha_i$使得error最小，即对应了优化问题：</p>
-<script type="math/tex; mode=display">
-\min_{\alpha_t\ge0}\ \frac{1}{M}\sum_{i=1}^M\left(y_i - \sum_{t=1}^T \alpha_th_t({\bf x}_i)\right)^2</script><p>这里有T个个体学习器，每个学习器用$h_t$表示，而$\alpha_t$就是对应的权重。</p>
-<p>这个优化问题很像之前讲的求解概率SVM（Platt模型）分为两阶段求解。这里我们首先用训练数据训练出所有的h，然后再做<strong>线性回归</strong>求出$\alpha_t$。注意到这里要求$\alpha_t \ge 0$，来个拉格朗日函数？其实不用，通常我们可以忽略这个条件。以二分类为例如果$\alpha_i$小于0，相当于把模型反过来用。（假如给你个错误率99%的模型，你反过来用正确率不就99%了么！）</p>
-<p>如何得到$h_t$呢？这里我们将个体学习器称为<strong>初级学习器</strong>，用于结合的学习器称为<strong>次级学习器</strong>。<strong>首先从数据集中训练出初级学习器，然后”生成“一个新的数据集用于训练次级学习器</strong>。注意为了防止过拟合，我们需要在训练集上做训练得到初级学习器$h_t$，而在验证集上比较不同$\alpha$的好坏。最终模型则在所有的数据上进行训练（数据量多可能使得模型效果更好）</p>
+<h3 id="线性混合-linear-blending">线性混合 Linear Blending</h3>
+<p>前面提到过加权平均法，每个个体学习器的权重不再相等，看起来就像<strong>是对每个个体学习器做一个线性组合</strong>，这也是线性混合法名字的由来。那么最优的权重是什么呢？一个直接的想法就是最好的<span class="math inline">\(\alpha_i\)</span>使得error最小，即对应了优化问题：</p>
+<p><span class="math display">\[
+\min_{\alpha_t\ge0}\ \frac{1}{M}\sum_{i=1}^M\left(y_i - \sum_{t=1}^T \alpha_th_t({\bf x}_i)\right)^2
+\]</span> 这里有T个个体学习器，每个学习器用<span class="math inline">\(h_t\)</span>表示，而<span class="math inline">\(\alpha_t\)</span>就是对应的权重。</p>
+<p>这个优化问题很像之前讲的求解概率SVM（Platt模型）分为两阶段求解。这里我们首先用训练数据训练出所有的h，然后再做<strong>线性回归</strong>求出<span class="math inline">\(\alpha_t\)</span>。注意到这里要求<span class="math inline">\(\alpha_t \ge 0\)</span>，来个拉格朗日函数？其实不用，通常我们可以忽略这个条件。以二分类为例如果<span class="math inline">\(\alpha_i\)</span>小于0，相当于把模型反过来用。（假如给你个错误率99%的模型，你反过来用正确率不就99%了么！）</p>
+<p>如何得到<span class="math inline">\(h_t\)</span>呢？这里我们将个体学习器称为<strong>初级学习器</strong>，用于结合的学习器称为<strong>次级学习器</strong>。<strong>首先从数据集中训练出初级学习器，然后”生成“一个新的数据集用于训练次级学习器</strong>。注意为了防止过拟合，我们需要在训练集上做训练得到初级学习器<span class="math inline">\(h_t\)</span>，而在验证集上比较不同<span class="math inline">\(\alpha\)</span>的好坏。最终模型则在所有的数据上进行训练（数据量多可能使得模型效果更好）</p>
 <p>步骤如下：</p>
 <blockquote>
-<ol>
-<li>从<strong>训练集</strong>$D_{train}$中训练得到$h_1^-,h_2^-,\cdots,h_t^-$，并对<strong>验证集</strong>$D_{val}$中的数据$({\bf x_i},y_i)$做转换为新的数据集$(\Phi^-({\bf x_i}),y_i)$，其中$\Phi^-({\bf x_i}) = (h_1^-({\bf x_i}),h_2^-({\bf x_i}),\cdots,h_t^-({\bf x_i}))$</li>
-<li>用线性回归求解$\alpha = Lin\left(\{(z_i, y_i)\}\right)$</li>
-<li>最后，用所有的数据D求解得到$h_1,h_2,\cdots,h_t$，组成特征变换向量$\Phi({\bf x}) = (h_1({\bf x}),h_2({\bf x}),\cdots,h_t({\bf x}))$</li>
-<li>对于新数据x，$f({\bf x}) = \frac{1}{T}\sum_{t=1}^T\alpha_th_t({\bf x})$</li>
+<ol type="1">
+<li>从<strong>训练集</strong><span class="math inline">\(D_{train}\)</span>中训练得到<span class="math inline">\(h_1^-,h_2^-,\cdots,h_t^-\)</span>，并对<strong>验证集</strong><span class="math inline">\(D_{val}\)</span>中的数据<span class="math inline">\(({\bf x_i},y_i)\)</span>做转换为新的数据集<span class="math inline">\((\Phi^-({\bf x_i}),y_i)\)</span>，其中<span class="math inline">\(\Phi^-({\bf x_i}) = (h_1^-({\bf x_i}),h_2^-({\bf x_i}),\cdots,h_t^-({\bf x_i}))\)</span></li>
+<li>用线性回归求解<span class="math inline">\(\alpha = Lin\left(\{(z_i, y_i)\}\right)\)</span></li>
+<li>最后，用所有的数据D求解得到<span class="math inline">\(h_1,h_2,\cdots,h_t\)</span>，组成特征变换向量<span class="math inline">\(\Phi({\bf x}) = (h_1({\bf x}),h_2({\bf x}),\cdots,h_t({\bf x}))\)</span></li>
+<li>对于新数据x，<span class="math inline">\(f({\bf x}) = \frac{1}{T}\sum_{t=1}^T\alpha_th_t({\bf x})\)</span></li>
 </ol>
 </blockquote>
-<h3 id="Stacking"><a href="#Stacking" class="headerlink" title="Stacking"></a>Stacking</h3><p>Stacking相比Linear Blending来说，更加强大，然而也更容易过拟合。</p>
+<h3 id="stacking">Stacking</h3>
+<p>Stacking相比Linear Blending来说，更加强大，然而也更容易过拟合。</p>
 <p>Stacking做法和Linear Blending类似，首先从数据集中训练出初级学习器，然后”生成“一个新的数据集用于训练次级学习器。为了防止过拟合，采用K折交叉验证法求解。</p>
 <p>一个直观的图如下：</p>
-<p><img src="../images/machine-learning-model-ensemble-and-bagging/stacking.jpg" alt="stacking"></p>
+<figure>
+<img src="../images/machine-learning-model-ensemble-and-bagging/stacking.jpg" alt="stacking" /><figcaption>stacking</figcaption>
+</figure>
 <p>假设采用5折交叉验证，每个模型都要做满5次训练和预测，对于每一次：</p>
 <ul>
-<li>从80%的数据训练得到一个模型$h_t$，然后预测训练集剩下的那20%，同时也要预测测试集。</li>
+<li>从80%的数据训练得到一个模型<span class="math inline">\(h_t\)</span>，然后预测训练集剩下的那20%，同时也要预测测试集。</li>
 <li>每次有20%的训练数据被预测，5次后正好每个训练样本都被预测过了。</li>
 <li>每次都要预测测试集，因此最后测试集被预测5次，最终结果取5次的平均。</li>
 </ul>
@@ -218,32 +230,38 @@
 <p>修改get_oof函数如下即可：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">_N_CLASS = <span class="number">2</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_oof</span>(<span class="params">clf, X_train, y_train, X_test</span>):</span></span><br><span class="line">    <span class="comment"># X_train: 1000 * 10</span></span><br><span class="line">    <span class="comment"># y_train: 1 * 1000</span></span><br><span class="line">    <span class="comment"># X_test : 500 * 10</span></span><br><span class="line">    oof_train = np.zeros((X_train.shape[<span class="number">0</span>], _N_CLASS))  <span class="comment"># 1000 * _N_CLASS</span></span><br><span class="line">    oof_test = np.empty((X_test.shape[<span class="number">0</span>], _N_CLASS))  <span class="comment"># 500 * _N_CLASS</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, (train_index, test_index) <span class="keyword">in</span> enumerate(kf.split(X_train)):</span><br><span class="line">        kf_X_train = X_train[train_index]  <span class="comment"># 800 * 10 交叉验证划分此时的训练集和验证集</span></span><br><span class="line">        kf_y_train = y_train[train_index]  <span class="comment"># 1 * 800</span></span><br><span class="line">        kf_X_test = X_train[test_index]  <span class="comment"># 200 * 10 验证集</span></span><br><span class="line"></span><br><span class="line">        clf.fit(kf_X_train, kf_y_train)  <span class="comment"># 当前模型进行训练</span></span><br><span class="line"></span><br><span class="line">        oof_train[test_index] = clf.predict_proba(kf_X_test)  <span class="comment"># 当前验证集进行概率预测， 200 * _N_CLASS</span></span><br><span class="line">        oof_test += clf.predict_proba(X_test)  <span class="comment"># 对测试集概率预测 oof_test_skf[i, :] ，  500 * _N_CLASS</span></span><br><span class="line"></span><br><span class="line">    oof_test /= _N_FOLDS  <span class="comment"># 对每一则交叉验证的结果取平均</span></span><br><span class="line">    <span class="keyword">return</span> oof_train, oof_test  <span class="comment"># 返回当前分类器对训练集和测试集的预测结果</span></span><br></pre></td></tr></table></figure>
 <p>上面的代码只做了两层，你想的话还可以在加几层，因此这个方法叫做stacking，堆叠。。</p>
-<h2 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h2><p>前面的模型融合中都是得到了尽可能好而不同$h_t$，然后在进一步的进行处理，这些$h_t$往往是用不同的模型、同一模型的不同的超参数或者不同随机种子得到的。</p>
+<h2 id="bagging">Bagging</h2>
+<p>前面的模型融合中都是得到了尽可能好而不同<span class="math inline">\(h_t\)</span>，然后在进一步的进行处理，这些<span class="math inline">\(h_t\)</span>往往是用不同的模型、同一模型的不同的超参数或者不同随机种子得到的。</p>
 <p>要让分类器不同，还可以对训练样本进行采样，但如果采样出的每个子集都完全不同，则每个基学习器只用到了一小部分训练数据，甚至不足以进行有效学习，这就不能保证训练出的学习器好。我们可以考虑使用有重叠的采样子集。对此，Bagging算法采用<strong>Bootstrap</strong>（也称为自助法）进行采样。</p>
-<p>Bootstrap为有放回的抽样，每次从m个样本的数据集D中抽取一个，重复m次，最终得到包含m个样本的采样集D‘。显然，数据集D中有一部分样本会在D’中出现，而一部分不会。可以做一个简单的估计，样本在m次采样过程中始终不会被采样到的概率是$(1 - \frac{1}{m})^m$，取极限得到：</p>
-<script type="math/tex; mode=display">
-\lim_{m\rightarrow\infty} \ (1 - \frac{1}{m})^m \rightarrow \frac{1}{e} \approx 0.368</script><p>也就是说，每个基学习器用到了初始训练集中约63.2%的样本，剩下的36.8%的样本可以用来做”<strong>袋外估计</strong>“(out-of-bag estimate)，即这些没有用到的样本可以来做验证集，这会在随机森林种讲解。</p>
+<p>Bootstrap为有放回的抽样，每次从m个样本的数据集D中抽取一个，重复m次，最终得到包含m个样本的采样集D‘。显然，数据集D中有一部分样本会在D'中出现，而一部分不会。可以做一个简单的估计，样本在m次采样过程中始终不会被采样到的概率是<span class="math inline">\((1 - \frac{1}{m})^m\)</span>，取极限得到： <span class="math display">\[
+\lim_{m\rightarrow\infty} \ (1 - \frac{1}{m})^m \rightarrow \frac{1}{e} \approx 0.368
+\]</span> 也就是说，每个基学习器用到了初始训练集中约63.2%的样本，剩下的36.8%的样本可以用来做”<strong>袋外估计</strong>“(out-of-bag estimate)，即这些没有用到的样本可以来做验证集，这会在随机森林种讲解。</p>
 <p>假设有个学习器，则我们可以描述Bagging的算法如下：</p>
 <blockquote>
-<p>对 $t=1,2,\ldots, T$</p>
-<p>​    通过bootstrap算法抽样得到一个大小为m的采样集D’，在该采样集D’上训练得到$h_t$</p>
-<p>最后得到T个$h_t$，用均匀混合法得到最后的模型。</p>
+<p>对 <span class="math inline">\(t=1,2,\ldots, T\)</span></p>
+<p>​ 通过bootstrap算法抽样得到一个大小为m的采样集D'，在该采样集D'上训练得到<span class="math inline">\(h_t\)</span></p>
+<p>最后得到T个<span class="math inline">\(h_t\)</span>，用均匀混合法得到最后的模型。</p>
 </blockquote>
 <p>PS：Bagging是英文Bootstrap Aggregation的缩写。其示意图如下:</p>
-<p><img src="../images/machine-learning-model-ensemble-and-bagging/bagging.png" alt="bagging"></p>
+<figure>
+<img src="../images/machine-learning-model-ensemble-and-bagging/bagging.png" alt="bagging" /><figcaption>bagging</figcaption>
+</figure>
 <p>从方差和偏差的角度看，Bagging主要降低的是方差，如果基算法对随机性比较敏感，那么bagging的结果会比较好。如不剪枝的决策树、神经网络。</p>
-<h3 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h3><p>前面介绍过决策树算法，决策树算法对数据比较敏感，方差比较大，而刚提过的Bagging算法想让方差较大，最后用投票或平均值来减少最后模型的方差。</p>
+<h3 id="随机森林">随机森林</h3>
+<p>前面介绍过决策树算法，决策树算法对数据比较敏感，方差比较大，而刚提过的Bagging算法想让方差较大，最后用投票或平均值来减少最后模型的方差。</p>
 <p>如果把决策树和Bagging结合起来呢？这就得到了随机森林。</p>
 <p>随机森林的过程为：</p>
 <blockquote>
-<p>对 $t=1,2,\ldots, T$</p>
-<ol>
-<li>通过对原始数据集D做Bootstrap抽样，得到大小为m的数据集$\tilde{D}_t$</li>
-<li>在$\tilde{D}_t$上运行基分类器学习算法$A(\tilde{D}_t)$，得到基分类器$h_t$</li>
+<p>对 <span class="math inline">\(t=1,2,\ldots, T\)</span></p>
+<ol type="1">
+<li>通过对原始数据集D做Bootstrap抽样，得到大小为m的数据集<span class="math inline">\(\tilde{D}_t\)</span></li>
+<li>在<span class="math inline">\(\tilde{D}_t\)</span>上运行基分类器学习算法<span class="math inline">\(A(\tilde{D}_t)\)</span>，得到基分类器<span class="math inline">\(h_t\)</span></li>
 </ol>
-<p>返回$G={\rm Uniform}(\{h_t\})$ （就是对所有$h_t$做均匀混合）</p>
-<p>其中基分类器$h_t$的训练算法$A(\tilde{D}_t)$为：</p>
-<p><img src="../images/machine-learning-model-ensemble-and-bagging/random-forest.png" alt="random-forest"></p>
+<p>返回<span class="math inline">\(G={\rm Uniform}(\{h_t\})\)</span> （就是对所有<span class="math inline">\(h_t\)</span>做均匀混合）</p>
+<p>其中基分类器<span class="math inline">\(h_t\)</span>的训练算法<span class="math inline">\(A(\tilde{D}_t)\)</span>为：</p>
+<figure>
+<img src="../images/machine-learning-model-ensemble-and-bagging/random-forest.png" alt="random-forest" /><figcaption>random-forest</figcaption>
+</figure>
 </blockquote>
 <p>可以看出：</p>
 <ul>
@@ -251,81 +269,82 @@
 <li>对于每棵树，在待分裂的节点上，<strong>随机选择K个特征</strong></li>
 <li>每一棵树为CART</li>
 </ul>
-<p>上面的两种做法都是为了让基学习器尽可能好而不同。通常来说，K &lt;&lt; d(原始特征个数)，随机森林的效率能进一步提升。随机森林的提出者建议，<strong>每个$h_t$每次分裂时都对特征都重采样一遍</strong>，这样效果会更好。若$k = d$，则与传统决策树相同，一般而言，推荐$k = \log_2d$ 或者$k = \sqrt{d}$</p>
-<h4 id="袋外估计"><a href="#袋外估计" class="headerlink" title="袋外估计"></a>袋外估计</h4><p>随机森林采用Bootstrap来进行有放回的抽样，前面我们知道，抽取足够多次后，一个样本大约有36.8%的概率不被抽到，因此我们可以画出如下表格，用来假设每个基学习器用到的数据：</p>
-<div class="table-container">
+<p>上面的两种做法都是为了让基学习器尽可能好而不同。通常来说，K &lt;&lt; d(原始特征个数)，随机森林的效率能进一步提升。随机森林的提出者建议，<strong>每个<span class="math inline">\(h_t\)</span>每次分裂时都对特征都重采样一遍</strong>，这样效果会更好。若<span class="math inline">\(k = d\)</span>，则与传统决策树相同，一般而言，推荐<span class="math inline">\(k = \log_2d\)</span> 或者<span class="math inline">\(k = \sqrt{d}\)</span></p>
+<h4 id="袋外估计">袋外估计</h4>
+<p>随机森林采用Bootstrap来进行有放回的抽样，前面我们知道，抽取足够多次后，一个样本大约有36.8%的概率不被抽到，因此我们可以画出如下表格，用来假设每个基学习器用到的数据：</p>
 <table>
 <thead>
-<tr>
-<th style="text-align:center">数据 / 基学习器</th>
-<th style="text-align:center">$h_1$</th>
-<th style="text-align:center">$h_2$</th>
-<th style="text-align:center">$h_3$</th>
-<th style="text-align:center">$\cdots$</th>
-<th style="text-align:center">$h_T$</th>
+<tr class="header">
+<th style="text-align: center;">数据 / 基学习器</th>
+<th style="text-align: center;"><span class="math inline">\(h_1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(h_2\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(h_3\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\cdots\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(h_T\)</span></th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:center">$({\bf x_1},y_1)$</td>
-<td style="text-align:center">$\tilde{D}_1$</td>
-<td style="text-align:center">*</td>
-<td style="text-align:center">$\tilde{D}_3$</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">$\tilde{D}_T$</td>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(({\bf x_1},y_1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_1\)</span></td>
+<td style="text-align: center;">*</td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_3\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_T\)</span></td>
 </tr>
-<tr>
-<td style="text-align:center">$({\bf x_2},y_2)$</td>
-<td style="text-align:center">*</td>
-<td style="text-align:center">*</td>
-<td style="text-align:center">$\tilde{D}_3$</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">$\tilde{D}_T$</td>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(({\bf x_2},y_2)\)</span></td>
+<td style="text-align: center;">*</td>
+<td style="text-align: center;">*</td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_3\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_T\)</span></td>
 </tr>
-<tr>
-<td style="text-align:center">$({\bf x_3},y_3)$</td>
-<td style="text-align:center">*</td>
-<td style="text-align:center">$\tilde{D}_2$</td>
-<td style="text-align:center">*</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">$\tilde{D}_T$</td>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(({\bf x_3},y_3)\)</span></td>
+<td style="text-align: center;">*</td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_2\)</span></td>
+<td style="text-align: center;">*</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_T\)</span></td>
 </tr>
-<tr>
-<td style="text-align:center">$\cdots$</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\cdots\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td style="text-align:center">$({\bf x_m},y_m)$</td>
-<td style="text-align:center">$\tilde{D}_1$</td>
-<td style="text-align:center">*</td>
-<td style="text-align:center">*</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">*</td>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(({\bf x_m},y_m)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\tilde{D}_1\)</span></td>
+<td style="text-align: center;">*</td>
+<td style="text-align: center;">*</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">*</td>
 </tr>
 </tbody>
 </table>
-</div>
-<p>在表格中，<em>表示基分类器$h_t$没有用到数据$({\bf x_i},y_i)$, 这时候就称该样本为$h_t$的<em>*袋外估计样本(OOB)</em></em>。</p>
-<p>在以往单个模型中，比如单个决策树，对于$h_t$没有使用过的数据，就是$h_t$对应的那列标*的，可以用来计算$h_t$的误差，来衡量$h_t$的好坏。但是在Bagging方法中其实没有必要这样做，对于Bagging方法我们要得到的是最后合起来的模型G，可能单个模型$h_t$不好，但是最后合起来的模型G却很好。</p>
-<p>所以，我们想要估计的是最后模型G的误差。如果要用这些袋外估计样本，我们只需要保证这些样本不被“污染”，比如对于上面的表格中，$({\bf x_m},y_m)$ 是$h_2,h_3, h_T$的袋外估计样本，可以用作$G_m^- = \rm average(h_2,h_3, h_T)$的验证资料。对于其它的样本如果没被用到也可以构造出一个$G_i^-$，因此整个模型G的误差可以用下式计算：</p>
-<script type="math/tex; mode=display">
-E_{\rm oob}(G) = \frac{1}{m} \sum_{i=1}^m {\rm err}(y_i, G_i^-({\bf x}_i))</script><p>因此，在Bagging算法中，得到了模型G后就能马上知道它的效果如何，因为它可以通过$E_{oob}$来做一个自我验证，对超参数进行调整。与之前的验证方法相比，有了OOB数据和$E_{oob}$以后，既不用将数据集分为两份（验证集和训练集），也不用在确定好超参数以后重新训练模型了。</p>
-<h4 id="随机森林的特征选择"><a href="#随机森林的特征选择" class="headerlink" title="随机森林的特征选择"></a>随机森林的特征选择</h4><p>对于线性模型来说，特征的重要性由<strong>w</strong>的分量$w_i$体现出来，$|w_i|$越大，说明特征越重要（指的是相对其它特征）。但非线性模型则困难得多。</p>
-<p>而随机森林可以用特殊的方法得出特征的重要性。基本原理是：如果特征 $j$ 比较重要，如果往这个特征上塞入一些噪声，模型的表现肯定会变差。如何塞入噪声呢？ 加入服从均匀分布或高斯分布的随机值？这样有个小问题，就是原始的数据可能不服从这样的分布，加入噪声后，原始的分布可能被改变。</p>
-<p>因此，可以对 $\{x_{i,j}\}_{i=1}^m$ 的做一个重新的排列，这样该特征的分布就不会发生变化。记重排列特征 $j$ 上的值以后得到的数据集为$\mathcal{D}^{(p)}$，特征 $j$ 的重要性可以通过统计上称为<strong>排列测试</strong> (permutation test)的方法进行估计：</p>
-<script type="math/tex; mode=display">
-{\rm importance}(j) = {\rm performance}(\mathcal{D}) - {\rm performance}(\mathcal{D}^{(p)})</script><p>这里，${\rm performance}(\mathcal{D}^{(p)})$需要用重排列后的数据重新训练模型。 不过随机森林可以不用重新训练。前面提到过，可以用$E_{oob}$直接估计模型的性能，因此随机森林可以用下面的公式进行估计：</p>
-<script type="math/tex; mode=display">
-{\rm importance}(j) = E_{\rm oob}(G) - E_{\rm oob}^{(p)}(G)</script><p>注意，这里的后一项是$E_{\rm oob}^{(p)}(G)$而非$E_{\rm oob}(G^{(p)})$，就是说我们是在OOB集合上做排序，而非在训练集上。</p>
-<p>那么如何计算$E_{\rm oob}^{(p)}(G)$呢？当我们要估计第 $j$ 个特征的重要性时，可以这样做：</p>
+<p>在表格中，*表示基分类器<span class="math inline">\(h_t\)</span>没有用到数据<span class="math inline">\(({\bf x_i},y_i)\)</span>, 这时候就称该样本为<span class="math inline">\(h_t\)</span>的<strong>袋外估计样本(OOB)</strong>。</p>
+<p>在以往单个模型中，比如单个决策树，对于<span class="math inline">\(h_t\)</span>没有使用过的数据，就是<span class="math inline">\(h_t\)</span>对应的那列标*的，可以用来计算<span class="math inline">\(h_t\)</span>的误差，来衡量<span class="math inline">\(h_t\)</span>的好坏。但是在Bagging方法中其实没有必要这样做，对于Bagging方法我们要得到的是最后合起来的模型G，可能单个模型<span class="math inline">\(h_t\)</span>不好，但是最后合起来的模型G却很好。</p>
+<p>所以，我们想要估计的是最后模型G的误差。如果要用这些袋外估计样本，我们只需要保证这些样本不被“污染”，比如对于上面的表格中，<span class="math inline">\(({\bf x_m},y_m)\)</span> 是<span class="math inline">\(h_2,h_3, h_T\)</span>的袋外估计样本，可以用作<span class="math inline">\(G_m^- = \rm average(h_2,h_3, h_T)\)</span>的验证资料。对于其它的样本如果没被用到也可以构造出一个<span class="math inline">\(G_i^-\)</span>，因此整个模型G的误差可以用下式计算： <span class="math display">\[
+E_{\rm oob}(G) = \frac{1}{m} \sum_{i=1}^m {\rm err}(y_i, G_i^-({\bf x}_i))
+\]</span> 因此，在Bagging算法中，得到了模型G后就能马上知道它的效果如何，因为它可以通过<span class="math inline">\(E_{oob}\)</span>来做一个自我验证，对超参数进行调整。与之前的验证方法相比，有了OOB数据和<span class="math inline">\(E_{oob}\)</span>以后，既不用将数据集分为两份（验证集和训练集），也不用在确定好超参数以后重新训练模型了。</p>
+<h4 id="随机森林的特征选择">随机森林的特征选择</h4>
+<p>对于线性模型来说，特征的重要性由<strong>w</strong>的分量<span class="math inline">\(w_i\)</span>体现出来，<span class="math inline">\(|w_i|\)</span>越大，说明特征越重要（指的是相对其它特征）。但非线性模型则困难得多。</p>
+<p>而随机森林可以用特殊的方法得出特征的重要性。基本原理是：如果特征 <span class="math inline">\(j\)</span> 比较重要，如果往这个特征上塞入一些噪声，模型的表现肯定会变差。如何塞入噪声呢？ 加入服从均匀分布或高斯分布的随机值？这样有个小问题，就是原始的数据可能不服从这样的分布，加入噪声后，原始的分布可能被改变。</p>
+<p>因此，可以对 <span class="math inline">\(\{x_{i,j}\}_{i=1}^m\)</span> 的做一个重新的排列，这样该特征的分布就不会发生变化。记重排列特征 <span class="math inline">\(j\)</span> 上的值以后得到的数据集为<span class="math inline">\(\mathcal{D}^{(p)}\)</span>，特征 <span class="math inline">\(j\)</span> 的重要性可以通过统计上称为<strong>排列测试</strong> (permutation test)的方法进行估计： <span class="math display">\[
+{\rm importance}(j) = {\rm performance}(\mathcal{D}) - {\rm performance}(\mathcal{D}^{(p)})
+\]</span> 这里，<span class="math inline">\({\rm performance}(\mathcal{D}^{(p)})\)</span>需要用重排列后的数据重新训练模型。 不过随机森林可以不用重新训练。前面提到过，可以用<span class="math inline">\(E_{oob}\)</span>直接估计模型的性能，因此随机森林可以用下面的公式进行估计： <span class="math display">\[
+{\rm importance}(j) = E_{\rm oob}(G) - E_{\rm oob}^{(p)}(G)
+\]</span> 注意，这里的后一项是<span class="math inline">\(E_{\rm oob}^{(p)}(G)\)</span>而非<span class="math inline">\(E_{\rm oob}(G^{(p)})\)</span>，就是说我们是在OOB集合上做排序，而非在训练集上。</p>
+<p>那么如何计算<span class="math inline">\(E_{\rm oob}^{(p)}(G)\)</span>呢？当我们要估计第 <span class="math inline">\(j\)</span> 个特征的重要性时，可以这样做：</p>
 <ul>
-<li>当我们要计算$h_t({\bf x_i})$的时候，$\bf x_i$为$h_t$的OOB数据，此时可以用随机其它的OOB数据点的第 $j$ 个特征代替$x_{ij}$。因为OOB数据没有参与训练，得到的结果比较准确。</li>
+<li>当我们要计算<span class="math inline">\(h_t({\bf x_i})\)</span>的时候，<span class="math inline">\(\bf x_i\)</span>为<span class="math inline">\(h_t\)</span>的OOB数据，此时可以用随机其它的OOB数据点的第 <span class="math inline">\(j\)</span> 个特征代替<span class="math inline">\(x_{ij}\)</span>。因为OOB数据没有参与训练，得到的结果比较准确。</li>
 </ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li>机器学习技法 - 林轩田</li>
 <li>《机器学习》 - 周志华</li>
 </ul>
@@ -549,12 +568,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -566,6 +591,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -574,13 +601,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -599,7 +627,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

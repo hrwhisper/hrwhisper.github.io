@@ -115,82 +115,89 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>Linux下对于一个文件我们熟悉的权限有rwx，表示读写和执行。</p>
-<p>今天介绍的是S位，称为setuid位。<br><a id="more"></a></p>
-<h2 id="setuid"><a href="#setuid" class="headerlink" title="setuid"></a>setuid</h2><h3 id="从一个例子开始"><a href="#从一个例子开始" class="headerlink" title="从一个例子开始"></a>从一个例子开始</h3><p>ping命令常常用来测试网络是否通畅，我们看看ping的权限是啥：</p>
+<p>今天介绍的是S位，称为setuid位。 <a id="more"></a> ## setuid</p>
+<h3 id="从一个例子开始">从一个例子开始</h3>
+<p>ping命令常常用来测试网络是否通畅，我们看看ping的权限是啥：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ll &#x2F;bin&#x2F;ping</span><br><span class="line">-rwsr-xr-x 1 root root 55724 6月   15  2016 &#x2F;bin&#x2F;ping*</span><br></pre></td></tr></table></figure>
 <p>rws！第三个s是啥东西？将其删掉：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod u-s   &#x2F;bin&#x2F;ping</span><br><span class="line">$ ll &#x2F;bin&#x2F;ping</span><br><span class="line">-rwxr-xr-x 1 root root 55724 6月 15 2016 &#x2F;bin&#x2F;ping*</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>发现就无法ping了，因为没有打开socket的权限。而当我们又将s位给它的时候，又可以ping了。</p>
-<p><img src="../images/introduction-to-linux-capability/ping-none-set-uid.png" alt=""></p>
-<h3 id="Setuid位的作用"><a href="#Setuid位的作用" class="headerlink" title="Setuid位的作用"></a>Setuid位的作用</h3><blockquote>
-<p> Setuid 是让程序在执行过程中拥有文件拥有者的权限。</p>
+<p><img src="../images/introduction-to-linux-capability/ping-none-set-uid.png" /></p>
+<h3 id="setuid位的作用">Setuid位的作用</h3>
+<blockquote>
+<p> Setuid 是让程序在执行过程中拥有文件拥有者的权限。</p>
 </blockquote>
 <p>用passwd命令举例来说，passwd命令也一样设置了setuid位。</p>
 <p>为啥这个需要呢？我们知道linux中账号与密码分别存放在 /etc/passwd与 /etc/shadow，而后者的权限如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ which passwd</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;passwd</span><br><span class="line">$ ll &#x2F;usr&#x2F;bin&#x2F;passwd</span><br><span class="line">-rwsr-xr-x 1 root root 54256 3月 29 2016 &#x2F;usr&#x2F;bin&#x2F;passwd*</span><br><span class="line">ll &#x2F;etc&#x2F;shadow</span><br><span class="line">-rw-r----- 1 root shadow 978 7月 11 11:39 &#x2F;etc&#x2F;shadow</span><br></pre></td></tr></table></figure>
 <p>当我们使用passwd命令修改自己的密码（非root）的时候，显然是不行的，因为无法对/etc/shadow进行修改。而setuid位此时就可以帮到忙啦！</p>
 <p>此时程序暂时得到了文件拥有者root的权限，于是就可以修改shadow文件了。</p>
-<h3 id="Linux中设置Setuid的程序"><a href="#Linux中设置Setuid的程序" class="headerlink" title="Linux中设置Setuid的程序"></a>Linux中设置Setuid的程序</h3><p>要找出所有设置setuid的程序，只需要使用下面任意一条命令</p>
+<h3 id="linux中设置setuid的程序">Linux中设置Setuid的程序</h3>
+<p>要找出所有设置setuid的程序，只需要使用下面任意一条命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F; -perm &#x2F;u&#x3D;s</span><br><span class="line">find &#x2F; -perm -4000</span><br></pre></td></tr></table></figure>
 <p>结果如下：</p>
 <blockquote>
-<p>/bin/ping<br>/bin/mount<br>/bin/su<br>/bin/fusermount<br>/bin/ntfs-3g<br>/bin/umount<br>/usr/sbin/pppd<br>/usr/lib/snapd/snap-confine<br>/usr/lib/i386-linux-gnu/ubuntu-app-launch/oom-adjust-setuid-helper<br>/usr/lib/i386-linux-gnu/oxide-qt/chrome-sandbox<br>/usr/lib/openssh/ssh-keysign<br>/usr/lib/eject/dmcrypt-get-device<br>/usr/lib/dbus-1.0/dbus-daemon-launch-helper<br>/usr/lib/policykit-1/polkit-agent-helper-1<br>/usr/bin/chsh<br>/usr/bin/newgrp<br>/usr/bin/arping<br>/usr/bin/traceroute6.iputils<br>/usr/bin/gpasswd<br>/usr/bin/chfn<br>/usr/bin/passwd<br>/usr/bin/pkexec<br>/usr/bin/sudo</p>
+<p>/bin/ping /bin/mount /bin/su /bin/fusermount /bin/ntfs-3g /bin/umount /usr/sbin/pppd /usr/lib/snapd/snap-confine /usr/lib/i386-linux-gnu/ubuntu-app-launch/oom-adjust-setuid-helper /usr/lib/i386-linux-gnu/oxide-qt/chrome-sandbox /usr/lib/openssh/ssh-keysign /usr/lib/eject/dmcrypt-get-device /usr/lib/dbus-1.0/dbus-daemon-launch-helper /usr/lib/policykit-1/polkit-agent-helper-1 /usr/bin/chsh /usr/bin/newgrp /usr/bin/arping /usr/bin/traceroute6.iputils /usr/bin/gpasswd /usr/bin/chfn /usr/bin/passwd /usr/bin/pkexec /usr/bin/sudo</p>
 </blockquote>
-<h2 id="权能"><a href="#权能" class="headerlink" title="权能"></a>权能</h2><p>在早先的Linux系统中，执行特权操作的时候，内核对于有效的user ID为0 （超级用户root）的时候不进行检查，而对user ID非0的情况进行许可检查。主要是effective UID、effective GID。</p>
+<p> </p>
+<h2 id="权能">权能</h2>
+<p>在早先的Linux系统中，执行特权操作的时候，内核对于有效的user ID为0 （超级用户root）的时候不进行检查，而对user ID非0的情况进行许可检查。主要是effective UID、effective GID。</p>
 <p>Linux 2.2起，Linux有了权能的概念。当执行特权操作的时候，可以查看是否有相应的权能。</p>
 <p>权能可以让普通用户完成超级用户可以做的事情。</p>
-<h3 id="继续上一个例子"><a href="#继续上一个例子" class="headerlink" title="继续上一个例子"></a>继续上一个例子</h3><p>在上一个例子中，我们把setuid位取消了，然后发现ping命令不行了，现在我们用setcap赋予cap_new_raw的权能：</p>
-<p><img src="../images/introduction-to-linux-capability/ping-set-cap-net-raw.png" alt=""></p>
+<h3 id="继续上一个例子">继续上一个例子</h3>
+<p>在上一个例子中，我们把setuid位取消了，然后发现ping命令不行了，现在我们用setcap赋予cap_new_raw的权能：</p>
+<p><img src="../images/introduction-to-linux-capability/ping-set-cap-net-raw.png" /></p>
 <p>发现可以Ping！并且没有setuid位！</p>
-<h3 id="权能的作用"><a href="#权能的作用" class="headerlink" title="权能的作用"></a>权能的作用</h3><p>权能相当于规范了你这个程序所拥有的权限。相当于特权的需求的细化。</p>
+<h3 id="权能的作用">权能的作用</h3>
+<p>权能相当于规范了你这个程序所拥有的权限。相当于特权的需求的细化。</p>
 <p>比如ping命令需要有socket的连接，需要CAP_NET_RAW的权能，其说明如下：</p>
 <blockquote>
 <p>CAP_NET_RAW</p>
 <ul>
-<li>Use RAW and PACKET sockets;</li>
-<li>bind to any address for transparent proxying.</li>
+<li> Use RAW and PACKET sockets;</li>
+<li> bind to any address for transparent proxying.</li>
 </ul>
 </blockquote>
 <p>现在linux的权能有好多，可以见<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man7/capabilities.7.html">man手册</a></p>
 <p>上面打印出了那么多的setuid位的程序，比如ping 只需要CAP_NET_RAW权能即可</p>
 <p>其它部分需要的权能如下：</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
-<th style="text-align:left">程序</th>
-<th style="text-align:left">需要的权能</th>
+<tr class="header">
+<th style="text-align: left;">程序</th>
+<th style="text-align: left;">需要的权能</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left">/bin/ping</td>
-<td style="text-align:left">CAP_NET_RAW</td>
+<tr class="odd">
+<td style="text-align: left;">/bin/ping</td>
+<td style="text-align: left;">CAP_NET_RAW</td>
 </tr>
-<tr>
-<td style="text-align:left">/bin/mount</td>
-<td style="text-align:left">CAP_SYS_ADMIN</td>
+<tr class="even">
+<td style="text-align: left;">/bin/mount</td>
+<td style="text-align: left;">CAP_SYS_ADMIN</td>
 </tr>
-<tr>
-<td style="text-align:left">/bin/su</td>
-<td style="text-align:left">CAP_DAC_OVERRIDE,CAP_SETGID,CAP_SETUID</td>
+<tr class="odd">
+<td style="text-align: left;">/bin/su</td>
+<td style="text-align: left;">CAP_DAC_OVERRIDE,CAP_SETGID,CAP_SETUID</td>
 </tr>
-<tr>
-<td style="text-align:left">/bin/fusermount</td>
-<td style="text-align:left">CAP_SYS_ADMIN</td>
+<tr class="even">
+<td style="text-align: left;">/bin/fusermount</td>
+<td style="text-align: left;">CAP_SYS_ADMIN</td>
 </tr>
-<tr>
-<td style="text-align:left">/bin/umount</td>
-<td style="text-align:left">CAP_SYS_ADMIN</td>
+<tr class="odd">
+<td style="text-align: left;">/bin/umount</td>
+<td style="text-align: left;">CAP_SYS_ADMIN</td>
 </tr>
-<tr>
-<td style="text-align:left">/usr/bin/passwd</td>
-<td style="text-align:left">CAP_CHOWN ,CAP_DAC_OVERRIDE ,CAP_FOWNER</td>
+<tr class="even">
+<td style="text-align: left;">/usr/bin/passwd</td>
+<td style="text-align: left;">CAP_CHOWN ,CAP_DAC_OVERRIDE ,CAP_FOWNER</td>
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="权能三项与权能变换"><a href="#权能三项与权能变换" class="headerlink" title="权能三项与权能变换"></a>权能三项与权能变换</h3><p>在linux中，权能有如下三种：</p>
+<p> </p>
+<h3 id="权能三项与权能变换">权能三项与权能变换</h3>
+<p>在linux中，权能有如下三种：</p>
 <ul>
 <li>effective：当前有效的权能，执行某特权操作时，操作系统检查cap_effective的对应位是否有效,而不再是检查进程的有效UID是否为0。</li>
 <li>permitted：当前进程所有能使用的能力，effective包含于permitted</li>
@@ -203,12 +210,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">P&#39;(permitted) &#x3D; (P(inheritable) &amp; F(inheritable))  (F(permitted) &amp; cap_bset)</span><br><span class="line">P&#39;(effective) &#x3D; F(effective) ? P&#39;(permitted) : 0</span><br><span class="line">P&#39;(inheritable) &#x3D; P(inheritable)</span><br></pre></td></tr></table></figure>
 <ul>
 <li>P：denotes the value of a thread capability set before the execve(2)</li>
-<li>P’：denotes the value of a capability set after the execve(2)</li>
+<li>P'：denotes the value of a capability set after the execve(2)</li>
 <li>F：denotes a file capability set</li>
 <li>cap_bset：is the value of the capability bounding set (described below).</li>
 </ul>
 </blockquote>
-<h3 id="权能变换小程序"><a href="#权能变换小程序" class="headerlink" title="权能变换小程序"></a>权能变换小程序</h3><p>实现一个程序其满足以下的功能：</p>
+<p> </p>
+<h3 id="权能变换小程序">权能变换小程序</h3>
+<p>实现一个程序其满足以下的功能：</p>
 <ul>
 <li>能够永久的删除其子进程的某个权能。</li>
 <li>能暂时性的删除其子进程的某个权能。</li>
@@ -219,10 +228,8 @@
 <li><p>设置/bin/ping权能为cap_net_raw+ei，使得可以继承</p>
 <ul>
 <li>sudo setcap cap_net_raw+ei /bin/ping</li>
-</ul>
-</li>
-<li><p>设置当前的进程的权能有cap_net_raw+i权能</p>
-</li>
+</ul></li>
+<li><p>设置当前的进程的权能有cap_net_raw+i权能</p></li>
 </ul>
 <p>此外，我们的程序先进行fork()，在子进程中调用execve执行ping，因为不用fork执行ping后会退出程序。</p>
 <p>fork()创建子进程,那么子进程继承父进程的所有能力，因此没必要重新设置fork后的权能。</p>
@@ -232,22 +239,25 @@
 <ul>
 <li>sudo apt-get install libcap-dev</li>
 </ul>
-<p>_PS: 这个实验的系统环境为：Linux version 4.8.0-45-generic (buildd@lcy01-25) (gcc version 6.2.0 20161005 (Ubuntu 6.2.0-5ubuntu12) ) #48-Ubuntu SMP Fri Mar 24 11:44:57 UTC 2017_</p>
+<p><em>PS: 这个实验的系统环境为：Linux version 4.8.0-45-generic (buildd@lcy01-25) (gcc version 6.2.0 20161005 (Ubuntu 6.2.0-5ubuntu12) ) #48-Ubuntu SMP Fri Mar 24 11:44:57 UTC 2017</em></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/capability.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/prctl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> _POSIX_SOURCE</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> errno;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">whoami</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;uid=%i  euid=%i  gid=%i\n&quot;</span>, getuid(), geteuid(), getgid());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listCaps</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">cap_t</span> caps = cap_get_proc();</span><br><span class="line">    <span class="keyword">ssize_t</span> y = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;The Process %d was give capabilities %s\n&quot;</span>,(<span class="keyword">int</span>) getpid(), cap_to_text(caps, &amp;y));</span><br><span class="line">    fflush(<span class="number">0</span>);</span><br><span class="line">    cap_free(caps);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">do_ping</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!fork())&#123;</span><br><span class="line">		whoami();</span><br><span class="line">		listCaps();</span><br><span class="line">		execlp(<span class="string">&quot;ping&quot;</span>,<span class="string">&quot;ping&quot;</span>,<span class="string">&quot;-c 1&quot;</span>,<span class="string">&quot;baidu.com&quot;</span>,<span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(getuid() != <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">puts</span>(<span class="string">&quot;请使用sudo执行本程序&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">cap_value_t</span> cap_values[] = &#123;CAP_SETUID, CAP_SETGID, CAP_SETPCAP ,CAP_NET_RAW&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">cap_t</span> caps = cap_init();</span><br><span class="line">    cap_set_flag(caps, CAP_PERMITTED, <span class="number">4</span>, cap_values, CAP_SET);</span><br><span class="line">	cap_set_flag(caps, CAP_EFFECTIVE, <span class="number">4</span>, cap_values, CAP_SET);</span><br><span class="line">    cap_set_proc(caps);</span><br><span class="line">    prctl(PR_SET_KEEPCAPS, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    cap_free(caps);</span><br><span class="line"></span><br><span class="line">    setgid(<span class="number">1000</span>);</span><br><span class="line">	setuid(<span class="number">1000</span>);</span><br><span class="line">	</span><br><span class="line">    caps = cap_get_proc();</span><br><span class="line">    cap_set_flag(caps, CAP_EFFECTIVE, <span class="number">4</span>, cap_values, CAP_SET);</span><br><span class="line">	cap_set_flag(caps, CAP_INHERITABLE, <span class="number">4</span>, cap_values, CAP_SET);</span><br><span class="line">    cap_set_proc(caps);</span><br><span class="line">    cap_free(caps);</span><br><span class="line">	whoami();</span><br><span class="line">	listCaps();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printInfo</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;\n------权能测试小程序------\n\</span></span><br><span class="line"><span class="string">请输入如下字符:\n\</span></span><br><span class="line"><span class="string">1 : 永久的删除其子进程的某个权能\n\</span></span><br><span class="line"><span class="string">2 : 暂时性的删除其子进程的某个权能\n\</span></span><br><span class="line"><span class="string">3 : 暂时性删除的权能重新获得\n\</span></span><br><span class="line"><span class="string">4 : ping -c 1 baidu.com\n\</span></span><br><span class="line"><span class="string">5 : 查看当前权能\n\</span></span><br><span class="line"><span class="string">q : 退出\n\</span></span><br><span class="line"><span class="string">---------------------------\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	init();</span><br><span class="line">	<span class="keyword">char</span> line[<span class="number">128</span>];</span><br><span class="line">	printInfo();</span><br><span class="line">	<span class="keyword">while</span>(fgets(line, <span class="keyword">sizeof</span>(line), <span class="built_in">stdin</span>))&#123;</span><br><span class="line">		<span class="keyword">char</span> cmd = line[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(cmd == <span class="string">&#x27;1&#x27;</span> || cmd == <span class="string">&#x27;2&#x27;</span> || cmd == <span class="string">&#x27;3&#x27;</span>)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;输入要操作的权能名，如cap_net_raw\n&quot;</span>);</span><br><span class="line">			fgets(line, <span class="keyword">sizeof</span>(line), <span class="built_in">stdin</span>);</span><br><span class="line">			line[<span class="built_in">strlen</span>(line) - <span class="number">1</span>] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">			<span class="keyword">cap_value_t</span> temp;</span><br><span class="line">			<span class="keyword">if</span>(cap_from_name(line, &amp;temp) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;Error capability name\n&quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">cap_t</span> caps = cap_get_proc();</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span>(cmd == <span class="string">&#x27;3&#x27;</span>)&#123;</span><br><span class="line">					cap_set_flag(caps, CAP_EFFECTIVE, <span class="number">1</span>, &amp;temp, CAP_SET);</span><br><span class="line">					cap_set_flag(caps, CAP_INHERITABLE, <span class="number">1</span>, &amp;temp, CAP_SET);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span>&#123;</span><br><span class="line">					cap_set_flag(caps, CAP_EFFECTIVE, <span class="number">1</span>, &amp;temp, CAP_CLEAR);</span><br><span class="line">					cap_set_flag(caps, CAP_INHERITABLE, <span class="number">1</span>, &amp;temp, CAP_CLEAR);</span><br><span class="line">					<span class="keyword">if</span>(cmd == <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">						cap_set_flag(caps, CAP_PERMITTED, <span class="number">1</span>, &amp;temp, CAP_CLEAR);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(cap_set_proc(caps))</span><br><span class="line">					perror(<span class="string">&quot;cap_set_proc() ERROR: &quot;</span>);</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					<span class="built_in">printf</span>(<span class="string">&quot;%s %s success\n&quot;</span>, (cmd ==<span class="string">&#x27;3&#x27;</span>? <span class="string">&quot;recover&quot;</span>:<span class="string">&quot;remove&quot;</span>),line);</span><br><span class="line"></span><br><span class="line">				cap_free(caps);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(cmd == <span class="string">&#x27;4&#x27;</span>)</span><br><span class="line">			do_ping();</span><br><span class="line"> 		<span class="keyword">else</span> <span class="keyword">if</span>(cmd == <span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">			listCaps();</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(cmd == <span class="string">&#x27;q&#x27;</span>)</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		printInfo();</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="小程序测试"><a href="#小程序测试" class="headerlink" title="小程序测试"></a>小程序测试</h4><ul>
+<p> </p>
+<h4 id="小程序测试">小程序测试</h4>
+<ul>
 <li>gcc test_capability.c -lcap</li>
 <li>sudo ./a.out</li>
 </ul>
 <p>一开始是可以ping的</p>
-<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test.png" alt=""></p>
+<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test.png" /></p>
 <p>暂时删除cap_net_raw后不能ping</p>
-<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test-temportary-remove-capability.png" alt=""></p>
+<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test-temportary-remove-capability.png" /></p>
 <p>恢复后又能ping</p>
-<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test-recovery-capability.png" alt=""></p>
+<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test-recovery-capability.png" /></p>
 <p>永久删除后不能ping</p>
-<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test-remove-capability.png" alt=""></p>
+<p><img src="../images/introduction-to-linux-capability/execve-program-set-cap-test-remove-capability.png" /></p>
 <p>注意观察上面打印出的fork后子进程的权能变化。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man7/capabilities.7.html">man capabilities</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/iamfy/archive/2012/09/20/2694977.html">Linux的capability深入分析</a></li>
 </ul>
@@ -466,12 +476,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -483,6 +499,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -491,13 +509,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -516,7 +535,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

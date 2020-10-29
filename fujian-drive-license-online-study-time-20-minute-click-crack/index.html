@@ -116,8 +116,9 @@
        
   <p>今天水过科目二，=v= 100分~</p>
 <p>教练让刷科三网上理论的学时，科二两小时的网上学时也就算了，科三16小时= =还要20分钟点击一次，考个驾照这么麻烦。。难道要挂个按键精灵？那我岂不是4小时不能动电脑= =</p>
-<p>太low了，身为CS学生，当然要找直接粗暴一点=v=<br><a id="more"></a><br><strong>伸手党请直接拉到最下方看方法~</strong></p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>直接查看其JS代码，很容易发现stage标示的是科目几，如科三是3，科二为2</p>
+<p>太low了，身为CS学生，当然要找直接粗暴一点=v= <a id="more"></a> <strong>伸手党请直接拉到最下方看方法~</strong></p>
+<h2 id="分析">分析</h2>
+<p>直接查看其JS代码，很容易发现stage标示的是科目几，如科三是3，科二为2</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;#ChapterMenuDivOne1&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">//$.cookie(&#x27;stlx&#x27;, null);</span></span><br><span class="line">     <span class="comment">// $.cookie(&#x27;jishi&#x27;, &#x27;False&#x27;);</span></span><br><span class="line">      stage = <span class="number">1</span>;</span><br><span class="line">      timer();</span><br><span class="line">      </span><br><span class="line">      $(<span class="string">&#x27;body&#x27;</span>).stopTime(<span class="string">&#x27;C&#x27;</span>);</span><br><span class="line">      </span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  $(<span class="string">&quot;#ChapterMenuDivOne2&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">     <span class="comment">// $.cookie(&#x27;stlx&#x27;, null);</span></span><br><span class="line">     <span class="comment">// $.cookie(&#x27;jishi&#x27;, &#x27;False&#x27;);</span></span><br><span class="line">      stage = <span class="number">2</span>;</span><br><span class="line">      timer(); <span class="comment">//先跑一次</span></span><br><span class="line">      fjTimer();</span><br><span class="line">      fj20();</span><br><span class="line">     <span class="comment">// window.frames[0].document.onkeydown = kk;</span></span><br><span class="line">     <span class="comment">// window.frames[0].document.onmousedown = kk;</span></span><br><span class="line">     </span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  $(<span class="string">&quot;#ChapterMenuDivOne3&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//  $.cookie(&#x27;stlx&#x27;, null);</span></span><br><span class="line">    <span class="comment">//  $.cookie(&#x27;jishi&#x27;, &#x27;False&#x27;);</span></span><br><span class="line">      stage = <span class="number">3</span>;</span><br><span class="line">      timer(); <span class="comment">//先跑一次</span></span><br><span class="line">      fjTimer();</span><br><span class="line">      fj20();</span><br><span class="line">    <span class="comment">//  window.frames[0].document.onkeydown = kk;</span></span><br><span class="line">    <span class="comment">//  window.frames[0].document.onmousedown = kk;</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>可以看到，科二和科三就差了stage - -</p>
 <p>我们直接看科三的，调用了如下函数</p>
@@ -126,10 +127,13 @@
 <li>fjTimer();</li>
 <li>fj20();</li>
 </ul>
+<p> </p>
 <p><strong>timer()</strong>函数如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $.get(<span class="string">&quot;Timer.aspx?Stage=&quot;</span>+stage, <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">            $(<span class="string">&quot;#OnlineNumberDiv&quot;</span>).html(d);</span><br><span class="line">        &#125;)</span><br><span class="line">           .error(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">               $(<span class="string">&quot;#OnlineNumberDiv&quot;</span>).html(<span class="string">&quot;&lt;b style=&#x27;color:red&#x27;&gt;网络故障，请刷新页面！&lt;/b&gt;&quot;</span>);</span><br><span class="line">               <span class="comment">//location.href=&#x27;http://www.17qibu.cn&#x27; </span></span><br><span class="line">           &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>可以看出，这是个计算时间的函数，用get向服务器请求，然后 OnlineNumberDiv显示更新学时的时间，如下图</p>
-<p><img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-update-time-.png" alt="driving licence update time"></p>
+<figure>
+<img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-update-time-.png" alt="driving licence update time" /><figcaption>driving licence update time</figcaption>
+</figure>
 <p><strong>fjTimer()</strong>函数如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fjTimer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (isTimer == <span class="number">0</span>) &#123;</span><br><span class="line">           $(<span class="string">&#x27;body&#x27;</span>).stopTime(<span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">           $(<span class="string">&#x27;body&#x27;</span>).everyTime(<span class="string">&#x27;60s&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">               timer();</span><br><span class="line">           &#125;);</span><br><span class="line">           isTimer = <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>每60S刷新一次timer()</p>
@@ -141,13 +145,18 @@
 <p>就是弹出那个学时停止计时确认的对话框，如果120S不点击继续学习，则进行停止计时</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SetRemainTime</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (SysSecond &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          SysSecond = SysSecond - <span class="number">1</span>;</span><br><span class="line">          <span class="keyword">var</span> second = <span class="built_in">Math</span>.floor(SysSecond % <span class="number">60</span>);             <span class="comment">// 计算秒     </span></span><br><span class="line">          <span class="keyword">var</span> minite = <span class="built_in">Math</span>.floor((SysSecond / <span class="number">60</span>) % <span class="number">60</span>);      <span class="comment">//计算分 </span></span><br><span class="line"></span><br><span class="line">          $(<span class="string">&quot;#remainTime&quot;</span>).html(minite + <span class="string">&quot;分&quot;</span> + second + <span class="string">&quot;秒&quot;</span>);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          timer();</span><br><span class="line">          $(<span class="string">&#x27;body&#x27;</span>).stopTime(<span class="string">&#x27;D&#x27;</span>);</span><br><span class="line">          $(<span class="string">&#x27;body&#x27;</span>).stopTime(<span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">          isTimer = <span class="number">0</span>;</span><br><span class="line">          $(<span class="string">&#x27;body&#x27;</span>).stopTime(<span class="string">&#x27;C&#x27;</span>);</span><br><span class="line">          <span class="keyword">if</span> (stage == <span class="number">2</span>) &#123;</span><br><span class="line">              $(<span class="string">&quot;#stopTimeTips&quot;</span>).html(<span class="string">&quot;&lt;b style=&#x27;color:red&#x27;&gt;计时已于&quot;</span> + currentTime() + <span class="string">&quot;停止，若需继续学习请点击“是”&lt;/b&gt;&quot;</span>);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span> &#123;</span><br><span class="line">              $(<span class="string">&quot;#stopTimeTips&quot;</span>).html(<span class="string">&quot;&lt;b style=&#x27;color:red&#x27;&gt;计时已于&quot;</span> + currentTime() + <span class="string">&quot;停止，请点击上面的选项继续学习。&lt;/b&gt;&quot;</span>);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>效果如图</p>
-<p><img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-stop-time.png" alt="driving licence stop time"></p>
+<figure>
+<img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-stop-time.png" alt="driving licence stop time" /><figcaption>driving licence stop time</figcaption>
+</figure>
 <p>从上面的分析中得出结论，timer()函数用于计时，而它是用get方法向/Timer.aspx?Stage=3刷新计时时间的。</p>
 <p>那么，如果我们直接向这个发送请求呢？答案是可行的，请看下面的方法</p>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>打开chrome浏览器，访问科三的学习页面，按F12，打开控制台，输入如下代码，回车即可。</p>
+<h2 id="方法">方法</h2>
+<p>打开chrome浏览器，访问科三的学习页面，按F12，打开控制台，输入如下代码，回车即可。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setInterval</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">$.get(<span class="string">&#x27;http://fj.17qibu.cn:8001/Timer.aspx?Stage=3&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">            $(<span class="string">&quot;#OnlineNumberDiv&quot;</span>).html(d);</span><br><span class="line">        &#125;)</span><br><span class="line">&#125;, <span class="number">6000</span>);</span><br></pre></td></tr></table></figure>
 <p>如图</p>
-<p><img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-stop-time-chrome-console-js.png" alt="driving-licence-stop-time-chrome-console-js"></p>
+<figure>
+<img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-stop-time-chrome-console-js.png" alt="driving-licence-stop-time-chrome-console-js" /><figcaption>driving-licence-stop-time-chrome-console-js</figcaption>
+</figure>
 <p>PS：</p>
 <ul>
 <li>这个方法并不会阻止弹窗说停止计时，但无视就好=v=,还是会继续计时的。</li>
@@ -156,10 +165,15 @@
 <li>有控制台的能跑JS的浏览器就行，不一定得chrome</li>
 <li>2015.11.05 update code:使得能直接在网页上显示更新的学时</li>
 </ul>
-<p><img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-stop-time-but-continue-update-time.png" alt="driving-licence-stop-time-but-continue-update-time"></p>
+<figure>
+<img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-stop-time-but-continue-update-time.png" alt="driving-licence-stop-time-but-continue-update-time" /><figcaption>driving-licence-stop-time-but-continue-update-time</figcaption>
+</figure>
 <p>可以在我的学时中查看详细学时记录，会发现还是计时的。</p>
-<p><img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-my-rest-time.png" alt="driving licence my rest time"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本来是想要python 直接上模拟登陆和提交- -没想到计时的机制这么简单~</p>
+<figure>
+<img src="../images/fujian-drive-license-online-study-time-20-minute-click-crack/driving-licence-my-rest-time.png" alt="driving licence my rest time" /><figcaption>driving licence my rest time</figcaption>
+</figure>
+<h2 id="小结">小结</h2>
+<p>本来是想要python 直接上模拟登陆和提交- -没想到计时的机制这么简单~</p>
  
       <!-- reward -->
       
@@ -375,12 +389,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -392,6 +412,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -400,13 +422,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -425,7 +448,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

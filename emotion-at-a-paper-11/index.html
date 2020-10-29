@@ -112,13 +112,13 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>一纸闲愁11写于去RUC前。<br><a id="more"></a><br>BGM：天空之城悄悄的，悄悄的，</p>
+  <p>一纸闲愁11写于去RUC前。 <a id="more"></a> BGM：天空之城悄悄的，悄悄的，</p>
 <p>今天就走。</p>
-<p>一如我两年前轻轻的来。<br>上天和我开了一个小小的玩笑，<br>不过是想让你，来完成未了 的缘。<br>我在大学里，没有遗憾。<br>尽力做自己想做的事情，所以无愧于心。<br>剩下一件心愿未了的事情，我会尽量带去RUC完成。（wp for fzu helper)</p>
-<p>和嘉雯老师说不要太想我0 0<br>默默上完最后一节课。<br>去KTV Eason专场。</p>
+<p>一如我两年前轻轻的来。 上天和我开了一个小小的玩笑， 不过是想让你，来完成未了 的缘。 我在大学里，没有遗憾。 尽力做自己想做的事情，所以无愧于心。 剩下一件心愿未了的事情，我会尽量带去RUC完成。（wp for fzu helper)</p>
+<p>和嘉雯老师说不要太想我0 0 默默上完最后一节课。 去KTV Eason专场。</p>
 <p>给许多小伙伴送奶茶。 （没送到的不要伤心哈！有心无力）</p>
 <p>……</p>
-<p>“其实，我们这些人都是你生活的过客而已，你只要继续努力地把自己活得精彩就够了。作为朋友，咱也会一样为你开心，将来某一天，突然遇到，坐下来喝喝茶、聊聊过去和将来，很美好。”<br>哲哥的留言 ``</p>
+<p>“其实，我们这些人都是你生活的过客而已，你只要继续努力地把自己活得精彩就够了。作为朋友，咱也会一样为你开心，将来某一天，突然遇到，坐下来喝喝茶、聊聊过去和将来，很美好。” 哲哥的留言 ``</p>
 <p>是，就算我不愿意承认，这是事实。</p>
 <p>许许多多的人，也许就是一面之缘，带着我辨认不清的面孔。</p>
 <p>许许多多的人，也许就是泛泛之交，带着那或深或浅的记忆。</p>
@@ -132,10 +132,10 @@
 <p>假如你们的生命里不再有我的痕迹，</p>
 <p>假如我不小心把你们忘记。</p>
 <p>但是，生命里没有如果。</p>
-<p>是明年今日，未见你一年，谁舍得改变。<br>还是遥远的她，热情若无变，哪管他沧桑变化，<br>或者，约定，两鬓斑白都可记得你。</p>
+<p>是明年今日，未见你一年，谁舍得改变。 还是遥远的她，热情若无变，哪管他沧桑变化， 或者，约定，两鬓斑白都可记得你。</p>
 <p>我会记住所有温暖而美好的事情。</p>
 <p>我，这么珍惜，生命里所有的偶然与遇见，我愿意幸福，也只愿意幸福。</p>
-<hr>
+<hr />
 <p>PS：顺带前几天的书评。</p>
 <p>【活着】 -余华</p>
 <p>我想起昨天看完的《岛》</p>
@@ -156,7 +156,7 @@
 <p>“人是为活着本身活着，而不是为活着之外的任何事物活着”</p>
 <p>时光也让福贵老去。</p>
 <p>他，依然在阳光下，笑着和一头牛耕种。</p>
-<p>“人生天地间，忽如远行客“<br>短短的人生，红尘陌上，谁也没有回程的幸运。</p>
+<p>“人生天地间，忽如远行客“ 短短的人生，红尘陌上，谁也没有回程的幸运。</p>
 <p>然而你不必叹息，在凡尘路上，我们都殊途同归。</p>
 <p>无论王侯将相、富商巨甲，还是布衣草民，死神的镰刀，总是冰冷而干脆。</p>
 <p>地球上，等待帝王和权势的，是死亡。</p>
@@ -377,12 +377,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -394,6 +400,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -402,13 +410,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -427,7 +436,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

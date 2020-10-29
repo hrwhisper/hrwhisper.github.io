@@ -114,32 +114,29 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>本文记录本博客SEO的一些优化方法。不定期更新。<br><a id="more"></a></p>
-<h2 id="YOAST-SEO插件"><a href="#YOAST-SEO插件" class="headerlink" title="YOAST SEO插件"></a>YOAST SEO插件</h2><p>wordpress 下 强烈建议安装。</p>
+  <p>本文记录本博客SEO的一些优化方法。不定期更新。 <a id="more"></a> ## YOAST SEO插件</p>
+<p>wordpress 下 强烈建议安装。</p>
 <p>可以帮你修改每页的标题、写博客的时候计算关键词、生成Sitemap等等。</p>
-<h2 id="重定向wordpress-固定链接"><a href="#重定向wordpress-固定链接" class="headerlink" title="重定向wordpress 固定链接"></a>重定向wordpress 固定链接</h2><p>之前的网址格式是<code>www.hrwhisper.me/archives/id</code><br>之后改为了<code>www.hrwhisper.me/title</code><br>那么，原来的就一片404了。<br>如下：（google search console）</p>
-<p><img src="../images/seo-in-action/seo-google-search-console-404.png" alt="seo-google-search-console-404"><br>怎么办呢?答案是用.htaccess进行重定向：</p>
+<h2 id="重定向wordpress-固定链接">重定向wordpress 固定链接</h2>
+<p>之前的网址格式是<code>www.hrwhisper.me/archives/id</code> 之后改为了<code>www.hrwhisper.me/title</code> 那么，原来的就一片404了。 如下：（google search console）</p>
+<p><img src="../images/seo-in-action/seo-google-search-console-404.png" alt="seo-google-search-console-404" /> 怎么办呢?答案是用.htaccess进行重定向：</p>
 <ul>
-<li><p><a target="_blank" rel="noopener" href="http://hrwhisper.me/archives/1484">http://hrwhisper.me/archives/1484</a></p>
+<li><p>http://hrwhisper.me/archives/1484</p>
 <ul>
 <li><code>RedirectMatch 301 ^/archives/([0-9]*)$  https://www.hrwhisper.me/?p=$1</code></li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://hrwhisper.me/archives/date/2​015/05/02">http://hrwhisper.me/archives/date/2​015/05/02</a></p>
+</ul></li>
+<li><p>http://hrwhisper.me/archives/date/2​015/05/02</p>
 <ul>
 <li><code>RedirectMatch 301 ^/archives/date/([0-9]*)/([0-9]*)/([0-9]*)$ https://www.hrwhisper.me/$1/$2/$3/</code></li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://hrwhisper.me/archives/tag/bi​t-manipulation">http://hrwhisper.me/archives/tag/bi​t-manipulation</a></p>
+</ul></li>
+<li><p>http://hrwhisper.me/archives/tag/bi​t-manipulation</p>
 <ul>
 <li><code>RedirectMatch 301 ^/archives/tag/(.*)$ https://www.hrwhisper.me/tag/$1/</code></li>
-</ul>
-</li>
-<li><p>还有<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/archives/category/code/的，可以和上面的合并">https://www.hrwhisper.me/archives/category/code/的，可以和上面的合并</a></p>
+</ul></li>
+<li><p>还有https://www.hrwhisper.me/archives/category/code/的，可以和上面的合并</p>
 <ul>
-<li><code>RedirectMatch 301 ^/archives/(.*)$ https://www.hrwhisper.me/$1/</code></li>
-</ul>
-</li>
+<li> <code>RedirectMatch 301 ^/archives/(.*)$ https://www.hrwhisper.me/$1/</code></li>
+</ul></li>
 </ul>
 <p>注意：中文的URL会被自动decode，也就是说你在.htaccess中只要写中文即可。</p>
 <ul>
@@ -147,50 +144,68 @@
 </ul>
 <p>最后，我的部分.htaccess:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;?p&#x3D;$1</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;page&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;page&#x2F;$3&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;([0-9]+)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;$3&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;date&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;([0-9]+)&#x2F;page&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;$2&#x2F;$3&#x2F;page&#x2F;$4&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;archives&#x2F;(.*)$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;$1&#x2F;</span><br><span class="line"></span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;图像处理&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;image-processing&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;爬虫&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;crawler&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;python库&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;python-package&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;心情&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;moods&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;mymood&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;moods&#x2F;</span><br><span class="line"></span><br><span class="line">RedirectMatch 301 ^&#x2F;tag&#x2F;环境配置&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;tag&#x2F;running-environment&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;关于&#x2F;$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;about-me&#x2F;</span><br><span class="line">RedirectMatch 301 ^&#x2F;关于我$ https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;about-me&#x2F;</span><br></pre></td></tr></table></figure>
-<p>参考： <a target="_blank" rel="noopener" href="https://perishablepress.com/redirect-wordpress-date-archives-htaccess/">https://perishablepress.com/redirect-wordpress-date-archives-htaccess/</a></p>
-<h2 id="Sitemap提交"><a href="#Sitemap提交" class="headerlink" title="Sitemap提交"></a>Sitemap提交</h2><ul>
+<p>参考： <a target="_blank" rel="noopener" href="https://perishablepress.com/redirect-wordpress-date-archives-htaccess/" class="uri">https://perishablepress.com/redirect-wordpress-date-archives-htaccess/</a></p>
+<h2 id="sitemap提交">Sitemap提交</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwiss6iI99jJAhXRcI4KHbuJBSwQFggdMAA&amp;url=https%3A%2F%2Fwww.google.com%2Fwebmasters%2Ftools&amp;usg=AFQjCNHqwDOfb6H9OJMj1ATaXnSnHDCleg">google</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.bing.com/toolbox/webmaster/">bing</a></li>
-<li><a target="_blank" rel="noopener" href="http://zhanzhang.baidu.com/?castk=LTE%3D">baidu</a>  ：虽然提交了并没什么卵用。。。感觉还是每天抓取频率太低。可能和百度看不上本站有关，观察中。</li>
+<li><a target="_blank" rel="noopener" href="http://zhanzhang.baidu.com/?castk=LTE%3D">baidu</a>  ：虽然提交了并没什么卵用。。。感觉还是每天抓取频率太低。可能和百度看不上本站有关，观察中。</li>
 <li><a target="_blank" rel="noopener" href="http://zhanzhang.haosou.com/">360</a></li>
-<li><a target="_blank" rel="noopener" href="http://zhanzhang.sogou.com/index.php/site/index">sougou</a>  ：搜狗绝对是看不上本站。。</li>
+<li><a target="_blank" rel="noopener" href="http://zhanzhang.sogou.com/index.php/site/index">sougou</a>  ：搜狗绝对是看不上本站。。</li>
 </ul>
 <p>除此之外robots.txt 声明sitemap位置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post_tag-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;category-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;page-sitemap.xml</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: &#x2F;wp-admin&#x2F;</span><br></pre></td></tr></table></figure>
-<p>参考  <a target="_blank" rel="noopener" href="http://www.sitemaps.org/protocol.html#submit_robots">http://www.sitemaps.org/protocol.html#submit_robots</a></p>
-<h2 id="原创保护"><a href="#原创保护" class="headerlink" title="原创保护"></a>原创保护</h2><p>每篇文章后加入如下：</p>
+<p>参考  <a target="_blank" rel="noopener" href="http://www.sitemaps.org/protocol.html#submit_robots" class="uri">http://www.sitemaps.org/protocol.html#submit_robots</a></p>
+<h2 id="原创保护">原创保护</h2>
+<p>每篇文章后加入如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &#39;本博客若无特殊说明则由 &lt;a href&#x3D;&quot;&#39;.get_site_url().&#39;&quot; title&#x3D;&quot;&#39;. get_the_author().&#39;&quot;&gt;&#39;. get_the_author() .&#39;&lt;&#x2F;a&gt; 原创发布&lt;br&#x2F;&gt;&#39;;</span><br><span class="line">echo &#39;转载请点名出处：&lt;a href&#x3D;&quot;&#39;.get_site_url().&#39;&quot; title&#x3D;&quot;&#39;.get_bloginfo().&#39;&quot;&gt;&#39; .get_bloginfo().&#39;&lt;&#x2F;a&gt; &gt; &#39;;</span><br><span class="line">echo &#39;&lt;a href&#x3D;&quot;&#39;.get_permalink().&#39;&quot; title&#x3D;&quot;&#39;.get_the_title().&#39;&quot;&gt;&#39; .get_the_title().&#39;&lt;&#x2F;a&gt;&lt;br&#x2F;&gt;&#39;;</span><br><span class="line">echo &#39;本文地址：&lt;a href&#x3D;&quot;&#39;.get_permalink().&#39;&quot; title&#x3D;&quot;&#39;.get_the_title().&#39;&quot;&gt;&#39; .get_permalink().&#39;&lt;&#x2F;a&gt;&#39;;</span><br></pre></td></tr></table></figure>
-<h2 id="nofollow使用"><a href="#nofollow使用" class="headerlink" title="nofollow使用"></a>nofollow使用</h2><ul>
+<p> </p>
+<h2 id="nofollow使用">nofollow使用</h2>
+<ul>
 <li>底部sns nofollow了，这个只是提供联系方式，和网站内容无关。</li>
 <li>每篇文章 continue reading 也是，这个锚文本没意义。</li>
 </ul>
-<h2 id="W3C认证"><a href="#W3C认证" class="headerlink" title="W3C认证"></a>W3C认证</h2><p><a target="_blank" rel="noopener" href="https://validator.w3.org/">W3C验证地址传送门</a></p>
+<p> </p>
+<h2 id="w3c认证">W3C认证</h2>
+<p><a target="_blank" rel="noopener" href="https://validator.w3.org/">W3C验证地址传送门</a></p>
 <p>以修改多说为例：</p>
 <blockquote>
-<p>_Error: Attribute pubdate not allowed on element time at this point._<br> _From line 178, column 120; to line 178, column 170_<br> _ment-106”&gt;<time pubdate datetime="2015-07-01T22:17:13+00:00">2015年7_<br> _Attributes for element time:_</p>
+<p><em>Error: Attribute pubdate not allowed on element time at this point.</em> <em>From line 178, column 120; to line 178, column 170</em> <em>ment-106&quot;&gt;<time pubdate datetime="2015-07-01T22:17:13+00:00">2015年7</em> <em>Attributes for element time:</em></p>
 </blockquote>
 <p>在duoshuo/comments-seo.php</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">time</span> <span class="attr">pubdate</span> <span class="attr">datetime</span>=<span class="string">”%2$s”</span>&gt;</span>%3$s<span class="tag">&lt;/<span class="name">time</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span>’,</span><br><span class="line">改为<span class="tag">&lt;<span class="name">time</span> <span class="attr">datetime</span>=<span class="string">”%2$s”</span>&gt;</span>%3$s<span class="tag">&lt;/<span class="name">time</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span>’,</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>_Warning: The name attribute is obsolete. Consider putting an id attribute on the nearest container instead._<br> _From line 342, column 10; to line 342, column 28_<br>_&lt;/script&gt;<a name="comments"></a>_</p>
+<em>Warning: The name attribute is obsolete. Consider putting an id attribute on the nearest container instead.</em> <em>From line 342, column 10; to line 342, column 28</em> _
+</script>
+<p><a name="comments"></a>_</p>
 </blockquote>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">name</span>=<span class="string">”comments”</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">duoshuo/comments.php</span><br><span class="line">删掉<span class="tag">&lt;<span class="name">a</span> <span class="attr">name</span>=<span class="string">”comments”</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>_Warning: Article lacks heading. Consider using h2-h6 elements to add identifying headings to all articles._<br>_From line 376, column 4; to line 376, column 45_<br>_-187”&gt; <article id="comment-187" class="comment">_</p>
+<em>Warning: Article lacks heading. Consider using h2-h6 elements to add identifying headings to all articles.</em> <em>From line 376, column 4; to line 376, column 45</em> _-187&quot;&gt; 
+<article id="comment-187" class="comment">
+<p>_</p>
 </blockquote>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">duoshuo/comments-seo.php</span><br><span class="line">&lt;article id=”comment-&lt;?php comment_ID(); ?&gt;” class=”comment”&gt;</span><br><span class="line">改为 &lt;div id=”comment-&lt;?php comment_ID(); ?&gt;” class=”comment”&gt;</span><br></pre></td></tr></table></figure>
 <p>ps:博主blog除了个别多说评论页面有表情的提示无alt属性没通过验证外，其他的均通过W3C验证。</p>
-<h2 id="移动自适应"><a href="#移动自适应" class="headerlink" title="移动自适应"></a>移动自适应</h2><p>原来用 wptouch pro 现在已经响应式主题。<br>根据百度建议加上如下标志，帮助百度理解页面适用于PC和手机</p>
+<h2 id="移动自适应">移动自适应</h2>
+<p>原来用 wptouch pro 现在已经响应式主题。 根据百度建议加上如下标志，帮助百度理解页面适用于PC和手机</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;applicable-device&quot;</span><span class="attr">content</span>=<span class="string">&quot;pc,mobile&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>可以在google search console上查看移动设备的适应性</p>
-<h2 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h2><p>开启了全站https，搜索引擎把HTTPS作为一个排名的因素</p>
-<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>alexa排名，从优化11月1700W开始到现在76W</p>
-<p><img src="../images/seo-in-action/seo-alexa-16-02-20.png" alt="seo-alexa-16-02-20"></p>
+<h2 id="https">Https</h2>
+<p>开启了全站https，搜索引擎把HTTPS作为一个排名的因素</p>
+<h2 id="效果">效果</h2>
+<p>alexa排名，从优化11月1700W开始到现在76W</p>
+<figure>
+<img src="../images/seo-in-action/seo-alexa-16-02-20.png" alt="seo-alexa-16-02-20" /><figcaption>seo-alexa-16-02-20</figcaption>
+</figure>
 <p>google bot也反应了一定的效果。。</p>
-<p><img src="../images/seo-in-action/seo-googlebot-2015-12-17.png" alt="seo-googlebot-2015-12-17"></p>
-<h2 id="接下来"><a href="#接下来" class="headerlink" title="接下来"></a>接下来</h2><p>主要是丰富网站内容吧~</p>
+<figure>
+<img src="../images/seo-in-action/seo-googlebot-2015-12-17.png" alt="seo-googlebot-2015-12-17" /><figcaption>seo-googlebot-2015-12-17</figcaption>
+</figure>
+<h2 id="接下来">接下来</h2>
+<p>主要是丰富网站内容吧~</p>
 <p>还有好多可以分享的东西~不仅仅是leetcode</p>
-<p>ps:可以看该下网址增加SEO知识： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/seo-theory/">SEO 基础</a></p>
+<p>ps:可以看该下网址增加SEO知识： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/seo-theory/">SEO 基础</a></p>
  
       <!-- reward -->
       
@@ -406,12 +421,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -423,6 +444,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -431,13 +454,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -456,7 +480,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">974</span>
+            <span class="post-count">988</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">3 min</span>
+            <span class="post-count">4 min</span>
         </span>
     </span>
 </div>
@@ -114,59 +114,85 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>做软件开发的常常需要进行版本控制，而Git是一个灰常流行的分布式版本控制系统。</p>
-<p>下面来讲讲配置。<br><a id="more"></a></p>
-<h2 id="一、Git入门"><a href="#一、Git入门" class="headerlink" title="一、Git入门"></a>一、Git入门</h2><p>windows用户从<a target="_blank" rel="noopener" href="http://msysgit.github.io/">http://msysgit.github.io/</a>下载msysgit，然后按<strong>默认选项</strong>安装即可。</p>
+  <h2 id="写在前面">写在前面</h2>
+<p>做软件开发的常常需要进行版本控制，而Git是一个灰常流行的分布式版本控制系统。</p>
+<p>下面来讲讲配置。 <a id="more"></a> ## 一、Git入门</p>
+<p>windows用户从<a target="_blank" rel="noopener" href="http://msysgit.github.io/" class="uri">http://msysgit.github.io/</a>下载msysgit，然后按<strong>默认选项</strong>安装即可。</p>
 <p>安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”如下图：</p>
-<p><img src="../images/use-git-and-github/open-git-bash.jpg" alt="open git bash"></p>
+<figure>
+<img src="../images/use-git-and-github/open-git-bash.jpg" alt="open git bash" /><figcaption>open git bash</figcaption>
+</figure>
 <p>接着输入如下内容：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.name <span class="string">&quot;Your Name&quot;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span></span><br></pre></td></tr></table></figure>
 <p>即说明自己的名字和Email地址。（因为Git是分布式版本控制系统，所以，每个机器都必须自报家门）</p>
 <p>输入类似如下图的命令，即进入你想要的git目录，</p>
-<p>博主先进入了e:\git，并且将这个目录初始化为Git仓库，在该目录下创建一个名为githubTest的文件夹。</p>
+<p>博主先进入了e:，并且将这个目录初始化为Git仓库，在该目录下创建一个名为githubTest的文件夹。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> e:\git</span></span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git</span><br><span class="line"><span class="meta">$</span><span class="bash"> git init</span></span><br><span class="line">Initialized empty Git repository in e:/git/.git/</span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git (master)</span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir githubTest</span></span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git (master)</span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> githubTest/</span></span><br></pre></td></tr></table></figure>
-<p><img src="../images/use-git-and-github/createDir.jpg" alt="createDir"></p>
+<figure>
+<img src="../images/use-git-and-github/createDir.jpg" alt="createDir" /><figcaption>createDir</figcaption>
+</figure>
 <p>接下来用在下面创建个文件，如readme.txt，在里面写上若干内容。</p>
-<p>接着通过<strong>git add</strong> 命令进行添加操作，用<strong>git commit</strong>进行提交操作</p>
+<p>接着通过<strong>git add</strong> 命令进行添加操作，用<strong>git commit</strong>进行提交操作</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git add readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git commit -m <span class="string">&quot;add readme file&quot;</span></span></span><br><span class="line">[master (root-commit) 5db86ed] add readme file</span><br><span class="line">1 file changed, 1 insertion(+)</span><br><span class="line">create mode 100644 githubTest/readme.txt</span><br></pre></td></tr></table></figure>
 <p>这样，你的仓库里就有一个名为readme.txt的东西啦</p>
-<h2 id="二、远程仓库-github"><a href="#二、远程仓库-github" class="headerlink" title="二、远程仓库 github"></a>二、远程仓库 github</h2><h3 id="1-创建ssh-key"><a href="#1-创建ssh-key" class="headerlink" title="1.创建ssh key"></a>1.创建ssh key</h3><p>如果你学过密码学，那你一定知道公钥和私钥。</p>
+<h2 id="二远程仓库-github">二、远程仓库 github</h2>
+<h3 id="创建ssh-key">1.创建ssh key</h3>
+<p>如果你学过密码学，那你一定知道公钥和私钥。</p>
 <p>我们访问github需要告诉github你的公钥，而你的私钥则要自己保管好。</p>
 <p>所以我们需要创建一个ssh key，打开Git Bash，输入如下命令，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span></span></span><br></pre></td></tr></table></figure>
 <p>一路回车，使用默认配置即可。</p>
 <p>如下图：</p>
-<p><img src="../images/use-git-and-github/gitrsa.jpg" alt="gitrsa"></p>
-<p>我的被保存在  C:\Users\hrsay.ssh，打开该目录，可以看到两个文件，其中<strong>id_rsa</strong>是私钥，<strong>id_rsa.pub</strong>是公钥。</p>
-<h3 id="2-github设置"><a href="#2-github设置" class="headerlink" title="2.github设置"></a>2.github设置</h3><p>登陆github，点击右上方settings，进入ssh keys，接下来点击add ssh  keys，在key中粘贴<strong>id_rsa.pub</strong>里的内容。</p>
+<figure>
+<img src="../images/use-git-and-github/gitrsa.jpg" alt="gitrsa" /><figcaption>gitrsa</figcaption>
+</figure>
+<p>我的被保存在  C:.ssh，打开该目录，可以看到两个文件，其中<strong>id_rsa</strong>是私钥，<strong>id_rsa.pub</strong>是公钥。</p>
+<h3 id="github设置">2.github设置</h3>
+<p>登陆github，点击右上方settings，进入ssh keys，接下来点击add ssh  keys，在key中粘贴<strong>id_rsa.pub</strong>里的内容。</p>
 <p>最后点击addkey完成。</p>
 <p>如下图：</p>
-<p><img src="../images/use-git-and-github/githubsetting.jpg" alt="githubsetting"></p>
-<h3 id="3-提交至github"><a href="#3-提交至github" class="headerlink" title="3.提交至github"></a>3.提交至github</h3><p>首先需要创建一个新的仓库。如图：</p>
-<p><img src="../images/use-git-and-github/create-new-repository.jpg" alt="create new repository"></p>
+<figure>
+<img src="../images/use-git-and-github/githubsetting.jpg" alt="githubsetting" /><figcaption>githubsetting</figcaption>
+</figure>
+<h3 id="提交至github">3.提交至github</h3>
+<p>首先需要创建一个新的仓库。如图：</p>
+<figure>
+<img src="../images/use-git-and-github/create-new-repository.jpg" alt="create new repository" /><figcaption>create new repository</figcaption>
+</figure>
 <p>接下来你可以使用如下的命令进行提交。</p>
-<p><strong><a target="_blank" rel="noopener" href="https://github.com/hrwhisper/githubTest.git">https://github.com/hrwhisper/githubTest.git</a> 记得改成你自己的！</strong></p>
+<p><strong>https://github.com/hrwhisper/githubTest.git 记得改成你自己的！</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://github.com/hrwhisper/githubTest.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
 <p>在执行第二条的时候，可能会要求验证用户名和密码，按提示输入即可。</p>
 <p>最后如下图，就算提交成功。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Counting objects: 4, done.</span><br><span class="line">Writing objects: 100% (4/4), 275 bytes  0 bytes/s, done.</span><br><span class="line">Total 4 (delta 0), reused 0 (delta 0)</span><br><span class="line">To https://github.com/hrwhisper/githubTest.git</span><br><span class="line"> * [new branch]      master -&gt; master</span><br><span class="line">Branch master set up to track remote branch master from origin.</span><br></pre></td></tr></table></figure>
 <p>去github刚才创建的仓库看看吧！会发现多了个文件夹和里面有你的readme.txt~</p>
-<h2 id="三、多人开发"><a href="#三、多人开发" class="headerlink" title="三、多人开发"></a>三、多人开发</h2><p>fork后，如何进行同步最新代码呢？</p>
+<h2 id="三多人开发">三、多人开发</h2>
+<p>fork后，如何进行同步最新代码呢？</p>
 <p>首先添加源，比如：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://github.com/hrwhisper/CourseSelect</span><br><span class="line">git remote -v </span><br></pre></td></tr></table></figure>
 <p>git remote -v 后，应该出现我的地址。</p>
 <p>然后用如下命令即可</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br><span class="line">git merge upstream/master</span><br></pre></td></tr></table></figure>
-<h2 id="四、可以使用github官方的客户端"><a href="#四、可以使用github官方的客户端" class="headerlink" title="四、可以使用github官方的客户端"></a>四、可以使用github官方的客户端</h2><p>前往<a target="_blank" rel="noopener" href="https://windows.github.com/">https://windows.github.com/</a>下载客户端。</p>
+<p> </p>
+<h2 id="四可以使用github官方的客户端">四、可以使用github官方的客户端</h2>
+<p>前往<a target="_blank" rel="noopener" href="https://windows.github.com/" class="uri">https://windows.github.com/</a>下载客户端。</p>
 <p>下载安装完后，启动软件如图，很喜欢简洁而优雅的风格^ ^</p>
-<p><img src="../images/use-git-and-github/githubforwindows.jpg" alt="githubforwindows"></p>
+<figure>
+<img src="../images/use-git-and-github/githubforwindows.jpg" alt="githubforwindows" /><figcaption>githubforwindows</figcaption>
+</figure>
 <p>进入后，需要先进行登录，位于右上方的那个设置的按钮，点击options,接下来点击add account，输入用户名密码即可。</p>
 <p>接下来点击左上角的+ 号，创建一个仓库。</p>
-<p><img src="../images/use-git-and-github/createNewRepository.jpg" alt="createNewRepository"></p>
+<figure>
+<img src="../images/use-git-and-github/createNewRepository.jpg" alt="createNewRepository" /><figcaption>createNewRepository</figcaption>
+</figure>
 <p>创建完后，点击该仓库，右上角有个发布的，发布后即可在github上看到。</p>
-<p><img src="../images/use-git-and-github/publish.jpg" alt="publish"></p>
+<figure>
+<img src="../images/use-git-and-github/publish.jpg" alt="publish" /><figcaption>publish</figcaption>
+</figure>
 <p>接下来我们在该仓库的目录下创建一个readme.txt，它很快就检测到了改变，然后进行如下图的提交，并同步，你可以在你的github下看到相应的变化 :)</p>
-<p><img src="../images/use-git-and-github/sync.jpg" alt="sync"></p>
+<figure>
+<img src="../images/use-git-and-github/sync.jpg" alt="sync" /><figcaption>sync</figcaption>
+</figure>
 <p><strong>这个方法比前面的git简单得多，推荐使用。</strong></p>
 <p>有什么不懂的欢迎留言 : )</p>
  
@@ -382,12 +408,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -399,6 +431,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -407,13 +441,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -432,7 +467,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

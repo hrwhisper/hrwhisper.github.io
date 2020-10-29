@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">4.6k</span>
+            <span class="post-count">4.7k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">20 min</span>
+            <span class="post-count">21 min</span>
         </span>
     </span>
 </div>
@@ -122,217 +122,236 @@
 <li><p>和逻辑回归的关系</p>
 <ul>
 <li>为什么logistics regression用sigmoid函数</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <a id="more"></a>
-<h2 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h2><p>引用吴军的《数学之美》的例子：</p>
+<h2 id="最大熵原理">最大熵原理</h2>
+<p>引用吴军的《数学之美》的例子：</p>
 <blockquote>
-<p>有 一次，我去  AT&amp;T  实验室作关于最大熵模型的报告，我带去了一个骰子。我问听众”每个面朝上的概率分别是多少”，所有人都说是等概率，即各点的概率均为1/6。这种猜测当然   是对的。我问听众们为什么，得到的回答是一致的：对这个”一无所知”的骰子，假定它每一个朝上概率均等是最安全的做法（你不应该主观假设它象韦小宝的骰子一样灌了铅）。从投资的角度看，就是风险最小的做法。从信息论的角度讲，就是保留了最大的不确定性，也就是说让熵达到最大。接着，我又告诉听众，我的这 个骰子被我特殊处理过，已知四点朝上的概率是三分之一，在这种情况下，每个面朝上的概率是多少？这次，大部分人认为除去四点的概率是 1/3，其余的均是 2/15，也就是说<strong>已知的条件必须满足</strong>（四点概率为  1/3），而对其数学期望余各点的概率因为仍然无从知道，因此只好认为它们均等。注意，在猜测这两种不同情况下的概率分布时，大家都没有添加任何主观的假 设，诸如四点的反面一定是三点等等。（事实上，有的骰子四点反面不是三点而是一点。）这种基于直觉的猜测之所以准确，是因为它恰好符合了最大熵原理。 </p>
-<p><strong>最大熵原理</strong>指出，当我们需要对一个随机事件的概率分布进行预测时，我们的<strong>预测应当满足全部已知的条件，而对未知的情况不要做任何主观假设</strong>。（不做主观假设这点很重要。）<strong>在这种情况下，概率分布最均匀，预测的风险最小</strong>。因为这时概率分布的信息熵最大，所以人们称这种模型叫”最大熵模型”。我们常说，不要把所有的鸡蛋放在一个篮子里，其实就是最大熵原理的一个朴素的说法，因为当我们遇到不确定性时，就要保留各种可能性。 </p>
+<p>有 一次，我去 AT&amp;T 实验室作关于最大熵模型的报告，我带去了一个骰子。我问听众&quot;每个面朝上的概率分别是多少&quot;，所有人都说是等概率，即各点的概率均为1/6。这种猜测当然 是对的。我问听众们为什么，得到的回答是一致的：对这个&quot;一无所知&quot;的骰子，假定它每一个朝上概率均等是最安全的做法（你不应该主观假设它象韦小宝的骰子一样灌了铅）。从投资的角度看，就是风险最小的做法。从信息论的角度讲，就是保留了最大的不确定性，也就是说让熵达到最大。接着，我又告诉听众，我的这 个骰子被我特殊处理过，已知四点朝上的概率是三分之一，在这种情况下，每个面朝上的概率是多少？这次，大部分人认为除去四点的概率是 1/3，其余的均是 2/15，也就是说<strong>已知的条件必须满足</strong>（四点概率为 1/3），而对其数学期望余各点的概率因为仍然无从知道，因此只好认为它们均等。注意，在猜测这两种不同情况下的概率分布时，大家都没有添加任何主观的假 设，诸如四点的反面一定是三点等等。（事实上，有的骰子四点反面不是三点而是一点。）这种基于直觉的猜测之所以准确，是因为它恰好符合了最大熵原理。</p>
+<p><strong>最大熵原理</strong>指出，当我们需要对一个随机事件的概率分布进行预测时，我们的<strong>预测应当满足全部已知的条件，而对未知的情况不要做任何主观假设</strong>。（不做主观假设这点很重要。）<strong>在这种情况下，概率分布最均匀，预测的风险最小</strong>。因为这时概率分布的信息熵最大，所以人们称这种模型叫&quot;最大熵模型&quot;。我们常说，不要把所有的鸡蛋放在一个篮子里，其实就是最大熵原理的一个朴素的说法，因为当我们遇到不确定性时，就要保留各种可能性。</p>
 </blockquote>
 <p>在决策树那篇文章中，我介绍过熵的概念，这里做一个简单的复习。</p>
 <p>信息论与概率统计中，<strong>熵</strong>（Entropy）用来表示随机变量不确定性的大小，熵越大，不确定性越大。</p>
-<p>设随机变量X有d个取值$\{x_1,x_2,\cdots, x_d\}$, 取值为$x_i$的概率为$p_i$, 则随机变量的熵定义为：</p>
-<script type="math/tex; mode=display">
-H(X) = -\sum_{i=1}^dp_i\log p_i\tag{2-1}</script><p>计算时，若p = 0，则$p_i\log p_i = 0$ 。</p>
-<p>因为熵只依赖于X的分布，所以可以将$H(X)$写为$H(p)$</p>
-<p>熵满足下面的不等式：</p>
-<script type="math/tex; mode=display">
-0 \le H(X) \le \log |X|, \hspace{4ex} |X| 为X的取值个数</script><p>接着介绍<strong>条件熵</strong>（conditional entropy），即给定随机变量X后，D剩余的不确定性（熵）:</p>
-<script type="math/tex; mode=display">
-H(Y | X)= \sum_{i=1}^dp(X=x_i)H(Y|X=x_i)=-\sum_{i=1}^dp(x_i) \sum_{j=1}^mp(y_j|x_i)\log p(y_j|x_i) \tag{2-2}</script><p>其实就是按特征X的取值划分数据，对取值为$x_i$的数据计算熵，然后乘以取值为$x_i$的概率。</p>
-<h2 id="最大熵模型"><a href="#最大熵模型" class="headerlink" title="最大熵模型"></a>最大熵模型</h2><p>最大熵原理是统计学习的一般原理，运用到<strong>分类问题</strong>上就得到了最大熵模型。最大熵模型是给定$X$，输出条件概率条件概率$P(Y|X)$。</p>
+<p>设随机变量X有d个取值<span class="math inline">\(\{x_1,x_2,\cdots, x_d\}\)</span>, 取值为<span class="math inline">\(x_i\)</span>的概率为<span class="math inline">\(p_i\)</span>, 则随机变量的熵定义为： <span class="math display">\[
+H(X) = -\sum_{i=1}^dp_i\log p_i\tag{2-1}
+\]</span> 计算时，若p = 0，则<span class="math inline">\(p_i\log p_i = 0\)</span> 。</p>
+<p>因为熵只依赖于X的分布，所以可以将<span class="math inline">\(H(X)\)</span>写为<span class="math inline">\(H(p)\)</span></p>
+<p>熵满足下面的不等式： <span class="math display">\[
+0 \le H(X) \le \log |X|, \hspace{4ex} |X| 为X的取值个数
+\]</span></p>
+<p>接着介绍<strong>条件熵</strong>（conditional entropy），即给定随机变量X后，D剩余的不确定性（熵）: <span class="math display">\[
+H(Y | X)= \sum_{i=1}^dp(X=x_i)H(Y|X=x_i)=-\sum_{i=1}^dp(x_i) \sum_{j=1}^mp(y_j|x_i)\log p(y_j|x_i) \tag{2-2}
+\]</span> 其实就是按特征X的取值划分数据，对取值为<span class="math inline">\(x_i\)</span>的数据计算熵，然后乘以取值为<span class="math inline">\(x_i\)</span>的概率。</p>
+<h2 id="最大熵模型">最大熵模型</h2>
+<p>最大熵原理是统计学习的一般原理，运用到<strong>分类问题</strong>上就得到了最大熵模型。最大熵模型是给定<span class="math inline">\(X\)</span>，输出条件概率条件概率<span class="math inline">\(P(Y|X)\)</span>。</p>
 <p>那么，如何把最大熵原理应用到分类问题上呢？上面提到，最大熵原理需要满足已知条件，而未知的情况就假设它们概率均等。</p>
 <p>换句话说，我们需要让模型先满足所有的约束条件（满足约束条件的模型可能有很多），然后从这些满足约束条件的模型中选择熵最大的模型。</p>
-<p>那么，约束条件从哪里来呢？最大熵模型做法是：从训练集<strong>T</strong>中抽取特征，然后要求这些特征在训练集中的经验分布$\tilde P(X, Y)$的期望等于它们关于模型$P(Y|X)$与经验分布$\tilde P(X)$的期望值。</p>
+<p>那么，约束条件从哪里来呢？最大熵模型做法是：从训练集<strong>T</strong>中抽取特征，然后要求这些特征在训练集中的经验分布<span class="math inline">\(\tilde P(X, Y)\)</span>的期望等于它们关于模型<span class="math inline">\(P(Y|X)\)</span>与经验分布<span class="math inline">\(\tilde P(X)\)</span>的期望值。</p>
 <p>下面，我们所做的就是构建出约束的条件来建立模型。</p>
-<h3 id="特征函数"><a href="#特征函数" class="headerlink" title="特征函数"></a>特征函数</h3><p>上面提到，需要抽取特征，而特征可以用一个函数来表示：</p>
-<script type="math/tex; mode=display">
+<h3 id="特征函数">特征函数</h3>
+<p>上面提到，需要抽取特征，而特征可以用一个函数来表示： <span class="math display">\[
 f(x, y) = 
 \left\{
              \begin{array}{lr}
              1,   \hspace{2ex} (x,y)满足某一事实 \\
              0,   \hspace{2ex} 否则
              \end{array}
-\right.\tag{2-1}</script><p>这是一个二值函数，当然，在一般情况下，特征函数也可以是任意实值函数，但是这里为了表述方便，采用了二值 的表示。</p>
+\right.\tag{2-1}
+\]</span> 这是一个二值函数，当然，在一般情况下，特征函数也可以是任意实值函数，但是这里为了表述方便，采用了二值 的表示。</p>
 <p>比如说peghoty 举的例子：</p>
 <blockquote>
-<p><img src="../images/machine-learning-maximum-entropy-model/featrue-function-example.png" alt="featrue-function-example"></p>
+<figure>
+<img src="../images/machine-learning-maximum-entropy-model/featrue-function-example.png" alt="featrue-function-example" /><figcaption>featrue-function-example</figcaption>
+</figure>
 </blockquote>
-<h3 id="经验分布和期望"><a href="#经验分布和期望" class="headerlink" title="经验分布和期望"></a>经验分布和期望</h3><p>经验分布就是说在训练集上进行统计得到的分布，我们在上面加上一个小波浪线，比如：</p>
-<script type="math/tex; mode=display">
+<h3 id="经验分布和期望">经验分布和期望</h3>
+<p>经验分布就是说在训练集上进行统计得到的分布，我们在上面加上一个小波浪线，比如： <span class="math display">\[
 \tilde P(x) = \frac{\rm count(x)}{N}\\
-\tilde P(x,y) = \frac{\rm count(x,y)}{N}</script><p>其中</p>
+\tilde P(x,y) = \frac{\rm count(x,y)}{N}
+\]</span> 其中</p>
 <ul>
 <li>count(x)和count(x,y) 分别表示x和(x,y)在训练集中出现的次数。</li>
 <li>N为训练集的大小。</li>
 </ul>
 <p>到这里，就可以给出我们的两个期望。</p>
-<p>第一个是特征函数在训练数据上关于经验分布$\tilde P(X, Y)$的期望值$E_{\tilde p}(f)$：</p>
-<script type="math/tex; mode=display">
-E_{\tilde p}(f) = \sum_{x,y} \tilde P(x, y) f(x, y) \tag{2-2}</script><p>第二个是特征函数关于模型$P(x,y)$的数学期望$E_{p}(f)$：</p>
-<script type="math/tex; mode=display">
-E_{p}(f) = \sum_{x,y}P(x, y) f(x, y)</script><p>注意，这里的求和项$\sum_{x,y}$应该是训练集中x的所有取值和y的所有取值两两组成的对(笛卡尔积)</p>
-<p>上面的式子中$P(x, y)$是未知的，而注意我们之前建模的目标是$P(y|x)$，因此可以由贝叶斯定理展开：</p>
-<script type="math/tex; mode=display">
+<p>第一个是特征函数在训练数据上关于经验分布<span class="math inline">\(\tilde P(X, Y)\)</span>的期望值<span class="math inline">\(E_{\tilde p}(f)\)</span>： <span class="math display">\[
+E_{\tilde p}(f) = \sum_{x,y} \tilde P(x, y) f(x, y) \tag{2-2}
+\]</span> 第二个是特征函数关于模型<span class="math inline">\(P(x,y)\)</span>的数学期望<span class="math inline">\(E_{p}(f)\)</span>： <span class="math display">\[
+E_{p}(f) = \sum_{x,y}P(x, y) f(x, y)
+\]</span> 注意，这里的求和项<span class="math inline">\(\sum_{x,y}\)</span>应该是训练集中x的所有取值和y的所有取值两两组成的对(笛卡尔积)</p>
+<p>上面的式子中<span class="math inline">\(P(x, y)\)</span>是未知的，而注意我们之前建模的目标是<span class="math inline">\(P(y|x)\)</span>，因此可以由贝叶斯定理展开： <span class="math display">\[
 \begin{align*}
-E_{p}(f) &= \sum_{x,y}P(x)P(y|x)f(x, y) \hspace{4ex}  P(x,y)未知，用贝叶斯公式\\
-&= \sum_{x,y}\tilde P(x)P(y|x)f(x, y) \hspace{4ex} P(x)未知，用\tilde P(x)来近似
-\end{align*}\tag{2-3}</script><p>我们希望特征f的期望应该和从训练数据中得到的特征的期望是一样的：</p>
-<script type="math/tex; mode=display">
+E_{p}(f) &amp;= \sum_{x,y}P(x)P(y|x)f(x, y) \hspace{4ex}  P(x,y)未知，用贝叶斯公式\\
+&amp;= \sum_{x,y}\tilde P(x)P(y|x)f(x, y) \hspace{4ex} P(x)未知，用\tilde P(x)来近似
+\end{align*}\tag{2-3}
+\]</span> 我们希望特征f的期望应该和从训练数据中得到的特征的期望是一样的： <span class="math display">\[
 \begin{align*}
-E_{p}(f)  &= E_{\tilde p}(f) \\
-\sum_{x,y} \tilde P(x, y) f(x, y) &= \sum_{x,y}\tilde P(x)P(y|x)f(x, y) \tag{2-4}
-\end{align*}</script><h3 id="最大熵模型-1"><a href="#最大熵模型-1" class="headerlink" title="最大熵模型"></a>最大熵模型</h3><p>因此，这里就可以给出我们的最大熵模型了，假如有d个特征函数$f_i(x,y), i=1,2, \cdots,d$，那么就有d个约束条件，满足这些条件的模型可能有很多个，我们将满足这些约束条件的模型设为集合C:</p>
-<script type="math/tex; mode=display">
-C \equiv \{P\in \mathcal{P} |  E_{p}(f_i)  = E_{\tilde p}(f_i) ,\  i=1,2,\cdots,d\}</script><p>我们的最大熵模型就是C中<strong>条件熵</strong>最大的模型：</p>
-<script type="math/tex; mode=display">
-H(P) = -\sum_{x,y}\tilde P(x)P(y|x) \log P(y |x ) \tag{2-5}</script><p>为什么使用条件熵呢？是因为使用条件熵就有我们要求的$P(y|x)$，此外2-5式子中的对数是自然对数。</p>
-<p>最大熵模型的学习就等价于求解约束问题：</p>
-<script type="math/tex; mode=display">
+E_{p}(f)  &amp;= E_{\tilde p}(f) \\
+\sum_{x,y} \tilde P(x, y) f(x, y) &amp;= \sum_{x,y}\tilde P(x)P(y|x)f(x, y) \tag{2-4}
+\end{align*}
+\]</span></p>
+<h3 id="最大熵模型-1">最大熵模型</h3>
+<p>因此，这里就可以给出我们的最大熵模型了，假如有d个特征函数<span class="math inline">\(f_i(x,y), i=1,2,\ \cdots,d\)</span>，那么就有d个约束条件，满足这些条件的模型可能有很多个，我们将满足这些约束条件的模型设为集合C: <span class="math display">\[
+C \equiv \{P\in \mathcal{P} |  E_{p}(f_i)  = E_{\tilde p}(f_i) ,\  i=1,2,\cdots,d\}
+\]</span> 我们的最大熵模型就是C中<strong>条件熵</strong>最大的模型： <span class="math display">\[
+H(P) = -\sum_{x,y}\tilde P(x)P(y|x) \log P(y |x ) \tag{2-5}
+\]</span> 为什么使用条件熵呢？是因为使用条件熵就有我们要求的<span class="math inline">\(P(y|x)\)</span>，此外2-5式子中的对数是自然对数。</p>
+<p>最大熵模型的学习就等价于求解约束问题： <span class="math display">\[
 \begin{align*} 
-\max_{P \in C}\hspace{3ex} &  H(P) = -\sum_{x,y}\tilde P(x)P(y|x) \log P(y |x ) \\
-{\rm s.t.}\hspace{3ex} &  E_{p}(f_i)  = E_{\tilde p}(f_i), \hspace{3ex}i=1,2,\cdots ,d\\
-&  \sum_y P(y|x) = 1
-\end{align*}\tag{2-6}</script><p>按最优化的习惯，写成求解最小值的问题：</p>
-<script type="math/tex; mode=display">
+\max_{P \in C}\hspace{3ex} &amp;  H(P) = -\sum_{x,y}\tilde P(x)P(y|x) \log P(y |x ) \\
+{\rm s.t.}\hspace{3ex} &amp;  E_{p}(f_i)  = E_{\tilde p}(f_i), \hspace{3ex}i=1,2,\cdots ,d\\
+&amp;  \sum_y P(y|x) = 1
+\end{align*}\tag{2-6}
+\]</span> 按最优化的习惯，写成求解最小值的问题： <span class="math display">\[
 \begin{align*} 
-\min_{P \in C}\hspace{3ex} &   \sum_{x,y}\tilde P(x)P(y|x) \log P(y |x ) \\
-{\rm s.t.}\hspace{3ex} &  E_{\tilde p}(f_i) -  E_{p}(f_i)  = 0, \hspace{3ex}i=1,2,\cdots ,d\\
-&  1 - \sum_y P(y|x)  = 0
-\end{align*}\tag{2-7}</script><h3 id="模型求解"><a href="#模型求解" class="headerlink" title="模型求解"></a>模型求解</h3><p>同之前的SVM求解一样，我们也将2-7使用拉格朗日乘子法转化为对偶问题：</p>
-<script type="math/tex; mode=display">
-L(P, \lambda) =\sum_{x,y}\tilde P(x)P(y|x) \log P(y |x )+\lambda_0(1 - \sum_y P(y|x)  )+\sum_{i=1}^d \lambda_i \left(\sum_{x,y} \tilde P(x, y) f_i(x, y) - \sum_{x,y}\tilde P(x)P(y|x)f_i(x, y) \right) \tag{2-8}</script><p>原始问题是$\min_P \max_\lambda L(P, \lambda)$，对偶问题是$\max_\lambda \min_P L(P, \lambda)$</p>
-<p>首先对$P(y|x)$求偏导：</p>
-<script type="math/tex; mode=display">
+\min_{P \in C}\hspace{3ex} &amp;   \sum_{x,y}\tilde P(x)P(y|x) \log P(y |x ) \\
+{\rm s.t.}\hspace{3ex} &amp;  E_{\tilde p}(f_i) -  E_{p}(f_i)  = 0, \hspace{3ex}i=1,2,\cdots ,d\\
+&amp;  1 - \sum_y P(y|x)  = 0
+\end{align*}\tag{2-7}
+\]</span> ### 模型求解</p>
+<p>同之前的SVM求解一样，我们也将2-7使用拉格朗日乘子法转化为对偶问题： <span class="math display">\[
+L(P, \lambda) =\sum_{x,y}\tilde P(x)P(y|x) \log P(y |x )+\lambda_0(1 - \sum_y P(y|x)  )+\sum_{i=1}^d \lambda_i \left(\sum_{x,y} \tilde P(x, y) f_i(x, y) - \sum_{x,y}\tilde P(x)P(y|x)f_i(x, y) \right) \tag{2-8}
+\]</span> 原始问题是<span class="math inline">\(\min_P \max_\lambda L(P, \lambda)\)</span>，对偶问题是<span class="math inline">\(\max_\lambda \min_P L(P, \lambda)\)</span></p>
+<p>首先对<span class="math inline">\(P(y|x)\)</span>求偏导： <span class="math display">\[
 \begin{align*}
-\frac{\partial L(P, \lambda) }{\partial P(y|x)} &=\sum_{x,y}\tilde P(x) \left(log P(y|x)+1 \right) - \sum_y\lambda_0 -\sum_{i=1}^d \lambda_i \left(  \sum_{x,y}\tilde P(x)f_i(x, y)\right)\\
-&= \sum_{x,y}\tilde P(x) \left(log P(y|x)+1 \right) -  \sum_x \tilde P(x)\sum_y\lambda_0 - \sum_{x,y} \tilde P(x)\sum_{i=1}^d \lambda_if_i(x, y)\\
-&= \sum_{x,y}\tilde P(x) \left(log P(y|x)+1 \right) -  \sum_{x,y} \tilde P(x)\lambda_0 - \sum_{x,y} \tilde P(x)\sum_{i=1}^d \lambda_if_i(x, y)\\
-&= \sum_{x,y}\tilde P(x) \left(log P(y|x)+1  - \lambda_0 - \sum_{i=1}^d \lambda_if_i(x, y) \right)
-\end{align*}</script><p>令偏导数为0，而我们有$\tilde P(x) \gt 0$，因此得：</p>
-<script type="math/tex; mode=display">
-log P(y|x)+1  - \lambda_0 - \sum_{i=1}^d \lambda_if_i(x, y)  = 0</script><p>从而解得：</p>
-<script type="math/tex; mode=display">
-P(y|x) = e^{\lambda_0 - 1}  e^{\sum_{i=1}^d \lambda_if_i(x, y) }\tag{2-8}</script><p>将2-8带入$1 - \sum_y P(y|x)  = 0$得：</p>
-<script type="math/tex; mode=display">
-\sum_y e^{\lambda_0 - 1}  e^{\sum_{i=1}^d \lambda_if_i(x, y) } =e^{\lambda_0 - 1}  \sum_y  e^{\sum_{i=1}^d \lambda_if_i(x, y) }  = 1</script><p>可得：</p>
-<script type="math/tex; mode=display">
-e^{\lambda_0 - 1}  = \frac{1}{\sum_y  e^{\sum_{i=1}^d \lambda_if_i(x, y) } } \tag{2-9}</script><p>将2-9带入2-8得：</p>
-<script type="math/tex; mode=display">
+\frac{\partial L(P, \lambda) }{\partial P(y|x)} &amp;=\sum_{x,y}\tilde P(x) \left(log P(y|x)+1 \right) - \sum_y\lambda_0 -\sum_{i=1}^d \lambda_i \left(  \sum_{x,y}\tilde P(x)f_i(x, y)\right)\\
+&amp;= \sum_{x,y}\tilde P(x) \left(log P(y|x)+1 \right) -  \sum_x \tilde P(x)\sum_y\lambda_0 - \sum_{x,y} \tilde P(x)\sum_{i=1}^d \lambda_if_i(x, y)\\
+&amp;= \sum_{x,y}\tilde P(x) \left(log P(y|x)+1 \right) -  \sum_{x,y} \tilde P(x)\lambda_0 - \sum_{x,y} \tilde P(x)\sum_{i=1}^d \lambda_if_i(x, y)\\
+&amp;= \sum_{x,y}\tilde P(x) \left(log P(y|x)+1  - \lambda_0 - \sum_{i=1}^d \lambda_if_i(x, y) \right)
+\end{align*}
+\]</span></p>
+<p>令偏导数为0，而我们有<span class="math inline">\(\tilde P(x) \gt 0\)</span>，因此得： <span class="math display">\[
+log P(y|x)+1  - \lambda_0 - \sum_{i=1}^d \lambda_if_i(x, y)  = 0
+\]</span> 从而解得： <span class="math display">\[
+P(y|x) = e^{\lambda_0 - 1}  e^{\sum_{i=1}^d \lambda_if_i(x, y) }\tag{2-8}
+\]</span> 将2-8带入<span class="math inline">\(1 - \sum_y P(y|x) = 0\)</span>得： <span class="math display">\[
+\sum_y e^{\lambda_0 - 1}  e^{\sum_{i=1}^d \lambda_if_i(x, y) } =e^{\lambda_0 - 1}  \sum_y  e^{\sum_{i=1}^d \lambda_if_i(x, y) }  = 1
+\]</span> 可得： <span class="math display">\[
+e^{\lambda_0 - 1}  = \frac{1}{\sum_y  e^{\sum_{i=1}^d \lambda_if_i(x, y) } } \tag{2-9}
+\]</span> 将2-9带入2-8得： <span class="math display">\[
 P_\lambda = P(y|x) = \frac{1}{Z_\lambda(x)}e^{\sum_{i=1}^d \lambda_if_i(x, y)} \\
-其中 , Z_\lambda(x) =\sum_y  e^{\sum_{i=1}^d \lambda_if_i(x, y) }  \tag{2-10}</script><p>这个$P_\lambda$就是<strong>最大熵模型的解</strong>，它具有指数形式，$f_i(x,y)$是特征函数，$\lambda_i$是特征的权值，$\lambda_i$越大，说明特征越重要。需要注意的一点是$\lambda_0$已经被消去了。$Z_\lambda$称为规范化因子。</p>
-<p>上面已经求解了内层的极小值，现在要求外层的极大值$max_\lambda \Psi(\lambda)$</p>
-<p>将2-10带入2-8，可得：</p>
-<script type="math/tex; mode=display">
+其中 , Z_\lambda(x) =\sum_y  e^{\sum_{i=1}^d \lambda_if_i(x, y) }  \tag{2-10}
+\]</span> 这个<span class="math inline">\(P_\lambda\)</span>就是<strong>最大熵模型的解</strong>，它具有指数形式，<span class="math inline">\(f_i(x,y)\)</span>是特征函数，<span class="math inline">\(\lambda_i\)</span>是特征的权值，<span class="math inline">\(\lambda_i\)</span>越大，说明特征越重要。需要注意的一点是<span class="math inline">\(\lambda_0\)</span>已经被消去了。<span class="math inline">\(Z_\lambda\)</span>称为规范化因子。</p>
+<p>上面已经求解了内层的极小值，现在要求外层的极大值<span class="math inline">\(max_\lambda \Psi(\lambda)\)</span></p>
+<p>将2-10带入2-8，可得： <span class="math display">\[
 \begin{align*}
-\Psi(\lambda) &=\sum_{x,y}\tilde P(x)P_\lambda \log P_\lambda+\sum_{i=1}^d \lambda_i \left(\sum_{x,y} \tilde P(x, y) f_i(x, y) - \sum_{x,y}\tilde P(x)P_\lambda f_i(x, y) \right) \\
-&=  \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) + \sum_{x,y}\tilde P(x)P_\lambda \left( \log P_\lambda - \sum_{i=1}^d \lambda_if_i(x, y) \right) \\
-& = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x,y}\tilde P(x)P_\lambda \log Z_\lambda(x)\\
-& = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x}\tilde P(x)\log Z_\lambda(x)\tag{2-11}
-\end{align*}</script><p>最后一步用到了$\sum_yP_\lambda = 1$</p>
-<p>接下来的任务就是求 $max_\lambda \Psi(\lambda)$，这个可以用梯度下降等方法求解，也可以用GIS，IIS等改进的优化方法。</p>
-<h3 id="和极大似然的关系"><a href="#和极大似然的关系" class="headerlink" title="和极大似然的关系"></a>和极大似然的关系</h3><p>已知训练数据的经验概率分布$\tilde P(x,y)$，条件概率分布$P(Y|X)$的对数似然函数为：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}_{\tilde p}(P_\lambda) = \log \prod_{x,y} P_\lambda^{\tilde P(x,y)} = \sum_{x,y} \tilde P(x,y) \log P_\lambda \tag{2-12}</script><p>当条件概率分布$P(Y|X)$是2-10时的最大熵模型时，将2-10带入上式得：</p>
-<script type="math/tex; mode=display">
+\Psi(\lambda) &amp;=\sum_{x,y}\tilde P(x)P_\lambda \log P_\lambda+\sum_{i=1}^d \lambda_i \left(\sum_{x,y} \tilde P(x, y) f_i(x, y) - \sum_{x,y}\tilde P(x)P_\lambda f_i(x, y) \right) \\
+&amp;=  \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) + \sum_{x,y}\tilde P(x)P_\lambda \left( \log P_\lambda - \sum_{i=1}^d \lambda_if_i(x, y) \right) \\
+&amp; = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x,y}\tilde P(x)P_\lambda \log Z_\lambda(x)\\
+&amp; = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x}\tilde P(x)\log Z_\lambda(x)\tag{2-11}
+\end{align*}
+\]</span> 最后一步用到了<span class="math inline">\(\sum_yP_\lambda = 1\)</span></p>
+<p>接下来的任务就是求 <span class="math inline">\(max_\lambda \Psi(\lambda)\)</span>，这个可以用梯度下降等方法求解，也可以用GIS，IIS等改进的优化方法。</p>
+<h3 id="和极大似然的关系">和极大似然的关系</h3>
+<p>已知训练数据的经验概率分布<span class="math inline">\(\tilde P(x,y)\)</span>，条件概率分布<span class="math inline">\(P(Y|X)\)</span>的对数似然函数为： <span class="math display">\[
+\mathcal{L}_{\tilde p}(P_\lambda) = \log \prod_{x,y} P_\lambda^{\tilde P(x,y)} = \sum_{x,y} \tilde P(x,y) \log P_\lambda \tag{2-12}
+\]</span> 当条件概率分布<span class="math inline">\(P(Y|X)\)</span>是2-10时的最大熵模型时，将2-10带入上式得： <span class="math display">\[
 \begin{align*}
-\mathcal{L}_{\tilde p}(P_\lambda) &=  \sum_{x,y} \tilde P(x,y) \log P_\lambda  \\
-& = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x,y}\tilde P(x,y)\log Z_\lambda(x)\\
-& = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x}\tilde P(x)\log Z_\lambda(x) \tag{2-13}
-\end{align*}</script><p>可以看到，2-13和2-11是相等的，即最大化似然函数$\mathcal{L}_{\tilde p}(P_\lambda)$和对偶函数$\Psi(\lambda)$等价，这证明<strong>最大熵模型学习中的对偶函数极大化等价于最大熵模型的极大似然估计。</strong></p>
+\mathcal{L}_{\tilde p}(P_\lambda) &amp;=  \sum_{x,y} \tilde P(x,y) \log P_\lambda  \\
+&amp; = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x,y}\tilde P(x,y)\log Z_\lambda(x)\\
+&amp; = \sum_{x,y} \tilde P(x, y) \sum_{i=1}^d\lambda_if_i(x, y) -\sum_{x}\tilde P(x)\log Z_\lambda(x) \tag{2-13}
+\end{align*}
+\]</span> 可以看到，2-13和2-11是相等的，即最大化似然函数<span class="math inline">\(\mathcal{L}_{\tilde p}(P_\lambda)\)</span>和对偶函数<span class="math inline">\(\Psi(\lambda)\)</span>等价，这证明<strong>最大熵模型学习中的对偶函数极大化等价于最大熵模型的极大似然估计。</strong></p>
 <p>这样，最大熵模型的学习问题就转换为具体<strong>求解对数似然函数极大化或对偶函数极大化的问题</strong>。</p>
-<h2 id="Softmax和Sigmoid怎么来的"><a href="#Softmax和Sigmoid怎么来的" class="headerlink" title="Softmax和Sigmoid怎么来的"></a>Softmax和Sigmoid怎么来的</h2><h3 id="回顾逻辑回归"><a href="#回顾逻辑回归" class="headerlink" title="回顾逻辑回归"></a>回顾逻辑回归</h3><p>回顾一下逻辑回归：</p>
-<script type="math/tex; mode=display">
-h({\bf x}) = \sigma({\bf w^Tx}) = \frac{1}{1+e^{-({\bf w^Tx})} }\tag{3-1}</script><p>这里的数据集形式为：$\{ {(\bf x_1}, y_1), ({\bf x_2}, y_2), \cdots, ({\bf x_N}, y_N) \}$</p>
-<p>这里$\bf w$和$\bf x$是一个d * 1的向量，而$y_i \in \{0, 1\}$</p>
+<h2 id="softmax和sigmoid怎么来的">Softmax和Sigmoid怎么来的</h2>
+<h3 id="回顾逻辑回归">回顾逻辑回归</h3>
+<p>回顾一下逻辑回归： <span class="math display">\[
+h({\bf x}) = \sigma({\bf w^Tx}) = \frac{1}{1+e^{-({\bf w^Tx})} }\tag{3-1}
+\]</span> 这里的数据集形式为：<span class="math inline">\(\{ {(\bf x_1}, y_1), ({\bf x_2}, y_2), \cdots, ({\bf x_N}, y_N) \}\)</span></p>
+<p>这里<span class="math inline">\(\bf w\)</span>和<span class="math inline">\(\bf x\)</span>是一个d * 1的向量，而<span class="math inline">\(y_i \in \{0, 1\}\)</span></p>
 <p>那么，Sigmoid函数是怎么来的呢？</p>
-<h3 id="回顾Softmax"><a href="#回顾Softmax" class="headerlink" title="回顾Softmax"></a>回顾Softmax</h3><p>此外，在看看多分类的Softmax：</p>
-<script type="math/tex; mode=display">
-h({\bf x}) = \left[ \begin{aligned}z_1 \\z_2 \\ ...\\z_K \end{aligned}\right]=\frac{1}{\sum_{j=1}^Ke^{\bf w_j^Tx} }\left[ \begin{aligned}e^{\bf w_1^Tx} \\e^{\bf w_2^Tx} \\ ...\\e^{\bf w_K^Tx} \end{aligned}\right] \tag{3-2}</script><p>对于第k个类别来说，</p>
-<script type="math/tex; mode=display">
-h_k({\bf x})=\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }\tag{3-3}</script><p>这里的数据集形式为：$\{ {(\bf x_1, y_1}), ({\bf x_2, y_2}), \cdots, ({\bf x_N, y_N}) \}$</p>
-<p>这里$\bf x$是一个D <em> 1的向量（D为特征数）。而${\bf y_i}$则是一个只有一个数字为1，其余都是0的K </em> 1维<strong>向量</strong>，用来表示这个样本属于哪个类别。</p>
-<p>参数$\bf W = \bf [w_1, w_2,\cdots,w_K]$为一个矩阵，每个类别都有一个D * 1的权重向量</p>
+<h3 id="回顾softmax">回顾Softmax</h3>
+<p>此外，在看看多分类的Softmax： <span class="math display">\[
+h({\bf x}) = \left[ \begin{aligned}z_1 \\z_2 \\ ...\\z_K \end{aligned}\right]=\frac{1}{\sum_{j=1}^Ke^{\bf w_j^Tx} }\left[ \begin{aligned}e^{\bf w_1^Tx} \\e^{\bf w_2^Tx} \\ ...\\e^{\bf w_K^Tx} \end{aligned}\right] \tag{3-2}
+\]</span> 对于第k个类别来说， <span class="math display">\[
+h_k({\bf x})=\frac{e^{\bf w_k^Tx} }{\sum_{j=1}^Ke^{\bf w_j^Tx} }\tag{3-3}
+\]</span> 这里的数据集形式为：<span class="math inline">\(\{ {(\bf x_1, y_1}), ({\bf x_2, y_2}), \cdots, ({\bf x_N, y_N}) \}\)</span></p>
+<p>这里<span class="math inline">\(\bf x\)</span>是一个D * 1的向量（D为特征数）。而<span class="math inline">\({\bf y_i}\)</span>则是一个只有一个数字为1，其余都是0的K * 1维<strong>向量</strong>，用来表示这个样本属于哪个类别。</p>
+<p>参数<span class="math inline">\(\bf W = \bf [w_1, w_2,\cdots,w_K]\)</span>为一个矩阵，每个类别都有一个D * 1的权重向量</p>
 <p>那么Softmax又是怎么来的呢？</p>
 <p>下面我们先看看Softmax需要满足的条件，然后从最大熵原理进行推导。</p>
-<h3 id="Softmax的条件"><a href="#Softmax的条件" class="headerlink" title="Softmax的条件"></a>Softmax的条件</h3><p>Softmax的对数似然函数为：</p>
-<script type="math/tex; mode=display">
-L({\bf W}) = \sum_{i=1}^N\sum_{k=1}^K y_k^{(i)}\ln h_k^{(i)} \tag{3-4}</script><p>其中$y_k^{(i)}$表示第i个样本的第k个类别的值，$h_k^{(i)}$表示第i个样本第k个类别3-3的值</p>
-<p>对第j个类别的权重$\bf w_j$其求偏导得：</p>
-<script type="math/tex; mode=display">
+<h3 id="softmax的条件">Softmax的条件</h3>
+<p>Softmax的对数似然函数为： <span class="math display">\[
+L({\bf W}) = \sum_{i=1}^N\sum_{k=1}^K y_k^{(i)}\ln h_k^{(i)} \tag{3-4}
+\]</span> 其中<span class="math inline">\(y_k^{(i)}\)</span>表示第i个样本的第k个类别的值，<span class="math inline">\(h_k^{(i)}\)</span>表示第i个样本第k个类别3-3的值</p>
+<p>对第j个类别的权重<span class="math inline">\(\bf w_j\)</span>其求偏导得： <span class="math display">\[
 \begin{align*}
-\frac{\partial L({\bf W})}{\partial \bf w_j} & =  \sum_i\sum_{k} y_k^{(i)} \frac{\partial \log h_k^{(i)} }{\partial \bf w_j}\\
-&= \sum_i\sum_{k} y_k^{(i)} \frac{1}{h_k^{(i)} }\frac{\partial h_k^{(i)} }{\partial \bf w_j}\\
-&= \sum_i \left(y_j^{(i)}  \frac{1}{h_j^{(i)} }h_j^{(i)} (1 - h_j^{(i)}){\bf x ^{(i)} } -\sum_{k\ne j}y_k^{(i)} \frac{1}{h_k^{(i)} }h_k^{(i)}h_j^{(i)}{\bf x^{(i)} } \right)\\
-&=\sum_i\left(y_j^{(i)} (1 - h_j^{(i)}){\bf x^{(i)} } - \sum_{k\ne j}y_k^{(i)} h_j^{(i)}{\bf x^{(i)} } \right)\\
-&= \sum_i \left(y_j^{(i)} -y_j^{(i)}h_j^{(i)}- \sum_{k\ne j}y_k^{(i)}h_j^{(i)}\right) {\bf x^{(i)} }\\
-&= \sum_i\left(y_j^{(i)} -\sum_{k}y_k^{(i)}h_j^{(i)}\right) {\bf x^{(i)} } \\
-&= \sum_i\left(y_j^{(i)} -h_j^{(i)}\sum_{k}y_k^{(i)}\right) {\bf x^{(i)} } \\
-&= \sum_i \left(y_j^{(i)}-h_j^{(i)}\right) {\bf x^{(i)} }
-\end{align*}</script><p>令导数为0，得：</p>
-<script type="math/tex; mode=display">
-\sum_i y_j^{(i)}{\bf x^{(i)} } = \sum_i h_j^{(i)} {\bf x^{(i)} }\tag{3-5}</script><p>注意到这里$\bf x$是一个D * 1维的向量，拆开来看就是对于每个特征d、每个类别j，都有：</p>
-<script type="math/tex; mode=display">
-\sum_i y_j^{(i)} x_d^{(i)} = \sum_i h_j^{(i)} x_d^{(i)} \tag{3-6}</script><p>注意$y_j^{(i)}$不为0当且仅当第i个样本为第j个类别。这表明对于任意一个类别j，有下面两项相等</p>
-<ul>
-<li>左边：每个样本若属于第j个类就将第d个特征的值进行累加的和</li>
-<li>右边：每个样本属于第j个类的概率乘上第d个特征的值的累加和</li>
-</ul>
-<h3 id="从最大熵推Softmax"><a href="#从最大熵推Softmax" class="headerlink" title="从最大熵推Softmax"></a>从最大熵推Softmax</h3><p>假设我们不知道Softmax的$h_j^{(i)}$长什么样，我们只知道是第i个样本$\bf x^{(i)}$属于第j个类别的概率，同时我们希望3-6的公式成立，并加上另外两个条件, 全部条件如下：</p>
-<script type="math/tex; mode=display">
+\frac{\partial L({\bf W})}{\partial \bf w_j} &amp; =  \sum_i\sum_{k} y_k^{(i)} \frac{\partial \log h_k^{(i)} }{\partial \bf w_j}\\
+&amp;= \sum_i\sum_{k} y_k^{(i)} \frac{1}{h_k^{(i)} }\frac{\partial h_k^{(i)} }{\partial \bf w_j}\\
+&amp;= \sum_i \left(y_j^{(i)}  \frac{1}{h_j^{(i)} }h_j^{(i)} (1 - h_j^{(i)}){\bf x ^{(i)} } -\sum_{k\ne j}y_k^{(i)} \frac{1}{h_k^{(i)} }h_k^{(i)}h_j^{(i)}{\bf x^{(i)} } \right)\\
+&amp;=\sum_i\left(y_j^{(i)} (1 - h_j^{(i)}){\bf x^{(i)} } - \sum_{k\ne j}y_k^{(i)} h_j^{(i)}{\bf x^{(i)} } \right)\\
+&amp;= \sum_i \left(y_j^{(i)} -y_j^{(i)}h_j^{(i)}- \sum_{k\ne j}y_k^{(i)}h_j^{(i)}\right) {\bf x^{(i)} }\\
+&amp;= \sum_i\left(y_j^{(i)} -\sum_{k}y_k^{(i)}h_j^{(i)}\right) {\bf x^{(i)} } \\
+&amp;= \sum_i\left(y_j^{(i)} -h_j^{(i)}\sum_{k}y_k^{(i)}\right) {\bf x^{(i)} } \\
+&amp;= \sum_i \left(y_j^{(i)}-h_j^{(i)}\right) {\bf x^{(i)} }
+\end{align*}
+\]</span> 令导数为0，得： <span class="math display">\[
+\sum_i y_j^{(i)}{\bf x^{(i)} } = \sum_i h_j^{(i)} {\bf x^{(i)} }\tag{3-5}
+\]</span> 注意到这里<span class="math inline">\(\bf x\)</span>是一个D * 1维的向量，拆开来看就是对于每个特征d、每个类别j，都有： <span class="math display">\[
+\sum_i y_j^{(i)} x_d^{(i)} = \sum_i h_j^{(i)} x_d^{(i)} \tag{3-6}
+\]</span> 注意<span class="math inline">\(y_j^{(i)}\)</span>不为0当且仅当第i个样本为第j个类别。这表明对于任意一个类别j，有下面两项相等 - 左边：每个样本若属于第j个类就将第d个特征的值进行累加的和 - 右边：每个样本属于第j个类的概率乘上第d个特征的值的累加和</p>
+<h3 id="从最大熵推softmax">从最大熵推Softmax</h3>
+<p>假设我们不知道Softmax的<span class="math inline">\(h_j^{(i)}\)</span>长什么样，我们只知道是第i个样本<span class="math inline">\(\bf x^{(i)}\)</span>属于第j个类别的概率，同时我们希望3-6的公式成立，并加上另外两个条件, 全部条件如下： <span class="math display">\[
 h_j \ge0 \\
 \sum_{j=1}^K h_j^{(i)}= 1\\
-\sum_i y_j^{(i)} x_d^{(i)} = \sum_i h_j^{(i)} x_d^{(i)}</script><p>我们也可以用最大熵原理来进行求解，模型的熵为：</p>
-<script type="math/tex; mode=display">
-- \sum_{i=1}^N \sum_{j=1}^K h_j^{(i)} \log h_j^{(i)}</script><p>可以同样使用拉格朗日乘子法，得：</p>
-<script type="math/tex; mode=display">
-\mathcal{L} = - \sum_{i=1}^N \sum_{j=1}^K h_j^{(i)} \log h_j^{(i)} + \sum_{i=1}^N \alpha_i \left(\sum_{j=1}^K (h_j^{(i)} - 1)\right)+ \sum_{d=1}^D \sum_{j=1}^K w_{dj}\left(\sum_{i=1}^N \left (( h_j^{(i)} -y_j^{(i)}) x_d^{(i)} \right)\right)\tag{3-7}</script><p>对$h_j^{(i)}$求偏导，得：</p>
-<script type="math/tex; mode=display">
+\sum_i y_j^{(i)} x_d^{(i)} = \sum_i h_j^{(i)} x_d^{(i)}
+\]</span> 我们也可以用最大熵原理来进行求解，模型的熵为： <span class="math display">\[
+- \sum_{i=1}^N \sum_{j=1}^K h_j^{(i)} \log h_j^{(i)}
+\]</span></p>
+<p>可以同样使用拉格朗日乘子法，得： <span class="math display">\[
+\mathcal{L} = - \sum_{i=1}^N \sum_{j=1}^K h_j^{(i)} \log h_j^{(i)} + \sum_{i=1}^N \alpha_i \left(\sum_{j=1}^K (h_j^{(i)} - 1)\right)+ \sum_{d=1}^D \sum_{j=1}^K w_{dj}\left(\sum_{i=1}^N \left (( h_j^{(i)} -y_j^{(i)}) x_d^{(i)} \right)\right)\tag{3-7}
+\]</span></p>
+<p>对<span class="math inline">\(h_j^{(i)}\)</span>求偏导，得： <span class="math display">\[
 \begin{align*}
-\frac{\partial\mathcal{L} }{\partial h_j^{(i)} } &= - \sum_{i=1}^N \sum_{j=1}^K h_j^{(i)} \log h_j^{(i)} + \sum_{i=1}^N \alpha_i \left(\sum_{j=1}^K (h_j^{(i)} - 1)\right)+ \sum_{d=1}^D \sum_{j=1}^K w_{dj}\left(\sum_{i=1}^N \left ((h_j^{(i)} -y_j^{(i)}) x_d^{(i)} \right)\right)\\
-&=  -(\log h_j^{(i)} +1)+ \alpha_i+\sum_{d=1}^D  w_{dj} x_d^{(i)}\\
-&=  -\log h_j^{(i)} -1+ \alpha_i +{\bf w_j^Tx^{(i)} }\tag{3-8}
-\end{align*}</script><p>令偏导为0，得：</p>
-<script type="math/tex; mode=display">
-h_j^{(i)}  = e^{-1+ \alpha_i + {\bf w_j^Tx^{(i)} } }\tag{3-9}</script><p>又因为$\sum_{j=1}^K h_j^{(i)}= 1$因此有：</p>
-<script type="math/tex; mode=display">
+\frac{\partial\mathcal{L} }{\partial h_j^{(i)} } &amp;= - \sum_{i=1}^N \sum_{j=1}^K h_j^{(i)} \log h_j^{(i)} + \sum_{i=1}^N \alpha_i \left(\sum_{j=1}^K (h_j^{(i)} - 1)\right)+ \sum_{d=1}^D \sum_{j=1}^K w_{dj}\left(\sum_{i=1}^N \left ((h_j^{(i)} -y_j^{(i)}) x_d^{(i)} \right)\right)\\
+&amp;=  -(\log h_j^{(i)} +1)+ \alpha_i+\sum_{d=1}^D  w_{dj} x_d^{(i)}\\
+&amp;=  -\log h_j^{(i)} -1+ \alpha_i +{\bf w_j^Tx^{(i)} }\tag{3-8}
+\end{align*}
+\]</span> 令偏导为0，得： <span class="math display">\[
+h_j^{(i)}  = e^{-1+ \alpha_i + {\bf w_j^Tx^{(i)} } }\tag{3-9}
+\]</span> 又因为<span class="math inline">\(\sum_{j=1}^K h_j^{(i)}= 1\)</span>因此有： <span class="math display">\[
 \begin{align*}
-\sum_{j=1}^Kh_j^{(i)}  &= \sum_{j=1}^Ke^{-1+ \alpha_i - {\bf w_j^Tx^{(i)} } } = e^{\alpha_i} \sum_{j=1}^Ke^{-1+ {\bf w_j^Tx^{(i)} }} =1\\
-e^{\alpha_i} &= \frac{1}{\sum_{j=1}^Ke^{-1+ {\bf w_j^Tx^{(i)} }} }
-\end{align*}</script><p>将上式带入3-9，得：</p>
-<script type="math/tex; mode=display">
+\sum_{j=1}^Kh_j^{(i)}  &amp;= \sum_{j=1}^Ke^{-1+ \alpha_i - {\bf w_j^Tx^{(i)} } } = e^{\alpha_i} \sum_{j=1}^Ke^{-1+ {\bf w_j^Tx^{(i)} }} =1\\
+e^{\alpha_i} &amp;= \frac{1}{\sum_{j=1}^Ke^{-1+ {\bf w_j^Tx^{(i)} }} }
+\end{align*}
+\]</span> 将上式带入3-9，得： <span class="math display">\[
 \begin{align*}
-h_j^{(i)}  &= \frac{e^{-1+{\bf w_j^Tx^{(i)} }} }{\sum_{j=1}^Ke^{-1+ {\bf w_j^Tx^{(i)} }} }\\
-&= \frac{e^{ {\bf w_j^Tx^{(i)} }} }{\sum_{j=1}^Ke^{ {\bf w_j^Tx^{(i)} }} } 
-\end{align*}</script><p>这就是Softmax！得到了Softmax，也就得到了Sigmoid，因为那是K=2的特殊情况。</p>
-<p>回想一下我们做了啥，首先对Softmax求导，令其导数为0，得到了Softmax需要满足的约束，然后在满足约束的情况下求解 最大熵模型即可，得到的正是 Softmax 模型，所以两者是等价的。 </p>
-<h3 id="最大熵模型和Softmax等价性理解"><a href="#最大熵模型和Softmax等价性理解" class="headerlink" title="最大熵模型和Softmax等价性理解"></a>最大熵模型和Softmax等价性理解</h3><p>其实从公事上看，最大熵模型和Softmax很像，就是最大熵模型里有个特征函数$f$。</p>
-<p>之前我们推导的最大熵模型为：</p>
-<script type="math/tex; mode=display">
+h_j^{(i)}  &amp;= \frac{e^{-1+{\bf w_j^Tx^{(i)} }} }{\sum_{j=1}^Ke^{-1+ {\bf w_j^Tx^{(i)} }} }\\
+&amp;= \frac{e^{ {\bf w_j^Tx^{(i)} }} }{\sum_{j=1}^Ke^{ {\bf w_j^Tx^{(i)} }} } 
+\end{align*}
+\]</span> 这就是Softmax！得到了Softmax，也就得到了Sigmoid，因为那是K=2的特殊情况。</p>
+<p>回想一下我们做了啥，首先对Softmax求导，令其导数为0，得到了Softmax需要满足的约束，然后在满足约束的情况下求解 最大熵模型即可，得到的正是 Softmax 模型，所以两者是等价的。</p>
+<h3 id="最大熵模型和softmax等价性理解">最大熵模型和Softmax等价性理解</h3>
+<p>其实从公事上看，最大熵模型和Softmax很像，就是最大熵模型里有个特征函数<span class="math inline">\(f\)</span>。</p>
+<p>之前我们推导的最大熵模型为： <span class="math display">\[
 P_w = P(y|x) = \frac{1}{Z_w(x)}e^{\sum_{i=1}^d {w_i}f_i(x, y)} \\
-其中 , Z_w(x) =\sum_y  e^{\sum_{i=1}^d w_i f_i(x, y) }</script><p>其相应的y为标量，表示第K个类别，而我们的Softmax的y则为类别one-hot后的向量。</p>
-<p>如果把最大熵模型写为向量的形式，即</p>
-<script type="math/tex; mode=display">
+其中 , Z_w(x) =\sum_y  e^{\sum_{i=1}^d w_i f_i(x, y) }
+\]</span> 其相应的y为标量，表示第K个类别，而我们的Softmax的y则为类别one-hot后的向量。</p>
+<p>如果把最大熵模型写为向量的形式，即 <span class="math display">\[
 P_w = P(y|x) = \frac{1}{Z_w(x)}e^{ {\bf w^Tf}({\bf x}, y)}\\
-其中 , Z_w(x) =\sum_y  e^{ {\bf w^Tf}({\bf x}, y) }</script><p>最大熵模型有一个特征函数$f$，如果将特征函数用如下表示：</p>
-<script type="math/tex; mode=display">
+其中 , Z_w(x) =\sum_y  e^{ {\bf w^Tf}({\bf x}, y) }
+\]</span> 最大熵模型有一个特征函数<span class="math inline">\(f\)</span>，如果将特征函数用如下表示：</p>
+<p><span class="math display">\[
 f({\bf x^{(i)} }, y^{(i)})  = \left\{ 
 \begin{array}{ll}
-    {\bf x^{(i)} },   &y^{(i)} =k\\ 
-    0,   &\text{otherwise}
+    {\bf x^{(i)} },   &amp;y^{(i)} =k\\ 
+    0,   &amp;\text{otherwise}
 \end{array} 
-\right.</script><p>则最大熵模型相当于：</p>
-<script type="math/tex; mode=display">
+\right.
+\]</span></p>
+<p>则最大熵模型相当于： <span class="math display">\[
 P_w = P(y_k^{(i)}=k|x) = \frac{1}{Z_w(x)}e^{\bf w^Tx^{(i)} }\\
-其中 , Z_w(x) =\sum_y  e^{ {\bf w^Tf}({\bf x}, y_j = k) }</script><p>是不是和Softmax一样了！</p>
+其中 , Z_w(x) =\sum_y  e^{ {\bf w^Tf}({\bf x}, y_j = k) }
+\]</span></p>
+<p>是不是和Softmax一样了！</p>
 <p>其实，特征函数就相当于模型的眼睛：</p>
 <blockquote>
 <p>给模型一句自然语言，它肯定不认识。我们必须抽出像 n 元组（n-gram）、 词性（part-of-speech tag）等特征，才能把数据传给模型。</p>
-<p>from 如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎<br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/24094554/answer/108271031">https://www.zhihu.com/question/24094554/answer/108271031</a></p>
+<p>from 如何理解最大熵模型里面的特征？ - Semiring的回答 - 知乎 https://www.zhihu.com/question/24094554/answer/108271031</p>
 </blockquote>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li>《统计学习方法》 - 李航</li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ooon/p/5829341.html">Logistic 最大熵 朴素贝叶斯 HMM MEMM CRF 几个模型的总结</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/buring_/article/details/43342341">最大熵与逻辑回归的等价性</a></li>
@@ -554,12 +573,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -571,6 +596,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -579,13 +606,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -604,7 +632,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

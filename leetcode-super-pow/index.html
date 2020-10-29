@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">498</span>
+            <span class="post-count">499</span>
         </span>
     </span>
 
@@ -115,7 +115,8 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Super-Pow"><a href="#leetcode-Super-Pow" class="headerlink" title="leetcode Super Pow"></a>leetcode Super Pow</h3><p>Your task is to calculate $a^b$ mod 1337​ where _a_ is a positive integer and _b_ is an extremely large positive integer given in the form of an array.</p>
+<h3 id="leetcode-super-pow">leetcode Super Pow</h3>
+<p>Your task is to calculate <span class="math inline">\(a^b\)</span> mod 1337​ where <em>a</em> is a positive integer and <em>b</em> is an extremely large positive integer given in the form of an array.</p>
 <p><strong>Example1:</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; 2</span><br><span class="line">b &#x3D; [3]</span><br><span class="line"></span><br><span class="line">Result: 8</span><br></pre></td></tr></table></figure>
 <p><strong>Example2:</strong></p>
@@ -126,25 +127,32 @@
 <p>题意：给定数a和用数组表示的一个很大的数b，求a^b % 1337</p>
 <p>思路：</p>
 <blockquote>
-<p>一个数e可以写成如下形式：</p>
-<script type="math/tex; mode=display">
-e=\sum _{i=0}^{n-1}a_{i}2^{i}</script><p>显然，对于b的e次方，有：</p>
-<script type="math/tex; mode=display">
-b^{e}=b^{\left(\sum _{i=0}^{n-1}a_{i}2^{i}\right)}=\prod _{i=0}^{n-1}\left(b^{2^{i}}\right)^{a_{i}}</script><script type="math/tex; mode=display">
-c\equiv \prod _{i=0}^{n-1}\left(b^{2^{i}}\right)^{a_{i}}\ ({\mbox{mod}}\ m)</script><p>此外，还有：</p>
-<p>c mod m = (a ⋅ b) mod m  = [(a mod m) ⋅ (b mod m)] mod m</p>
-<p>参照wiki :<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Modular_exponentiation">https://en.wikipedia.org/wiki/Modular_exponentiation</a></p>
+<p>一个数e可以写成如下形式： <span class="math display">\[
+e=\sum _{i=0}^{n-1}a_{i}2^{i}
+\]</span></p>
+<p>显然，对于b的e次方，有：</p>
+<p><span class="math display">\[
+b^{e}=b^{\left(\sum _{i=0}^{n-1}a_{i}2^{i}\right)}=\prod _{i=0}^{n-1}\left(b^{2^{i}}\right)^{a_{i}}
+\]</span></p>
+<p><span class="math display">\[
+c\equiv \prod _{i=0}^{n-1}\left(b^{2^{i}}\right)^{a_{i}}\ ({\mbox{mod}}\ m)
+\]</span></p>
+<p>此外，还有：</p>
+<p>c mod m = (a ⋅ b) mod m  = [(a mod m) ⋅ (b mod m)] mod m</p>
+<p>参照wiki :https://en.wikipedia.org/wiki/Modular_exponentiation</p>
 </blockquote>
 <p>看懂了上面的式子后，回到此题，此题b用数组表示，其实就是把上面的数e的2改为10即可。</p>
 <p>因此，用Python可以得到此题的写法为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">superPow</span>(<span class="params">self, a, b</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type a: int</span></span><br><span class="line"><span class="string">        :type b: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ans = <span class="number">1</span></span><br><span class="line">        mod = <span class="number">1337</span></span><br><span class="line">        <span class="keyword">for</span> bi <span class="keyword">in</span> b[::<span class="number">-1</span>]:</span><br><span class="line">            ans = ans * a ** bi % mod</span><br><span class="line">            a = a ** <span class="number">10</span> % mod</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>当然，我们可以用快速幂来加速</p>
 <p>C++</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> mod = <span class="number">1337</span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">superPow</span><span class="params">(<span class="keyword">int</span> a, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> n = b.size();</span><br><span class="line">		<span class="keyword">int</span> ans = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">			ans = ans * quick_pow(a, b[i]) % mod;</span><br><span class="line">			a = quick_pow(a, <span class="number">10</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">quick_pow</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> ans = <span class="number">1</span>;</span><br><span class="line">		a %= mod;</span><br><span class="line">		<span class="keyword">while</span> (b &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (b &amp; <span class="number">1</span>) ans = ans * a % mod;</span><br><span class="line">			a = a * a %mod;</span><br><span class="line">			b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>Java</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mod = <span class="number">1337</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">superPow</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span>[] b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = b.length;</span><br><span class="line">		<span class="keyword">int</span> ans = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">			ans = ans * quick_pow(a, b[i]) % mod;</span><br><span class="line">			a = quick_pow(a, <span class="number">10</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">quick_pow</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> ans = <span class="number">1</span>;</span><br><span class="line">		a %= mod;</span><br><span class="line">		<span class="keyword">while</span> (b &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> ((b &amp; <span class="number">1</span>) !=<span class="number">0</span>) ans = ans * a % mod;</span><br><span class="line">			a = a * a % mod;</span><br><span class="line">			b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>本题是leetcode 372 Sum of Two Integers 题解</p>
-<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -360,12 +368,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -377,6 +391,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -385,13 +401,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -410,7 +427,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

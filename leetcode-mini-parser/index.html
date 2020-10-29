@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">441</span>
+            <span class="post-count">442</span>
         </span>
     </span>
 
@@ -115,8 +115,9 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Mini-Parser"><a href="#leetcode-Mini-Parser" class="headerlink" title="leetcode Mini Parser"></a>leetcode Mini Parser</h3><p>Given a nested list of integers represented as a string, implement a parser to deserialize it.</p>
-<p>Each element is either an integer, or a list — whose elements may also be integers or other lists.</p>
+<h3 id="leetcode-mini-parser">leetcode Mini Parser</h3>
+<p>Given a nested list of integers represented as a string, implement a parser to deserialize it.</p>
+<p>Each element is either an integer, or a list -- whose elements may also be integers or other lists.</p>
 <p><strong>Note:</strong> You may assume that the string is well-formed:</p>
 <ul>
 <li>String is non-empty.</li>
@@ -134,12 +135,13 @@
 <p>思路：</p>
 <p>第3个A此题 怀疑前两个是出题的人自己测试的= = 本来发了discuss 想想还是只发blog吧~</p>
 <p>本题的NestedInteger结构 和<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-datastructure/">341. Flatten Nested List Iterator</a> 类似</p>
-<p>由于没有空格，所以第一个字母不是’[‘的说明只有一个数字。直接返回NestedInteger(int(s))</p>
+<p>由于没有空格，所以第一个字母不是'['的说明只有一个数字。直接返回NestedInteger(int(s))</p>
 <p>接下来，用一个栈来维护，对于左括号[的，当前的NestedInteger 进栈，对于右括号，当前数字放入NestedInteger 栈不为空则把栈顶的NestedInteger添加当前的NestedInteger，并且出栈。</p>
 <p>此外，注意‘-’的情况</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deserialize</span>(<span class="params">self, s</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: NestedInteger</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> s[<span class="number">0</span>] != <span class="string">&#x27;[&#x27;</span>: <span class="keyword">return</span> NestedInteger(int(s))</span><br><span class="line">        stack = []</span><br><span class="line">        n = len(s)</span><br><span class="line">        cur = minus = num = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n):</span><br><span class="line">            <span class="keyword">if</span> s[i] == <span class="string">&#x27;[&#x27;</span>:</span><br><span class="line">                <span class="keyword">if</span> cur <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                    stack.append(cur)</span><br><span class="line">                cur = NestedInteger()</span><br><span class="line">            <span class="keyword">elif</span> s[i] <span class="keyword">in</span> [<span class="string">&#x27;]&#x27;</span>, <span class="string">&#x27;,&#x27;</span>]:</span><br><span class="line">                <span class="keyword">if</span> num <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                    <span class="keyword">if</span> minus: num *= <span class="number">-1</span></span><br><span class="line">                    cur.add(num)</span><br><span class="line">                <span class="keyword">if</span> s[i] == <span class="string">&#x27;]&#x27;</span> <span class="keyword">and</span> stack:</span><br><span class="line">                    stack[<span class="number">-1</span>].add(cur)</span><br><span class="line">                    cur = stack.pop()</span><br><span class="line">                minus = num = <span class="literal">None</span></span><br><span class="line">            <span class="keyword">elif</span> s[i] == <span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">                minus = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> num <span class="keyword">is</span> <span class="literal">None</span>: num = <span class="number">0</span></span><br><span class="line">                num = num * <span class="number">10</span> + ord(s[i]) - <span class="number">48</span></span><br><span class="line">        <span class="keyword">return</span> cur</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>本题是leetcode 385 Mini Parser 的题解</p>
-<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p>更多题解可以查看：<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -355,12 +357,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -372,6 +380,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -380,13 +390,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -405,7 +416,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

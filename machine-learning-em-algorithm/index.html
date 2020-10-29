@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.3k</span>
+            <span class="post-count">3.4k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">14 min</span>
+            <span class="post-count">15 min</span>
         </span>
     </span>
 </div>
@@ -116,76 +116,79 @@
        
   <p>EM算法即期望最大化算法(Expectation-Maximum）算法，它用于含有因变量的概率模型参数的极大似然估计，或极大后验估计。很多机器学习算法采用它进行求解，如高斯混合模型、LDA主题模型的变分推断等。</p>
 <a id="more"></a>
-<h2 id="EM算法的引入"><a href="#EM算法的引入" class="headerlink" title="EM算法的引入"></a>EM算法的引入</h2><p>下面的例子来自[1]。</p>
-<h3 id="极大似然估计"><a href="#极大似然估计" class="headerlink" title="极大似然估计"></a>极大似然估计</h3><p>假设有两枚硬币A和B，每次选一个硬币来抛10次。现在已经进行了5轮（也就是选了5次硬币，并分别抛了10次）结果如下（H表示正面，T表示反面）：</p>
-<p><img src="../images/machine-learning-em-algorithm/em-algorithm-maximum-likelihood.png" alt="em-algorithm-maximum-likelihood"></p>
+<h2 id="em算法的引入">EM算法的引入</h2>
+<p>下面的例子来自[1]。</p>
+<h3 id="极大似然估计">极大似然估计</h3>
+<p>假设有两枚硬币A和B，每次选一个硬币来抛10次。现在已经进行了5轮（也就是选了5次硬币，并分别抛了10次）结果如下（H表示正面，T表示反面）：</p>
+<figure>
+<img src="../images/machine-learning-em-algorithm/em-algorithm-maximum-likelihood.png" alt="em-algorithm-maximum-likelihood" /><figcaption>em-algorithm-maximum-likelihood</figcaption>
+</figure>
 <p>现在要求抛一次硬币A和硬币B正面朝上的概率（已知选的是A或者B硬币，求正面的概率），则我们可以简单的用极大似然估计来求解：</p>
-<p>以硬币A的概率为例，抛硬币结果满足二项分布，可以写出似然函数：</p>
-<script type="math/tex; mode=display">
+<p>以硬币A的概率为例，抛硬币结果满足二项分布，可以写出似然函数： <span class="math display">\[
 \begin{align*}
-L &= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
-&= \hat{P_A}^{24}({1 -\hat{P_A} })^{6} 
-\end{align*}</script><p>令其倒数为0，则有</p>
-<script type="math/tex; mode=display">
-\frac{\partial L}{\partial \hat P_A} = 24{P_A}^{23}({1 -\hat{P_A} })^{6} - 6{P_A}^{24}({1 -\hat{P_A} })^{5}= 0\\</script><p>可得$\hat{P_A} = \frac{4}{5} = 0.80$，这和我们直觉的计算是一样的，同理可以计算$\hat{P_B}$：</p>
-<script type="math/tex; mode=display">
+L &amp;= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
+&amp;= \hat{P_A}^{24}({1 -\hat{P_A} })^{6} 
+\end{align*}
+\]</span> 令其倒数为0，则有 <span class="math display">\[
+\frac{\partial L}{\partial \hat P_A} = 24{P_A}^{23}({1 -\hat{P_A} })^{6} - 6{P_A}^{24}({1 -\hat{P_A} })^{5}= 0\\
+\]</span> 可得<span class="math inline">\(\hat{P_A} = \frac{4}{5} = 0.80\)</span>，这和我们直觉的计算是一样的，同理可以计算<span class="math inline">\(\hat{P_B}\)</span>： <span class="math display">\[
 \hat P_A = \frac{24}{24 + 6} = 0.80\\
-\hat P_B = \frac{9}{9 + 11} = 0.45</script><h3 id="EM-算法"><a href="#EM-算法" class="headerlink" title="EM 算法"></a>EM 算法</h3><p>现在让例子更复杂一点，假设我们每一轮不知道选的是硬币A还是硬币B，只知道每一轮10次的结果：</p>
-<div class="table-container">
+\hat P_B = \frac{9}{9 + 11} = 0.45
+\]</span></p>
+<h3 id="em-算法">EM 算法</h3>
+<p>现在让例子更复杂一点，假设我们每一轮不知道选的是硬币A还是硬币B，只知道每一轮10次的结果：</p>
 <table>
 <thead>
-<tr>
-<th style="text-align:left">硬币</th>
+<tr class="header">
+<th style="text-align: left;">硬币</th>
 <th>正面数</th>
 <th>反面数</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left">？</td>
+<tr class="odd">
+<td style="text-align: left;">？</td>
 <td>5</td>
 <td>5</td>
 </tr>
-<tr>
-<td style="text-align:left">？</td>
+<tr class="even">
+<td style="text-align: left;">？</td>
 <td>9</td>
 <td>1</td>
 </tr>
-<tr>
-<td style="text-align:left">？</td>
+<tr class="odd">
+<td style="text-align: left;">？</td>
 <td>8</td>
 <td>2</td>
 </tr>
-<tr>
-<td style="text-align:left">？</td>
+<tr class="even">
+<td style="text-align: left;">？</td>
 <td>4</td>
 <td>6</td>
 </tr>
-<tr>
-<td style="text-align:left">？</td>
+<tr class="odd">
+<td style="text-align: left;">？</td>
 <td>7</td>
 <td>3</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>现在仍然要求抛一次硬币A和硬币B正面的概率，怎么做呢？</p>
-<p>这个时候相当于有隐变量 $\{\bf z_1, z_2, z_3, z_4, z_5\}$，控制着我们每一轮抛硬币的时候是选择硬币A还是硬币B，比如$\bf z_1$代表第一轮投掷的时候使用硬币是A还是B。但是这个隐变量${\bf z}$我们是不知道的，也就无法用极大似然估计法来估计$\hat P_A$和$\hat P_B$。然而如果我们要估计隐变量${\bf z}$，那么我们又需要知道$\hat P_A$和$\hat P_B$。这使得这个问题进入了死循环，因为我们既不知道隐变量$\bf z$, 也不知道$\hat P_A$和$\hat P_B$。</p>
+<p>这个时候相当于有隐变量 <span class="math inline">\(\{\bf z_1, z_2, z_3, z_4, z_5\}\)</span>，控制着我们每一轮抛硬币的时候是选择硬币A还是硬币B，比如<span class="math inline">\(\bf z_1\)</span>代表第一轮投掷的时候使用硬币是A还是B。但是这个隐变量<span class="math inline">\({\bf z}\)</span>我们是不知道的，也就无法用极大似然估计法来估计<span class="math inline">\(\hat P_A\)</span>和<span class="math inline">\(\hat P_B\)</span>。然而如果我们要估计隐变量<span class="math inline">\({\bf z}\)</span>，那么我们又需要知道<span class="math inline">\(\hat P_A\)</span>和<span class="math inline">\(\hat P_B\)</span>。这使得这个问题进入了死循环，因为我们既不知道隐变量<span class="math inline">\(\bf z\)</span>, 也不知道<span class="math inline">\(\hat P_A\)</span>和<span class="math inline">\(\hat P_B\)</span>。</p>
 <p>这时候EM算法就出来救场啦。EM算法的步骤如下：</p>
-<ol>
-<li>随机初始化$\hat P_A^{(0)}$和$\hat P_B^{(0)}$</li>
-<li>用$\hat P_A^{(0)}$和$\hat P_B^{(0)}$估计隐变量$\bf z$</li>
-<li>根据估计出的隐变量$\bf z$来估计$\hat P_A^{(1)}$和$\hat P_B^{(1)}$</li>
+<ol type="1">
+<li>随机初始化<span class="math inline">\(\hat P_A^{(0)}\)</span>和<span class="math inline">\(\hat P_B^{(0)}\)</span></li>
+<li>用<span class="math inline">\(\hat P_A^{(0)}\)</span>和<span class="math inline">\(\hat P_B^{(0)}\)</span>估计隐变量<span class="math inline">\(\bf z\)</span></li>
+<li>根据估计出的隐变量<span class="math inline">\(\bf z\)</span>来估计<span class="math inline">\(\hat P_A^{(1)}\)</span>和<span class="math inline">\(\hat P_B^{(1)}\)</span></li>
 <li>重复2-3步直到P不再变化或变化较小</li>
 </ol>
-<p>现在我们来尝试手工计算一下，假设我们初始化$\hat P_A^{(0)} = 0.60$和$\hat P_B^{(0)}= 0.50$，现在来用极大似然法估计隐变量$\bf z$。</p>
-<p>对于第一轮，如果是硬币A，可以计算出生成的概率为$a = 0.6^5(1-0.6)^5=0.0007962624$, ，同理得如果是硬币B$b = 0.5^5(1-0.5)^5=0.0009765625$，这个值越大，说明越有可能使用该硬币。</p>
-<p>则使用硬币A的概率为$a / (a + b) = 0.45$, 使用硬币B的概率为$b / (a + b) = 0.55$。</p>
-<p>接着根据估计出的隐变量$\bf z$来估计$\hat P_A^{(1)}$和$\hat P_B^{(1)}$：我们来计算一下以0.45的概率选择硬币A，0.55的概率选择硬币B时，5个为正的结果中有$0.45 <em> 5 = 2.25$是A“产生”的，有$0.55 </em> 5 = 2.75$个是B”产生”的。以此类推，可以得到下面的表格：</p>
-<div class="table-container">
+<p>现在我们来尝试手工计算一下，假设我们初始化<span class="math inline">\(\hat P_A^{(0)} = 0.60\)</span>和<span class="math inline">\(\hat P_B^{(0)}= 0.50\)</span>，现在来用极大似然法估计隐变量<span class="math inline">\(\bf z\)</span>。</p>
+<p>对于第一轮，如果是硬币A，可以计算出生成的概率为<span class="math inline">\(a = 0.6^5(1-0.6)^5=0.0007962624\)</span>, ，同理得如果是硬币B<span class="math inline">\(b = 0.5^5(1-0.5)^5=0.0009765625\)</span>，这个值越大，说明越有可能使用该硬币。</p>
+<p>则使用硬币A的概率为<span class="math inline">\(a / (a + b) = 0.45\)</span>, 使用硬币B的概率为<span class="math inline">\(b / (a + b) = 0.55\)</span>。</p>
+<p>接着根据估计出的隐变量<span class="math inline">\(\bf z\)</span>来估计<span class="math inline">\(\hat P_A^{(1)}\)</span>和<span class="math inline">\(\hat P_B^{(1)}\)</span>：我们来计算一下以0.45的概率选择硬币A，0.55的概率选择硬币B时，5个为正的结果中有<span class="math inline">\(0.45 * 5 = 2.25\)</span>是A“产生&quot;的，有<span class="math inline">\(0.55 * 5 = 2.75\)</span>个是B”产生&quot;的。以此类推，可以得到下面的表格：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>选择A的概率</th>
 <th>A的正面贡献</th>
 <th>A的反面贡献</th>
@@ -195,7 +198,7 @@ L &= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>0.45</td>
 <td>2.25</td>
 <td>2.25</td>
@@ -203,7 +206,7 @@ L &= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
 <td>2.75</td>
 <td>2.75</td>
 </tr>
-<tr>
+<tr class="even">
 <td>0.80</td>
 <td>7.24</td>
 <td>0.8</td>
@@ -211,7 +214,7 @@ L &= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
 <td>1.76</td>
 <td>0.20</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>0.73</td>
 <td>5.87</td>
 <td>1.47</td>
@@ -219,7 +222,7 @@ L &= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
 <td>2.13</td>
 <td>0.53</td>
 </tr>
-<tr>
+<tr class="even">
 <td>0.35</td>
 <td>1.41</td>
 <td>2.11</td>
@@ -227,7 +230,7 @@ L &= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
 <td>2.59</td>
 <td>3.89</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>0.65</td>
 <td>4.53</td>
 <td>1.94</td>
@@ -237,97 +240,114 @@ L &= \prod_{i=1}^{30}{\hat P_A}^{y_i}({1 -\hat P_A})^{(1- y_i)} \\
 </tr>
 </tbody>
 </table>
-</div>
-<p>统计得到：A总共有21.3次正面，8.6次反面，B有11.7次正面，8.4次反面，因此更新新的概率</p>
-<script type="math/tex; mode=display">
+<p>统计得到：A总共有21.3次正面，8.6次反面，B有11.7次正面，8.4次反面，因此更新新的概率 <span class="math display">\[
 \hat P_A^{(1)} = \frac{21.3}{21.3+8.6} \approx 0.71\\
-\hat P_B^{(1)}  = \frac{11.7}{11.7+8.4} \approx 0.58</script><p>重复上面的过程，到第10次的时候收敛有:</p>
-<script type="math/tex; mode=display">
+\hat P_B^{(1)}  = \frac{11.7}{11.7+8.4} \approx 0.58
+\]</span> 重复上面的过程，到第10次的时候收敛有: <span class="math display">\[
 \hat P_A^{(10)} \approx 0.80\\
-\hat P_B^{(10)} \approx 0.52</script><p>用下面的代码来计算表示:</p>
+\hat P_B^{(10)} \approx 0.52
+\]</span> 用下面的代码来计算表示:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EMSolve</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, pa, pb, max_round=<span class="number">100</span></span>):</span></span><br><span class="line">        self.heads_cnt = [<span class="number">5</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">4</span>, <span class="number">7</span>]  <span class="comment"># 正面次数</span></span><br><span class="line">        self.round_num = <span class="number">10</span></span><br><span class="line">        self.pa = pa</span><br><span class="line">        self.pb = pb</span><br><span class="line">        self.max_round = max_round</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">e_step</span>(<span class="params">self</span>):</span></span><br><span class="line">        a_cnt = []</span><br><span class="line">        b_cnt = []</span><br><span class="line">        <span class="keyword">for</span> pos_cnt <span class="keyword">in</span> self.heads_cnt:</span><br><span class="line">            likelihood_a = (self.pa ** pos_cnt) * ((<span class="number">1</span> - self.pa) ** (self.round_num - pos_cnt))</span><br><span class="line">            likelihood_b = (self.pb ** pos_cnt) * ((<span class="number">1</span> - self.pb) ** (self.round_num - pos_cnt))</span><br><span class="line">            choose_a = likelihood_a / (likelihood_a + likelihood_b)</span><br><span class="line">            choose_b = likelihood_b / (likelihood_a + likelihood_b)</span><br><span class="line">            a_cnt.append([choose_a * pos_cnt, choose_a * (self.round_num - pos_cnt)])</span><br><span class="line">            b_cnt.append([choose_b * pos_cnt, choose_b * (self.round_num - pos_cnt)])</span><br><span class="line">            <span class="comment"># print(&#x27;a: &#x27;, round(choose_a, 2), round(a_cnt[-1][0], 2), round(a_cnt[-1][1], 2), &#x27;\tb:&#x27;, round(choose_b, 2), round(b_cnt[-1][0], 2), round(b_cnt[-1][1], 2))</span></span><br><span class="line">        <span class="keyword">return</span> a_cnt, b_cnt</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">m_step</span>(<span class="params">self, a_cnt, b_cnt</span>):</span></span><br><span class="line">        total_a = sum(sum(x) <span class="keyword">for</span> x <span class="keyword">in</span> a_cnt)</span><br><span class="line">        new_a = sum(x[<span class="number">0</span>] <span class="keyword">for</span> x <span class="keyword">in</span> a_cnt) / total_a</span><br><span class="line"></span><br><span class="line">        total_b = sum(sum(x) <span class="keyword">for</span> x <span class="keyword">in</span> b_cnt)</span><br><span class="line">        new_b = sum(x[<span class="number">0</span>] <span class="keyword">for</span> x <span class="keyword">in</span> b_cnt) / total_b</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> new_a, new_b</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> epoch <span class="keyword">in</span> range(self.max_round):</span><br><span class="line">            a_cnt, b_cnt = self.e_step()</span><br><span class="line">            new_pa, new_pb = self.m_step(a_cnt, b_cnt)</span><br><span class="line">            print(epoch, new_pa, new_pb)</span><br><span class="line">            <span class="keyword">if</span> abs(new_pa - self.pa) &lt; <span class="number">1e-4</span> <span class="keyword">and</span> abs(new_pb - self.pb) &lt; <span class="number">1e-4</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            self.pa, self.pb = new_pa, new_pb</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    EMSolve(pa=<span class="number">0.6</span>, pb=<span class="number">0.5</span>).start()</span><br></pre></td></tr></table></figure>
 <p>那么，上面的做法的理论依据是什么呢？是不是一定能收敛到最优解呢？请继续往下阅读。</p>
-<h2 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h2><p>首先来介绍一点之后要用到的数学基础。</p>
-<h3 id="凸函数-Convex-functions"><a href="#凸函数-Convex-functions" class="headerlink" title="凸函数 Convex  functions"></a>凸函数 Convex  functions</h3><p>凸函数的数学定义为：在某个向量空间的凸子集C上的实值函数$f$，如果在其定义域$C$上的任意两点$x_1,x_2$以及$\lambda  \in [0,1]$，有</p>
-<script type="math/tex; mode=display">
-f(\lambda x_1+(1-\lambda )x_2) \le \lambda f(x_1) + (1-\lambda )f(x_2)\tag{2-1}</script><p>如果对于任意的$\lambda  \in (0,1)$，有$f(\lambda x_1+(1-\lambda )x_2) \lt \lambda f(x_1) + (1-\lambda )f(x_2)$,则称$f$是严格凸的。</p>
+<h2 id="数学基础">数学基础</h2>
+<p>首先来介绍一点之后要用到的数学基础。</p>
+<h3 id="凸函数-convex-functions">凸函数 Convex functions</h3>
+<p>凸函数的数学定义为：在某个向量空间的凸子集C上的实值函数<span class="math inline">\(f\)</span>，如果在其定义域<span class="math inline">\(C\)</span>上的任意两点<span class="math inline">\(x_1,x_2\)</span>以及<span class="math inline">\(\lambda \in [0,1]\)</span>，有</p>
+<p><span class="math display">\[
+f(\lambda x_1+(1-\lambda )x_2) \le \lambda f(x_1) + (1-\lambda )f(x_2)\tag{2-1}
+\]</span> 如果对于任意的<span class="math inline">\(\lambda \in (0,1)\)</span>，有<span class="math inline">\(f(\lambda x_1+(1-\lambda )x_2) \lt \lambda f(x_1) + (1-\lambda )f(x_2)\)</span>,则称<span class="math inline">\(f\)</span>是严格凸的。</p>
 <p>上面的定义说明凸函数任意两点的连线位于图形的上方。</p>
-<p><img src="../images/machine-learning-em-algorithm/em-algorithm-convex-function.png" alt="em-algorithm-convex-function"></p>
-<p>此外，假设$f$是二阶可微，函数$f$是凸函数的充要条件是：$f’’(x) \ge 0$。当$\bf x$是向量的时候，如果其hessian矩阵H是半正定的，$H \ge 0$，那么$f$是凸函数。如果$f’’(x)$或者说$H \gt 0$，那么称$f$是严格凸函数。关于hessian矩阵是半正定的证明，可以参考知乎<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/40181086/answer/85707932">怎么理解二阶偏导与凸函数的Hessian矩阵是半正定的？</a></p>
-<h3 id="Jensen不等式"><a href="#Jensen不等式" class="headerlink" title="Jensen不等式"></a>Jensen不等式</h3><p>Jensen是式2-1的泛化形式，或者说2-1是Jensen不等式的<strong>两点形式</strong>。</p>
-<p>若对于任意点集${x_i}$,若$\lambda_i \ge 0$且$\sum_i \lambda_i=1$，使用数学归纳法可以证明凸函数$f(x)$满足:</p>
-<script type="math/tex; mode=display">
-f\left(\sum_{i=1}^N\lambda_ix_i\right) \le \sum_{i=1}^N \lambda_if(x_i) \tag{2-2}</script><p>式2-2就称为Jensen不等式。</p>
-<p>在概率论中，如果把$\lambda_i$看成取值为$x_i$的离散变量x的概率分布，那么公式2-2就可以写为：</p>
-<script type="math/tex; mode=display">
-f(E[x]) \le E[f(x)] \tag{2-3}</script><p>参考：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/53866462/answer/436465144">如何理解Jensen不等式？ - 青崖白鹿记的回答 - 知乎</a></p>
-<h3 id="凹函数"><a href="#凹函数" class="headerlink" title="凹函数"></a>凹函数</h3><p>凹函数和上面的凸函数结论是相反的，比如Jensen不等式则为：</p>
-<script type="math/tex; mode=display">
+<figure>
+<img src="../images/machine-learning-em-algorithm/em-algorithm-convex-function.png" alt="em-algorithm-convex-function" /><figcaption>em-algorithm-convex-function</figcaption>
+</figure>
+<p>此外，假设<span class="math inline">\(f\)</span>是二阶可微，函数<span class="math inline">\(f\)</span>是凸函数的充要条件是：<span class="math inline">\(f&#39;&#39;(x) \ge 0\)</span>。当<span class="math inline">\(\bf x\)</span>是向量的时候，如果其hessian矩阵H是半正定的，<span class="math inline">\(H \ge 0\)</span>，那么<span class="math inline">\(f\)</span>是凸函数。如果<span class="math inline">\(f&#39;&#39;(x)\)</span>或者说<span class="math inline">\(H \gt 0\)</span>，那么称<span class="math inline">\(f\)</span>是严格凸函数。关于hessian矩阵是半正定的证明，可以参考知乎<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/40181086/answer/85707932">怎么理解二阶偏导与凸函数的Hessian矩阵是半正定的？</a></p>
+<h3 id="jensen不等式">Jensen不等式</h3>
+<p>Jensen是式2-1的泛化形式，或者说2-1是Jensen不等式的<strong>两点形式</strong>。</p>
+<p>若对于任意点集<span class="math inline">\({x_i}\)</span>,若<span class="math inline">\(\lambda_i \ge 0\)</span>且<span class="math inline">\(\sum_i \lambda_i=1\)</span>，使用数学归纳法可以证明凸函数<span class="math inline">\(f(x)\)</span>满足: <span class="math display">\[
+f\left(\sum_{i=1}^N\lambda_ix_i\right) \le \sum_{i=1}^N \lambda_if(x_i) \tag{2-2}
+\]</span> 式2-2就称为Jensen不等式。</p>
+<p>在概率论中，如果把<span class="math inline">\(\lambda_i\)</span>看成取值为<span class="math inline">\(x_i\)</span>的离散变量x的概率分布，那么公式2-2就可以写为： <span class="math display">\[
+f(E[x]) \le E[f(x)] \tag{2-3}
+\]</span> 参考：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/53866462/answer/436465144">如何理解Jensen不等式？ - 青崖白鹿记的回答 - 知乎</a></p>
+<h3 id="凹函数">凹函数</h3>
+<p>凹函数和上面的凸函数结论是相反的，比如Jensen不等式则为： <span class="math display">\[
 \begin{align*}
-f\left(\sum_{i=1}^N\lambda_ix_i\right) &\ge \sum_{i=1}^N \lambda_if(x_i) \tag{2-4}\\
-f(E[x]) &\ge E[f(x)] \tag{2-5}
-\end{align*}</script><h2 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h2><p>现在我们来讲解EM算法。</p>
-<p>假设我们有N个独立的数据，$\{x_1, \cdots x_N\}$，我们想找到每个样本找到隐含的类别参数$z$，使得$p(x,z)$最大，其对数似然函数如下：</p>
-<script type="math/tex; mode=display">
+f\left(\sum_{i=1}^N\lambda_ix_i\right) &amp;\ge \sum_{i=1}^N \lambda_if(x_i) \tag{2-4}\\
+f(E[x]) &amp;\ge E[f(x)] \tag{2-5}
+\end{align*}
+\]</span></p>
+<h2 id="em算法">EM算法</h2>
+<p>现在我们来讲解EM算法。</p>
+<p>假设我们有N个独立的数据，<span class="math inline">\(\{x_1, \cdots x_N\}\)</span>，我们想找到每个样本找到隐含的类别参数<span class="math inline">\(z\)</span>，使得<span class="math inline">\(p(x,z)\)</span>最大，其对数似然函数如下： <span class="math display">\[
 \begin{align*}
-l(\theta) &= \sum_{i=1}^N\log p(x_i ; \theta)\\
-&=\sum_{i=1}^N \log \sum_{z_i} p(x_i,z_i ; \theta)\tag{3-1}
-\end{align*}</script><p>注意这里的符号：</p>
+l(\theta) &amp;= \sum_{i=1}^N\log p(x_i ; \theta)\\
+&amp;=\sum_{i=1}^N \log \sum_{z_i} p(x_i,z_i ; \theta)\tag{3-1}
+\end{align*}
+\]</span> 注意这里的符号：</p>
 <blockquote>
 <p>写分号p(x; theta)表示待估参数（是固定的，只是当前未知）,应该可以直接认为是p(x)</p>
-<p>from <a target="_blank" rel="noopener" href="https://blog.csdn.net/pipisorry/article/details/42715245">https://blog.csdn.net/pipisorry/article/details/42715245</a></p>
+<p>from https://blog.csdn.net/pipisorry/article/details/42715245</p>
 </blockquote>
-<p>前面提到过，由于隐变量$z$的存在，使得我们难以求解$\theta$。为此，EM的做法是不断的构造$l(\theta)$的下界(E-step)，然后优化下界(M-step)。</p>
-<p>具体的做法是，对于每个样本i， 令$Q_i$表示该样本隐含变量$z$的分布（比如上面的抛硬币案例，则指伯努利分布），$Q_i$满足$\sum_z Q_i(z) = 1, Q_i(z) \ge 0$。可得：</p>
-<script type="math/tex; mode=display">
+<p>前面提到过，由于隐变量<span class="math inline">\(z\)</span>的存在，使得我们难以求解<span class="math inline">\(\theta\)</span>。为此，EM的做法是不断的构造<span class="math inline">\(l(\theta)\)</span>的下界(E-step)，然后优化下界(M-step)。</p>
+<p>具体的做法是，对于每个样本i， 令<span class="math inline">\(Q_i\)</span>表示该样本隐含变量<span class="math inline">\(z\)</span>的分布（比如上面的抛硬币案例，则指伯努利分布），<span class="math inline">\(Q_i\)</span>满足<span class="math inline">\(\sum_z Q_i(z) = 1,\ Q_i(z) \ge 0\)</span>。可得： <span class="math display">\[
 \begin{align*}
-l(\theta) = \sum_i \log p(x_i\mid \theta) &= \sum_i \log \sum_{z_i} p(x_i, z_iZ; \theta)\\
-&= \sum_i \log \sum_{z_i} Q_i(z_i) \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}\\
-&\ge \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)} \tag{3-2}
-\end{align*}</script><p>最后一步是用Jensen不等式得到的，</p>
-<script type="math/tex; mode=display">
-\sum_{z_i} Q_i(z_i) \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}</script><p>其实是${p(x_i, z_i; \theta)}/{Q_i(z_i)}$的期望，而$\log$函数是<strong>凹函数</strong>，根据Jensen不等式，有：</p>
-<script type="math/tex; mode=display">
-f\left(E_{z_i\sim Q_i}\left[\frac{ {p(x_i, z_i; \theta)} }{Q_i(z_i)}\right]\right) \ge E_{z_i \sim Q_i} \left[ f\left( \frac{ {p(x_i, z_i; \theta)} }{Q_i(z_i)} \right)\right]</script><p>这样，对于任意的分布$Q_i$，式3-2求得了$l(\theta)$ 的下界，但是$Q_i$分布怎么选择呢？在很多种可能中如何选择最好的？假设已经知道了$\theta$，那么只需要最大化3-2，使得下界逼近$l(\theta)$即可。观察3-2，很容易发现，当3-2取等号的时候，说明下界达到了最大。而要取等号，根据Jensen不等式，需要让随机变量的值为常数，因此，我们有如下的约束：</p>
-<script type="math/tex; mode=display">
-\frac{p(x_i, z_i; \theta)}{Q_i(z_i)} = c \tag{3-3}</script><p>这里的c是一个不依赖于$z_i$的常数。我们继续进行推导，由于$Q_i$函数满足$\sum_z Q_i(z) = 1$，那么有$\sum_z p(x_i, z_i; \theta) = \sum_z cQ_i(z_i) = c$，带入3-3可得:</p>
-<script type="math/tex; mode=display">
+l(\theta) = \sum_i \log p(x_i\mid \theta) &amp;= \sum_i \log \sum_{z_i} p(x_i, z_iZ; \theta)\\
+&amp;= \sum_i \log \sum_{z_i} Q_i(z_i) \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}\\
+&amp;\ge \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)} \tag{3-2}
+\end{align*}
+\]</span> 最后一步是用Jensen不等式得到的， <span class="math display">\[
+\sum_{z_i} Q_i(z_i) \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}
+\]</span> 其实是<span class="math inline">\({p(x_i, z_i; \theta)}/{Q_i(z_i)}\)</span>的期望，而<span class="math inline">\(\log\)</span>函数是<strong>凹函数</strong>，根据Jensen不等式，有： <span class="math display">\[
+f\left(E_{z_i\sim Q_i}\left[\frac{ {p(x_i, z_i; \theta)} }{Q_i(z_i)}\right]\right) \ge E_{z_i \sim Q_i} \left[ f\left( \frac{ {p(x_i, z_i; \theta)} }{Q_i(z_i)} \right)\right]
+\]</span> 这样，对于任意的分布<span class="math inline">\(Q_i\)</span>，式3-2求得了<span class="math inline">\(l(\theta)\)</span> 的下界，但是<span class="math inline">\(Q_i\)</span>分布怎么选择呢？在很多种可能中如何选择最好的？假设已经知道了<span class="math inline">\(\theta\)</span>，那么只需要最大化3-2，使得下界逼近<span class="math inline">\(l(\theta)\)</span>即可。观察3-2，很容易发现，当3-2取等号的时候，说明下界达到了最大。而要取等号，根据Jensen不等式，需要让随机变量的值为常数，因此，我们有如下的约束： <span class="math display">\[
+\frac{p(x_i, z_i; \theta)}{Q_i(z_i)} = c \tag{3-3}
+\]</span> 这里的c是一个不依赖于<span class="math inline">\(z_i\)</span>的常数。我们继续进行推导，由于<span class="math inline">\(Q_i\)</span>函数满足<span class="math inline">\(\sum_z Q_i(z) = 1\)</span>，那么有<span class="math inline">\(\sum_z p(x_i, z_i; \theta) = \sum_z cQ_i(z_i) = c\)</span>，带入3-3可得:</p>
+<p><span class="math display">\[
 \begin{align*}
-Q_i(z_i) &= \frac{p(x_i, z_i; \theta)}{\sum_z p(x_i, z_i; \theta)} \\
-&= \frac{p(x_i, z_i; \theta)}{p(x_i;\theta)} \\
-& = p(z_i \mid x_i;\theta) \tag{3-4}
-\end{align*}</script><p>于是得到$Q_i$就是后验概率分布$p(z_i | x_i;\theta)$。因此3-2的式子通过对数似然函数给定了$l(\theta)$ 的下界，这个下界是我们想要去最大化的，这一步称为E步（E-step）。</p>
-<p>接着是M步，最大化式3-2，也就是最大化$l(\theta)$ 的下界（固定了$Q_i(z_i)$后，调整下界），于是得到EM算法的步骤为：</p>
+Q_i(z_i) &amp;= \frac{p(x_i, z_i; \theta)}{\sum_z p(x_i, z_i; \theta)} \\
+&amp;= \frac{p(x_i, z_i; \theta)}{p(x_i;\theta)} \\
+&amp; = p(z_i \mid x_i;\theta) \tag{3-4}
+\end{align*}
+\]</span> 于是得到<span class="math inline">\(Q_i\)</span>就是后验概率分布<span class="math inline">\(p(z_i | x_i;\theta)\)</span>。因此3-2的式子通过对数似然函数给定了<span class="math inline">\(l(\theta)\)</span> 的下界，这个下界是我们想要去最大化的，这一步称为E步（E-step）。</p>
+<p>接着是M步，最大化式3-2，也就是最大化<span class="math inline">\(l(\theta)\)</span> 的下界（固定了<span class="math inline">\(Q_i(z_i)\)</span>后，调整下界），于是得到EM算法的步骤为：</p>
 <blockquote>
-<p>Random initialization $\theta$<br>repeat until <strong>convergence</strong> {<br>​    (E-step) For each i, set<br>​              $Q_i(z_i) = p(z_i \mid x_i; \theta)$<br>​    (M-step) Set<br>​              $\theta = \arg \max_\theta  Q_i(z_i) =  \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}$<br>}</p>
+<p>Random initialization <span class="math inline">\(\theta\)</span> repeat until <strong>convergence</strong> { ​ (E-step) For each i, set ​ <span class="math inline">\(Q_i(z_i) = p(z_i \mid x_i; \theta)\)</span> ​ (M-step) Set ​ <span class="math inline">\(\theta = \arg \max_\theta Q_i(z_i) = \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}\)</span> }</p>
 </blockquote>
 <p>上面EM算法中，我们不断的进行E-step和M-step的迭代，直到收敛。那么，算法真的会收敛么？下面来证明一下。</p>
-<h3 id="收敛性证明"><a href="#收敛性证明" class="headerlink" title="收敛性证明"></a>收敛性证明</h3><p>设$\theta^{(t)}$和$\theta^{(t+1)}$是第t轮和第t + 1轮迭代的结果，我们只需要证明$l(\theta^{(t)}) \le l(\theta^{(t + 1)})$就说明EM算法总是使得对数似然不断的增大，那么最终就会达到最大值。</p>
-<p>根据3-2，有：</p>
-<script type="math/tex; mode=display">
-l(\theta^{(t)}) = \sum_i \sum_{z_i}Q_i^{(t)}(z_i) \log \frac{p(x_i, z_i; \theta^{(t)})}{Q_i^{(t)}(z_i)}\tag{3-5}</script><p>而参数$\theta^{(t+1)}$是通过最大化式3-5的，因此</p>
-<script type="math/tex; mode=display">
+<h3 id="收敛性证明">收敛性证明</h3>
+<p>设<span class="math inline">\(\theta^{(t)}\)</span>和<span class="math inline">\(\theta^{(t+1)}\)</span>是第t轮和第t + 1轮迭代的结果，我们只需要证明<span class="math inline">\(l(\theta^{(t)}) \le l(\theta^{(t + 1)})\)</span>就说明EM算法总是使得对数似然不断的增大，那么最终就会达到最大值。</p>
+<p>根据3-2，有： <span class="math display">\[
+l(\theta^{(t)}) = \sum_i \sum_{z_i}Q_i^{(t)}(z_i) \log \frac{p(x_i, z_i; \theta^{(t)})}{Q_i^{(t)}(z_i)}\tag{3-5}
+\]</span></p>
+<p>而参数<span class="math inline">\(\theta^{(t+1)}\)</span>是通过最大化式3-5的，因此 <span class="math display">\[
 \begin{align*}
-l(\theta^{(t + 1)}) &\ge  \sum_i \sum_{z_i}Q_i^{(t)}(z_i) \log \frac{p(x_i, z_i; \theta^{(t+1)})}{Q_i^{(t)}(z_i)}\tag{3-6}
-\\ &\ge \sum_i \sum_{z_i}Q_i^{(t)}(z_i) \log \frac{p(x_i, z_i; \theta^{(t)})}{Q_i^{(t)}(z_i)}\tag{3-7}
-\\ &=l(\theta^{(t)})\tag{3-8}
-\end{align*}</script><p>3-6的式子是因为式3-2，对于任意的分布$Q_i$，均有</p>
-<script type="math/tex; mode=display">
+l(\theta^{(t + 1)}) &amp;\ge  \sum_i \sum_{z_i}Q_i^{(t)}(z_i) \log \frac{p(x_i, z_i; \theta^{(t+1)})}{Q_i^{(t)}(z_i)}\tag{3-6}
+\\ &amp;\ge \sum_i \sum_{z_i}Q_i^{(t)}(z_i) \log \frac{p(x_i, z_i; \theta^{(t)})}{Q_i^{(t)}(z_i)}\tag{3-7}
+\\ &amp;=l(\theta^{(t)})\tag{3-8}
+\end{align*}
+\]</span> 3-6的式子是因为式3-2，对于任意的分布<span class="math inline">\(Q_i\)</span>，均有 <span class="math display">\[
 \begin{align*}
 l(\theta)
-&\ge \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}
-\end{align*}</script><p>而3-7是因为我们M-step后，得到的$\theta^{(t+1)}$采用的是:</p>
-<script type="math/tex; mode=display">
-\arg \max_\theta \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}</script><p>因此，有3-7成立，而3-8就是式子3-5。</p>
-<p>如果定义</p>
-<script type="math/tex; mode=display">
-g(Q, \theta) =  \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}\tag{3-9}</script><p>我们知道有$l(\theta) \ge g(Q, \theta)$。EM算法可以理解为对$g(Q, \theta)$运用坐标轴上升法，E-step固定$\theta$来优化$Q$，使得下界g在$\theta$处与$l(\theta)$相等，而M-step固定$Q$来优化$\theta$，求使得下界$g(Q, \theta)$达到最大值的$\theta$，从而使得$l(\theta)$的值也变大。下图直观的反应了这一过程。</p>
-<p><img src="../images/machine-learning-em-algorithm/em-algorithm-process.png" alt="em-algorithm-process"></p>
-<h3 id="回顾硬币例子"><a href="#回顾硬币例子" class="headerlink" title="回顾硬币例子"></a>回顾硬币例子</h3><p>在前面的硬币例子中，我们首先做的是随机初始化概率$\hat P_A, \hat P_B$。</p>
-<p>然后是E-step：估计后验概率$P({\bf z_i} \mid x_i)$，这里的隐变量$z_i = \{z_{iA}, z_{iB} \}$。可以理解为若$z_{iA} = 1$则说明第i个样本为硬币A产生，若$z_{iB}=1$则说明第i个样本为硬币B产生。 分别计算硬币可能由A和B的似然值a和b，然后计算$P(z_{iA}=1\mid x_i) = a_i / (a_i+ b_i)$和$ P(z_{iB} = 1\mid x_i) = b_i / (a_i+ b_i)$。</p>
-<p>接着是M-step：根据每个样本估计出是属于哪一个硬币的结果$z_{iA}$和$z_{iB}$，计算出新的概率$P_A, P_B$</p>
-<h3 id="EM算法最优解"><a href="#EM算法最优解" class="headerlink" title="EM算法最优解"></a>EM算法最优解</h3><p>EM算法不能保证找到全局最优解，只能保证收敛到对数似然函数的稳定点，不能保证收敛到极大值点。所以在应用中<strong>初始值的选择十分重要</strong>，常用的办法是选取几个不同的初值进行迭代，然后对得到的各个估计值加以比较，从中选择最好的。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] Do C B, Batzoglou S. What is the expectation maximization algorithm?[J]. Nature biotechnology, 2008, 26(8): 897.<br>[2] The EM algorithm， CS229 Lecture notes Part IX<br>[3] <a target="_blank" rel="noopener" href="http://www.cnblogs.com/jerrylead/archive/2011/04/06/2006936.html">（EM算法）The EM Algorithm</a></p>
+&amp;\ge \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}
+\end{align*}
+\]</span></p>
+<p>而3-7是因为我们M-step后，得到的<span class="math inline">\(\theta^{(t+1)}\)</span>采用的是: <span class="math display">\[
+\arg \max_\theta \sum_i \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}
+\]</span> 因此，有3-7成立，而3-8就是式子3-5。</p>
+<p>如果定义 <span class="math display">\[
+g(Q, \theta) =  \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}\tag{3-9}
+\]</span> 我们知道有<span class="math inline">\(l(\theta) \ge g(Q, \theta)\)</span>。EM算法可以理解为对<span class="math inline">\(g(Q, \theta)\)</span>运用坐标轴上升法，E-step固定<span class="math inline">\(\theta\)</span>来优化<span class="math inline">\(Q\)</span>，使得下界g在<span class="math inline">\(\theta\)</span>处与<span class="math inline">\(l(\theta)\)</span>相等，而M-step固定<span class="math inline">\(Q\)</span>来优化<span class="math inline">\(\theta\)</span>，求使得下界<span class="math inline">\(g(Q, \theta)\)</span>达到最大值的<span class="math inline">\(\theta\)</span>，从而使得<span class="math inline">\(l(\theta)\)</span>的值也变大。下图直观的反应了这一过程。</p>
+<figure>
+<img src="../images/machine-learning-em-algorithm/em-algorithm-process.png" alt="em-algorithm-process" /><figcaption>em-algorithm-process</figcaption>
+</figure>
+<h3 id="回顾硬币例子">回顾硬币例子</h3>
+<p>在前面的硬币例子中，我们首先做的是随机初始化概率<span class="math inline">\(\hat P_A, \hat P_B\)</span>。</p>
+<p>然后是E-step：估计后验概率<span class="math inline">\(P({\bf z_i} \mid x_i)\)</span>，这里的隐变量<span class="math inline">\(z_i = \{z_{iA}, z_{iB} \}\)</span>。可以理解为若<span class="math inline">\(z_{iA} = 1\)</span>则说明第i个样本为硬币A产生，若<span class="math inline">\(z_{iB}=1\)</span>则说明第i个样本为硬币B产生。 分别计算硬币可能由A和B的似然值a和b，然后计算<span class="math inline">\(P(z_{iA}=1\mid x_i) = a_i / (a_i+ b_i)\)</span>和<span class="math inline">\(\ P(z_{iB} = 1\mid x_i) = b_i / (a_i+ b_i)\)</span>。</p>
+<p>接着是M-step：根据每个样本估计出是属于哪一个硬币的结果<span class="math inline">\(z_{iA}\)</span>和<span class="math inline">\(z_{iB}\)</span>，计算出新的概率<span class="math inline">\(P_A, P_B\)</span></p>
+<h3 id="em算法最优解">EM算法最优解</h3>
+<p>EM算法不能保证找到全局最优解，只能保证收敛到对数似然函数的稳定点，不能保证收敛到极大值点。所以在应用中<strong>初始值的选择十分重要</strong>，常用的办法是选取几个不同的初值进行迭代，然后对得到的各个估计值加以比较，从中选择最好的。</p>
+<h2 id="参考资料">参考资料</h2>
+<p>[1] Do C B, Batzoglou S. What is the expectation maximization algorithm?[J]. Nature biotechnology, 2008, 26(8): 897. [2] The EM algorithm， CS229 Lecture notes Part IX [3] <a target="_blank" rel="noopener" href="http://www.cnblogs.com/jerrylead/archive/2011/04/06/2006936.html">（EM算法）The EM Algorithm</a></p>
  
       <!-- reward -->
       
@@ -543,12 +563,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -560,6 +586,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -568,13 +596,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -593,7 +622,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

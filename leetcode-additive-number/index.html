@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">477</span>
+            <span class="post-count">480</span>
         </span>
     </span>
 
@@ -115,14 +115,15 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Additive-Number"><a href="#leetcode-Additive-Number" class="headerlink" title="leetcode Additive Number"></a>leetcode Additive Number</h3><p>Additive number is a positive integer whose digits can form additive sequence.</p>
+<h3 id="leetcode-additive-number">leetcode Additive Number</h3>
+<p>Additive number is a positive integer whose digits can form additive sequence.</p>
 <p>A valid additive sequence should contain <strong>at least</strong> three numbers. Except for the first two numbers, each subsequent number in the sequence must be the sum of the preceding two.</p>
-<p>For example:<br><code>&quot;112358&quot;</code> is an additive number because the digits can form an additive sequence: <code>1, 1, 2, 3, 5, 8</code>.</p>
+<p>For example: <code>&quot;112358&quot;</code> is an additive number because the digits can form an additive sequence: <code>1, 1, 2, 3, 5, 8</code>.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 + 1 &#x3D; 2, 1 + 2 &#x3D; 3, 2 + 3 &#x3D; 5, 3 + 5 &#x3D; 8</span><br></pre></td></tr></table></figure>
 <p><code>&quot;199100199&quot;</code> is also an additive number, the additive sequence is: <code>1, 99, 100, 199</code>.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 + 99 &#x3D; 100, 99 + 100 &#x3D; 199</span><br></pre></td></tr></table></figure>
 <p><strong>Note:</strong> Numbers in the additive sequence <strong>cannot</strong> have leading zeros, so sequence <code>1, 2, 03</code> or <code>1, 02, 3</code> is invalid.</p>
-<p>Given a string represents an integer, write a function to determine if it’s an additive number.<br><a id="more"></a><br>题目地址 ： <a target="_blank" rel="noopener" href="https://leetcode.com/problems/additive-number/">leetcode Additive Number</a></p>
+<p>Given a string represents an integer, write a function to determine if it's an additive number. <a id="more"></a> 题目地址 ： <a target="_blank" rel="noopener" href="https://leetcode.com/problems/additive-number/">leetcode Additive Number</a></p>
 </blockquote>
 <p>题意：</p>
 <p>给定一串字符串，让你判断是否可以按顺序划分成诺干个数（三个以上），其中前面的两个数和等于第三个数。</p>
@@ -133,7 +134,8 @@
 <p>因为前两个数决定了第三个数，第三个数和第二个数决定了第四个。。。</p>
 <p>所以，枚举前两个数的终点位置，进行递归判断即可。</p>
 <p>1A水过~</p>
-<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">self, start, first, second, n, num</span>):</span></span><br><span class="line">        first_num , second_num = num[start:first] , num[first:second]</span><br><span class="line">        <span class="keyword">if</span> len(first_num) &gt; <span class="number">1</span> <span class="keyword">and</span> first_num[<span class="number">0</span>] == <span class="string">&#x27;0&#x27;</span> <span class="keyword">or</span> len(second_num) &gt; <span class="number">1</span> <span class="keyword">and</span> second_num[<span class="number">0</span>] ==<span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        temp_sum = int(first_num) + int(second_num)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> temp_sum == int(num[second:]) <span class="keyword">and</span> num[second] !=<span class="string">&#x27;0&#x27;</span>: <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        max_len = max(first - start, second - first)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> second + max_len &lt;= n:</span><br><span class="line">            status = <span class="literal">False</span></span><br><span class="line">            <span class="keyword">if</span> temp_sum == int(num[second:second + max_len]):</span><br><span class="line">                status = self.dfs(first, second, second + max_len, n, num)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> status <span class="keyword">and</span> second + max_len + <span class="number">1</span> &lt;= n <span class="keyword">and</span> temp_sum == int(num[second:second + max_len + <span class="number">1</span>]):</span><br><span class="line">                status = self.dfs(first, second, second + max_len + <span class="number">1</span>, n, num)</span><br><span class="line">            <span class="keyword">return</span> status</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isAdditiveNumber</span>(<span class="params">self, num</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type num: str</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> num <span class="keyword">or</span> len(num) &lt; <span class="number">3</span>: <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        n = len(num)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> xrange(i + <span class="number">1</span>, n):</span><br><span class="line">                <span class="keyword">if</span> self.dfs(<span class="number">0</span>, i, j, n, num):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="code">Code</h3>
+<p><strong>Python</strong> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">self, start, first, second, n, num</span>):</span></span><br><span class="line">        first_num , second_num = num[start:first] , num[first:second]</span><br><span class="line">        <span class="keyword">if</span> len(first_num) &gt; <span class="number">1</span> <span class="keyword">and</span> first_num[<span class="number">0</span>] == <span class="string">&#x27;0&#x27;</span> <span class="keyword">or</span> len(second_num) &gt; <span class="number">1</span> <span class="keyword">and</span> second_num[<span class="number">0</span>] ==<span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        temp_sum = int(first_num) + int(second_num)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> temp_sum == int(num[second:]) <span class="keyword">and</span> num[second] !=<span class="string">&#x27;0&#x27;</span>: <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        max_len = max(first - start, second - first)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> second + max_len &lt;= n:</span><br><span class="line">            status = <span class="literal">False</span></span><br><span class="line">            <span class="keyword">if</span> temp_sum == int(num[second:second + max_len]):</span><br><span class="line">                status = self.dfs(first, second, second + max_len, n, num)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> status <span class="keyword">and</span> second + max_len + <span class="number">1</span> &lt;= n <span class="keyword">and</span> temp_sum == int(num[second:second + max_len + <span class="number">1</span>]):</span><br><span class="line">                status = self.dfs(first, second, second + max_len + <span class="number">1</span>, n, num)</span><br><span class="line">            <span class="keyword">return</span> status</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isAdditiveNumber</span>(<span class="params">self, num</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type num: str</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> num <span class="keyword">or</span> len(num) &lt; <span class="number">3</span>: <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        n = len(num)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> xrange(i + <span class="number">1</span>, n):</span><br><span class="line">                <span class="keyword">if</span> self.dfs(<span class="number">0</span>, i, j, n, num):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
  
       <!-- reward -->
       
@@ -349,12 +351,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -366,6 +374,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -374,13 +384,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -399,7 +410,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

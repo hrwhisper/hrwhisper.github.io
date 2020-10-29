@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">283</span>
+            <span class="post-count">285</span>
         </span>
     </span>
 
@@ -114,15 +114,18 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>国科大评价课程有二十多个勾，没有评价又看不到成绩，然后又很懒怎么办~<br><a id="more"></a><br>如下图：一共有二十几个，然后又有好多门课</p>
-<p><img src="../images/ucas-auto-comment-course-script/too-many-checkbox-for-comment.jpg" alt=""></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>通过分析网页的源代码，发现只需要两行代码，然后就可以把那20多个框一下全部选中了。</p>
+  <p>国科大评价课程有二十多个勾，没有评价又看不到成绩，然后又很懒怎么办~ <a id="more"></a> 如下图：一共有二十几个，然后又有好多门课</p>
+<p><img src="../images/ucas-auto-comment-course-script/too-many-checkbox-for-comment.jpg" /></p>
+<h2 id="代码">代码</h2>
+<p>通过分析网页的源代码，发现只需要两行代码，然后就可以把那20多个框一下全部选中了。</p>
 <p>下面的代码将所有的都选项选了优：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var tds &#x3D; document.getElementsByTagName(&#39;td&#39;);</span><br><span class="line">for(var i &#x3D; 0; i&lt;tds.length;i++) tds[i].getElementsByTagName(&quot;input&quot;)[0].checked&#x3D;true;</span><br></pre></td></tr></table></figure>
-<p>如果要全部评价为良，那么(“input”)[0].checked=true; 中的0改为1，若为合格则2，差则3</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>打开课程评价的页面，进入要评价的课程，然后按F12调出chrome的控制台，在下方的标签选Console，然后粘贴上面的代码按回车即可。</p>
-<p><img src="../images/ucas-auto-comment-course-script/how-to-use-auto-comment-script.png" alt=""></p>
-<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>虽然没有评价也能看到成绩，在学籍管理-档案管理-档案操作查询-成绩登记表c1中查看没有评价的成绩，但是微信上那个学生处的就不能用啦，所以还是评价一下把~</p>
+<p>如果要全部评价为良，那么(&quot;input&quot;)[0].checked=true; 中的0改为1，若为合格则2，差则3</p>
+<h2 id="使用方法">使用方法</h2>
+<p>打开课程评价的页面，进入要评价的课程，然后按F12调出chrome的控制台，在下方的标签选Console，然后粘贴上面的代码按回车即可。</p>
+<p><img src="../images/ucas-auto-comment-course-script/how-to-use-auto-comment-script.png" /></p>
+<h2 id="其它">其它</h2>
+<p>虽然没有评价也能看到成绩，在学籍管理-档案管理-档案操作查询-成绩登记表c1中查看没有评价的成绩，但是微信上那个学生处的就不能用啦，所以还是评价一下把~</p>
  
       <!-- reward -->
       
@@ -336,12 +339,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -353,6 +362,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -361,13 +372,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -386,7 +398,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

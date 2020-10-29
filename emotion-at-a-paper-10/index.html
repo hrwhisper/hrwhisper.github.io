@@ -114,7 +114,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>一纸闲愁10写于2014.6.25<br><a id="more"></a><br>每个人都会对人生中最重要的地方最重要的人一一告别，却无法预想告别方式。                                                                                                                                                           ————————题记</p>
+  <p>一纸闲愁10写于2014.6.25 <a id="more"></a> 每个人都会对人生中最重要的地方最重要的人一一告别，却无法预想告别方式。                                                                                                                                                           ----------------题记</p>
 <p>BGM：梁咏琪 - 还是那个你</p>
 <p>我知道，曲终人散终究是要谢幕的，要走的，总是留不住的。</p>
 <p>只是没有想到，要先走的，会是自己。</p>
@@ -129,7 +129,7 @@
 <p>落叶归根。</p>
 <p>于是，打电话回家，想让父母挽留。</p>
 <p>然而，</p>
-<p>“你去吧，爸爸支持你”。 我可以看出，短暂的沉默，爸爸是经过多少纠结犹豫才一个字一个字的吐出，经过电话，飘过时间与空间的距离，到达我的耳朵。</p>
+<p>“你去吧，爸爸支持你”。 我可以看出，短暂的沉默，爸爸是经过多少纠结犹豫才一个字一个字的吐出，经过电话，飘过时间与空间的距离，到达我的耳朵。</p>
 <p>两年前，大概也是这个时候。</p>
 <p>“东北大学”</p>
 <p>“太远”</p>
@@ -138,7 +138,7 @@
 <p>爸妈又经历了多少，终于不再束缚。</p>
 <p>甘愿做桥梁。</p>
 <p>是，我有成长。但这还不够。我还不够强大。</p>
-<p>想起《那些让你痛苦的 必是让你成长的》的作者嘉倩，只身前去欧洲。一个二十岁脆弱又坚强的女孩。（她在欧洲做过交换生。）</p>
+<p>想起《那些让你痛苦的 必是让你成长的》的作者嘉倩，只身前去欧洲。一个二十岁脆弱又坚强的女孩。（她在欧洲做过交换生。）</p>
 <p>而我算老几？</p>
 <p>这本书是在图书馆里偶然看见的。</p>
 <p>也许命运真的有种冥冥的安排。</p>
@@ -155,7 +155,8 @@
 <p>木兰香，终于再也遮不住忧伤，</p>
 <p>变成了阳光下的一片晶莹。</p>
 <p>我想，有一天，我们背靠高架桥，看车辆穿梭如光线，任雪花随风飞舞，翩跹若杨花。</p>
-<h1 id="附录："><a href="#附录：" class="headerlink" title="附录："></a>附录：</h1><p>节选自  一纸闲愁4【一路向北】 (2012-09-05 22:08)</p>
+<h1 id="附录">附录：</h1>
+<p>节选自  一纸闲愁4【一路向北】 (2012-09-05 22:08)</p>
 <p>就这样，新的生活即将猝不及防的撞进熟悉的轨迹。</p>
 <p>人永远都无法知道自己该要什么，因为人只能活一次，既不能拿它与前世相比，也不能在来生加以修正。谁会知晓今天所做的事情会有何意义？那是徒劳无用，还是埋下成功的密匙？这只能在未来加以验证。</p>
 <p>淡淡的离别愁绪涌上心头。</p>
@@ -171,9 +172,9 @@
 <p>把记忆轻启后。</p>
 <p>谁会知晓，远方的天空下，是否还会有你我交汇的轨迹？</p>
 <p>我一路向北，离开有你的季节。任凭梦里三千落花。那条落英缤纷的路，又该通往何方？</p>
-<p>PS：<br>本来说是不会有再有一纸闲愁的了。</p>
+<p>PS： 本来说是不会有再有一纸闲愁的了。</p>
 <p>但是觉得想不出什么好名字。</p>
-<p>文艺什么的，趁现在赶紧装。去人大你装毛啊。<br>啊，还有感觉自己文笔都用完了。<br>-THE END-<br>2014.6.25</p>
+<p>文艺什么的，趁现在赶紧装。去人大你装毛啊。 啊，还有感觉自己文笔都用完了。 -THE END- 2014.6.25</p>
  
       <!-- reward -->
       
@@ -389,12 +390,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -406,6 +413,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -414,13 +423,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -439,7 +449,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

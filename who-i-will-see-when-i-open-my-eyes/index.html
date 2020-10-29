@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">809</span>
+            <span class="post-count">815</span>
         </span>
     </span>
 
@@ -112,7 +112,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>—————-当我的播放列表不再是陈奕迅。《题记》<br><a id="more"></a><br>[hermit auto=”1” loop=”0” unexpand=”0”]netease_songs#:368727[/hermit]</p>
+  <p>-----------当我的播放列表不再是陈奕迅。《题记》 <a id="more"></a> [hermit auto=&quot;1&quot; loop=&quot;0&quot; unexpand=&quot;0&quot;]netease_songs#:368727[/hermit]</p>
 <p>提起笔来，却也不知道要写什么。</p>
 <p>昨天和叶B散步，他说自己没出息，回来不都还是这样。</p>
 <p>聚聚会，喝喝酒。</p>
@@ -185,7 +185,7 @@
 <p>有的人的天空，只能让你流泪，不可舞蹈。</p>
 <p>我只想，听着歌，静静的入睡。</p>
 <p>让回忆 轻轻的 睡去。</p>
-<p>就像我只记得，《飘》青少年版 中 斯佳丽的最后一句话：明天又是新的一天。</p>
+<p>就像我只记得，《飘》青少年版 中 斯佳丽的最后一句话：明天又是新的一天。</p>
 <p>明天，你好。</p>
  
       <!-- reward -->
@@ -402,12 +402,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -419,6 +425,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -427,13 +435,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -452,7 +461,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

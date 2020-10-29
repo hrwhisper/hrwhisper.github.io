@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.6k</span>
+            <span class="post-count">1.7k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">6 min</span>
+            <span class="post-count">7 min</span>
         </span>
     </span>
 </div>
@@ -121,30 +121,30 @@
 <li>开启mod_rewrite模块</li>
 <li>开启GZIP压缩网页</li>
 <li>上传图片/文件失败解决办法</li>
-<li><p>YOAST SEO  sitemap 404 解决办法</p>
-<a id="more"></a>
-<h2 id="主机配置"><a href="#主机配置" class="headerlink" title="主机配置"></a>主机配置</h2></li>
-<li><p>centos 6.7 *32</p>
-</li>
+<li><p>YOAST SEO  sitemap 404 解决办法 <a id="more"></a> ## 主机配置</p></li>
+<li>centos 6.7 *32</li>
 <li><p>5$ /m</p>
 <ul>
-<li>ps:   点击该链接注册可以获得10$  : <a target="_blank" rel="noopener" href="https://m.do.co/c/297665746575">digitalocean</a></li>
-</ul>
-</li>
-<li><p>新加坡结点</p>
-</li>
+<li>ps:   点击该链接注册可以获得10$  : <a target="_blank" rel="noopener" href="https://m.do.co/c/297665746575">digitalocean</a></li>
+</ul></li>
+<li><p>新加坡结点</p></li>
 </ul>
 <p>等一会儿就好了:</p>
-<p><img src="../images/installing-wordpress-on-centos/digitalocean-create-img-finished.png" alt="digitalocean-create-img-finished"></p>
+<figure>
+<img src="../images/installing-wordpress-on-centos/digitalocean-create-img-finished.png" alt="digitalocean-create-img-finished" /><figcaption>digitalocean-create-img-finished</figcaption>
+</figure>
 <p>happy coding ^ ^</p>
-<h2 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h2><p>使用windwos的童鞋需要准备如下工具之一，因为要用命令行的方式来操作服务器。为此，需要一个能支持SSH登录的软件。</p>
+<h2 id="工具准备">工具准备</h2>
+<p>使用windwos的童鞋需要准备如下工具之一，因为要用命令行的方式来操作服务器。为此，需要一个能支持SSH登录的软件。</p>
 <ul>
 <li>Xshell : SSH登录，推荐这个，界面漂亮。</li>
 <li>Xftp: SFTP传文件工具，和Xshell师出同门，推荐</li>
 <li>SSH Secure Shell Client 这个也有SSH 登录的功能，但对中文乱码。 它还有可视化的界面来传文件，类似FTP</li>
 <li>putty：很简洁的一个ssh工具</li>
 </ul>
-<h2 id="获取需要资源"><a href="#获取需要资源" class="headerlink" title="获取需要资源"></a>获取需要资源</h2><p>打开你的SSH登录软件，连接到digitalocean上，（用户密码还有IP地址你建好一个服务器会发到你的邮箱:) ）第一次进去要求修改密码。</p>
+<p> </p>
+<h2 id="获取需要资源">获取需要资源</h2>
+<p>打开你的SSH登录软件，连接到digitalocean上，（用户密码还有IP地址你建好一个服务器会发到你的邮箱:) ）第一次进去要求修改密码。</p>
 <p>修改完后，依次输入如下命令，获取资源，设置开机启动，启动服务</p>
 <ul>
 <li>yum -y install mysql-server httpd php php-mysql unzip wget</li>
@@ -153,81 +153,79 @@
 <li>/etc/init.d/mysqld start</li>
 <li>/etc/init.d/httpd start</li>
 </ul>
-<h2 id="mysql-设置"><a href="#mysql-设置" class="headerlink" title="mysql 设置"></a>mysql 设置</h2><ul>
+<p> </p>
+<h2 id="mysql-设置">mysql 设置</h2>
+<ul>
 <li><p>登录mysql</p>
 <ul>
 <li>mysql -u root -p</li>
-</ul>
-</li>
+</ul></li>
 <li><p>创建root密码</p>
 <ul>
 <li>这一步主要是为了安全起见~mysql默认root密码为空，这不安全</li>
-<li>SET PASSWORD FOR ‘root’@’localhost’ = PASSWORD(‘newpass’);</li>
-</ul>
-</li>
+<li>SET PASSWORD FOR 'root'@'localhost' = PASSWORD('newpass');</li>
+</ul></li>
 <li><p>创建数据库</p>
 <ul>
 <li>create database wordpress;</li>
-</ul>
-</li>
+</ul></li>
 <li><p>创建用户（把hrwhisper改成你的用户即可）</p>
 <ul>
 <li>create user hrwhisper@localhost;</li>
-</ul>
-</li>
+</ul></li>
 <li><p>设置密码</p>
 <ul>
-<li>set password for hrwhisper@localhost=password(“123456”);</li>
-</ul>
-</li>
+<li>set password for hrwhisper@localhost=password(&quot;123456&quot;);</li>
+</ul></li>
 <li><p>设置权限（需要给这个新用户权限访问数据库）</p>
 <ul>
-<li>grant all privileges on wordpress.* to hrwhisper@localhost identified by ‘123456’;</li>
-</ul>
-</li>
+<li>grant all privileges on wordpress.* to hrwhisper@localhost identified by '123456';</li>
+</ul></li>
 </ul>
 <p>做完上面的步骤后</p>
 <ul>
 <li>FLUSH PRIVILEGES;</li>
 <li>exit;</li>
 </ul>
-<h2 id="wordpress获取和配置"><a href="#wordpress获取和配置" class="headerlink" title="wordpress获取和配置"></a>wordpress获取和配置</h2><h3 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h3><ul>
-<li><p>获取第一步我们已经yum 安装了 wget~所以只要执行下面的命令就可以，这里假定当前终端目录为~(当前用户的根目录)</p>
+<p> </p>
+<h2 id="wordpress获取和配置">wordpress获取和配置</h2>
+<h3 id="获取">获取</h3>
 <ul>
-<li>wget <a target="_blank" rel="noopener" href="http://wordpress.org/latest.tar.gz">http://wordpress.org/latest.tar.gz</a></li>
-</ul>
-</li>
+<li><p>获取第一步我们已经yum 安装了 wget<sub>所以只要执行下面的命令就可以，这里假定当前终端目录为</sub>(当前用户的根目录)</p>
+<ul>
+<li>wget http://wordpress.org/latest.tar.gz</li>
+</ul></li>
 <li><p>解压</p>
 <ul>
 <li>tar -xzvf latest.tar.gz</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h3 id="配置wordpress"><a href="#配置wordpress" class="headerlink" title="配置wordpress"></a>配置wordpress</h3><ul>
+<p> </p>
+<h3 id="配置wordpress">配置wordpress</h3>
+<ul>
 <li><p>创建wp-config.php文件</p>
 <ul>
 <li>cp ~/wordpress/wp-config-sample.php ~/wordpress/wp-config.php</li>
-</ul>
-</li>
+</ul></li>
 <li><p>编辑（如果没有vim那么yum install vim下）</p>
 <ul>
 <li>vim ~/wordpress/wp-config.php</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>这里简单介绍下vim使用：</p>
 <ul>
 <li>vim 用方向键控制u 撤销，i插入模式 保存esc然后输入:wq即可</li>
 </ul>
-<p><img src="../images/installing-wordpress-on-centos/edit-wordpress-database-info.png" alt="edit-wordpress-database-info"></p>
+<figure>
+<img src="../images/installing-wordpress-on-centos/edit-wordpress-database-info.png" alt="edit-wordpress-database-info" /><figcaption>edit-wordpress-database-info</figcaption>
+</figure>
 <ul>
 <li><p>以博主刚才的为例：</p>
 <ul>
 <li>DB_NAME : wordpress</li>
 <li>DB_USER: hrwhisper</li>
 <li>DB_PASSWORD:123456</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>接下来</p>
 <ul>
@@ -235,60 +233,68 @@
 <ul>
 <li>mkdir -p /var/www/html （如果文件夹不存在）</li>
 <li>cp -r ~/wordpress/* /var/www/html</li>
+</ul></li>
+<li><p>用浏览器访问试试</p></li>
 </ul>
-</li>
-<li><p>用浏览器访问试试</p>
-</li>
-</ul>
-<h2 id="导入数据库"><a href="#导入数据库" class="headerlink" title="导入数据库"></a>导入数据库</h2><p>如果不是新站，而是原来的站点呢？那么需要进行数据库的导入。</p>
-<p>将数据库上传到服务器。(博主用Xftp 协议用SFTP，不要用ftp，SFTP安全 )</p>
+<p> </p>
+<h2 id="导入数据库">导入数据库</h2>
+<p>如果不是新站，而是原来的站点呢？那么需要进行数据库的导入。</p>
+<p>将数据库上传到服务器。(博主用Xftp 协议用SFTP，不要用ftp，SFTP安全 )</p>
 <p>登录数据库后，进行如下操作</p>
 <ul>
 <li><p>选择数据库</p>
 <ul>
 <li>mysql&gt;use abc;</li>
-</ul>
-</li>
+</ul></li>
 <li><p>设置数据库编码</p>
 <ul>
 <li>mysql&gt;set names utf8;</li>
-</ul>
-</li>
+</ul></li>
 <li><p>导入数据（注意sql文件的路径）</p>
 <ul>
-<li>mysql&gt;source /home/abc/abc.sql;</li>
+<li>  mysql&gt;source /home/abc/abc.sql;</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<hr>
+<p> </p>
+<hr />
 <p>下面介绍博主配置好后使用中出现的问题和解决办法</p>
-<h2 id="开启mod-rewrite"><a href="#开启mod-rewrite" class="headerlink" title="开启mod_rewrite"></a>开启mod_rewrite</h2><p>如果你更改了wordpress固定链接，那么mod_rewrite是要开启的~不然就一片404啦</p>
-<ol>
+<h2 id="开启mod_rewrite">开启mod_rewrite</h2>
+<p>如果你更改了wordpress固定链接，那么mod_rewrite是要开启的~不然就一片404啦</p>
+<ol type="1">
 <li>vim /etc/httpd/conf/httpd.conf</li>
-<li><strong>AllowOverride None</strong> 改为 <strong>AllowOverride All （在</strong> <strong><Directory "/var/www/html">里）</strong></li>
+<li><strong>AllowOverride None</strong> 改为 <strong>AllowOverride All （在</strong> <strong>&lt;Directory &quot;/var/www/html&quot;&gt;里）</strong></li>
 <li>在/var/www/html/ 里编写.htaccess文件</li>
 <li><p>重起服务器，终端中输入</p>
 <ul>
 <li>service httpd restart</li>
-</ul>
-</li>
+</ul></li>
 </ol>
 <p>博主这里是338行</p>
-<p><img src="../images/installing-wordpress-on-centos/apache-mod_rewrite-open.png" alt="apache-mod_rewrite-open"></p>
-<p>参考： <a target="_blank" rel="noopener" href="http://dev.antoinesolutions.com/apache-server/mod_rewrite">http://dev.antoinesolutions.com/apache-server/mod_rewrite</a></p>
-<h2 id="开启GZIP压缩网页"><a href="#开启GZIP压缩网页" class="headerlink" title="开启GZIP压缩网页"></a>开启GZIP压缩网页</h2><p>有两种方法，mod_gzip 和mod_deflate，用一个即可。</p>
-<h3 id="mod-gzip-和mod-deflate的主要区别"><a href="#mod-gzip-和mod-deflate的主要区别" class="headerlink" title="mod_gzip 和mod_deflate的主要区别"></a>mod_gzip 和mod_deflate的主要区别</h3><ul>
+<figure>
+<img src="../images/installing-wordpress-on-centos/apache-mod_rewrite-open.png" alt="apache-mod_rewrite-open" /><figcaption>apache-mod_rewrite-open</figcaption>
+</figure>
+<p>参考： <a target="_blank" rel="noopener" href="http://dev.antoinesolutions.com/apache-server/mod_rewrite" class="uri">http://dev.antoinesolutions.com/apache-server/mod_rewrite</a></p>
+<h2 id="开启gzip压缩网页">开启GZIP压缩网页</h2>
+<p>有两种方法，mod_gzip 和mod_deflate，用一个即可。</p>
+<h3 id="mod_gzip-和mod_deflate的主要区别">mod_gzip 和mod_deflate的主要区别</h3>
+<ul>
 <li>第一个区别是安装它们的Apache Web服务器版本的差异。Apache 1.x系列没有内建网页压缩技术，所以才去用额外的第三方mod_gzip 模块来执行压缩。而Apache 2.x官方在开发的时候，就把网页压缩考虑进去，内建了mod_deflate 这个模块，用以取代mod_gzip。虽然两者都是使用的Gzip压缩算法，它们的运作原理是类似的。</li>
 <li>第二个区别是压缩质量。mod_deflate 压缩速度略快而mod_gzip 的压缩比略高。一般默认情况下，mod_gzip 会比mod_deflate 多出4%~6％的压缩量。</li>
 <li>第三个区别是对服务器资源的占用。 一般来说mod_gzip 对服务器CPU的占用要高一些。mod_deflate 是专门为确保服务器的性能而使用的一个压缩模块，mod_deflate 需要较少的资源来压缩文件。这意味着在高流量的服务器，使用mod_deflate 可能会比mod_gzip 加载速度更快。</li>
 </ul>
-<h3 id="mod-deflate"><a href="#mod-deflate" class="headerlink" title="mod_deflate"></a>mod_deflate</h3><p>推荐这种方法，把下面的内容写在 .htaccess中即可</p>
+<h3 id="mod_deflate">mod_deflate</h3>
+<p>推荐这种方法，把下面的内容写在 .htaccess中即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">AddOutputFilterByType DEFLATE text&#x2F;plain</span><br><span class="line">AddOutputFilterByType DEFLATE text&#x2F;html</span><br><span class="line">AddOutputFilterByType DEFLATE text&#x2F;php</span><br><span class="line">AddOutputFilterByType DEFLATE text&#x2F;xml</span><br><span class="line">AddOutputFilterByType DEFLATE text&#x2F;css</span><br><span class="line">AddOutputFilterByType DEFLATE text&#x2F;javascript</span><br><span class="line">AddOutputFilterByType DEFLATE application&#x2F;xhtml+xml</span><br><span class="line">AddOutputFilterByType DEFLATE application&#x2F;xml</span><br><span class="line">AddOutputFilterByType DEFLATE application&#x2F;rss+xml</span><br><span class="line">AddOutputFilterByType DEFLATE application&#x2F;atom_xml</span><br><span class="line">AddOutputFilterByType DEFLATE application&#x2F;x-javascript</span><br><span class="line">AddOutputFilterByType DEFLATE application&#x2F;x-httpd-php</span><br><span class="line">AddOutputFilterByType DEFLATE image&#x2F;svg+xml</span><br><span class="line">AddOutputFilterByType DEFLATE image&#x2F;gif image&#x2F;png image&#x2F;jpe image&#x2F;swf image&#x2F;jpeg image&#x2F;bmp</span><br></pre></td></tr></table></figure>
-<h3 id="mod-gzip"><a href="#mod-gzip" class="headerlink" title="mod_gzip"></a>mod_gzip</h3><p>需要自己开启mod_gzip模块，然后把下面的内容写在 .htaccess中即可</p>
+<p> </p>
+<h3 id="mod_gzip">mod_gzip</h3>
+<p>需要自己开启mod_gzip模块，然后把下面的内容写在 .htaccess中即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ifModule mod_gzip.c&gt;</span><br><span class="line">mod_gzip_on Yes</span><br><span class="line">mod_gzip_dechunk Yes</span><br><span class="line">mod_gzip_item_include file .(html?txtcssjsphppl)$</span><br><span class="line">mod_gzip_item_include handler ^cgi-script$</span><br><span class="line">mod_gzip_item_include mime ^text&#x2F;.*</span><br><span class="line">mod_gzip_item_include mime ^application&#x2F;x-javascript.*</span><br><span class="line">mod_gzip_item_exclude mime ^image&#x2F;.*</span><br><span class="line">mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*</span><br><span class="line">&lt;&#x2F;ifModule&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="GZIP测试工具"><a href="#GZIP测试工具" class="headerlink" title="GZIP测试工具"></a>GZIP测试工具</h3><p><a target="_blank" rel="noopener" href="https://varvy.com/tools/gzip/">https://varvy.com/tools/gzip/</a></p>
+<p> </p>
+<h3 id="gzip测试工具">GZIP测试工具</h3>
+<p><a target="_blank" rel="noopener" href="https://varvy.com/tools/gzip/" class="uri">https://varvy.com/tools/gzip/</a></p>
 <p>输入你的站点，然后看看是不是压缩了呢？</p>
-<h2 id="上传图片失败解决办法"><a href="#上传图片失败解决办法" class="headerlink" title="上传图片失败解决办法"></a>上传图片失败解决办法</h2><p>不要相信网上一堆chmod 777的方法，虽然是可行的，但是<strong>不安全</strong></p>
+<h2 id="上传图片失败解决办法">上传图片失败解决办法</h2>
+<p>不要相信网上一堆chmod 777的方法，虽然是可行的，但是<strong>不安全</strong></p>
 <p><strong>正确的方法应该是修改文件所有者：</strong></p>
 <ul>
 <li>chown -R apache /var/www/html/wp-content/uploads</li>
@@ -297,6 +303,7 @@
 <ul>
 <li>chown -R apache /var/www/html/</li>
 </ul>
+<p> </p>
 <p>如果提示的内容是missing a temporary folder</p>
 <p>修改/etc/php.ini ，指定个临时目录</p>
 <ul>
@@ -306,21 +313,23 @@
 <ul>
 <li>service httpd restart</li>
 </ul>
-<h2 id="YOAST-SEO-sitemap-404-解决办法"><a href="#YOAST-SEO-sitemap-404-解决办法" class="headerlink" title="YOAST SEO sitemap 404 解决办法"></a>YOAST SEO sitemap 404 解决办法</h2><p>博主发现YOAST SEO 创建的sitemap访问直接 404。</p>
-<p>修改  .htaccess file，把下面内容加在wordpress rewrite规则前面就可以啦</p>
-<h1 id="Yoast-SEO-XML-Sitemap-Rewrite-Fix"><a href="#Yoast-SEO-XML-Sitemap-Rewrite-Fix" class="headerlink" title="Yoast SEO - XML Sitemap Rewrite Fix"></a>Yoast SEO - XML Sitemap Rewrite Fix</h1><p>RewriteEngine On<br>RewriteBase /<br>RewriteRule ^sitemap_index.xml$ /index.php?sitemap=1 [L]<br>RewriteRule ^locations.kml$ /index.php?sitemap=wpseo_local_kml [L]<br>RewriteRule ^geo_sitemap.xml$ /index.php?sitemap=geo [L]<br>RewriteRule ^(<sup><a href="#fn_/" id="reffn_/">/</a></sup>+?)-sitemap([0-9]+)?.xml$ /index.php?sitemap=$1&amp;sitemap_n=$2 [L]<br>RewriteRule ^([a-z]+)?-?sitemap.xsl$ /index.php?xsl=$1 [L]</p>
-<h1 id="END-Yoast-SEO-XML-Sitemap-Rewrite-Fix"><a href="#END-Yoast-SEO-XML-Sitemap-Rewrite-Fix" class="headerlink" title="END Yoast SEO - XML Sitemap Rewrite Fix"></a>END Yoast SEO - XML Sitemap Rewrite Fix</h1><p>参考 <a target="_blank" rel="noopener" href="http://kb.yoast.com/article/77-my-sitemap-index-is-giving-a-404-error-what-should-i-do">http://kb.yoast.com/article/77-my-sitemap-index-is-giving-a-404-error-what-should-i-do</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<p> </p>
+<h2 id="yoast-seo-sitemap-404-解决办法">YOAST SEO sitemap 404 解决办法</h2>
+<p>博主发现YOAST SEO 创建的sitemap访问直接 404。</p>
+<p>修改  .htaccess file，把下面内容加在wordpress rewrite规则前面就可以啦</p>
+<h1 id="yoast-seo---xml-sitemap-rewrite-fix">Yoast SEO - XML Sitemap Rewrite Fix</h1>
+<p>RewriteEngine On RewriteBase / RewriteRule ^sitemap_index.xml$ /index.php?sitemap=1 [L] RewriteRule ^locations.kml$ /index.php?sitemap=wpseo_local_kml [L] RewriteRule ^geo_sitemap.xml$ /index.php?sitemap=geo [L] RewriteRule ^([^/]+?)-sitemap([0-9]+)?.xml$ /index.php?sitemap=$1&amp;sitemap_n=<span class="math inline">\(2 [L] RewriteRule ^([a-z]+)?-?sitemap.xsl\)</span> /index.php?xsl=$1 [L] # END Yoast SEO - XML Sitemap Rewrite Fix</p>
+<p>参考 <a target="_blank" rel="noopener" href="http://kb.yoast.com/article/77-my-sitemap-index-is-giving-a-404-error-what-should-i-do" class="uri">http://kb.yoast.com/article/77-my-sitemap-index-is-giving-a-404-error-what-should-i-do</a></p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li><p>How To Install Wordpress on Centos 6</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-centos-6--2">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-centos-6—2</a></li>
-</ul>
-</li>
+<li><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-centos-6--2" class="uri">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-centos-6--2</a></li>
+</ul></li>
 <li><p>Installing WordPress on CentOS 5/6</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="http://www.rackspace.com/knowledge_center/article/installing-wordpress-on-centos-56">http://www.rackspace.com/knowledge_center/article/installing-wordpress-on-centos-56</a></li>
-</ul>
-</li>
+<li><a target="_blank" rel="noopener" href="http://www.rackspace.com/knowledge_center/article/installing-wordpress-on-centos-56" class="uri">http://www.rackspace.com/knowledge_center/article/installing-wordpress-on-centos-56</a></li>
+</ul></li>
 </ul>
  
       <!-- reward -->
@@ -537,12 +546,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -554,6 +569,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -562,13 +579,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -587,7 +605,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

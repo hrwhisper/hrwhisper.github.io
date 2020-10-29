@@ -114,8 +114,8 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>参加完RUC和ISCAS的夏令营……<br><a id="more"></a></p>
-<h1 id="RUC"><a href="#RUC" class="headerlink" title="RUC"></a>RUC</h1><p>RUC夏令营是7月8~10号。我报的专硕（软工）</p>
+  <p>参加完RUC和ISCAS的夏令营...... <a id="more"></a> # RUC</p>
+<p>RUC夏令营是7月8~10号。我报的专硕（软工）</p>
 <p>第一天很无聊的报道=v=拿了个饭卡和衣服继续去图书馆。。来报道的大概170个~</p>
 <p>第二天早上是各个实验室的宣讲。。。。</p>
 <p>然后下午开始面试。</p>
@@ -140,13 +140,13 @@
 <p>最左边的男老师：我们给你过你回来么。。</p>
 <p>我：（我肯定得说来啊） 来啊</p>
 <p>why?</p>
-<p>我：（机智的我早已想到会问这种了） 因为我对RUC比较熟悉 巴拉巴拉….（其实要不是看两年我才不报呢。。。当然不能这么说）</p>
+<p>我：（机智的我早已想到会问这种了） 因为我对RUC比较熟悉 巴拉巴拉....（其实要不是看两年我才不报呢。。。当然不能这么说）</p>
 <p>然后老师不问了，觉得挺满意= =都不问技术的。。</p>
 <p>接着第一个女老师问英文问题：</p>
 <p>In you spare time you like running, do you join in some competitions？</p>
 <p>我没听清。。。。pardon。。。。</p>
 <p>老师又说了一遍。。</p>
-<p>我：no , I often run alone,and listen some music…..</p>
+<p>我：no , I often run alone,and listen some music.....</p>
 <p>老师：pardon</p>
 <p>捂脸(/▽＼=)</p>
 <p>之后我就出去了。。。</p>
@@ -161,32 +161,32 @@
 <li>c/c++ /java 逻辑与和按位与</li>
 <li>c/c++中的取地址（当时竟然忘了写，亏我下面scanf写得那么开心）</li>
 <li>c++中的引用（觉得太水了一时happy当时也忘了写T^T）</li>
-</ul>
-</li>
+</ul></li>
 <li><p>给一个数组，求每个数除以第一个元素的值，并存在原位置</p>
 <ul>
 <li>for循环嘛。。。注意从第二个元素开始算，最后第一个元素赋值为1</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p>笔试第二题是求给定一个数n，求至少三个数，他们的LCM为n，且在所有解中和最小。如 54 可以变为1 2 27 这个和是最小的。</p>
 <ul>
 <li>思路是分解素因子，相同因子的放一起，不够3个补1</li>
 </ul>
-<p>笔试第三题是给定一个文档格式，要求你提取出来。字符域以”开头，以”结尾。，不同域以,分开。。两个””表示一个引号字符。</p>
+<p>笔试第三题是给定一个文档格式，要求你提取出来。字符域以&quot;开头，以&quot;结尾。，不同域以,分开。。两个&quot;&quot;表示一个引号字符。</p>
 <ul>
 <li>好想用正则啊。。碰到,的时候，数引号的个数就好了昂。必须偶数次啊会是一个完整的域</li>
 <li>这题我直接STL vector上了，题目说可以用任何你熟悉的系统函数~</li>
 </ul>
+<p> </p>
 <p>接着是机试，很水</p>
 <p>就两题，第一题是一个数组中两个数的和等于第三个数（不同的三个数），问共有几个</p>
 <p>我直接排序 枚举+二分O( n^2 logn) 然后去重，想要是TLE的话在哈希 结果1A了</p>
 <p>出来听他们直接N^3竟然过了。。。我也是醉了。。</p>
-<p>第二题是报时器 比如20：00你就说 twenty o’clock，规则题目都写好了。随便就过了。</p>
+<p>第二题是报时器 比如20：00你就说 twenty o'clock，规则题目都写好了。随便就过了。</p>
 <p>提早交卷走人~</p>
 <p>除了英语感觉坑了外，其他都还好。</p>
 <p>昨天老师说被录取了= =</p>
-<h1 id="ISCAS"><a href="#ISCAS" class="headerlink" title="ISCAS"></a>ISCAS</h1><p>这个竟然从20~25。。。这么多天。。</p>
+<h1 id="iscas">ISCAS</h1>
+<p>这个竟然从20~25。。。这么多天。。</p>
 <p>20号报道好无聊。。换到了另一个师兄那去住他也是拿nokia ^ ^</p>
 <p>晚上开班会= =就是自我介绍下</p>
 <p>21号开营仪式，就拍了个照片。然后是马校长的《感性的人与能动的实践》</p>
@@ -234,6 +234,7 @@
 <ul>
 <li>判断身份证号合法性，如出生年份，闰年啥的</li>
 </ul>
+<p> </p>
 <p>最后7月30号给了offer，学硕的</p>
  
       <!-- reward -->
@@ -450,12 +451,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -467,6 +474,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -475,13 +484,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -500,7 +510,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

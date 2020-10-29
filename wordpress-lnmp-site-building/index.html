@@ -116,14 +116,18 @@
        
   <p>最近把服务器的架构从LAMP换成了LNMP（linux + nginx + mysql + php），顺便换了个服务器。下面把过程记录一下。</p>
 <blockquote>
-<p>2017/7/17 更新 : centos 6.9 + nginx 1.12.1 + mysql 5.7 + php 7.1<br><a id="more"></a><br>上一次的<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/optimizing-apache-for-low-memory-ram-vps/">apache 在低配置服务器下的优化</a> 执行完，博客已经在LAMP稳定的运行了133天。</p>
+<p>2017/7/17 更新 : centos 6.9 + nginx 1.12.1 + mysql 5.7 + php 7.1 <a id="more"></a> 上一次的<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/optimizing-apache-for-low-memory-ram-vps/">apache 在低配置服务器下的优化</a> 执行完，博客已经在LAMP稳定的运行了133天。</p>
 </blockquote>
-<p><img src="../images/wordpress-lnmp-site-building/after-optimizing-apache.png" alt="after-optimizing-apache"></p>
+<figure>
+<img src="../images/wordpress-lnmp-site-building/after-optimizing-apache.png" alt="after-optimizing-apache" /><figcaption>after-optimizing-apache</figcaption>
+</figure>
 <p>可以看出，优化还是比较成功的，那么这次为什么要改成LNMP呢?</p>
 <p>原因是我感觉有时候浏览blog的时候速度很慢，但过一会儿又很快，感觉是apache阻塞式运行方式造成了并发不行。。。</p>
 <p>现在换了LNMP后，没有感觉这些问题。</p>
 <p>服务器系统为centos 6.</p>
-<h1 id="环境部分"><a href="#环境部分" class="headerlink" title="环境部分"></a>环境部分</h1><h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>首先编辑源</p>
+<h1 id="环境部分">环境部分</h1>
+<h2 id="nginx">Nginx</h2>
+<p>首先编辑源</p>
 <ul>
 <li>vim /etc/yum.repos.d/nginx.repo</li>
 </ul>
@@ -137,11 +141,14 @@
 <p>这时候可以通过IP地址访问你的站点看看是否是nginx呢?</p>
 <p>忘记IP了？（如下命令打印出IP）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0  grep inet  awk &#39;&#123; print $2 &#125;&#39;</span><br></pre></td></tr></table></figure>
-<p>接下来进行配置，打开   sudo vi /etc/nginx/nginx.conf</p>
+<p>接下来进行配置，打开   sudo vi /etc/nginx/nginx.conf</p>
 <ul>
 <li>将worker_processes 设置为4;</li>
 </ul>
-<h2 id="PHP安装和配置"><a href="#PHP安装和配置" class="headerlink" title="PHP安装和配置"></a>PHP安装和配置</h2><h3 id="新版安装"><a href="#新版安装" class="headerlink" title="新版安装"></a>新版安装</h3><p>yum默认的版本太老了，装5.6配置一下源：</p>
+<p> </p>
+<h2 id="php安装和配置">PHP安装和配置</h2>
+<h3 id="新版安装">新版安装</h3>
+<p>yum默认的版本太老了，装5.6配置一下源：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CentOS&#x2F;RHEL 7.x:</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;dl.fedoraproject.org&#x2F;pub&#x2F;epel&#x2F;epel-release-latest-7.noarch.rpm</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el7&#x2F;webtatic-release.rpm</span><br><span class="line"></span><br><span class="line">CentOS&#x2F;RHEL 6.x:</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;dl.fedoraproject.org&#x2F;pub&#x2F;epel&#x2F;epel-release-latest-6.noarch.rpm</span><br><span class="line">rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el6&#x2F;latest.rpm</span><br></pre></td></tr></table></figure>
 <p>然后安装php7</p>
 <ul>
@@ -151,37 +158,40 @@
 <ul>
 <li><code>yum install php56w php56w-fpm php56w-mysql</code></li>
 </ul>
-<h3 id="旧版安装"><a href="#旧版安装" class="headerlink" title="旧版安装"></a>旧版安装</h3><p>系统默认的比较老，可以直接：</p>
+<h3 id="旧版安装">旧版安装</h3>
+<p>系统默认的比较老，可以直接：</p>
 <ul>
 <li><code>sudo yum install php-fpm php-mysql</code></li>
 </ul>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<h3 id="配置">配置</h3>
+<ul>
 <li><p>接着编辑php.ini文件，将cgi.fix_pathinfo设置为0</p>
 <ul>
 <li><code>sudo vi /etc/php.ini</code></li>
 <li><code>cgi.fix_pathinfo=0</code></li>
-</ul>
-</li>
-<li><p><code>sudo vi /etc/php-fpm.d/www.conf</code></p>
+</ul></li>
+<li><code>sudo vi /etc/php-fpm.d/www.conf</code>
 <ul>
 <li>设置用户和组别为nginx</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <blockquote>
-<p>[…]<br>; Unix user/group of processes<br>; Note: The user is mandatory. If the group is not set, the default user’s group<br>;        will be used.<br>; RPM: apache Choosed to be able to access some dir as httpd<br>user = nginx<br>; RPM: Keep a group allowed to write in log dir.<br>group = nginx<br>[…]</p>
+<p>[...] ; Unix user/group of processes ; Note: The user is mandatory. If the group is not set, the default user's group ;        will be used. ; RPM: apache Choosed to be able to access some dir as httpd user = nginx ; RPM: Keep a group allowed to write in log dir. group = nginx [...]</p>
 </blockquote>
 <ul>
 <li><p>重启php-fpm</p>
 <ul>
 <li><code>sudo service php-fpm restart</code></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h3 id="PHP-FPM优化"><a href="#PHP-FPM优化" class="headerlink" title="PHP-FPM优化"></a>PHP-FPM优化</h3><p>由于是小的内存，只有512MB，除开启虚拟内存外，我对php-fpm也进行了优化。</p>
-<p><code>sudo  vi /etc/php-fpm.d/www.conf</code></p>
+<h3 id="php-fpm优化">PHP-FPM优化</h3>
+<p>由于是小的内存，只有512MB，除开启虚拟内存外，我对php-fpm也进行了优化。</p>
+<p><code>sudo  vi /etc/php-fpm.d/www.conf</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pm.max_children &#x3D; 20</span><br><span class="line">pm.start_servers &#x3D; 5</span><br><span class="line">pm.min_spare_servers &#x3D; 1</span><br><span class="line">pm.max_spare_servers &#x3D; 5</span><br></pre></td></tr></table></figure>
-<h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><h3 id="Mysql5-7新版安装"><a href="#Mysql5-7新版安装" class="headerlink" title="Mysql5.7新版安装"></a>Mysql5.7新版安装</h3><p>要安装新版本可以先去<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/repo/yum/">https://dev.mysql.com/downloads/repo/yum/</a> 找到系统对应源的地址</p>
+<p> </p>
+<h2 id="mysql">Mysql</h2>
+<h3 id="mysql5.7新版安装">Mysql5.7新版安装</h3>
+<p>要安装新版本可以先去https://dev.mysql.com/downloads/repo/yum/ 找到系统对应源的地址</p>
 <p>比如我的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el6-11.noarch.rpm</span><br></pre></td></tr></table></figure>
 <p>然后安装</p>
@@ -195,7 +205,8 @@
 <li><code>sudo /usr/bin/mysql_secure_installation</code></li>
 </ul>
 <p>输入密码后，修改密码（要求强密码，最好字母大小写、数字、特殊字符），然后一路按y</p>
-<h3 id="旧版安装-1"><a href="#旧版安装-1" class="headerlink" title="旧版安装"></a>旧版安装</h3><p>系统yum里面的为5.1版本，安装直接如下：</p>
+<h3 id="旧版安装-1">旧版安装</h3>
+<p>系统yum里面的为5.1版本，安装直接如下：</p>
 <ul>
 <li><code>sudo yum -y install mysql-server</code></li>
 <li><code>sudo /etc/init.d/mysqld restart</code></li>
@@ -204,7 +215,8 @@
 <ul>
 <li><code>sudo /usr/bin/mysql_secure_installation</code></li>
 </ul>
-<h3 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h3><p>登入mysql</p>
+<h3 id="配置-1">配置</h3>
+<p>登入mysql</p>
 <ul>
 <li><code>mysql -u root -p</code></li>
 </ul>
@@ -222,83 +234,96 @@
 </ul>
 <p>设置权限</p>
 <ul>
-<li><code>grant select,insert,update,delete,create,index,references,alter on   wordpress.* to hrwhisper@localhost identified by &#39;123456&#39;;</code></li>
+<li><code>grant select,insert,update,delete,create,index,references,alter on   wordpress.* to hrwhisper@localhost identified by '123456';</code></li>
 </ul>
 <p>做完上面的步骤后</p>
 <ul>
 <li><code>FLUSH PRIVILEGES;</code></li>
 <li><code>exit;</code></li>
 </ul>
-<h3 id="恢复数据库"><a href="#恢复数据库" class="headerlink" title="恢复数据库"></a>恢复数据库</h3><p>如果是旧的站点，可以将数据库导入,方法如下：</p>
+<h3 id="恢复数据库">恢复数据库</h3>
+<p>如果是旧的站点，可以将数据库导入,方法如下：</p>
 <p>登录数据库后，进行如下操作</p>
-<p>（1）选择数据库  mysql&gt;use abc;</p>
-<p>（2）设置数据库编码  mysql&gt;set names utf8;</p>
-<p>（3）导入数据（注意sql文件的路径）   mysql&gt;source /home/abc/abc.sql;</p>
-<h2 id="获取wordpress"><a href="#获取wordpress" class="headerlink" title="获取wordpress"></a>获取wordpress</h2><p>和LAMP一样，</p>
+<p>（1）选择数据库  mysql&gt;use abc;</p>
+<p>（2）设置数据库编码  mysql&gt;set names utf8;</p>
+<p>（3）导入数据（注意sql文件的路径）   mysql&gt;source /home/abc/abc.sql;</p>
+<h2 id="获取wordpress">获取wordpress</h2>
+<p>和LAMP一样，</p>
 <ul>
-<li>wget <a target="_blank" rel="noopener" href="http://wordpress.org/latest.tar.gz">http://wordpress.org/latest.tar.gz</a></li>
-<li><p>tar -xzvf latest.tar.gz</p>
-</li>
-<li><p>cp ~/wordpress/wp-config-sample.php ~/wordpress/wp-config.php</p>
-</li>
+<li>wget http://wordpress.org/latest.tar.gz</li>
+<li><p>tar -xzvf latest.tar.gz</p></li>
+<li><p>cp ~/wordpress/wp-config-sample.php ~/wordpress/wp-config.php</p></li>
 <li><p>sudo vi ~/wordpress/wp-config.php</p>
 <ul>
 <li>修改如下内容</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <blockquote>
-<p>// <strong> MySQL settings - You can get this info from your web host </strong> //<br>/<em>* The name of the database for WordPress </em>/<br>define(‘DB_NAME’, ‘wordpress’);</p>
-<p>/<em>* MySQL database username </em>/<br>define(‘DB_USER’, ‘wordpressuser’);</p>
-<p>/<em>* MySQL database password </em>/<br>define(‘DB_PASSWORD’, ‘password’);</p>
+<p>// ** MySQL settings - You can get this info from your web host ** // /** The name of the database for WordPress */ define('DB_NAME', 'wordpress');</p>
+<p>/** MySQL database username */ define('DB_USER', 'wordpressuser');</p>
+<p>/** MySQL database password */ define('DB_PASSWORD', 'password');</p>
 </blockquote>
 <ul>
 <li><code>sudo mkdir -p /var/www/html</code></li>
 <li><code>sudo cp -r ~/wordpress/* /var/www/html</code></li>
-<li><p><code>cd /var/www/</code></p>
-</li>
+<li><p><code>cd /var/www/</code></p></li>
 <li><p>修改用户和用户组</p>
 <ul>
 <li><code>sudo chown nginx:nginx * -R</code></li>
 <li><code>sudo usermod -a -G nginx username</code></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="配置nginx路径"><a href="#配置nginx路径" class="headerlink" title="配置nginx路径"></a>配置nginx路径</h2><p><code>sudo vim /etc/nginx/conf.d/default.conf</code></p>
+<p> </p>
+<h2 id="配置nginx路径">配置nginx路径</h2>
+<p><code>sudo vim /etc/nginx/conf.d/default.conf</code></p>
 <p>这里列举修改的地方</p>
 <ul>
 <li>在index那行中添加index.php</li>
-<li>改变根目录为 /var/www/html;</li>
-<li>把 “location ~ .php$ {“, 的注释全部去掉</li>
+<li>改变根目录为 /var/www/html;</li>
+<li>把 &quot;location ~ .php$ {&quot;, 的注释全部去掉</li>
 <li>改变location ~下的root路径为/var/www/html;</li>
 <li>修改fastcgi_param</li>
 </ul>
 <p>可以参考如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line"># The default server</span><br><span class="line">#</span><br><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  _;</span><br><span class="line"></span><br><span class="line">#charset koi8-r;</span><br><span class="line"></span><br><span class="line">#access_log  logs&#x2F;host.access.log  main;</span><br><span class="line"></span><br><span class="line">location &#x2F; &#123;</span><br><span class="line">        root   &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">        index index.php  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">error_page  404              &#x2F;404.html;</span><br><span class="line">    location &#x3D; &#x2F;404.html &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"># redirect server error pages to the static page &#x2F;50x.html</span><br><span class="line">    #</span><br><span class="line">    error_page   500 502 503 504  &#x2F;50x.html;</span><br><span class="line">    location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">    #</span><br><span class="line">    #location ~ \.php$ &#123;</span><br><span class="line">    #    proxy_pass   http:&#x2F;&#x2F;127.0.0.1;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br><span class="line">    #</span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        root           &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">        fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"># deny access to .htaccess files, if Apache&#39;s document root</span><br><span class="line">    # concurs with nginx&#39;s one</span><br><span class="line">    #</span><br><span class="line">    #location ~ &#x2F;\.ht &#123;</span><br><span class="line">    #    deny  all;</span><br><span class="line">    #&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="设置自启动"><a href="#设置自启动" class="headerlink" title="设置自启动"></a>设置自启动</h2><p>配置完上面的记得重启一下</p>
+<p> </p>
+<h2 id="设置自启动">设置自启动</h2>
+<p>配置完上面的记得重启一下</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo chkconfig --levels 235 mysqld on</span><br><span class="line">sudo chkconfig --levels 235 nginx on</span><br><span class="line">sudo chkconfig --levels 235 php-fpm on</span><br></pre></td></tr></table></figure>
 <p>到这里，基本配置已经结束，站点已经能正常访问。 下面是进阶的配置，如开启gzip、rewrite、https等</p>
-<h1 id="其他的配置"><a href="#其他的配置" class="headerlink" title="其他的配置"></a>其他的配置</h1><h2 id="开启gzip"><a href="#开启gzip" class="headerlink" title="开启gzip"></a>开启gzip</h2><ul>
-<li>vim  /etc/nginx/nginx.conf</li>
+<h1 id="其他的配置">其他的配置</h1>
+<h2 id="开启gzip">开启gzip</h2>
+<ul>
+<li>vim  /etc/nginx/nginx.conf</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gzip on;</span><br><span class="line"></span><br><span class="line"># 启用gzip压缩的最小文件，小于设置值的文件将不会压缩</span><br><span class="line">gzip_min_length 1k;</span><br><span class="line"></span><br><span class="line"># gzip 压缩级别，1-10，数字越大压缩的越好，也越占用CPU时间，后面会有详细说明</span><br><span class="line">gzip_comp_level 2;</span><br><span class="line"></span><br><span class="line"># 进行压缩的文件类型。javascript有多种形式。其中的值可以在 mime.types 文件中找到。</span><br><span class="line">gzip_types text&#x2F;plain application&#x2F;javascript application&#x2F;x-javascript text&#x2F;css application&#x2F;xml text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png;</span><br><span class="line"></span><br><span class="line"># 是否在http header中添加Vary: Accept-Encoding，建议开启</span><br><span class="line">gzip_vary on;</span><br><span class="line"></span><br><span class="line"># 禁用IE 6 gzip</span><br><span class="line">gzip_disable &quot;MSIE [1-6]\.&quot;;</span><br></pre></td></tr></table></figure>
-<h2 id="开启rewrite"><a href="#开启rewrite" class="headerlink" title="开启rewrite"></a>开启rewrite</h2><p>不开启rewrite wordpress修改固定链接是无法使用的</p>
-<p><code>vim  /etc/nginx/conf.d/default.conf</code></p>
+<p> </p>
+<h2 id="开启rewrite">开启rewrite</h2>
+<p>不开启rewrite wordpress修改固定链接是无法使用的</p>
+<p><code>vim  /etc/nginx/conf.d/default.conf</code></p>
 <p>下面是一个完整的vhost的配置文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">        index index.html index.htm index.php;</span><br><span class="line">        root &#x2F;www&#x2F;wwwroot&#x2F;ccvita.com;</span><br><span class="line"></span><br><span class="line">        if (-f $request_filename&#x2F;index.html)&#123;</span><br><span class="line">                rewrite (.*) $1&#x2F;index.html break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (-f $request_filename&#x2F;index.php)&#123;</span><br><span class="line">                rewrite (.*) $1&#x2F;index.php;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!-f $request_filename)&#123;</span><br><span class="line">                rewrite (.*) &#x2F;index.php;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="开启swap"><a href="#开启swap" class="headerlink" title="开启swap"></a>开启swap</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-centos-6">https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-centos-6</a></p>
-<h2 id="开启https"><a href="#开启https" class="headerlink" title="开启https"></a>开启https</h2><p>我开启了强制HTTPS，所以 /etc/nginx/conf.d/default.conf 配置为</p>
+<p> </p>
+<h2 id="开启swap">开启swap</h2>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-centos-6" class="uri">https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-centos-6</a></p>
+<h2 id="开启https">开启https</h2>
+<p>我开启了强制HTTPS，所以 /etc/nginx/conf.d/default.conf 配置为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen      80;</span><br><span class="line">    server_name hrwhisper.me;</span><br><span class="line">    return 301 https:&#x2F;&#x2F;www.hrwhisper.me$request_uri;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>接下来配置/etc/nginx/conf.d/ssl.conf，主要是把ssl 设为on,</p>
 <p>然后设置ssl_certificate 和ssl_certificate_key为你证书的路径（注意不能直接拿apache的来用，那个有3个，直接用证书链不完整，电脑OK，但手机显示不受信任）</p>
 <p>PS: 还没有证书？参考<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/install-lets-encrypt-ssl-centos-nginx/">Centos 获取 Let’s Encrypt 证书</a></p>
 <p>设置ssl协议为 TLSv1 TLSv1.1 TLSv1.2 ， （不要SSL3 SSL2），这样兼容了绝大部分的机器，并更安全。此外，设置了ssl_ciphers，开启了HSTS。</p>
 <p>剩下的其实就是普通站点原来的default.conf复制过来的。</p>
-<p>在 SSL安全性 评分中（<a target="_blank" rel="noopener" href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>），达到最高的等级A+</p>
-<p><img src="../images/wordpress-lnmp-site-building/lnmp-https-score.png" alt="lnmp-https-score"></p>
+<p>在 SSL安全性 评分中（<a target="_blank" rel="noopener" href="https://www.ssllabs.com/ssltest/" class="uri">https://www.ssllabs.com/ssltest/</a>），达到最高的等级A+</p>
+<figure>
+<img src="../images/wordpress-lnmp-site-building/lnmp-https-score.png" alt="lnmp-https-score" /><figcaption>lnmp-https-score</figcaption>
+</figure>
 <p>下面是完整的配置文件：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line"># The default server</span><br><span class="line">#</span><br><span class="line">server &#123;</span><br><span class="line">    listen       443;</span><br><span class="line">    listen [::]:443 ssl ipv6only&#x3D;on;</span><br><span class="line">    server_name  hrwhisper.me;</span><br><span class="line"></span><br><span class="line">    ssl                  on;</span><br><span class="line">    ssl_certificate      &#x2F;etc&#x2F;ssl&#x2F;private&#x2F;1_www.hrwhisper.me_bundle.crt;</span><br><span class="line">    ssl_certificate_key  &#x2F;etc&#x2F;ssl&#x2F;private&#x2F;2_www.hrwhisper.me.key;</span><br><span class="line"></span><br><span class="line">    #    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    </span><br><span class="line">    ssl_ciphers  ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS;</span><br><span class="line"></span><br><span class="line">    ssl_prefer_server_ciphers   on;</span><br><span class="line">    </span><br><span class="line">    #enable HSTS including subdomains</span><br><span class="line">    add_header Strict-Transport-Security &quot;max-age&#x3D;31536000; includeSubdomains&quot;;    </span><br><span class="line"></span><br><span class="line">    charset utf-8;</span><br><span class="line"></span><br><span class="line">    access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;</span><br><span class="line"></span><br><span class="line">    # Load configuration files for the default server block.</span><br><span class="line">    include &#x2F;etc&#x2F;nginx&#x2F;default.d&#x2F;*.conf;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        root   &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">        index  index.php index.html index.htm;</span><br><span class="line">        if (-f $request_filename&#x2F;index.html)&#123;</span><br><span class="line">                rewrite (.*) $1&#x2F;index.html break;</span><br><span class="line">        &#125;</span><br><span class="line">        if (-f $request_filename&#x2F;index.php)&#123;</span><br><span class="line">                rewrite (.*) $1&#x2F;index.php;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!-f $request_filename)&#123;</span><br><span class="line">                rewrite (.*) &#x2F;index.php;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page  404              &#x2F;404.html;</span><br><span class="line">    location &#x3D; &#x2F;404.html &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # redirect server error pages to the static page &#x2F;50x.html</span><br><span class="line">    #</span><br><span class="line">    error_page   500 502 503 504  &#x2F;50x.html;</span><br><span class="line">    location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">    #</span><br><span class="line">    #location ~ \.php$ &#123;</span><br><span class="line">    #    proxy_pass   http:&#x2F;&#x2F;127.0.0.1;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line">    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br><span class="line">    #</span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        root           &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">        fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # deny access to .htaccess files, if Apache&#39;s document root</span><br><span class="line">    # concurs with nginx&#39;s one</span><br><span class="line">    #</span><br><span class="line">    #location ~ &#x2F;\.ht &#123;</span><br><span class="line">    #    deny  all;</span><br><span class="line">    #&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<p> </p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-centos-6">How To Install Linux, nginx, MySQL, PHP (LEMP) stack on CentOS 6</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-nginx-on-centos-6--2">How To Install Wordpress with nginx on CentOS 6</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.ccvita.com/336.html">Nginx下WordPress的Rewrite</a></li>
@@ -519,12 +544,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -536,6 +567,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -544,13 +577,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -569,7 +603,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

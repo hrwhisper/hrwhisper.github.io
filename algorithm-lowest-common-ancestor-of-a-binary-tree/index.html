@@ -117,8 +117,8 @@
   <p>Lowest Common Ancestor of a Binary Tree 问题描述</p>
 <blockquote>
 <p>Given a binary tree, find the lowest common ancestor of two given nodes in the tree.</p>
-<p>给定一棵二叉树，求最近公共祖先。<br><a id="more"></a></p>
-<h2 id="二叉搜索树-BST"><a href="#二叉搜索树-BST" class="headerlink" title="二叉搜索树 BST"></a>二叉搜索树 BST</h2></blockquote>
+<p>给定一棵二叉树，求最近公共祖先。 <a id="more"></a> ## 二叉搜索树 BST</p>
+</blockquote>
 <p>先从最简单的二叉搜索树BST讲起，给定一棵 BST如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     _______6______</span><br><span class="line">    &#x2F;              \</span><br><span class="line"> ___2__          ___8__</span><br><span class="line">&#x2F;      \        &#x2F;      \</span><br><span class="line">0      _4       7       9</span><br><span class="line">      &#x2F;  \</span><br><span class="line">      3   5</span><br></pre></td></tr></table></figure>
 <p>比如如求2和8的LCA，那么为6，博主简单记为LCA(2,8) = 6</p>
@@ -136,12 +136,15 @@
 <p>用Python简单的实现如下，这里总是p &lt; q的，复杂度O(n)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lowestCommonAncestor</span>(<span class="params">self, root, p, q</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :type p: TreeNode</span></span><br><span class="line"><span class="string">        :type q: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:<span class="keyword">return</span> root;</span><br><span class="line">        <span class="keyword">if</span> p.val &gt; q.val:<span class="keyword">return</span> self.lowestCommonAncestor(root, q, p)</span><br><span class="line">        <span class="keyword">if</span> root.val &gt;= p.val <span class="keyword">and</span> root.val &lt;= q.val: <span class="keyword">return</span> root;</span><br><span class="line">        <span class="keyword">if</span> root.val &lt; p.val:<span class="keyword">return</span> self.lowestCommonAncestor(root.right, p, q)</span><br><span class="line">        <span class="keyword">if</span> root.val &gt; q.val:<span class="keyword">return</span> self.lowestCommonAncestor(root.left, p, q)</span><br></pre></td></tr></table></figure>
 <p>ps:其实这也是<a target="_blank" rel="noopener" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/">Lowest 235 Common Ancestor of a Binary Search Tree</a> 的解法</p>
-<h2 id="普通二叉树"><a href="#普通二叉树" class="headerlink" title="普通二叉树"></a>普通二叉树</h2><p>节点定义如下，有左右子节点：(用java貌似看起来清晰点)</p>
+<h2 id="普通二叉树">普通二叉树</h2>
+<p>节点定义如下，有左右子节点：(用java貌似看起来清晰点)</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> val;</span><br><span class="line">     TreeNode left;</span><br><span class="line">     TreeNode right;</span><br><span class="line">     TreeNode(<span class="keyword">int</span> x) &#123; val = x; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>像刚才那样看左右子节点肯定不行的啦，看下面的树:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     _______3______</span><br><span class="line">    &#x2F;              \</span><br><span class="line"> ___5__          ___1__</span><br><span class="line">&#x2F;      \        &#x2F;      \</span><br><span class="line">6      _2       0       8</span><br><span class="line">      &#x2F;  \</span><br><span class="line">      7   4</span><br></pre></td></tr></table></figure>
 <p>在举个栗子</p>
-<p><img src="../images/algorithm-lowest-common-ancestor-of-a-binary-tree/for-example.jpg" alt="for example"></p>
+<figure>
+<img src="../images/algorithm-lowest-common-ancestor-of-a-binary-tree/for-example.jpg" alt="for example" /><figcaption>for example</figcaption>
+</figure>
 <ul>
 <li>LCA(5,2) = 5</li>
 <li>LCA(5,1) = 3</li>
@@ -154,24 +157,28 @@
 <p>Using a bottom-up approach, we can improve over the top-down approach by avoiding traversing the same nodes over and over again.</p>
 <p>We traverse from the bottom, and once we reach a node which matches one of the two nodes, we pass it up to its parent. The parent would then test its left and right subtree if each contain one of the two nodes. If yes, then the parent must be the LCA and we pass its parent up to the root. If not, we pass the lower node which contains either one of the two nodes (if the left or right subtree contains either p or q), or NULL (if both the left and right subtree does not contain either p or q) up.</p>
 <p>Sounds complicated? Surprisingly the code appears to be much simpler than the top-down one.</p>
-<p>_from : <a target="_blank" rel="noopener" href="http://articles.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-i.html_">http://articles.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-i.html_</a></p>
+<p><em>from : http://articles.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-i.html</em></p>
 </blockquote>
 <p>我们仍然可以用递归来解决，递归寻找两个带查询LCA的节点p和q，当找到后，返回给它们的父亲。如果某个节点的左右子树分别包括这两个节点，那么这个节点必然是所求的解，返回该节点。否则，返回左或者右子树（哪个包含p或者q的就返回哪个）。</p>
 <p>复杂度O(n)</p>
 <p>代码很简单，也写得很漂亮：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lowestCommonAncestor</span>(<span class="params">self, root, p, q</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :type p: TreeNode</span></span><br><span class="line"><span class="string">        :type q: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root <span class="keyword">or</span> root == p <span class="keyword">or</span> root == q: <span class="keyword">return</span> root</span><br><span class="line">        left = self.lowestCommonAncestor(root.left, p, q)</span><br><span class="line">        right = self.lowestCommonAncestor(root.right, p, q)</span><br><span class="line">        <span class="keyword">if</span> left <span class="keyword">and</span> right:</span><br><span class="line">            <span class="keyword">return</span> root</span><br><span class="line">        <span class="keyword">return</span> left <span class="keyword">if</span> left <span class="keyword">else</span> right</span><br></pre></td></tr></table></figure>
-<p>ps:其实这也是<a target="_blank" rel="noopener" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/">leetcode 236 Lowest Common Ancestor of a Binary Tree</a> 的解法</p>
-<h2 id="带有父节点信息的二叉树"><a href="#带有父节点信息的二叉树" class="headerlink" title="带有父节点信息的二叉树"></a>带有父节点信息的二叉树</h2><p>扩展，如果带有父节点的信息呢？</p>
+<p>ps:其实这也是<a target="_blank" rel="noopener" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/">leetcode 236 Lowest Common Ancestor of a Binary Tree</a> 的解法</p>
+<h2 id="带有父节点信息的二叉树">带有父节点信息的二叉树</h2>
+<p>扩展，如果带有父节点的信息呢？</p>
 <p>换句话说，树的定义为</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> val;</span><br><span class="line">     TreeNode left;</span><br><span class="line">     TreeNode right;</span><br><span class="line">     TreeNode parent;</span><br><span class="line">     TreeNode(<span class="keyword">int</span> x) &#123; val = x; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么，一个简单的思路，对p和q向上走，用hashtable记录访问过的节点，</p>
 <p>如果某个节点已经被访问过了，那么返回该节点。</p>
 <p>复杂度O(h),h为树的高度</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">LCA</span>(<span class="params">root, p, q</span>):</span></span><br><span class="line">    vis = set()</span><br><span class="line">    <span class="keyword">while</span> p <span class="keyword">or</span> q:</span><br><span class="line">        <span class="keyword">if</span> p:</span><br><span class="line">            <span class="keyword">if</span> p <span class="keyword">in</span> vis:</span><br><span class="line">                <span class="keyword">return</span> p</span><br><span class="line">            vis.add(p)</span><br><span class="line">            p = p.parent</span><br><span class="line">        <span class="keyword">if</span> q:</span><br><span class="line">            <span class="keyword">if</span> q <span class="keyword">in</span> vis:</span><br><span class="line">                <span class="keyword">return</span> q</span><br><span class="line">            vis.add(q)</span><br><span class="line">            q = q.parent</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>更好的方法是求出p和q的高度，高度比较高的向上移动，直到两个节点相遇。</p>
 <p>复杂度O(h),h为树的高度</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getHeight</span><span class="params">(Node *p)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> height = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (p) &#123;</span><br><span class="line">    height++;</span><br><span class="line">    p = p-&gt;parent;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> height;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// As root-&gt;parent is NULL, we don&#x27;t need to pass root in.</span></span><br><span class="line"><span class="function">Node *<span class="title">LCA</span><span class="params">(Node *p, Node *q)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> h1 = getHeight(p);</span><br><span class="line">  <span class="keyword">int</span> h2 = getHeight(q);</span><br><span class="line">  <span class="comment">// swap both nodes in case p is deeper than q.</span></span><br><span class="line">  <span class="keyword">if</span> (h1 &gt; h2) &#123;</span><br><span class="line">    swap(h1, h2);</span><br><span class="line">    swap(p, q);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// invariant: h1 &lt;= h2.</span></span><br><span class="line">  <span class="keyword">int</span> dh = h2 - h1;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> h = <span class="number">0</span>; h &lt; dh; h++)</span><br><span class="line">    q = q-&gt;parent;</span><br><span class="line">  <span class="keyword">while</span> (p &amp;&amp; q) &#123;</span><br><span class="line">    <span class="keyword">if</span> (p == q) <span class="keyword">return</span> p;</span><br><span class="line">    p = p-&gt;parent;</span><br><span class="line">    q = q-&gt;parent;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">NULL</span>;  <span class="comment">// p and q are not in the same tree</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="多次查询的普通二叉树"><a href="#多次查询的普通二叉树" class="headerlink" title="多次查询的普通二叉树"></a>多次查询的普通二叉树</h2><p>如果是多次查询呢?每次都递归一次?</p>
+<p> </p>
+<h2 id="多次查询的普通二叉树">多次查询的普通二叉树</h2>
+<p>如果是多次查询呢?每次都递归一次?</p>
 <p>这样有q次查询就要O(q * n) !</p>
 <p>显然这复杂度太高。</p>
 <p>我们可以用Tarjan离线算法来求LCA</p>
@@ -187,8 +194,10 @@
 <p>看到这里，你应该知道了用并查集的原因：可以快速的找到某个节点的祖先，这对多个查询是非常有利的。</p>
 <p>C++</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">UnionFindSet</span> &#123;</span></span><br><span class="line">	<span class="built_in">unordered_map</span>&lt;TreeNode* , TreeNode*&gt; fa;</span><br><span class="line"></span><br><span class="line">	<span class="function">TreeNode* <span class="title">find</span><span class="params">(TreeNode *p)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> fa[p] == <span class="literal">NULL</span> ? p : fa[p] = find(fa[p]);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">unionSet</span><span class="params">(TreeNode *p, TreeNode * q)</span> </span>&#123;</span><br><span class="line">		TreeNode *root_p = find(p);</span><br><span class="line">		TreeNode *root_q = find(q);</span><br><span class="line">		fa[root_p] = root_q;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">	<span class="built_in">unordered_set</span>&lt;TreeNode *&gt; vis;</span><br><span class="line">	TreeNode *p, *q,*ans;</span><br><span class="line">	UnionFindSet unionFindSet;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	</span><br><span class="line">	<span class="function">TreeNode* <span class="title">lowestCommonAncestor</span><span class="params">(TreeNode* root, TreeNode* p, TreeNode* q)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;p = p;</span><br><span class="line">		<span class="keyword">this</span>-&gt;q = q;</span><br><span class="line">		Tarjan(root);</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Tarjan</span><span class="params">(TreeNode * root)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!root) <span class="keyword">return</span>;</span><br><span class="line">		unionFindSet.fa[root] = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (root-&gt;left) &#123;</span><br><span class="line">			Tarjan(root-&gt;left);</span><br><span class="line">			unionFindSet.unionSet(root-&gt;left, root);</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		<span class="keyword">if</span> (root-&gt;right) &#123;</span><br><span class="line">			Tarjan(root-&gt;right);</span><br><span class="line">			unionFindSet.unionSet(root-&gt;right, root);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		vis.insert(root);</span><br><span class="line">		<span class="keyword">if</span> (root == p  &amp;&amp; vis.find(q) != vis.end())</span><br><span class="line">			ans = unionFindSet.find(q);</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (root == q  &amp;&amp; vis.find(p) != vis.end())</span><br><span class="line">			ans = unionFindSet.find(p);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>上面的代码只是单个查询的情况，多个查询的情况只需要把最后的改为：遍历与当前结点root相关联的查询即可。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="http://articles.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-ii.html">Lowest Common Ancestor of a Binary Tree Part II</a></li>
 <li><a target="_blank" rel="noopener" href="http://noalgo.info/476.html">LCA问题的Tarjan算法</a></li>
 </ul>
@@ -407,12 +416,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -424,6 +439,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -432,13 +449,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -457,7 +475,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

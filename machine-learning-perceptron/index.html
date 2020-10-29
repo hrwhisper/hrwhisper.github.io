@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">11 min</span>
+            <span class="post-count">12 min</span>
         </span>
     </span>
 </div>
@@ -116,182 +116,194 @@
        
   <p>感知机（Perceptron）是一个二分类的线性模型。它于1957年被提出，是支持向量机和神经网络的基础。</p>
 <a id="more"></a>
-<h1 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h1><p>感知机（Perceptron）是一个二分类的线性模型。它于1957年被提出，是支持向量机和神经网络的基础。</p>
-<h2 id="感知机模型"><a href="#感知机模型" class="headerlink" title="感知机模型"></a>感知机模型</h2><p>模型输入数据为：$\{({\bf x_1}, y_1),({\bf x_2}, y_2),\cdots,({\bf x_n}, y_n) \}$，其中$x_i$为样本 i 的特征向量，$y_i\in \{+1,-1\}$为类别标签。</p>
-<p>输入到输出空间的映射为：</p>
-<script type="math/tex; mode=display">
-f(x) = {\rm sign}({\bf w^Tx}+b)</script><p>上述的sign为符号函数，其值如下：</p>
-<script type="math/tex; mode=display">
+<h1 id="感知机">感知机</h1>
+<p>感知机（Perceptron）是一个二分类的线性模型。它于1957年被提出，是支持向量机和神经网络的基础。</p>
+<h2 id="感知机模型">感知机模型</h2>
+<p>模型输入数据为：<span class="math inline">\(\{({\bf x_1}, y_1),({\bf x_2}, y_2),\cdots,({\bf x_n}, y_n) \}\)</span>，其中<span class="math inline">\(x_i\)</span>为样本 i 的特征向量，<span class="math inline">\(y_i\in \{+1,-1\}\)</span>为类别标签。</p>
+<p>输入到输出空间的映射为： <span class="math display">\[
+f(x) = {\rm sign}({\bf w^Tx}+b)
+\]</span> 上述的sign为符号函数，其值如下： <span class="math display">\[
 {\rm sign}(t) = \begin{cases}
-+1 , & t\ge 0 \\
--1, & t\lt 0
-\end{cases}</script><h3 id="感知机的几何解释"><a href="#感知机的几何解释" class="headerlink" title="感知机的几何解释"></a>感知机的几何解释</h3><p>感知机的目标是求一个<strong>超平面</strong>使得特征空间划分为两部分，从而实现分类的效果。</p>
-<p>线性方程 ${\bf w^T x}+b = 0$，<strong>w</strong>为超平面的法向量，b是超平面的截距。</p>
++1 , &amp; t\ge 0 \\
+-1, &amp; t\lt 0
+\end{cases}
+\]</span></p>
+<h3 id="感知机的几何解释">感知机的几何解释</h3>
+<p>感知机的目标是求一个<strong>超平面</strong>使得特征空间划分为两部分，从而实现分类的效果。</p>
+<p>线性方程 <span class="math inline">\({\bf w^T x}+b = 0\)</span>，<strong>w</strong>为超平面的法向量，b是超平面的截距。</p>
 <p><strong>w</strong>为啥是法向量？证明如下：</p>
-<p>设${\bf x_0,x_1}$是平面上的任意两个点，则显然有：</p>
-<script type="math/tex; mode=display">
+<p>设<span class="math inline">\({\bf x_0,x_1}\)</span>是平面上的任意两个点，则显然有： <span class="math display">\[
 \begin{align}
 {\bf w^T x_0} + b = 0\\
 {\bf w^T x_1} + b = 0\\
-\end{align}</script><p>两式相减得：</p>
-<script type="math/tex; mode=display">
+\end{align}
+\]</span> 两式相减得： <span class="math display">\[
 \begin{align}
 {\bf w^T (x_0 - x_1)} = 0\\
-\end{align}</script><p>而$\bf x_0 - x_1$是平面上的向量，而$\bf x_0 - x_1$与<strong>w</strong>内积为0，因此，<strong>w</strong>就是法向量（垂直于平面内所有向量）。</p>
+\end{align}
+\]</span> 而<span class="math inline">\(\bf x_0 - x_1\)</span>是平面上的向量，而<span class="math inline">\(\bf x_0 - x_1\)</span>与<strong>w</strong>内积为0，因此，<strong>w</strong>就是法向量（垂直于平面内所有向量）。</p>
 <p>感知机的分类示意图如下：</p>
-<p><img src="../images/machine-learning-perceptron/perceptron.png" alt="perceptron"></p>
-<h2 id="学习策略"><a href="#学习策略" class="headerlink" title="学习策略"></a>学习策略</h2><p>那么，如何训练出感知机呢？</p>
+<figure>
+<img src="../images/machine-learning-perceptron/perceptron.png" alt="perceptron" /><figcaption>perceptron</figcaption>
+</figure>
+<h2 id="学习策略">学习策略</h2>
+<p>那么，如何训练出感知机呢？</p>
 <p>我们需要有一个损失函数，这样我们才能不断的优化它，最后达到一个较为理想的值。</p>
-<p>既然是分类问题，一个自然的选择是误分类点的总数（即0-1损失函数）</p>
-<script type="math/tex; mode=display">
+<p>既然是分类问题，一个自然的选择是误分类点的总数（即0-1损失函数） <span class="math display">\[
 l_{0-1}= \begin{cases}
-    0&f({\bf x_i}) = y_i\\
-    1& f({\bf x_i}) \ne y_i
-\end{cases}</script><p>但是这个损失函数不是参数<strong>w</strong>,b的连续可导函数，不容易进行优化。</p>
+    0&amp;f({\bf x_i}) = y_i\\
+    1&amp; f({\bf x_i}) \ne y_i
+\end{cases}
+\]</span> 但是这个损失函数不是参数<strong>w</strong>,b的连续可导函数，不容易进行优化。</p>
 <p>因此，感知机采用的是<strong>误分类点到超平面S的总距离</strong>。</p>
-<p>设点$\bf x_0$到超平面 ${\bf w^T x_0}+b = 0$的距离为d。$\bf x_1$为平面上的任意一点，则$|!|{\bf x_0} - {\bf x_1}|!|$投影到$\bf w$的距离为：</p>
-<script type="math/tex; mode=display">
+<p>设点<span class="math inline">\(\bf x_0\)</span>到超平面 <span class="math inline">\({\bf w^T x_0}+b = 0\)</span>的距离为d。<span class="math inline">\(\bf x_1\)</span>为平面上的任意一点，则<span class="math inline">\(|\!|{\bf x_0} - {\bf x_1}|\!|\)</span>投影到<span class="math inline">\(\bf w\)</span>的距离为： <span class="math display">\[
 \begin{align}
 \rm proj_w({\bf x_0-x_1}) 
-&=|\!|{\bf x_0-x_1}|\!|\cdot |\cos({\bf w,x_0-x_1})|
-\\&=|\!|{\bf x_0-x_1}|\!|\frac{|{\bf w^T(\bf x_0 - x_1)}|}{ {|\!|{\bf w}|\!|\ |\!|\bf x_0-x_1|\!|} }
-\\&=\frac{|{\bf w^T(\bf x_0 - x_1)}|}{ {|\!|{\bf w}|\!|} }
-\\&=\frac{|{\bf w^T\bf x_0 -w^Tx_1}|}{ {|\!|{\bf w}|\!|} }
-\\&=\frac{|{\bf w^T\bf x_0} +b|}{ {|\!|{\bf w}|\!|} } \tag{2-1}
-\end{align}</script><p>式2-1即为点${\bf x_0}$到超平面S的距离。</p>
-<p>对于分类错误的样本$({\bf x_i}, y_i)$有：</p>
-<script type="math/tex; mode=display">
-y_i({\bf w^T x_i}+ b) \lt 0</script><p>因此，误分类点到平面的距离为：</p>
-<script type="math/tex; mode=display">
--\frac{1}{|\!|{\bf w}|\!|}y_i({\bf w^T x_i}+ b）</script><p>考虑所有的分类错误的点集合M，则所有误分类点到超平面S的总距离：</p>
-<script type="math/tex; mode=display">
--\frac{1}{|\!|{\bf w}|\!|}\sum_{x_i\in M}y_i({\bf w^T x_i} + b）</script><p>不考虑$\frac{1}{||{\bf w}||}$，就得到感知机的损失函数：</p>
-<script type="math/tex; mode=display">
+&amp;=|\!|{\bf x_0-x_1}|\!|\cdot |\cos({\bf w,x_0-x_1})|
+\\&amp;=|\!|{\bf x_0-x_1}|\!|\frac{|{\bf w^T(\bf x_0 - x_1)}|}{ {|\!|{\bf w}|\!|\ |\!|\bf x_0-x_1|\!|} }
+\\&amp;=\frac{|{\bf w^T(\bf x_0 - x_1)}|}{ {|\!|{\bf w}|\!|} }
+\\&amp;=\frac{|{\bf w^T\bf x_0 -w^Tx_1}|}{ {|\!|{\bf w}|\!|} }
+\\&amp;=\frac{|{\bf w^T\bf x_0} +b|}{ {|\!|{\bf w}|\!|} } \tag{2-1}
+\end{align}
+\]</span> 式2-1即为点<span class="math inline">\({\bf x_0}\)</span>到超平面S的距离。</p>
+<p>对于分类错误的样本<span class="math inline">\(({\bf x_i}, y_i)\)</span>有： <span class="math display">\[
+y_i({\bf w^T x_i}+ b) \lt 0
+\]</span> 因此，误分类点到平面的距离为： <span class="math display">\[
+-\frac{1}{|\!|{\bf w}|\!|}y_i({\bf w^T x_i}+ b）
+\]</span> 考虑所有的分类错误的点集合M，则所有误分类点到超平面S的总距离： <span class="math display">\[
+-\frac{1}{|\!|{\bf w}|\!|}\sum_{x_i\in M}y_i({\bf w^T x_i} + b）
+\]</span> 不考虑<span class="math inline">\(\frac{1}{||{\bf w}||}\)</span>，就得到感知机的损失函数： <span class="math display">\[
 \begin{align*}
-L(w, b) &= -\sum_{x_i\in M}y_i({\bf w^T x_i}+ b), i = 1,2...,n\\
-&= \sum_{i=1}^n\max(0, -y_i({\bf w^T x_i}+ b))
-\end{align*}\tag{2-2}</script><p>损失函数$L({\bf w}, b)$ 是非负的，若没有误分类点，则$L({\bf w}, b)=0$ </p>
-<p>PS: 为什么能不考虑$\frac{1}{||{\bf w}||}$呢？李航老师将$y_i({\bf w^T x_i} + b)$称为<strong>函数间隔</strong>，而称$\frac{1}{||{\bf w}||}y_i({\bf w^T x_i} + b)$为<strong>几何间隔</strong>。感知机省略了$\frac{1}{||{\bf w}||}$相当于是最小化函数间隔。后面会讲到SVM则是实实在在的几何间隔。几何间隔反应了点到超平面的垂直距离，而函数间隔则可以表示正确性以及分错的置信度。SVM想要鲁棒性(robust)强，因此采用最大化几何间隔。而感知机只想把所有的点都分对，只需要函数间隔即可。</p>
-<h3 id="梯度下降求解"><a href="#梯度下降求解" class="headerlink" title="梯度下降求解"></a>梯度下降求解</h3><p>由于L(w, b) 是w,b的连续可导函数，我们可以用随机梯度下降法进行求解。</p>
-<script type="math/tex; mode=display">
+L(w, b) &amp;= -\sum_{x_i\in M}y_i({\bf w^T x_i}+ b), i = 1,2...,n\\
+&amp;= \sum_{i=1}^n\max(0, -y_i({\bf w^T x_i}+ b))
+\end{align*}\tag{2-2}
+\]</span> 损失函数<span class="math inline">\(L({\bf w}, b)\)</span> 是非负的，若没有误分类点，则<span class="math inline">\(L({\bf w}, b)=0\)</span></p>
+<p>PS: 为什么能不考虑<span class="math inline">\(\frac{1}{||{\bf w}||}\)</span>呢？李航老师将<span class="math inline">\(y_i({\bf w^T x_i} + b)\)</span>称为<strong>函数间隔</strong>，而称<span class="math inline">\(\frac{1}{||{\bf w}||}y_i({\bf w^T x_i} + b)\)</span>为<strong>几何间隔</strong>。感知机省略了<span class="math inline">\(\frac{1}{||{\bf w}||}\)</span>相当于是最小化函数间隔。后面会讲到SVM则是实实在在的几何间隔。几何间隔反应了点到超平面的垂直距离，而函数间隔则可以表示正确性以及分错的置信度。SVM想要鲁棒性(robust)强，因此采用最大化几何间隔。而感知机只想把所有的点都分对，只需要函数间隔即可。</p>
+<h3 id="梯度下降求解">梯度下降求解</h3>
+<p>由于L(w, b) 是w,b的连续可导函数，我们可以用随机梯度下降法进行求解。 <span class="math display">\[
 \begin{align*}
-\frac{\partial L({\bf w}, b)}{\partial {\bf w} } &= -\sum_{x_i\in M}y_i {\bf x_i}\\
-\frac{\partial L({\bf w}, b)}{\partial b} &= -\sum_{x_i\in M}y_i
-\end{align*}</script><p>因此，感知机学习算法（Perceptron Learning Algorithm, <strong>PLA</strong>）如下(随机梯度下降)：</p>
+\frac{\partial L({\bf w}, b)}{\partial {\bf w} } &amp;= -\sum_{x_i\in M}y_i {\bf x_i}\\
+\frac{\partial L({\bf w}, b)}{\partial b} &amp;= -\sum_{x_i\in M}y_i
+\end{align*}
+\]</span> 因此，感知机学习算法（Perceptron Learning Algorithm, <strong>PLA</strong>）如下(随机梯度下降)：</p>
 <blockquote>
-<ol>
-<li><p>给定学习率$\eta$，随机选取初值<strong>w</strong>, b</p>
-</li>
-<li><p>选取分类错误的数据 ${\bf x_i}, y_i$按下面的式子更新，直到没有错误为止</p>
-</li>
+<ol type="1">
+<li><p>给定学习率<span class="math inline">\(\eta\)</span>，随机选取初值<strong>w</strong>, b</p></li>
+<li><p>选取分类错误的数据 <span class="math inline">\({\bf x_i}, y_i\)</span>按下面的式子更新，直到没有错误为止</p></li>
 </ol>
-<script type="math/tex; mode=display">
+<p><span class="math display">\[
  \begin{aligned}
- {\bf w}  \leftarrow&  {\bf w} + \eta y_i{\bf x_i}\\
- b  \leftarrow&  b + \eta y_i
- \end{aligned}\tag{2-3}</script></blockquote>
+ {\bf w}  \leftarrow&amp;  {\bf w} + \eta y_i{\bf x_i}\\
+ b  \leftarrow&amp;  b + \eta y_i
+ \end{aligned}\tag{2-3}
+\]</span></p>
+</blockquote>
 <p>感知机选取不同的初值或选取不同的分类点，解可能不同。为了得到唯一的超平面，需要对分离超平面增加约束条件。（其实就是SVM的想法）</p>
 <p>当数据集 <strong>线性可分</strong> 时（即存在一个超平面，能将数据集中正例负例正确的划分到超平面两侧），可以证明，感知机一定会收敛（即没有错误），在本小节最后给出相应的证明。</p>
 <p>当线性不可分的时候，<strong>往往设定迭代次数</strong>。</p>
-<h4 id="一种几何解释"><a href="#一种几何解释" class="headerlink" title="一种几何解释"></a>一种几何解释</h4><p>在台大的林轩田《机器学习基石》课程中，提到了这种修正方法：</p>
-<p>对于分类错误的样本，有（把b放入了<strong>w</strong>，对应的x为1就得到）：</p>
-<script type="math/tex; mode=display">
-{\rm sign}({\bf w^T x_i}) \not =y_{i}</script><p>有两种情况：</p>
+<h4 id="一种几何解释">一种几何解释</h4>
+<p>在台大的林轩田《机器学习基石》课程中，提到了这种修正方法：</p>
+<p>对于分类错误的样本，有（把b放入了<strong>w</strong>，对应的x为1就得到）： <span class="math display">\[
+{\rm sign}({\bf w^T x_i}) \not =y_{i}
+\]</span></p>
+<p>有两种情况：</p>
 <ul>
-<li><p>y是+1，但是模型判断出来是负值。也就是说此时<strong>w</strong>与<strong>x</strong>之间的角度太大，因此需要把<strong>w</strong>往靠近<strong>x</strong>的方向旋转使它们的角度变小。可以通过${\bf w}  \leftarrow  {\bf w} +  y_i{\bf x_i}$达到这个目的</p>
-</li>
-<li><p>y是-1，但是模型判断出来是正值。也就是说此时<strong>w</strong>与<strong>x</strong>之间的角度太小，因此需要把<strong>w</strong>往远离<strong>x</strong>的方向旋转使它们的角度变大。考虑到负号，其实也可以可以通过${\bf w}  \leftarrow  {\bf w} +  y_i{\bf x_i}$达到这个目的</p>
-<p><img src="../images/machine-learning-perceptron/perceptron_learn_vector.png" alt="perceptron_learn_vector"></p>
-</li>
+<li><p>y是+1，但是模型判断出来是负值。也就是说此时<strong>w</strong>与<strong>x</strong>之间的角度太大，因此需要把<strong>w</strong>往靠近<strong>x</strong>的方向旋转使它们的角度变小。可以通过<span class="math inline">\({\bf w} \leftarrow {\bf w} + y_i{\bf x_i}\)</span>达到这个目的</p></li>
+<li><p>y是-1，但是模型判断出来是正值。也就是说此时<strong>w</strong>与<strong>x</strong>之间的角度太小，因此需要把<strong>w</strong>往远离<strong>x</strong>的方向旋转使它们的角度变大。考虑到负号，其实也可以可以通过<span class="math inline">\({\bf w} \leftarrow {\bf w} + y_i{\bf x_i}\)</span>达到这个目的</p>
+<figure>
+<img src="../images/machine-learning-perceptron/perceptron_learn_vector.png" alt="perceptron_learn_vector" /><figcaption>perceptron_learn_vector</figcaption>
+</figure></li>
 </ul>
-<h3 id="感知机收敛证明"><a href="#感知机收敛证明" class="headerlink" title="感知机收敛证明"></a>感知机收敛证明</h3><p>在收敛性证明中，我们感知机也使用$f({\bf x}) = {\rm sign}({\bf w^T x_i})$的形式（为了方便描述，本文余下部分也用这种形式）。</p>
+<h3 id="感知机收敛证明">感知机收敛证明</h3>
+<p>在收敛性证明中，我们感知机也使用<span class="math inline">\(f({\bf x}) = {\rm sign}({\bf w^T x_i})\)</span>的形式（为了方便描述，本文余下部分也用这种形式）。</p>
 <blockquote>
-<p>设训练集$\{({\bf x_1}, y_1),({\bf x_2}, y_2),\cdots,({\bf x_n}, y_n) \}$是线性可分的，其中$ y_i\in \{+1,-1\}$，则：</p>
-<ol>
-<li>存在满足$|!|w_{opt}|!|= 1$的超平面$\bf w_{opt}^Tx$将数据集完全正确分开，且存在$\gamma \gt 0$, 对于所有的$i =1,2, \cdots,n$，有$y_i({\bf w_{opt}^Tx_i }) \ge \gamma$</li>
-<li>$R = \max_{1\le i \le n} |!|x_i|!|$, 则感知机在训练数据集上的误分类次数满足不等式$k \le (\frac{R}{\gamma})^2$</li>
-</ol>
+<p>设训练集<span class="math inline">\(\{({\bf x_1}, y_1),({\bf x_2}, y_2),\cdots,({\bf x_n}, y_n) \}\)</span>是线性可分的，其中<span class="math inline">\(\ y_i\in \{+1,-1\}\)</span>，则： 1. 存在满足<span class="math inline">\(|\!|w_{opt}|\!|= 1\)</span>的超平面<span class="math inline">\(\bf w_{opt}^Tx\)</span>将数据集完全正确分开，且存在<span class="math inline">\(\gamma \gt 0\)</span>, 对于所有的<span class="math inline">\(i =1,2, \cdots,n\)</span>，有<span class="math inline">\(y_i({\bf w_{opt}^Tx_i }) \ge \gamma\)</span> 2. <span class="math inline">\(R = \max_{1\le i \le n} |\!|x_i|\!|\)</span>, 则感知机在训练数据集上的误分类次数满足不等式<span class="math inline">\(k \le (\frac{R}{\gamma})^2\)</span></p>
 </blockquote>
-<p>对于第1点，由于训练集是线性可分的，根据线性可分的定义，必有超平面可将数据集正确分开。因此有$y_i{\bf w_{opt}^Tx}\gt 0$，所以存在$\gamma =\min_i \{y_i({\bf w_{opt}^Tx_i })\}&gt;0$，使得$y_i{\bf w_{opt}^Tx}\ge \gamma$</p>
-<p>接下来证明第2点。</p>
-<script type="math/tex; mode=display">
+<p>对于第1点，由于训练集是线性可分的，根据线性可分的定义，必有超平面可将数据集正确分开。因此有<span class="math inline">\(y_i{\bf w_{opt}^Tx}\gt 0\)</span>，所以存在<span class="math inline">\(\gamma =\min_i \{y_i({\bf w_{opt}^Tx_i })\}&gt;0\)</span>，使得<span class="math inline">\(y_i{\bf w_{opt}^Tx}\ge \gamma\)</span></p>
+<p>接下来证明第2点。 <span class="math display">\[
 \begin{align*}
-{\bf w_{k}^Tw_{opt} } &=({\bf w_{k-1} } +\eta y_i{\bf x_i})^T{\bf w_{opt} } \\ 
-&= {\bf w_{k-1}^Tw_{opt} } +\eta y_i{\bf w_{opt}^Tx_i}\\ 
-&\ge {\bf w_{k-1}^Tw_{opt} } + \eta\gamma\\
-&\ge {\bf w_{k-2}^Tw_{opt} } +2\eta\gamma\\
-&\ge k\eta\gamma \hspace{10ex}\tag{2-4}
-\end{align*}</script><p>式2-4最后是假设初始$w_0$是0向量。</p>
-<p>又因为：</p>
-<script type="math/tex; mode=display">
+{\bf w_{k}^Tw_{opt} } &amp;=({\bf w_{k-1} } +\eta y_i{\bf x_i})^T{\bf w_{opt} } \\ 
+&amp;= {\bf w_{k-1}^Tw_{opt} } +\eta y_i{\bf w_{opt}^Tx_i}\\ 
+&amp;\ge {\bf w_{k-1}^Tw_{opt} } + \eta\gamma\\
+&amp;\ge {\bf w_{k-2}^Tw_{opt} } +2\eta\gamma\\
+&amp;\ge k\eta\gamma \hspace{10ex}\tag{2-4}
+\end{align*}
+\]</span></p>
+<p>式2-4最后是假设初始<span class="math inline">\(w_0\)</span>是0向量。</p>
+<p>又因为： <span class="math display">\[
 \begin{align*}
-|\!|{\bf w_{k}^T}|\!|^2 &= |\!| {\bf w_{k-1} } +\eta y_i{\bf x_i}|\!|^2\\
-&= |\!|{\bf w_{k-1} }|\!|^2+ |\!|\eta y_i{\bf x_i}|\!|^2 +{2\eta y_i {\bf w_{k-1}^Tx_i} }\\
-& \le |\!|{\bf w_{k-1} }|\!|^2+ \eta^2|\!|{\bf x_i}|\!|^2  \hspace{5ex} y_i {\bf w_{k-1}^Tx_i} \le 0 \ and \ y_i^2 = 1\\
-& \le k\eta^2|\!|{\bf x_i}|\!|^2\\
-& \le k\eta^2 R^2                  \hspace{17ex}   R = \max_{1\le i \le n} |\!|x_i|\!|         \tag{2-5} 
-\end{align*}</script><p>又因为</p>
-<script type="math/tex; mode=display">
+|\!|{\bf w_{k}^T}|\!|^2 &amp;= |\!| {\bf w_{k-1} } +\eta y_i{\bf x_i}|\!|^2\\
+&amp;= |\!|{\bf w_{k-1} }|\!|^2+ |\!|\eta y_i{\bf x_i}|\!|^2 +{2\eta y_i {\bf w_{k-1}^Tx_i} }\\
+&amp; \le |\!|{\bf w_{k-1} }|\!|^2+ \eta^2|\!|{\bf x_i}|\!|^2  \hspace{5ex} y_i {\bf w_{k-1}^Tx_i} \le 0 \ and \ y_i^2 = 1\\
+&amp; \le k\eta^2|\!|{\bf x_i}|\!|^2\\
+&amp; \le k\eta^2 R^2                  \hspace{17ex}   R = \max_{1\le i \le n} |\!|x_i|\!|         \tag{2-5} 
+\end{align*}
+\]</span> 又因为 <span class="math display">\[
 \underbrace{k\eta\gamma \le {\bf w_{k}^Tw_{opt} }}_{式2-4} 
-\le |\!|{\bf w_{k}^T}|\!|  \underbrace{|\!|{\bf w_{opt} }|\!|}_{1}=|\!|{\bf w_{k}^T}|\!| \le \sqrt{k\eta^2R^2} \tag{2-6}</script><p>因此有</p>
-<script type="math/tex; mode=display">
-(k\eta\gamma)^2 \le k\eta^2R^2 \Rightarrow k \le \left(\frac{R}{\gamma}\right)^2 \tag{2-7}</script><p>式2-7说明，感知机在在线性可分的数据集中训练，误分类次数k是有迭代上限的，经过有限次搜索可以找到将训练数据完全正确分开的超平面。</p>
-<h2 id="感知机的一些变形"><a href="#感知机的一些变形" class="headerlink" title="感知机的一些变形"></a>感知机的一些变形</h2><p>前面提到了感知机的学习算法PLA，其可以容易的扩展到在线学习、批量学习、以及核函数形式。</p>
-<h3 id="在线学习-Online-learning"><a href="#在线学习-Online-learning" class="headerlink" title="在线学习 Online learning"></a>在线学习 Online learning</h3><blockquote>
-<p>Online learning refers to the learning mode in which the model update is  performed each time a <strong>single</strong> observation is received</p>
+\le |\!|{\bf w_{k}^T}|\!|  \underbrace{|\!|{\bf w_{opt} }|\!|}_{1}=|\!|{\bf w_{k}^T}|\!| \le \sqrt{k\eta^2R^2} \tag{2-6}
+\]</span> 因此有 <span class="math display">\[
+(k\eta\gamma)^2 \le k\eta^2R^2 \Rightarrow k \le \left(\frac{R}{\gamma}\right)^2 \tag{2-7}
+\]</span> 式2-7说明，感知机在在线性可分的数据集中训练，误分类次数k是有迭代上限的，经过有限次搜索可以找到将训练数据完全正确分开的超平面。</p>
+<h2 id="感知机的一些变形">感知机的一些变形</h2>
+<p>前面提到了感知机的学习算法PLA，其可以容易的扩展到在线学习、批量学习、以及核函数形式。</p>
+<h3 id="在线学习-online-learning">在线学习 Online learning</h3>
+<blockquote>
+<p>Online learning refers to the learning mode in which the model update is performed each time a <strong>single</strong> observation is received</p>
 </blockquote>
 <p>在线学习即使用新观测到一条数据来更新模型。</p>
 <p>回顾一下PLA，PLA是遍历数据，选一条分错的数据按2-3式进行更新。其实就是随机梯度下降法。这很容易扩展到在线学习中。给定一条新的数据，只要数据分错，那么继续按2-3式更新。</p>
 <blockquote>
-<ol>
-<li><p>给定学习率$\eta$，随机选取初值<strong>w</strong></p>
-</li>
-<li><p>给定数据$({\bf x_i},y_i)$，若$y_i \ne sign({\bf w^Tx_i})$按下面的式子更新</p>
-</li>
+<ol type="1">
+<li><p>给定学习率<span class="math inline">\(\eta\)</span>，随机选取初值<strong>w</strong></p></li>
+<li><p>给定数据<span class="math inline">\(({\bf x_i},y_i)\)</span>，若<span class="math inline">\(y_i \ne sign({\bf w^Tx_i})\)</span>按下面的式子更新</p></li>
 </ol>
-<script type="math/tex; mode=display">
-{\bf w}  \leftarrow  {\bf w} + \eta y_i{\bf x_i}</script></blockquote>
-<h3 id="批量学习-Batch-learning"><a href="#批量学习-Batch-learning" class="headerlink" title="批量学习 Batch learning"></a>批量学习 Batch learning</h3><blockquote>
+<p><span class="math display">\[
+{\bf w}  \leftarrow  {\bf w} + \eta y_i{\bf x_i}
+\]</span></p>
+</blockquote>
+<h3 id="批量学习-batch-learning">批量学习 Batch learning</h3>
+<blockquote>
 <p>Batch learning performs model update after observing the whole training set.</p>
 </blockquote>
 <p>批量学习一次使用整个数据集进行更新。</p>
 <blockquote>
-<p>给定完整的数据集$\{({\bf x_1}, y_1),({\bf x_2}, y_2),\cdots,({\bf x_n}, y_n) \}$，学习率$\eta$，随机选取初值<strong>w</strong><br>do</p>
-<p>$\Delta\leftarrow (0,0,\cdots,0)$<br>for i = 1 to N do<br>       $u_i \leftarrow {\bf w^T x_i}$<br>       $\text{if } y_iu_i\le0${<br>            $\Delta \leftarrow\Delta+ (- y_i{\bf x_i})$<br>​           }       </p>
-<p>​        $\Delta \leftarrow \Delta / n$<br>​         ${\bf w} \leftarrow {\bf w} - \eta\Delta$</p>
-<p>until $|\Delta| \lt \epsilon$</p>
+<p>给定完整的数据集<span class="math inline">\(\{({\bf x_1}, y_1),({\bf x_2}, y_2),\cdots,({\bf x_n}, y_n) \}\)</span>，学习率<span class="math inline">\(\eta\)</span>，随机选取初值<strong>w</strong> do</p>
+<p><span class="math inline">\(\Delta\leftarrow (0,0,\cdots,0)\)</span> for i = 1 to N do <span class="math inline">\(u_i \leftarrow {\bf w^T x_i}\)</span> <span class="math inline">\(\text{if } y_iu_i\le0\)</span>{ <span class="math inline">\(\Delta \leftarrow\Delta+ (- y_i{\bf x_i})\)</span> ​ }</p>
+<p>​ <span class="math inline">\(\Delta \leftarrow \Delta / n\)</span> ​ <span class="math inline">\({\bf w} \leftarrow {\bf w} - \eta\Delta\)</span></p>
+<p>until <span class="math inline">\(|\Delta| \lt \epsilon\)</span></p>
 </blockquote>
-<h3 id="核化感知机"><a href="#核化感知机" class="headerlink" title="核化感知机"></a>核化感知机</h3><p>如果你不知道核函数是什么，可以先看完我的SVM系列（尤其是<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/">深入理解SVM(二) – 核函数和软边距</a>）后再来看该内容。</p>
-<p>为了使用核方法，首先要将$\bf w$用$\bf x_i$线性表示。根据假设其初值为0，根据PLA算法，可以看出</p>
-<script type="math/tex; mode=display">
-{\bf w} = \sum_{i=1}^n\alpha_iy_i{\bf x_i}</script><p>其中，$\alpha_i= n_i\eta$表示样本$x_i$被误分类的次数$n_i$乘以$\eta$（每误分一次就要使用${\bf w}  \leftarrow  {\bf w} + \eta y_i{\bf x_i}$更新一次）</p>
-<p>因此，感知机可以写为</p>
-<script type="math/tex; mode=display">
+<h3 id="核化感知机">核化感知机</h3>
+<p>如果你不知道核函数是什么，可以先看完我的SVM系列（尤其是<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/">深入理解SVM(二) – 核函数和软边距</a>）后再来看该内容。</p>
+<p>为了使用核方法，首先要将<span class="math inline">\(\bf w\)</span>用<span class="math inline">\(\bf x_i\)</span>线性表示。根据假设其初值为0，根据PLA算法，可以看出 <span class="math display">\[
+{\bf w} = \sum_{i=1}^n\alpha_iy_i{\bf x_i}
+\]</span> 其中，<span class="math inline">\(\alpha_i= n_i\eta\)</span>表示样本<span class="math inline">\(x_i\)</span>被误分类的次数<span class="math inline">\(n_i\)</span>乘以<span class="math inline">\(\eta\)</span>（每误分一次就要使用<span class="math inline">\({\bf w} \leftarrow {\bf w} + \eta y_i{\bf x_i}\)</span>更新一次）</p>
+<p>因此，感知机可以写为 <span class="math display">\[
 \begin{align*}
-f({\bf x}) &= \rm sign({\bf w^Tx})\\
-&= \rm sign(\sum_{i=1}^n\alpha_i{\bf y_i{\bf x_i}^Tx})\\
-& = \rm sign(\sum_{i=1}^n\alpha_iK({\bf x_i, x}))
-\end{align*}</script><p>其学习方式为:</p>
+f({\bf x}) &amp;= \rm sign({\bf w^Tx})\\
+&amp;= \rm sign(\sum_{i=1}^n\alpha_i{\bf y_i{\bf x_i}^Tx})\\
+&amp; = \rm sign(\sum_{i=1}^n\alpha_iK({\bf x_i, x}))
+\end{align*}
+\]</span> 其学习方式为:</p>
 <blockquote>
-<ol>
-<li><p>给定学习率$\eta$，$\alpha_i = 0$</p>
-</li>
-<li><p>对于每个训练数据$({\bf x_j},y_j)$，若$y_i \ne sign(\sum_{i=1}^n\alpha_iK({\bf x_i, x_j}))$ 按下面的式子更新，直到达到迭代次数或满足终止条件：</p>
-<script type="math/tex; mode=display">
-\alpha_i \leftarrow \alpha_i + \eta</script></li>
+<ol type="1">
+<li><p>给定学习率<span class="math inline">\(\eta\)</span>，<span class="math inline">\(\alpha_i = 0\)</span></p></li>
+<li><p>对于每个训练数据<span class="math inline">\(({\bf x_j},y_j)\)</span>，若<span class="math inline">\(y_i \ne sign(\sum_{i=1}^n\alpha_iK({\bf x_i, x_j}))\)</span> 按下面的式子更新，直到达到迭代次数或满足终止条件： <span class="math display">\[
+  \alpha_i \leftarrow \alpha_i + \eta
+\]</span></p></li>
 </ol>
 </blockquote>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
-<li><p>感知机寻找超平面${\bf w^T x}+b = 0$ 来划分数据，采用$\rm sign({\bf w^T x}+b)$来判别正负类</p>
-</li>
-<li><p>感知机学习的目标函数定义是 <strong>误分类点到超平面S的总函数距离</strong>，即</p>
-<script type="math/tex; mode=display">
+<h2 id="小结">小结</h2>
+<ul>
+<li><p>感知机寻找超平面<span class="math inline">\({\bf w^T x}+b = 0\)</span> 来划分数据，采用<span class="math inline">\(\rm sign({\bf w^T x}+b)\)</span>来判别正负类</p></li>
+<li><p>感知机学习的目标函数定义是 <strong>误分类点到超平面S的总函数距离</strong>，即 <span class="math display">\[
 \begin{align*}
-L(w, b) &= -\sum_{x_i\in M}y_i({\bf w^T x_i}+ b）, i = 1,2...,n\\
-&= \sum_{i=1}^n\max(0, -y_i({\bf w^T x_i}+ b))
-\end{align*}</script></li>
+L(w, b) &amp;= -\sum_{x_i\in M}y_i({\bf w^T x_i}+ b）, i = 1,2...,n\\
+&amp;= \sum_{i=1}^n\max(0, -y_i({\bf w^T x_i}+ b))
+\end{align*}
+\]</span></p></li>
 </ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li>《统计学习方法》 - 李航</li>
 <li>机器学习基石 - 林轩田</li>
 <li><a target="_blank" rel="noopener" href="http://web.engr.oregonstate.edu/~xfern/classes/cs534/notes/perceptron-4-11.pdf">Perceptron-CS534</a></li>
@@ -513,12 +525,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -530,6 +548,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -538,13 +558,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -563,7 +584,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

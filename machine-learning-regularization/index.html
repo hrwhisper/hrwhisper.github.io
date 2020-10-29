@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">5k</span>
+            <span class="post-count">5.1k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">20 min</span>
+            <span class="post-count">21 min</span>
         </span>
     </span>
 </div>
@@ -121,53 +121,65 @@
 <li>正则化逻辑回归</li>
 </ul>
 <a id="more"></a>
-<h2 id="过拟合和欠拟合"><a href="#过拟合和欠拟合" class="headerlink" title="过拟合和欠拟合"></a>过拟合和欠拟合</h2><p>什么是过拟合呢？</p>
+<h2 id="过拟合和欠拟合">过拟合和欠拟合</h2>
+<p>什么是过拟合呢？</p>
 <p>一个很直观的图如下：</p>
-<p><img src="../images/machine-learning-regularization/overfitting2.jpg" alt="overfitting2"></p>
+<figure>
+<img src="../images/machine-learning-regularization/overfitting2.jpg" alt="overfitting2" /><figcaption>overfitting2</figcaption>
+</figure>
 <p>给定一些点让你进行拟合，上图中间的图很好的完成了任务。而第一个图采用一条直线，过于简单，称为欠拟合（Underfitting），而最后一个图画出了弯弯曲曲的曲线，看上去拟合效果很好，但其实过于复杂，称为过拟合（Overfitting）。</p>
 <p>简单的说：</p>
 <ul>
-<li>太简单——欠拟合，没有充分的挖掘数据间的规律</li>
-<li>太复杂——过拟合，过分挖掘数据间的规律了</li>
+<li>太简单----欠拟合，没有充分的挖掘数据间的规律</li>
+<li>太复杂----过拟合，过分挖掘数据间的规律了</li>
 </ul>
 <p>还不知道？看看下面的最后一个图:</p>
-<p><img src="../images/machine-learning-regularization/overfitting.jpg" alt="overfitting"></p>
+<figure>
+<img src="../images/machine-learning-regularization/overfitting.jpg" alt="overfitting" /><figcaption>overfitting</figcaption>
+</figure>
 <p>竟然画了一只猫！想象力太丰富啦 : )</p>
-<h3 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h3><p>欠拟合的危害就是在你的训练数据上表现也不高，更不要说在验证集上了。</p>
+<h3 id="危害">危害</h3>
+<p>欠拟合的危害就是在你的训练数据上表现也不高，更不要说在验证集上了。</p>
 <p>过拟合在训练集上做得很好，但是模型的泛化能力差，好比学生在平时练习的时候，把作业答案都背了下来，而考试的时候老师把题目的数字稍微一改，就不会做了。</p>
 <p>总而言之，欠拟合和过拟合都会使你模型的效果不好。</p>
-<h3 id="判断欠拟合和过拟合"><a href="#判断欠拟合和过拟合" class="headerlink" title="判断欠拟合和过拟合"></a>判断欠拟合和过拟合</h3><p>在介绍如何判断过拟合还是欠拟合前，顺带介绍一下两个概念：偏差(Bias)和方差(Variance)</p>
+<h3 id="判断欠拟合和过拟合">判断欠拟合和过拟合</h3>
+<p>在介绍如何判断过拟合还是欠拟合前，顺带介绍一下两个概念：偏差(Bias)和方差(Variance)</p>
 <ul>
 <li><strong>偏差Bias</strong>： 描述模型输出结果与真实结果的差距，即刻画的是算法的拟合能力。Bias高说明你的模型拟合效果不好。低Bias对应的就是下图中点都在靶心附近，即瞄得比较准。</li>
 <li><strong>方差Variance</strong>：度量了同样大小的训练集的变动所导致的学习性能的变化，即刻画了数据扰动所造成的影响。Variance太大说明模型不稳定。低Variance就是下图中点比较集中，即手比较稳。</li>
 </ul>
 <p>一张形象的图如下：</p>
-<p><img src="../images/machine-learning-regularization/bias-variance.png" alt="bias-variance"></p>
+<figure>
+<img src="../images/machine-learning-regularization/bias-variance.png" alt="bias-variance" /><figcaption>bias-variance</figcaption>
+</figure>
 <p>好了，接下来说说如何判断过拟合和欠拟合。</p>
 <p>前面提到，欠拟合就是想得太简单，想要用太简单的模型去做超过了这个模型的描述能力,或者说你的特征不够不足以描述数据，因此<strong>在训练集和测试集上效果都不好</strong>，此时模型的<strong>Bias很大</strong>。</p>
 <p>而过拟合则是太复杂，模型过于复杂，对训练集的数据过于充分的拟合，因此在<strong>训练集上效果很好，但是测试集上就很差</strong>。此时模型的<strong>Variance很大</strong>。</p>
 <p>这里，有一个机器学习的思想就是，<strong>偏差Bias和方差Variance的tradeoff</strong>。</p>
-<p>如果想要做到低Bias，得复杂化模型，增加模型的参数，但这样容易过拟合，过拟合对应上图是high variance，点很分散，虽然瞄得准，但手不一定稳。 而要做到低Variance，就要简化模型，减少模型的参数，但这样容易欠拟合，欠拟合对应上图是high bias，点偏离中心。低variance对应就是点都打的很集中，但不一定是靶心附近，手很稳，但是瞄的不准。 </p>
+<p>如果想要做到低Bias，得复杂化模型，增加模型的参数，但这样容易过拟合，过拟合对应上图是high variance，点很分散，虽然瞄得准，但手不一定稳。 而要做到低Variance，就要简化模型，减少模型的参数，但这样容易欠拟合，欠拟合对应上图是high bias，点偏离中心。低variance对应就是点都打的很集中，但不一定是靶心附近，手很稳，但是瞄的不准。</p>
 <p>有人对这个tradeoff解释得十分通俗易懂，这里摘录如下：</p>
 <blockquote>
-<p>我们训练一个模型的最终目的，是为了让这个模型在测试数据上拟合效果好，也就是Error(test)比较小，但在实际问题中，test  data我们是拿不到的，也根本不知道test data的内在规律（如果知道了，还machine learning干啥  ），所以我们通过什么策略来减小Error(test)呢？</p>
+<p>我们训练一个模型的最终目的，是为了让这个模型在测试数据上拟合效果好，也就是Error(test)比较小，但在实际问题中，test data我们是拿不到的，也根本不知道test data的内在规律（如果知道了，还machine learning干啥 ），所以我们通过什么策略来减小Error(test)呢？</p>
 <p>分两步：</p>
-<ol>
+<ol type="1">
 <li>让Error(train)尽可能小</li>
 <li>让Error(train)尽可能等于Error(test)</li>
 </ol>
 <p>三段论，因为A小，而且A=B，这样B就小。</p>
 <p>那么怎么让Error(train)尽可能小呢？——》把模型复杂化，把参数搞得多多的，这个好理解，十元线性回归，肯定error要比二元线性回归低啊。——》low bias</p>
-<p>然后怎么让Error(train)尽可能等于Error(test)呢？——》把模型简单化，把参数搞得少少的。什么叫Error(train)=Error(test)？就是模型没有偏见，对train  test一视同仁。那么怎样的模型更容易有这这种一视同仁的特性，换句话说，更有『通用性』，对局部数据不敏感？那就是简单的模型。——》low  variance</p>
+<p>然后怎么让Error(train)尽可能等于Error(test)呢？——》把模型简单化，把参数搞得少少的。什么叫Error(train)=Error(test)？就是模型没有偏见，对train test一视同仁。那么怎样的模型更容易有这这种一视同仁的特性，换句话说，更有『通用性』，对局部数据不敏感？那就是简单的模型。——》low variance</p>
 </blockquote>
 <p>我们想要Bias和Variance都要做到比较小，而这两个又是比较矛盾的，一个是要模型复杂，一个是要模型简单，因此干脆就中庸一点把，就是取中间，做一个tradeoff。有一个直观的图如下：</p>
-<p><img src="../images/machine-learning-regularization/bias-variance-and-model-complexity.png" alt="bias-variance-and-model-complexity"></p>
+<figure>
+<img src="../images/machine-learning-regularization/bias-variance-and-model-complexity.png" alt="bias-variance-and-model-complexity" /><figcaption>bias-variance-and-model-complexity</figcaption>
+</figure>
 <ul>
 <li>一开始复杂度低，训练集和测试集效果都不好。</li>
 <li>之后提升模型复杂度，训练集上是做好了，但是结果发生了过拟合，测试集上的错误反而变高。</li>
 </ul>
 <p>这里先小小的剧透一下，之后会提到正则化，而正则化用于限制模型复杂度，这正是tradeoff的体现。</p>
-<h3 id="常见解决办法"><a href="#常见解决办法" class="headerlink" title="常见解决办法"></a>常见解决办法</h3><p>对于欠拟合，可以</p>
+<h3 id="常见解决办法">常见解决办法</h3>
+<p>对于欠拟合，可以</p>
 <ul>
 <li>增加新特征</li>
 <li>增加模型复杂度，如原来线性模型，改用非线性模型</li>
@@ -178,146 +190,168 @@
 <li>增加数据集</li>
 <li>降低模型复杂度，使用简单点的模型</li>
 <li>特征选择</li>
-<li>正则化<ul>
+<li>正则化
+<ul>
 <li>已经有正则化项则加大正则化参数</li>
-</ul>
-</li>
+</ul></li>
 <li>集成学习方法</li>
 </ul>
-<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><p>前面提到，正则化可以防止模型过拟合。<strong>正则化</strong>的作用是对复杂的模型进行调整，使复杂模型“变成”比较简单的模型，可以说是<strong>降低方差</strong>。</p>
+<h2 id="正则化">正则化</h2>
+<p>前面提到，正则化可以防止模型过拟合。<strong>正则化</strong>的作用是对复杂的模型进行调整，使复杂模型“变成”比较简单的模型，可以说是<strong>降低方差</strong>。</p>
 <p>下面介绍L1和L2正则这两个常见的正则化方法。</p>
-<h3 id="L2正则"><a href="#L2正则" class="headerlink" title="L2正则"></a>L2正则</h3><p>回顾一下我们之前讲的<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-linear-regression-logistic-regression/">线性回归问题</a>：</p>
-<script type="math/tex; mode=display">
-f({\bf x}) = {\bf w^T x} + b</script><p>这个模型可能过于简单，比如超平面应该是圆形的情况我们用这模型就没办法做得很好。因此我们可能将其做非线性变换到z空间：${\bf z} = \boldsymbol{\Phi}_Q({\bf x}) = (1, x, x^2, \ldots, x^Q)$</p>
-<script type="math/tex; mode=display">
-f({\bf x}) = {\bf w^T {\bf z}}</script><p>如Q=2和Q=10得到</p>
-<script type="math/tex; mode=display">
+<h3 id="l2正则">L2正则</h3>
+<p>回顾一下我们之前讲的<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-linear-regression-logistic-regression/">线性回归问题</a>： <span class="math display">\[
+f({\bf x}) = {\bf w^T x} + b
+\]</span> 这个模型可能过于简单，比如超平面应该是圆形的情况我们用这模型就没办法做得很好。因此我们可能将其做非线性变换到z空间：<span class="math inline">\({\bf z} = \boldsymbol{\Phi}_Q({\bf x}) = (1, x, x^2, \ldots, x^Q)\)</span> <span class="math display">\[
+f({\bf x}) = {\bf w^T {\bf z}}
+\]</span> 如Q=2和Q=10得到 <span class="math display">\[
 \begin{align*}
-\mathcal{H}_{10} &: w_0 + w_1x + w_2x^2 + w_3x^3 + \ldots + w_{10}x^{10} \\
-\mathcal{H}_2 &: w_0 + w_1x+w_2x^2
-\end{align*}</script><p>然后进行线性的学习，然后进行预测。当Q很大的时候，这个模型很容易过拟合。模型的 从结果上看，Q=2其实是Q=10的时$w_3 = \ldots = w_{10}=0$的结果，即简单的模型可以用复杂的模型表示。</p>
-<p>我们希望模型不那么复杂，又有一定的表现能力，为此，我们可以让模型的系数的非0项尽可能的少，比如小于3个</p>
-<script type="math/tex; mode=display">
+\mathcal{H}_{10} &amp;: w_0 + w_1x + w_2x^2 + w_3x^3 + \ldots + w_{10}x^{10} \\
+\mathcal{H}_2 &amp;: w_0 + w_1x+w_2x^2
+\end{align*}
+\]</span> 然后进行线性的学习，然后进行预测。当Q很大的时候，这个模型很容易过拟合。模型的 从结果上看，Q=2其实是Q=10的时<span class="math inline">\(w_3 = \ldots = w_{10}=0\)</span>的结果，即简单的模型可以用复杂的模型表示。</p>
+<p>我们希望模型不那么复杂，又有一定的表现能力，为此，我们可以让模型的系数的非0项尽可能的少，比如小于3个 <span class="math display">\[
 \begin{align*}
-\min_{ {\bf w}} &\hspace{2ex} \frac{1}{N}\sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 \\
-{\rm s.t.} &\hspace{2ex} \sum_{q=0}^{d}[\![w_q \not= 0]\!] \le 3\tag{2-1}
-\end{align*}</script><p>得到的新模型$\mathcal{H}_2 \subset \mathcal{H}_2’ \subset \mathcal{H}_{10}$（表达能力强于$\mathcal{H}_2$，风险能力弱于$\mathcal{H}_{10}$），但这是一个NP问题，退而求其次，可以<strong>让平方和小于某个常数</strong>，即：</p>
-<script type="math/tex; mode=display">
+\min_{ {\bf w}} &amp;\hspace{2ex} \frac{1}{N}\sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 \\
+{\rm s.t.} &amp;\hspace{2ex} \sum_{q=0}^{d}[\![w_q \not= 0]\!] \le 3\tag{2-1}
+\end{align*}
+\]</span> 得到的新模型<span class="math inline">\(\mathcal{H}_2 \subset \mathcal{H}_2&#39; \subset \mathcal{H}_{10}\)</span>（表达能力强于<span class="math inline">\(\mathcal{H}_2\)</span>，风险能力弱于<span class="math inline">\(\mathcal{H}_{10}\)</span>），但这是一个NP问题，退而求其次，可以<strong>让平方和小于某个常数</strong>，即： <span class="math display">\[
 \begin{align*}
-\min_{ {\bf w}} &\hspace{2ex} {\rm E_{in}} =\frac{1}{N}\sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 \\
-{\rm s.t.} &\hspace{2ex} \sum_{q=0}^{d}w_q^2 \le C
-\end{align*}</script><p>写成矩阵的形式就是：</p>
-<script type="math/tex; mode=display">
+\min_{ {\bf w}} &amp;\hspace{2ex} {\rm E_{in}} =\frac{1}{N}\sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 \\
+{\rm s.t.} &amp;\hspace{2ex} \sum_{q=0}^{d}w_q^2 \le C
+\end{align*}
+\]</span> 写成矩阵的形式就是： <span class="math display">\[
 \begin{align*}
-\min_{ {\bf w}} &\hspace{2ex}E_{\rm in}({\bf w}) = \frac{1}{N}({\rm Z}{\bf w} - {\bf y})^\mathsf{T}({\rm Z}{\bf w} - {\bf y}) \\
-{\rm s.t.} &\hspace{2ex} {\bf w}^\mathsf{T}{\bf w} \le C
-\end{align*}</script><p>如何求解这个问题？从几何意义上讲，限制条件把<strong>w</strong>限制在了一个半径为C的超球体中，如下图所示：</p>
-<p><img src="../images/machine-learning-regularization/lagrange-multiplier-l2-regularization.png" alt="lagrange-multiplier-l2-regular"></p>
-<p>紫色的点标识出当前w对应$E_{\rm in}$的位置，其蓝线为这个时刻$E_{\rm in}$的一条等高线（上面的值都相等），本来根据梯度下降法，沿着负梯度方向$-\nabla E_{\rm in}$向下滚动减少目标值。但是限制有了限制条件，不能跑出这个超球体，因此只能沿着$-\nabla E_{\rm in}$的分量（绿色的方向）移动，移动到什么位置就不能移动了呢？即超球体的切线方向和$-\nabla E_{\rm in}$垂直，也就是最优的$\bf w_{REG}$必然与$-\nabla E_{\rm in}$方向平行,设比例为$\frac{2\lambda}{N}$</p>
-<script type="math/tex; mode=display">
-\nabla E_{\rm in}({\bf w}_{\rm REG}) + \frac{2\lambda}{N} {\bf w}_{\rm REG} = 0\tag{2-3}</script><p>PS：其实这就是<strong>拉格朗日乘子法</strong>的几何意义，关于拉格朗日乘子法和KKT条件，会在之后深入理解SVM章节继续介绍并大量使用。</p>
-<p>求$E_{\rm in}$梯度并带入2-3，得：</p>
-<script type="math/tex; mode=display">
+\min_{ {\bf w}} &amp;\hspace{2ex}E_{\rm in}({\bf w}) = \frac{1}{N}({\rm Z}{\bf w} - {\bf y})^\mathsf{T}({\rm Z}{\bf w} - {\bf y}) \\
+{\rm s.t.} &amp;\hspace{2ex} {\bf w}^\mathsf{T}{\bf w} \le C
+\end{align*}
+\]</span> 如何求解这个问题？从几何意义上讲，限制条件把<strong>w</strong>限制在了一个半径为C的超球体中，如下图所示：</p>
+<figure>
+<img src="../images/machine-learning-regularization/lagrange-multiplier-l2-regularization.png" alt="lagrange-multiplier-l2-regular" /><figcaption>lagrange-multiplier-l2-regular</figcaption>
+</figure>
+<p>紫色的点标识出当前w对应<span class="math inline">\(E_{\rm in}\)</span>的位置，其蓝线为这个时刻<span class="math inline">\(E_{\rm in}\)</span>的一条等高线（上面的值都相等），本来根据梯度下降法，沿着负梯度方向<span class="math inline">\(-\nabla E_{\rm in}\)</span>向下滚动减少目标值。但是限制有了限制条件，不能跑出这个超球体，因此只能沿着<span class="math inline">\(-\nabla E_{\rm in}\)</span>的分量（绿色的方向）移动，移动到什么位置就不能移动了呢？即超球体的切线方向和<span class="math inline">\(-\nabla E_{\rm in}\)</span>垂直，也就是最优的<span class="math inline">\(\bf w_{REG}\)</span>必然与<span class="math inline">\(-\nabla E_{\rm in}\)</span>方向平行,设比例为<span class="math inline">\(\frac{2\lambda}{N}\)</span> <span class="math display">\[
+\nabla E_{\rm in}({\bf w}_{\rm REG}) + \frac{2\lambda}{N} {\bf w}_{\rm REG} = 0\tag{2-3}
+\]</span> PS：其实这就是<strong>拉格朗日乘子法</strong>的几何意义，关于拉格朗日乘子法和KKT条件，会在之后深入理解SVM章节继续介绍并大量使用。</p>
+<p>求<span class="math inline">\(E_{\rm in}\)</span>梯度并带入2-3，得： <span class="math display">\[
 \begin{align*}
 \frac{2}{N} ({\rm Z}^\mathsf{T}{\rm Z}{\bf w}_{\rm REG} - {\rm Z}^\mathsf{T}{\bf y}) + \frac{2\lambda}{N}{\bf w}_{\rm REG} = 0 
  \hspace{2ex} \Rightarrow{\bf w}_{\rm REG} = ({\rm Z^\mathsf{T}Z + \lambda I})^{-1}{\rm Z}^\mathsf{T}{\bf y}
-\end{align*}</script><p>给定λ&gt;0，由于$\bf Z^TZ$是半正定矩阵，$λI$是正定矩阵，两者相加也是正定矩阵，因此$\bf Z^TZ+λI$存在逆矩阵，上式总可求解。</p>
-<p>其实还可以把2-3写为：</p>
-<script type="math/tex; mode=display">
-L({\bf w}, \lambda) = ({\rm Z}{\bf w} - {\bf y})^\mathsf{T}({\rm Z}{\bf w} - {\bf y})  + \lambda {\bf w^Tw} \tag{2-4}</script><p>然后求解2-4效果是一样的。</p>
-<p>矩阵太可怕了？≡(▔﹏▔)≡ 那改成平易近人的写法就是：</p>
-<script type="math/tex; mode=display">
-\min_{ {\bf w}} \hspace{1ex} \sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 + \lambda |\!|{\bf w}|\!|_2^2 \tag{2-5}</script><p>式2-5也常称为<strong>岭回归(ridge regression)</strong>。最后一项就称为L2正则化项。$\lambda$称为正则化项系数。$\lambda$越大，<strong>w</strong>就越小，其范数C也就越小，但也越容易欠拟合。</p>
-<p>林轩田老师给出了不同$\lambda$的效果图</p>
-<p><img src="../images/machine-learning-regularization/l2-regularization-lambda-result.png" alt="l2-lambda-result"></p>
-<h3 id="L1正则"><a href="#L1正则" class="headerlink" title="L1正则"></a>L1正则</h3><p>2-5式的最后一项进行修改就得到了L1正则</p>
-<script type="math/tex; mode=display">
-\min_{ {\bf w}} \hspace{1ex} \sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 + \lambda |\!|{\bf w}|\!|_1 \tag{2-6}</script><p>L1正则也被称为<strong>LASSO</strong>(Least Absolute Shrinkage and Selection Operator)，L1正则和L2正则一样，都可以降低模型复杂度的风险，但是L1正则的好处是会得到一个<strong>稀疏解</strong>。这也是为什么<strong>L1正则不是处处可微</strong>仍广受青睐的原因。</p>
+\end{align*}
+\]</span> 给定λ&gt;0，由于<span class="math inline">\(\bf Z^TZ\)</span>是半正定矩阵，<span class="math inline">\(λI\)</span>是正定矩阵，两者相加也是正定矩阵，因此<span class="math inline">\(\bf Z^TZ+λI\)</span>存在逆矩阵，上式总可求解。</p>
+<p>其实还可以把2-3写为： <span class="math display">\[
+L({\bf w}, \lambda) = ({\rm Z}{\bf w} - {\bf y})^\mathsf{T}({\rm Z}{\bf w} - {\bf y})  + \lambda {\bf w^Tw} \tag{2-4}
+\]</span> 然后求解2-4效果是一样的。</p>
+<p>矩阵太可怕了？≡(▔﹏▔)≡ 那改成平易近人的写法就是： <span class="math display">\[
+\min_{ {\bf w}} \hspace{1ex} \sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 + \lambda |\!|{\bf w}|\!|_2^2 \tag{2-5}
+\]</span> 式2-5也常称为<strong>岭回归(ridge regression)</strong>。最后一项就称为L2正则化项。<span class="math inline">\(\lambda\)</span>称为正则化项系数。<span class="math inline">\(\lambda\)</span>越大，<strong>w</strong>就越小，其范数C也就越小，但也越容易欠拟合。</p>
+<p>林轩田老师给出了不同<span class="math inline">\(\lambda\)</span>的效果图</p>
+<figure>
+<img src="../images/machine-learning-regularization/l2-regularization-lambda-result.png" alt="l2-lambda-result" /><figcaption>l2-lambda-result</figcaption>
+</figure>
+<h3 id="l1正则">L1正则</h3>
+<p>2-5式的最后一项进行修改就得到了L1正则 <span class="math display">\[
+\min_{ {\bf w}} \hspace{1ex} \sum_{i=1}^N({\bf w}^\mathsf{T}{\bf z}_i - y_i)^2 + \lambda |\!|{\bf w}|\!|_1 \tag{2-6}
+\]</span> L1正则也被称为<strong>LASSO</strong>(Least Absolute Shrinkage and Selection Operator)，L1正则和L2正则一样，都可以降低模型复杂度的风险，但是L1正则的好处是会得到一个<strong>稀疏解</strong>。这也是为什么<strong>L1正则不是处处可微</strong>仍广受青睐的原因。</p>
 <p>为什么会得到一个系数解呢？上面我们提到L2正则相当于限制在一个超球体中，而L1正则则相当于限制在一个超正方体中。假设二维的情况，如下图所示:</p>
-<p><img src="../images/machine-learning-regularization/l1-regularization.png" alt="l1-regular"></p>
-<p>类似之前的L2正则，由于限制条件的存在，往负梯度方向$-\nabla E_{\rm in}$移动时，只能沿着分量，这样才不会超出限制范围。只有当<strong>w</strong>的移动方向$-\nabla E_{\rm in}$与法向量（红色的箭头）垂直时，<strong>w</strong>达到最优解。可以看出<strong>w</strong>在正方形边界上的时候，这种情况一般不会发生，因此<strong>w</strong>会沿着负梯度方向的一个分量不断移动，直到到达顶点处。在顶点处意味着和某坐标轴相交，即某些$w_i$的值为0，比如这里二维情况就是$w_1$或者$w_2$为0。而L2正则的解往往在某象限中，即$w_1$或者$w_2$非0。因此，L1比L2更易于得到稀疏解。</p>
+<figure>
+<img src="../images/machine-learning-regularization/l1-regularization.png" alt="l1-regular" /><figcaption>l1-regular</figcaption>
+</figure>
+<p>类似之前的L2正则，由于限制条件的存在，往负梯度方向<span class="math inline">\(-\nabla E_{\rm in}\)</span>移动时，只能沿着分量，这样才不会超出限制范围。只有当<strong>w</strong>的移动方向<span class="math inline">\(-\nabla E_{\rm in}\)</span>与法向量（红色的箭头）垂直时，<strong>w</strong>达到最优解。可以看出<strong>w</strong>在正方形边界上的时候，这种情况一般不会发生，因此<strong>w</strong>会沿着负梯度方向的一个分量不断移动，直到到达顶点处。在顶点处意味着和某坐标轴相交，即某些<span class="math inline">\(w_i\)</span>的值为0，比如这里二维情况就是<span class="math inline">\(w_1\)</span>或者<span class="math inline">\(w_2\)</span>为0。而L2正则的解往往在某象限中，即<span class="math inline">\(w_1\)</span>或者<span class="math inline">\(w_2\)</span>非0。因此，L1比L2更易于得到稀疏解。</p>
 <p>而对<strong>w</strong>取稀疏解意味着在初始的d个特征中仅有对应着<strong>w</strong>的非零分量的特征才会出现在最终模型中。<strong>求解L1正则的结果便是得到了仅采用一部分初始特征的模型</strong>。换言之，基于L1正则化的学习方法就是一种嵌入式特征选择方法，其特征选择和学习器的训练过程融为一体，同时完成。</p>
 <p>关于L1更能得到稀疏解有另一种说法，</p>
 <blockquote>
 <p>L1正则化会让参数变得更加稀疏（更多的参数变为0），而L2不会,因为参数很小时如0.0001平方基本可以忽略了。</p>
 </blockquote>
-<h4 id="L1正则求解"><a href="#L1正则求解" class="headerlink" title="L1正则求解"></a>L1正则求解</h4><p>前面提到过，L1正则不是处处可微的，求解起来不像L2正则那么容易。</p>
+<h4 id="l1正则求解">L1正则求解</h4>
+<p>前面提到过，L1正则不是处处可微的，求解起来不像L2正则那么容易。</p>
 <p>求解L1正则可以用<strong>近端梯度下降</strong>（Proximal Gradient Descent），本文不做具体介绍，感兴趣的可以参阅周志华的《机器学习》第253页。</p>
-<h3 id="L0正则"><a href="#L0正则" class="headerlink" title="L0正则"></a>L0正则</h3><p>什么，还有L0正则？木有错！</p>
+<h3 id="l0正则">L0正则</h3>
+<p>什么，还有L0正则？木有错！</p>
 <p>L0正则是非0元素的个数。其实上面我们提过式2-1就可以看成L0正则，这是一种很直观限制模型复杂度的方法。但是遗憾的是不连续难以优化求解。因此往往用L1正则近似。</p>
-<h3 id="基于后验理解正则化"><a href="#基于后验理解正则化" class="headerlink" title="基于后验理解正则化"></a>基于后验理解正则化</h3><p>上面的介绍可以说是用最优化约束条件来介绍正则话，其实还可以用先验和后验概率进行解释：正则化相当于<strong>对模型参数引入了先验分布</strong>。引入了正确的先验分布，可以在较小的数据集中有良好的泛化性能，也能有效的防止过拟合。</p>
-<h4 id="最大似然估计和最小二乘"><a href="#最大似然估计和最小二乘" class="headerlink" title="最大似然估计和最小二乘"></a>最大似然估计和最小二乘</h4><p>为了阐述之后的L1、L2正则和先验分布的关系，我们先来个开胃菜，即没有引入正则化之前是什么样子的。</p>
-<p>我们都比较熟悉高斯分布，设$x\sim \mathcal{N}(\mu, \sigma^2)$,则高斯分布的概率密度函数为：</p>
-<script type="math/tex; mode=display">
-p(x\ |\ \mu,\sigma^2) = \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{(x - \mu)^2}{2\sigma^2}\right)</script><p>其中$\mu$为均值，$\sigma^2$为方差。</p>
-<p><img src="../images/machine-learning-regularization/gaussian-distribution.png" alt="gaussian-distribution"></p>
-<p>下面以最简单的线性回归为例，给定数据集$\{({\bf x_1}, y_1) , ({\bf x_1}, y_1)),\cdots,({\bf x_n}, y_n))\}$, $y_i$和预测值${\bf w^Tx_i}$之间的误差为$\epsilon$，因此有下式：</p>
-<script type="math/tex; mode=display">
-y_i = {\bf w^Tx_i} + \epsilon_i \tag{2-7}</script><p>假设$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$, 则 $y_i \sim \mathcal{N}({\bf w^Tx, \sigma^2})$，即给定数据 $\bf x_i$和模型的参数$\bf w$模型得到$y_i$的概率为：</p>
-<script type="math/tex; mode=display">
-p(y_i| {\bf w}, {\bf x_i}) = \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)</script><p>我们可以用最大似然估计来求使得数据集出现最大的概率对应的参数$\bf w$：</p>
-<script type="math/tex; mode=display">
+<h3 id="基于后验理解正则化">基于后验理解正则化</h3>
+<p>上面的介绍可以说是用最优化约束条件来介绍正则话，其实还可以用先验和后验概率进行解释：正则化相当于<strong>对模型参数引入了先验分布</strong>。引入了正确的先验分布，可以在较小的数据集中有良好的泛化性能，也能有效的防止过拟合。</p>
+<h4 id="最大似然估计和最小二乘">最大似然估计和最小二乘</h4>
+<p>为了阐述之后的L1、L2正则和先验分布的关系，我们先来个开胃菜，即没有引入正则化之前是什么样子的。</p>
+<p>我们都比较熟悉高斯分布，设<span class="math inline">\(x\sim \mathcal{N}(\mu, \sigma^2)\)</span>,则高斯分布的概率密度函数为： <span class="math display">\[
+p(x\ |\ \mu,\sigma^2) = \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{(x - \mu)^2}{2\sigma^2}\right)
+\]</span> 其中<span class="math inline">\(\mu\)</span>为均值，<span class="math inline">\(\sigma^2\)</span>为方差。</p>
+<figure>
+<img src="../images/machine-learning-regularization/gaussian-distribution.png" alt="gaussian-distribution" /><figcaption>gaussian-distribution</figcaption>
+</figure>
+<p>下面以最简单的线性回归为例，给定数据集<span class="math inline">\(\{({\bf x_1}, y_1) , ({\bf x_1}, y_1)),\cdots,({\bf x_n}, y_n))\}\)</span>, <span class="math inline">\(y_i\)</span>和预测值<span class="math inline">\({\bf w^Tx_i}\)</span>之间的误差为<span class="math inline">\(\epsilon\)</span>，因此有下式： <span class="math display">\[
+y_i = {\bf w^Tx_i} + \epsilon_i \tag{2-7}
+\]</span> 假设<span class="math inline">\(\epsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span>, 则 <span class="math inline">\(y_i \sim \mathcal{N}({\bf w^Tx, \sigma^2})\)</span>，即给定数据 <span class="math inline">\(\bf x_i\)</span>和模型的参数<span class="math inline">\(\bf w\)</span>模型得到<span class="math inline">\(y_i\)</span>的概率为： <span class="math display">\[
+p(y_i| {\bf w}, {\bf x_i}) = \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)
+\]</span> 我们可以用最大似然估计来求使得数据集出现最大的概率对应的参数<span class="math inline">\(\bf w\)</span>： <span class="math display">\[
 \begin{align*}
-\arg \max_w\mathcal{L}({\bf w}) &= \ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)\\
-&= \sum_{i=1}^n \left(-\ln \sigma\sqrt{2\pi}  - \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2} \right)\\
-&= -\frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 - n\ln \sigma\sqrt{2\pi}
-\end{align*}</script><p>我们想优化min的话，即取上式的相反数，于是有：</p>
-<script type="math/tex; mode=display">
+\arg \max_w\mathcal{L}({\bf w}) &amp;= \ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)\\
+&amp;= \sum_{i=1}^n \left(-\ln \sigma\sqrt{2\pi}  - \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2} \right)\\
+&amp;= -\frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 - n\ln \sigma\sqrt{2\pi}
+\end{align*}
+\]</span> 我们想优化min的话，即取上式的相反数，于是有： <span class="math display">\[
 \begin{align*}
-\arg \min_w\mathcal{L}({\bf w})  &= \frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + n\ln \sigma\sqrt{2\pi}\\
-&= \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 \hspace{4ex} 其它为常数，和优化无关
-\end{align*}</script><p>这就得到了最小二乘。为什么呢？最小二乘想要求一条回归线，该回归线到数据点的平方距离之和最小。而当我们假设待求分布为高斯分布时，最大概率会在平均值附近找到，又因为高斯分布是对称的，相当于最小化数据点与平均值之间的距离。</p>
-<h4 id="高斯分布和L2正则"><a href="#高斯分布和L2正则" class="headerlink" title="高斯分布和L2正则"></a>高斯分布和L2正则</h4><p>假设$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$, 参数$w_i \sim \mathcal{N}(0, \xi^2)$,  可以用MAP来求使得数据集出现最大的概率对应的参数$\bf w$：</p>
-<script type="math/tex; mode=display">
+\arg \min_w\mathcal{L}({\bf w})  &amp;= \frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + n\ln \sigma\sqrt{2\pi}\\
+&amp;= \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 \hspace{4ex} 其它为常数，和优化无关
+\end{align*}
+\]</span> 这就得到了最小二乘。为什么呢？最小二乘想要求一条回归线，该回归线到数据点的平方距离之和最小。而当我们假设待求分布为高斯分布时，最大概率会在平均值附近找到，又因为高斯分布是对称的，相当于最小化数据点与平均值之间的距离。</p>
+<h4 id="高斯分布和l2正则">高斯分布和L2正则</h4>
+<p>假设<span class="math inline">\(\epsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span>, 参数<span class="math inline">\(w_i \sim \mathcal{N}(0, \xi^2)\)</span>, 可以用MAP来求使得数据集出现最大的概率对应的参数<span class="math inline">\(\bf w\)</span>： <span class="math display">\[
 \begin{align*}
-\arg \max_w\mathcal{L}({\bf w}) &= \prod_{i=1}^n p(y_i | {\bf w}, {\bf x_i}) p({\bf w})\\ 
-&=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)  \prod_{j=1}^d \frac{1}{\sqrt{2\pi} \xi} \exp\left(- \frac{ w_j^2}{2\xi^2}\right)\\
-&=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right) +\ln\prod_{j=1}^d  \frac{1}{\sqrt{2\pi} \xi} \exp\left(- \frac{w_j^2}{2\xi^2}\right)\\
-&= \sum_{i=1}^n \left(-\ln \sigma\sqrt{2\pi}  - \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right) + \sum_{j=1}^d \left(- \ln \xi\sqrt{2\pi}  - \frac{ w_j^2}{2\xi^2}  \right)\\
-&= -\frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 - \frac{1}{2\xi^2}\sum_{j=1}^dw_j^2 - n\ln \sigma\sqrt{2\pi} - d\ln\xi\sqrt{2\pi}
-\end{align*}</script><p>我们想优化min的话，即取上式的相反数，于是有：</p>
-<script type="math/tex; mode=display">
+\arg \max_w\mathcal{L}({\bf w}) &amp;= \prod_{i=1}^n p(y_i | {\bf w}, {\bf x_i}) p({\bf w})\\ 
+&amp;=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)  \prod_{j=1}^d \frac{1}{\sqrt{2\pi} \xi} \exp\left(- \frac{ w_j^2}{2\xi^2}\right)\\
+&amp;=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right) +\ln\prod_{j=1}^d  \frac{1}{\sqrt{2\pi} \xi} \exp\left(- \frac{w_j^2}{2\xi^2}\right)\\
+&amp;= \sum_{i=1}^n \left(-\ln \sigma\sqrt{2\pi}  - \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right) + \sum_{j=1}^d \left(- \ln \xi\sqrt{2\pi}  - \frac{ w_j^2}{2\xi^2}  \right)\\
+&amp;= -\frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 - \frac{1}{2\xi^2}\sum_{j=1}^dw_j^2 - n\ln \sigma\sqrt{2\pi} - d\ln\xi\sqrt{2\pi}
+\end{align*}
+\]</span> 我们想优化min的话，即取上式的相反数，于是有： <span class="math display">\[
 \begin{align*}
-\arg \min_w\mathcal{L}({\bf w})  &=  \frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \frac{1}{2\xi^2}\sum_{j=1}^dw_j^2 + n\ln \sigma\sqrt{2\pi} +d\ln\xi\sqrt{2\pi}\\
-&= \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 +\frac{1}{2\xi^2}{\bf w^Tw}\hspace{4ex} 其它为常数，和优化无关\\
-& = \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \lambda |\!| {\bf w}|\!|_2^2 \hspace{4ex}
-\end{align*}</script><p>这样就得到了L2范式，即岭回归！</p>
-<h4 id="拉普拉斯分布和L1正则"><a href="#拉普拉斯分布和L1正则" class="headerlink" title="拉普拉斯分布和L1正则"></a>拉普拉斯分布和L1正则</h4><p>拉普拉斯分布我们比较少见，它长什么样子呢？</p>
-<script type="math/tex; mode=display">
-p(x\ |\ \mu,b) = \frac{1}{2b} \exp\left(- \frac{|x - \mu|}{b}\right)</script><p>拉普拉斯分布的概率密度函数让我们联想到高斯分布，但是，高斯分布是用相对于 <em>μ</em> <strong>平均值的差的平方</strong>来表示，而拉普拉斯概率密度用相对于<strong>平均值的差的绝对值</strong>来表示。因此，拉普拉斯分布的尾部比正态分布更加平坦。 </p>
-<p><img src="../images/machine-learning-regularization/laplace-distribution.png" alt="laplace-distribution"></p>
-<p>假设$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$, 参数$w_i \sim {\text Laplace}(0, b)$,  可以用MAP来求使得数据集出现最大的概率对应的参数$\bf w$：</p>
-<script type="math/tex; mode=display">
+\arg \min_w\mathcal{L}({\bf w})  &amp;=  \frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \frac{1}{2\xi^2}\sum_{j=1}^dw_j^2 + n\ln \sigma\sqrt{2\pi} +d\ln\xi\sqrt{2\pi}\\
+&amp;= \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 +\frac{1}{2\xi^2}{\bf w^Tw}\hspace{4ex} 其它为常数，和优化无关\\
+&amp; = \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \lambda |\!| {\bf w}|\!|_2^2 \hspace{4ex}
+\end{align*}
+\]</span> 这样就得到了L2范式，即岭回归！</p>
+<h4 id="拉普拉斯分布和l1正则">拉普拉斯分布和L1正则</h4>
+<p>拉普拉斯分布我们比较少见，它长什么样子呢？</p>
+<p><span class="math display">\[
+p(x\ |\ \mu,b) = \frac{1}{2b} \exp\left(- \frac{|x - \mu|}{b}\right)
+\]</span> 拉普拉斯分布的概率密度函数让我们联想到高斯分布，但是，高斯分布是用相对于 <em>μ</em> <strong>平均值的差的平方</strong>来表示，而拉普拉斯概率密度用相对于<strong>平均值的差的绝对值</strong>来表示。因此，拉普拉斯分布的尾部比正态分布更加平坦。</p>
+<figure>
+<img src="../images/machine-learning-regularization/laplace-distribution.png" alt="laplace-distribution" /><figcaption>laplace-distribution</figcaption>
+</figure>
+<p>假设<span class="math inline">\(\epsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span>, 参数<span class="math inline">\(w_i \sim {\text Laplace}(0, b)\)</span>, 可以用MAP来求使得数据集出现最大的概率对应的参数<span class="math inline">\(\bf w\)</span>： <span class="math display">\[
 \begin{align*}
-\arg \max_w\mathcal{L}({\bf w}) &= \prod_{i=1}^n p(y_i | {\bf w}, {\bf x_i}) p({\bf w})\\ 
-&=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)  \prod_{j=1}^d \frac{1}{2b} \exp\left(- \frac{ |w_j|}{b}\right)\\
-&=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right) +\ln\prod_{j=1}^d  \frac{1}{2b} \exp\left(- \frac{|w_j|}{b}\right)\\
-&= \sum_{i=1}^n \left(-\ln \sigma\sqrt{2\pi}  - \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}  \right) +\sum_{j=1}^d\left( -\ln{2b}  - \frac{|w_j|}{b} \right)\\
-&= -\frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 - \frac{1}{b}\sum_{j=1}^d|w_j|- n\ln \sigma\sqrt{2\pi} - d\ln2b
-\end{align*}</script><p>我们想优化min的话，即取上式的相反数，于是有：</p>
-<script type="math/tex; mode=display">
+\arg \max_w\mathcal{L}({\bf w}) &amp;= \prod_{i=1}^n p(y_i | {\bf w}, {\bf x_i}) p({\bf w})\\ 
+&amp;=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right)  \prod_{j=1}^d \frac{1}{2b} \exp\left(- \frac{ |w_j|}{b}\right)\\
+&amp;=\ln \prod_{i=1}^n \frac{1}{\sqrt{2\pi} \sigma} \exp\left(- \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}\right) +\ln\prod_{j=1}^d  \frac{1}{2b} \exp\left(- \frac{|w_j|}{b}\right)\\
+&amp;= \sum_{i=1}^n \left(-\ln \sigma\sqrt{2\pi}  - \frac{( y_i - {\bf w^Tx_i})^2}{2\sigma^2}  \right) +\sum_{j=1}^d\left( -\ln{2b}  - \frac{|w_j|}{b} \right)\\
+&amp;= -\frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 - \frac{1}{b}\sum_{j=1}^d|w_j|- n\ln \sigma\sqrt{2\pi} - d\ln2b
+\end{align*}
+\]</span> 我们想优化min的话，即取上式的相反数，于是有： <span class="math display">\[
 \begin{align*}
-\arg \min_w\mathcal{L}({\bf w})  &=  \frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \frac{1}{b}\sum_{j=1}^d|w_j|+ n\ln \sigma\sqrt{2\pi}+ d\ln2b\\
-&= \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \frac{1}{b}\sum_{j=1}^d|w_j| \hspace{4ex} 其它为常数，和优化无关\\
-& = \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \lambda |\!| {\bf w}|\!|_1 \hspace{4ex}
-\end{align*}</script><p>这样就得到了L1范式。从上式也可以看出，$\lambda$越大（正则化的权重），则相当于$b$越小，参数越集中在0附近，模型也就越简单。</p>
+\arg \min_w\mathcal{L}({\bf w})  &amp;=  \frac{1}{2\sigma^2}\sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \frac{1}{b}\sum_{j=1}^d|w_j|+ n\ln \sigma\sqrt{2\pi}+ d\ln2b\\
+&amp;= \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \frac{1}{b}\sum_{j=1}^d|w_j| \hspace{4ex} 其它为常数，和优化无关\\
+&amp; = \sum_{i=1}^n \left(y_i - {\bf w^Tx_i} \right)^2 + \lambda |\!| {\bf w}|\!|_1 \hspace{4ex}
+\end{align*}
+\]</span> 这样就得到了L1范式。从上式也可以看出，<span class="math inline">\(\lambda\)</span>越大（正则化的权重），则相当于<span class="math inline">\(b\)</span>越小，参数越集中在0附近，模型也就越简单。</p>
 <p>此外，高斯分布在极值点（0处）是平滑的，也就是说高斯分布认为w在极值点附近取不同值的可能性是接近的，因此，L2正则只会让w更接近0，而不会等于0。而拉普拉斯分布在极值点（0处）是一个尖峰，所以参数取0的可能性更高。</p>
-<h2 id="正则化逻辑回归"><a href="#正则化逻辑回归" class="headerlink" title="正则化逻辑回归"></a>正则化逻辑回归</h2><p>前面已经正则化过线性回归了，回想上一讲的<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-linear-regression-logistic-regression/">逻辑回归模型</a>，我们同样可以加入正则化。</p>
-<p>回想我们用极大似然法推导出来的损失函数为：</p>
-<script type="math/tex; mode=display">
-L(w) =-\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]</script><p>我们可以加入L2正则化项：</p>
-<script type="math/tex; mode=display">
-L(w) = -\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]+ \frac{\lambda}{2} |\!|{\bf w}|\!|^2</script><p>L(<strong>w</strong>)对$\bf w_j$求偏导，有：</p>
-<script type="math/tex; mode=display">
-\frac{\partial L({\bf w})}{w_j} = \sum_{i=1}^N \left(h({\bf x_i}) -y_i \right)x_{ij} + \lambda w_j</script><p>于是，<strong>w</strong>的更新公式为：</p>
-<script type="math/tex; mode=display">
-w_j = w_j - \eta\left(\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij} + \lambda w_j\right)</script><p>其实就是多了一项而已，简单~</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="正则化逻辑回归">正则化逻辑回归</h2>
+<p>前面已经正则化过线性回归了，回想上一讲的<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-linear-regression-logistic-regression/">逻辑回归模型</a>，我们同样可以加入正则化。</p>
+<p>回想我们用极大似然法推导出来的损失函数为： <span class="math display">\[
+L(w) =-\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]
+\]</span> 我们可以加入L2正则化项： <span class="math display">\[
+L(w) = -\sum_{i=1}^N [y_i\ln h({\bf x_i}) + (1-y_i)\ln(1- h({\bf x_i}))]+ \frac{\lambda}{2} |\!|{\bf w}|\!|^2
+\]</span> L(<strong>w</strong>)对<span class="math inline">\(\bf w_j\)</span>求偏导，有： <span class="math display">\[
+\frac{\partial L({\bf w})}{w_j} = \sum_{i=1}^N \left(h({\bf x_i}) -y_i \right)x_{ij} + \lambda w_j
+\]</span> 于是，<strong>w</strong>的更新公式为： <span class="math display">\[
+w_j = w_j - \eta\left(\sum_{i=1}^N(h({\bf x_i}) -y_i )x_{ij} + \lambda w_j\right)
+\]</span> 其实就是多了一项而已，简单~</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li>《机器学习》 周志华</li>
-<li>机器学习基石 - 林轩田  （第14讲正则化）</li>
+<li>机器学习基石 - 林轩田 （第14讲正则化）</li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29707029">机器学习防止欠拟合、过拟合方法</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/heguanyou/p/7688344.html">Laplace（拉普拉斯）先验与L1正则化</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23536142/answer/90135994">LR正则化与数据先验分布的关系？ - Charles Xiao的回答</a> </li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23536142/answer/90135994">LR正则化与数据先验分布的关系？ - Charles Xiao的回答</a></li>
 </ul>
  
       <!-- reward -->
@@ -534,12 +568,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -551,6 +591,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -559,13 +601,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -584,7 +627,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

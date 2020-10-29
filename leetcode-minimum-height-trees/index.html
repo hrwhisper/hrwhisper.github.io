@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">828</span>
+            <span class="post-count">830</span>
         </span>
     </span>
 
@@ -115,24 +115,27 @@
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<h3 id="leetcode-Minimum-Height-Trees"><a href="#leetcode-Minimum-Height-Trees" class="headerlink" title="leetcode Minimum Height Trees"></a>leetcode Minimum Height Trees</h3><p>For a undirected graph with tree characteristics, we can choose any node as the root. The result graph is then a rooted tree. Among all possible rooted trees, those with minimum height are called minimum height trees (MHTs). Given such a graph, write a function to find all the MHTs and return a list of their root labels.</p>
-<p><strong>Format</strong><br>The graph contains <code>n</code> nodes which are labeled from <code>0</code> to <code>n - 1</code>. You will be given the number <code>n</code> and a list of undirected <code>edges</code> (each edge is a pair of labels).</p>
+<h3 id="leetcode-minimum-height-trees">leetcode Minimum Height Trees</h3>
+<p>For a undirected graph with tree characteristics, we can choose any node as the root. The result graph is then a rooted tree. Among all possible rooted trees, those with minimum height are called minimum height trees (MHTs). Given such a graph, write a function to find all the MHTs and return a list of their root labels.</p>
+<p><strong>Format</strong> The graph contains <code>n</code> nodes which are labeled from <code>0</code> to <code>n - 1</code>. You will be given the number <code>n</code> and a list of undirected <code>edges</code> (each edge is a pair of labels).</p>
 <p>You can assume that no duplicate edges will appear in <code>edges</code>. Since all edges are undirected, <code>[0, 1]</code> is the same as <code>[1, 0]</code> and thus will not appear together in <code>edges</code>.</p>
 <p><strong>Example 1:</strong></p>
 <p>Given <code>n = 4</code>, <code>edges = [[1, 0], [1, 2], [1, 3]]</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  0</span><br><span class="line">  </span><br><span class="line">  1</span><br><span class="line"> &#x2F; \</span><br><span class="line">2   3</span><br></pre></td></tr></table></figure>
-<p>return <code>[1]</code><br><a id="more"></a><br><strong>Example 2:</strong></p>
+<p>return <code>[1]</code> <a id="more"></a> <strong>Example 2:</strong></p>
 </blockquote>
 <p>Given <code>n = 6</code>, <code>edges = [[0, 3], [1, 3], [2, 3], [4, 3], [5, 4]]</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">0  1  2</span><br><span class="line"> \  &#x2F;</span><br><span class="line">   3</span><br><span class="line">   </span><br><span class="line">   4</span><br><span class="line">   </span><br><span class="line">   5</span><br></pre></td></tr></table></figure>
 <p>return <code>[3, 4]</code></p>
 <p><strong>Hint:</strong></p>
-<ol>
+<ol type="1">
 <li>How many MHTs can a graph have at most?</li>
 </ol>
 <p><strong>Note</strong>:</p>
-<p>(1) According to the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Tree_(graph_theory">definition of tree on Wikipedia</a>): “a tree is an undirected graph in which any two vertices are connected by _exactly_ one path. In other words, any connected graph without simple cycles is a tree.”</p>
-<p>(2) The height of a rooted tree is the number of edges on the longest downward path between the root and a leaf.</p>
+<ol type="1">
+<li><p>According to the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Tree_(graph_theory)">definition of tree on Wikipedia</a>: “a tree is an undirected graph in which any two vertices are connected by <em>exactly</em> one path. In other words, any connected graph without simple cycles is a tree.”</p></li>
+<li><p>The height of a rooted tree is the number of edges on the longest downward path between the root and a leaf.</p></li>
+</ol>
 <p>今天新出的题 leetcode Minimum Height Trees</p>
 <p>题意：</p>
 <p>给定一个n个结点n-1条边的无向图（就是树啦），让你找从哪个点出发，到其他结点的最长距离最小？（返回所有答案）</p>
@@ -141,16 +144,19 @@
 <p>只好想其他的方法。</p>
 <p>答案一定是最长距离的中间结点位置上。</p>
 <p>我们要的是中间结点，沿着树的外围每次把叶子结点砍掉，那么，最后剩下的不就是中间结点了么？</p>
-<p>Leetcode其他树的题： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-tree/"> leetcode Tree 整理版</a></p>
-<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><strong>Python</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># leetcode Minimum Height Trees</span></span><br><span class="line"><span class="comment"># https://www.hrwhisper.me/leetcode-minimum-height-trees/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findMinHeightTrees</span>(<span class="params">self, n, edges</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :type edges: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">1</span>: <span class="keyword">return</span> [<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        digree = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        g = [[] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        <span class="keyword">for</span> x,y <span class="keyword">in</span> edges:</span><br><span class="line">            digree[x] += <span class="number">1</span></span><br><span class="line">            digree[y] += <span class="number">1</span></span><br><span class="line">            g[x].append(y) <span class="comment">#add_edge</span></span><br><span class="line">            g[y].append(x)</span><br><span class="line"></span><br><span class="line">        leaves = [i <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n) <span class="keyword">if</span> digree[i]==<span class="number">1</span>]</span><br><span class="line">        nodes = n</span><br><span class="line">        <span class="keyword">while</span> nodes &gt; <span class="number">2</span>:</span><br><span class="line">            temp = []</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> leaves:</span><br><span class="line">                digree[i] = <span class="number">0</span></span><br><span class="line">                nodes -= <span class="number">1</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> g[i]:</span><br><span class="line">                    digree[j] -= <span class="number">1</span></span><br><span class="line">                    <span class="keyword">if</span> digree[j] == <span class="number">1</span>:</span><br><span class="line">                        temp.append(j)</span><br><span class="line">            leaves = temp</span><br><span class="line">        <span class="keyword">return</span> leaves</span><br></pre></td></tr></table></figure></p>
+<p>Leetcode其他树的题： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-tree/"> leetcode Tree 整理版</a></p>
+<h3 id="code">Code</h3>
+<p><strong>Python</strong> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># leetcode Minimum Height Trees</span></span><br><span class="line"><span class="comment"># https://www.hrwhisper.me/leetcode-minimum-height-trees/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findMinHeightTrees</span>(<span class="params">self, n, edges</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :type edges: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">1</span>: <span class="keyword">return</span> [<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        digree = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        g = [[] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        <span class="keyword">for</span> x,y <span class="keyword">in</span> edges:</span><br><span class="line">            digree[x] += <span class="number">1</span></span><br><span class="line">            digree[y] += <span class="number">1</span></span><br><span class="line">            g[x].append(y) <span class="comment">#add_edge</span></span><br><span class="line">            g[y].append(x)</span><br><span class="line"></span><br><span class="line">        leaves = [i <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n) <span class="keyword">if</span> digree[i]==<span class="number">1</span>]</span><br><span class="line">        nodes = n</span><br><span class="line">        <span class="keyword">while</span> nodes &gt; <span class="number">2</span>:</span><br><span class="line">            temp = []</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> leaves:</span><br><span class="line">                digree[i] = <span class="number">0</span></span><br><span class="line">                nodes -= <span class="number">1</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> g[i]:</span><br><span class="line">                    digree[j] -= <span class="number">1</span></span><br><span class="line">                    <span class="keyword">if</span> digree[j] == <span class="number">1</span>:</span><br><span class="line">                        temp.append(j)</span><br><span class="line">            leaves = temp</span><br><span class="line">        <span class="keyword">return</span> leaves</span><br></pre></td></tr></table></figure></p>
+<p> </p>
 <p>附上一开始TLE的版本</p>
 <p>思路就是类似于RIP算法，通过相邻的结点更新当前结点距离。</p>
 <p>比如说有x ,y 一条边（以x=&gt;y举例，y=&gt;x同样进行更新）</p>
 <p>我们可以通过y到各个结点的距离dis[y]来更新，就是说，让x走y这条边，然后到其他结点的距离(比如i)是不是比当前不走y到i的距离小。</p>
-<p>于是有：dis[x][i] = dis[i][x] = min(dis[i][x], dis[i][y] + 1)  (无向图对称性：dis[i][y] = dis[y][i] , dis[x][i] = dis[i][x])</p>
+<p>于是有：dis[x][i] = dis[i][x] = min(dis[i][x], dis[i][y] + 1)  (无向图对称性：dis[i][y] = dis[y][i] , dis[x][i] = dis[i][x])</p>
 <p>最后找最小的即可。</p>
 <p>总复杂度：O(n^2)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findMinHeightTrees</span>(<span class="params">self, n, edges</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :type edges: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        INF = <span class="number">0x7ffffffe</span></span><br><span class="line">        dis = [[INF <span class="keyword">for</span> j <span class="keyword">in</span> xrange(n)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n): dis[i][i] = <span class="number">0</span></span><br><span class="line">        g = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> xrange(n)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        <span class="keyword">for</span> x,y <span class="keyword">in</span> edges:</span><br><span class="line">            g[x][y] = g[y][x] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> x,y <span class="keyword">in</span> edges:</span><br><span class="line">            dis[x][y] = dis[y][x] = <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n):</span><br><span class="line">                dis[y][i] = dis[i][y] = min(dis[i][y], dis[i][x] + <span class="number">1</span>)</span><br><span class="line">                dis[x][i] = dis[i][x] = min(dis[i][x], dis[i][y] + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        nodes_height = [max(d) <span class="keyword">for</span> d <span class="keyword">in</span> dis]</span><br><span class="line">        min_dis = min(nodes_height)</span><br><span class="line">        <span class="keyword">return</span> [i <span class="keyword">for</span> i,c <span class="keyword">in</span> enumerate(nodes_height) <span class="keyword">if</span> c == min_dis]</span><br></pre></td></tr></table></figure> 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findMinHeightTrees</span>(<span class="params">self, n, edges</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :type edges: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        INF = <span class="number">0x7ffffffe</span></span><br><span class="line">        dis = [[INF <span class="keyword">for</span> j <span class="keyword">in</span> xrange(n)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n): dis[i][i] = <span class="number">0</span></span><br><span class="line">        g = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> xrange(n)] <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n)]</span><br><span class="line">        <span class="keyword">for</span> x,y <span class="keyword">in</span> edges:</span><br><span class="line">            g[x][y] = g[y][x] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> x,y <span class="keyword">in</span> edges:</span><br><span class="line">            dis[x][y] = dis[y][x] = <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n):</span><br><span class="line">                dis[y][i] = dis[i][y] = min(dis[i][y], dis[i][x] + <span class="number">1</span>)</span><br><span class="line">                dis[x][i] = dis[i][x] = min(dis[i][x], dis[i][y] + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        nodes_height = [max(d) <span class="keyword">for</span> d <span class="keyword">in</span> dis]</span><br><span class="line">        min_dis = min(nodes_height)</span><br><span class="line">        <span class="keyword">return</span> [i <span class="keyword">for</span> i,c <span class="keyword">in</span> enumerate(nodes_height) <span class="keyword">if</span> c == min_dis]</span><br></pre></td></tr></table></figure>
+ 
       <!-- reward -->
       
       <div id="reword-out">
@@ -365,12 +371,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -382,6 +394,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -390,13 +404,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -415,7 +430,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

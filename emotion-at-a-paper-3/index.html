@@ -115,12 +115,13 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>一纸闲愁3写于2012-08-23 ，主要是看到了有人写的你是不曾还是不会。</p>
-<p>有所感触。<br><a id="more"></a><br>1.你是不曾，还是不会</p>
+<p>有所感触。 <a id="more"></a> 1.你是不曾，还是不会</p>
 <p>2.这雨</p>
-<p>3.Breathing of dawn（黎明之息）</p>
+<p>3.Breathing of dawn（黎明之息）</p>
 <p>4.远方的荧光</p>
 <p>BGM:：这样爱了-张婧</p>
-<h1 id="1-你是不曾，还是不会"><a href="#1-你是不曾，还是不会" class="headerlink" title="1.你是不曾，还是不会"></a>1.你是不曾，还是不会</h1><p>徐志摩说：我是天空里的一片云，偶尔投影在你的波心。”</p>
+<h1 id="你是不曾还是不会">1.你是不曾，还是不会</h1>
+<p>徐志摩说：我是天空里的一片云，偶尔投影在你的波心。”</p>
 <p>多久了，你的名字还是常浮光掠影般闪过我的脑海。</p>
 <p>但你不会，像我一样，在某个名字上停留片刻，不是么，</p>
 <p>你不会，像我一样在谁的话语间停留许久，在那句话里窥见谁的影子，不是么，</p>
@@ -128,9 +129,10 @@
 <p>你从不会，是么。</p>
 <p>我不过是那轻微的反光，偶尔能照射到你心的窗户。</p>
 <p>有的人就像流星，在对方心中只留下刹那的光辉，转眼便消失了它的焰舌，只能在黑暗孤寂时，看回忆的碎片，散落一地的温柔。</p>
-<p>时光的错位 谁会记得谁。</p>
+<p>时光的错位 谁会记得谁。</p>
 <p>还是想问，你是不曾，还是不会？</p>
-<h1 id="2-这雨"><a href="#2-这雨" class="headerlink" title="2.这雨"></a>2.这雨</h1><p>这雨，生于天，死于地，中间的过程，便是人生。</p>
+<h1 id="这雨">2.这雨</h1>
+<p>这雨，生于天，死于地，中间的过程，便是人生。</p>
 <p>命运是一张地图。</p>
 <p>念天地之悠悠，独怅然而涕下。</p>
 <p>雨来了，带着一丝愁愫。</p>
@@ -144,21 +146,23 @@
 <p>它怕，它怕调入臭水沟中，引得一身臭气：也怕降落在汹涌的洪水中，成了灾难的帮凶……</p>
 <p>它掉落的是它紧密的忧愁。脆落的淋下，只有淅沥的声响。</p>
 <p>前方是哪？前无古人，后无来者，又有谁知晓？</p>
-<h1 id="3-Breathing-of-dawn（黎明之息）"><a href="#3-Breathing-of-dawn（黎明之息）" class="headerlink" title="3.Breathing of dawn（黎明之息）"></a>3.Breathing of dawn（黎明之息）</h1><p>就是喜欢这个名字，不为什么。</p>
+<h1 id="breathingofdawn黎明之息">3.Breathing of dawn（黎明之息）</h1>
+<p>就是喜欢这个名字，不为什么。</p>
 <p>霞光万丈，如一把光芒之剑向四周挥舞，黑暗只有不断退却。</p>
 <p>初阳抬头。</p>
 <p>红色的光芒变成了金色……</p>
 <p>我喜欢早，不知为何。</p>
 <p>也许，因为晚起,一门通向死亡的艺术，</p>
 <p>也许，因为清晨的清静，不见夜晚都市的繁华。</p>
-<p>Breathing of dawn，一遍遍默念这个名字。</p>
-<h1 id="4-远方的荧光"><a href="#4-远方的荧光" class="headerlink" title="4.远方的荧光"></a>4.远方的荧光</h1><p>过去的画卷，已经渐行渐远，化成了远方的荧光。</p>
+<p>Breathing of dawn，一遍遍默念这个名字。</p>
+<h1 id="远方的荧光">4.远方的荧光</h1>
+<p>过去的画卷，已经渐行渐远，化成了远方的荧光。</p>
 <p>你只会不停往前追，追回种种你错过的美 。</p>
 <p>那木兰香，又怎么遮得住伤。</p>
 <p>此刻，牛郎织女在倾诉着怎样的相思之苦，</p>
 <p>你看见了么？</p>
 <p>在这交会时互放的光亮。</p>
-<p>那么，What’s new？</p>
+<p>那么，What's new？</p>
 <p>-THE END-</p>
 <p>2012.8.22~23</p>
  
@@ -376,12 +380,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -393,6 +403,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -401,13 +413,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -426,7 +439,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

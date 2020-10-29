@@ -114,12 +114,13 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>一纸闲愁4写于离开家去FZU的时候<br><a id="more"></a></p>
-<h1 id="目录："><a href="#目录：" class="headerlink" title="目录："></a>目录：</h1><p>1.那两人</p>
+  <p>一纸闲愁4写于离开家去FZU的时候 <a id="more"></a> # 目录：</p>
+<p>1.那两人</p>
 <p>2.一路向北</p>
 <p>3.附录</p>
-<p>BGM：梁咏琪 - 还是那个你</p>
-<h1 id="1-那两人"><a href="#1-那两人" class="headerlink" title="1.那两人"></a>1.那两人</h1><p>⑴你本可以不成为她，她只是你一道分身。</p>
+<p>BGM：梁咏琪 - 还是那个你</p>
+<h1 id="那两人">1.那两人</h1>
+<p>⑴你本可以不成为她，她只是你一道分身。</p>
 <p>可你偏偏选择成为她。你渴望，因为他在你身上留下那道灿烂而又神奇的印记，无人可以夺走。</p>
 <p>还记得那一抹空山灵雨。</p>
 <p>尽是离人泪。</p>
@@ -143,7 +144,8 @@
 <p>“但这一世，我们不是鱼与飞鸟。”</p>
 <p>对么。</p>
 <p>蓦然回首，你看到了那在灯火阑珊处向你微笑的他。</p>
-<h1 id="2-一路向北"><a href="#2-一路向北" class="headerlink" title="2.一路向北"></a>2.一路向北</h1><p>就这样，新的生活即将猝不及防的撞进熟悉的轨迹。</p>
+<h1 id="一路向北">2.一路向北</h1>
+<p>就这样，新的生活即将猝不及防的撞进熟悉的轨迹。</p>
 <p>人永远都无法知道自己该要什么，因为人只能活一次，既不能拿它与前世相比，也不能在来生加以修正。谁会知晓今天所做的事情会有何意义？那是徒劳无用，还是埋下成功的密匙？这只能在未来加以验证。</p>
 <p>淡淡的离别愁绪涌上心头。</p>
 <p>除了离别，还是离别。</p>
@@ -159,8 +161,9 @@
 <p>谁会知晓，远方的天空下，是否还会有你我交汇的轨迹？</p>
 <p>我一路向北，离开有你的季节。任凭梦里三千落花。那条落英缤纷的路，又该通往何方？</p>
 <p>PS：为什么要提到仙逆里面那两人？他们有的是别离，更甚的是相逢的喜悦。灯火阑珊处，你我依然。</p>
-<h1 id="3-附录"><a href="#3-附录" class="headerlink" title="3.附录"></a>3.附录</h1><p>⑴这一次我离开你，大概就不容易再见到你了。暮色过后，我会真正离开，就让天上温柔的晚霞做最后见证，有一天再看见同样美丽的晚霞，不管在何时何地，我都会想起你来。——林清玄《季节十二帖》</p>
-<p>⑵偶然  徐志摩</p>
+<h1 id="附录">3.附录</h1>
+<p>⑴这一次我离开你，大概就不容易再见到你了。暮色过后，我会真正离开，就让天上温柔的晚霞做最后见证，有一天再看见同样美丽的晚霞，不管在何时何地，我都会想起你来。——林清玄《季节十二帖》</p>
+<p>⑵偶然  徐志摩</p>
 <p>我是天空里的一片云，</p>
 <p>偶尔投影在你的波心——</p>
 <p>你不必惊异，</p>
@@ -387,12 +390,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -404,6 +413,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -412,13 +423,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -437,7 +449,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

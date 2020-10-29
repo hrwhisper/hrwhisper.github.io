@@ -112,7 +112,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>一纸闲愁7 写于2013.10.26<br><a id="more"></a><br>今夜，又站在过去与未来的渡口。彳亍着。</p>
+  <p>一纸闲愁7 写于2013.10.26 <a id="more"></a> 今夜，又站在过去与未来的渡口。彳亍着。</p>
 <p>送走了春与夏。转眼的就迎来了福州的秋。这不同于故乡的秋，冷冷得厉害，热热得要死。</p>
 <p>“或许在这样的季节里唯有剩这清风可诉语，留那秋雨可告知。”</p>
 <p>“于是留下了那次秋天，那一场雨”。想起了余秋雨，看过他的《千年一叹》、《借我一生》以及《我等不到了》。</p>
@@ -129,19 +129,18 @@
 <p>可这是痴心妄想！</p>
 <p>流年啊，真的似水，一路奔赴而去。而我总是等不到和心灵一起上路。</p>
 <p>于是誓言变成了谎言，愿望变成了失望，承诺变成了包袱。</p>
-<p>还能不能在逍遥自在的说那一句，<br>没有爱情，可以。<br>没有梦想，不可以。<br>现在还能把它们，简单的，放在天平上比对么？</p>
+<p>还能不能在逍遥自在的说那一句， 没有爱情，可以。 没有梦想，不可以。 现在还能把它们，简单的，放在天平上比对么？</p>
 <p>我变了，时间不仅悄然改变了我们的容貌，它还要在心灵上狠狠的刮上几刀。</p>
 <p>可总有那些爱做梦的青年，始终认为林徽因和徐志摩才是最般配的一对。</p>
 <p>我也曾经这么认为，为他们叹息不已。”可是琴棋书画诗酒花只可以怡情养性，柴米油盐酱醋茶才是真实的烟火幸福。”(林徽因传)</p>
 <p>要找，就要找会生活的人,她会给你正能量。</p>
-<p>时光是无情的，但它是公平的，它同样不会放过那质朴的树。树的年轮上，记录着时光肆虐的痕迹，一个又一个的年轮仿佛就像岁月一次又一次的轮回，周而复始。”我是你路上最后一个过客，最后一个春天，最后一场雪，最后一次求生的战争。”保尔·艾吕雅诚挚的说道。最后啊最后，最后真的是一个无比凄凉的字眼，像极了小时候爱听的童话，总是有一个美丽而完美的结局，是我们童心未泯还是童话编织了太多的谎言，我们总是能发现，世事岂能皆如愿，我们每一个人都早晚会成为别人的最后，那些过往曾经，甚至都来不及你说一句告别。况且你往往不知道这是否是最后一个，又宁愿得过且过。而我们就这样，日渐老去。</p>
+<p>时光是无情的，但它是公平的，它同样不会放过那质朴的树。树的年轮上，记录着时光肆虐的痕迹，一个又一个的年轮仿佛就像岁月一次又一次的轮回，周而复始。&quot;我是你路上最后一个过客，最后一个春天，最后一场雪，最后一次求生的战争。&quot;保尔·艾吕雅诚挚的说道。最后啊最后，最后真的是一个无比凄凉的字眼，像极了小时候爱听的童话，总是有一个美丽而完美的结局，是我们童心未泯还是童话编织了太多的谎言，我们总是能发现，世事岂能皆如愿，我们每一个人都早晚会成为别人的最后，那些过往曾经，甚至都来不及你说一句告别。况且你往往不知道这是否是最后一个，又宁愿得过且过。而我们就这样，日渐老去。</p>
 <p>我不会让她为难，所以我会把一些话烂在肚子里。况且，喜欢并不是爱啊。</p>
 <p>感慨这么多，真矫情，我还要看书去呢。</p>
 <p>我是一个人，但我知道我并不孤独，还有千千万万个人和我一样，在夜里，吐露着为梦想，永不停息的气息。</p>
-<pre><code>                                                                                      2013.10.26 My way and My heart :)
-
-                                                                                 -THE END-
-</code></pre> 
+<p>                                                                                          2013.10.26 My way and My heart :)</p>
+<p>                                                                                     -THE END-</p>
+ 
       <!-- reward -->
       
       <div id="reword-out">
@@ -356,12 +355,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -373,6 +378,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -381,13 +388,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -406,7 +414,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

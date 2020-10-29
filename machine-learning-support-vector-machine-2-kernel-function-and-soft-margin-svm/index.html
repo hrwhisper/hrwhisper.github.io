@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">6.5k</span>
+            <span class="post-count">6.6k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">27 min</span>
+            <span class="post-count">28 min</span>
         </span>
     </span>
 </div>
@@ -124,236 +124,248 @@
 <li>Hinge损失</li>
 <li>概率SVM</li>
 <li>核化逻辑回归</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <a id="more"></a>
-<h2 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h2><p>若我们将原始数据从$R^d$空间通过$\bf z = \Phi(x)$映射到高维空间$R^\tilde d$以解决线性不可分的问题，则SVM原始问题为：</p>
-<script type="math/tex; mode=display">
+<h2 id="核函数">核函数</h2>
+<p>若我们将原始数据从<span class="math inline">\(R^d\)</span>空间通过<span class="math inline">\(\bf z = \Phi(x)\)</span>映射到高维空间<span class="math inline">\(R^\tilde d\)</span>以解决线性不可分的问题，则SVM原始问题为：</p>
+<p><span class="math display">\[
 \begin{align*}
-\min_{\bf w,b}\hspace{3ex} & \frac{1}{2} {\bf w^Tw}\\
-{\rm st.}\hspace{3ex} & y_i({\bf w^T z} + b)  \ge 1, \hspace{3ex}i=1,2,\cdots ,n
-\end{align*}</script><p>SVM的对偶问题为：</p>
-<script type="math/tex; mode=display">
+\min_{\bf w,b}\hspace{3ex} &amp; \frac{1}{2} {\bf w^Tw}\\
+{\rm st.}\hspace{3ex} &amp; y_i({\bf w^T z} + b)  \ge 1, \hspace{3ex}i=1,2,\cdots ,n
+\end{align*}
+\]</span> SVM的对偶问题为： <span class="math display">\[
 \begin{align*}
- \max_{ {\boldsymbol \alpha} }& \hspace{3ex}\sum_{i=1}^n\alpha_i-\frac{1}{2} \sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_jy_iy_j{\bf z_i^Tz_j}\\
+ \max_{ {\boldsymbol \alpha} }&amp; \hspace{3ex}\sum_{i=1}^n\alpha_i-\frac{1}{2} \sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_jy_iy_j{\bf z_i^Tz_j}\\
 {\rm s.t.} 
-&  \hspace{3ex} \alpha_i \ge 0, i = 1,2,\cdots ,n\\
-&  \hspace{3ex} \sum_{i=1}^n \alpha_iy_i = 0
-\end{align*}</script><p>上一篇博文最后提到，对偶问题仍然依赖于数据维度$\tilde d$，因为有$\bf z_i^Tz_j$内积运算。当新空间维度很大，甚至是无穷维的时候，这将成为一个计算的瓶颈。</p>
-<h3 id="核技巧和核函数"><a href="#核技巧和核函数" class="headerlink" title="核技巧和核函数"></a>核技巧和核函数</h3><p>注意${\bf z_i^Tz_j = \Phi(x_i)^T \Phi(x_j)}$的计算顺序如下：</p>
-<ol>
+&amp;  \hspace{3ex} \alpha_i \ge 0, i = 1,2,\cdots ,n\\
+&amp;  \hspace{3ex} \sum_{i=1}^n \alpha_iy_i = 0
+\end{align*}
+\]</span> 上一篇博文最后提到，对偶问题仍然依赖于数据维度<span class="math inline">\(\tilde d\)</span>，因为有<span class="math inline">\(\bf z_i^Tz_j\)</span>内积运算。当新空间维度很大，甚至是无穷维的时候，这将成为一个计算的瓶颈。</p>
+<h3 id="核技巧和核函数">核技巧和核函数</h3>
+<p>注意<span class="math inline">\({\bf z_i^Tz_j = \Phi(x_i)^T \Phi(x_j)}\)</span>的计算顺序如下：</p>
+<ol type="1">
 <li>先进行空间变换</li>
 <li>进行内积</li>
 </ol>
 <p>如果将两步合并，会不会快一点？</p>
-<p>林轩田老师举了一个简单的例子（为了简单表示，将$x_1x_2$和$x_2x_1$都放了进来）</p>
-<script type="math/tex; mode=display">
-\boldsymbol{\Phi}({\bf x}) = (1, x_1, x_2, \ldots, x_d, x_1^2, x_1x_2, \ldots ,x_1x_d, x_2x_1, x_2^2, \ldots ,x_2x_d, \ldots, x_d^2)</script><p>假设两个数据点${\bf x, x’}$进行内积，结果如下（常数项、一次项、二次项）</p>
-<script type="math/tex; mode=display">
+<p>林轩田老师举了一个简单的例子（为了简单表示，将<span class="math inline">\(x_1x_2\)</span>和<span class="math inline">\(x_2x_1\)</span>都放了进来） <span class="math display">\[
+\boldsymbol{\Phi}({\bf x}) = (1, x_1, x_2, \ldots, x_d, x_1^2, x_1x_2, \ldots ,x_1x_d, x_2x_1, x_2^2, \ldots ,x_2x_d, \ldots, x_d^2)
+\]</span> 假设两个数据点<span class="math inline">\({\bf x, x&#39;}\)</span>进行内积，结果如下（常数项、一次项、二次项） <span class="math display">\[
 \begin{align*}
-\boldsymbol{\Phi}({\bf x})^\mathsf{T}\boldsymbol{\Phi}({\bf x}') &= 1 +\sum_{i=1}^dx_ix_i' + \sum_{i=1}^d\sum_{j=1}^dx_ix_jx_i'x_j' \\
-&= 1+\sum_{i=1}^dx_ix_i' + \sum_{i=1}^d x_ix_i'\sum_{j=1}^dx_jx_j' \\
-&= 1 + {\bf x}^\mathsf{T}{\bf x}' + ({\bf x}^\mathsf{T}{\bf x}')({\bf x}^\mathsf{T}{\bf x}')
-\end{align*}</script><p>可以看出，先转换再进行内积的操作和我们直接在原空间进行$1 + {\bf x}^\mathsf{T}{\bf x}’ + ({\bf x}^\mathsf{T}{\bf x}’)({\bf x}^\mathsf{T}{\bf x}’)$的内积结果是一样的。</p>
+\boldsymbol{\Phi}({\bf x})^\mathsf{T}\boldsymbol{\Phi}({\bf x}&#39;) &amp;= 1 +\sum_{i=1}^dx_ix_i&#39; + \sum_{i=1}^d\sum_{j=1}^dx_ix_jx_i&#39;x_j&#39; \\
+&amp;= 1+\sum_{i=1}^dx_ix_i&#39; + \sum_{i=1}^d x_ix_i&#39;\sum_{j=1}^dx_jx_j&#39; \\
+&amp;= 1 + {\bf x}^\mathsf{T}{\bf x}&#39; + ({\bf x}^\mathsf{T}{\bf x}&#39;)({\bf x}^\mathsf{T}{\bf x}&#39;)
+\end{align*}
+\]</span> 可以看出，先转换再进行内积的操作和我们直接在原空间进行<span class="math inline">\(1 + {\bf x}^\mathsf{T}{\bf x}&#39; + ({\bf x}^\mathsf{T}{\bf x}&#39;)({\bf x}^\mathsf{T}{\bf x}&#39;)\)</span>的内积结果是一样的。</p>
 <p>因此，在某些情况下，如果把变换和内积这两个步骤合起来，计算效率可以得到提高。</p>
-<p>转换+内积合并为一步称为<strong>核技巧</strong>，换句话说，核技巧是要找一个<strong>核函数K</strong>，使得</p>
-<script type="math/tex; mode=display">
-K_\boldsymbol{\Phi}({\bf x}, {\bf x}') \equiv \boldsymbol{\Phi}({\bf x})^\mathsf{T}\boldsymbol{\Phi}({\bf x}')</script><p>上面简单的例子中，核函数为</p>
-<script type="math/tex; mode=display">
-K_{\boldsymbol{\Phi} }({\bf x}, {\bf x}') = 1 + {\bf x}^\mathsf{T}{\bf x}' + ({\bf x}^\mathsf{T}{\bf x}')^2</script><p>有了核函数后，可以<strong>直接用核函数K在原本的d维空间计算</strong>，而不用在高维空间中计算很复杂的内积。</p>
-<p>注意到我们的SVM对偶问题中，无论是目标函数还是决策函数，都只有输入实例核实例的内积，因此可以用核函数写为：</p>
-<script type="math/tex; mode=display">
+<p>转换+内积合并为一步称为<strong>核技巧</strong>，换句话说，核技巧是要找一个<strong>核函数K</strong>，使得 <span class="math display">\[
+K_\boldsymbol{\Phi}({\bf x}, {\bf x}&#39;) \equiv \boldsymbol{\Phi}({\bf x})^\mathsf{T}\boldsymbol{\Phi}({\bf x}&#39;)
+\]</span> 上面简单的例子中，核函数为 <span class="math display">\[
+K_{\boldsymbol{\Phi} }({\bf x}, {\bf x}&#39;) = 1 + {\bf x}^\mathsf{T}{\bf x}&#39; + ({\bf x}^\mathsf{T}{\bf x}&#39;)^2
+\]</span> 有了核函数后，可以<strong>直接用核函数K在原本的d维空间计算</strong>，而不用在高维空间中计算很复杂的内积。</p>
+<p>注意到我们的SVM对偶问题中，无论是目标函数还是决策函数，都只有输入实例核实例的内积，因此可以用核函数写为： <span class="math display">\[
 \begin{align*}
- \max_{ {\boldsymbol \alpha} }& \hspace{3ex}\sum_{i=1}^n\alpha_i-\frac{1}{2} \sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_j y_iy_j K({\bf x_i},{\bf x_j})\\
+ \max_{ {\boldsymbol \alpha} }&amp; \hspace{3ex}\sum_{i=1}^n\alpha_i-\frac{1}{2} \sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_j y_iy_j K({\bf x_i},{\bf x_j})\\
 {\rm s.t.} 
-&  \hspace{3ex} \alpha_i \ge 0, i = 1,2,\cdots ,m\\
-&  \hspace{3ex} \sum_{i=1}^n \alpha_iy_i = 0
-\end{align*}</script><p>而决策函数可以写为：</p>
-<script type="math/tex; mode=display">
+&amp;  \hspace{3ex} \alpha_i \ge 0, i = 1,2,\cdots ,m\\
+&amp;  \hspace{3ex} \sum_{i=1}^n \alpha_iy_i = 0
+\end{align*}
+\]</span> 而决策函数可以写为： <span class="math display">\[
 \begin{align}f({\bf {\bf x} }) 
-&= \rm sign  \left( {\bf w}^T\Phi({\bf x}) + b \right)\\
-&=  \rm sign  \left( \sum_{i=1}^n \alpha_iy_i\Phi({\bf x}_i)^T \Phi({\bf x}) + b\right)\\
-&= \rm sign  \left( \sum_{i=1}^n \alpha_iy_iK({\bf x}_i,{\bf x}) + b\right) \\
-&= \rm sign  \left( \sum_{SV} \alpha_iy_iK({\bf x}_i,{\bf x}) + b\right)
-\end{align}</script><p>最后的SV表示支持向量。</p>
+&amp;= \rm sign  \left( {\bf w}^T\Phi({\bf x}) + b \right)\\
+&amp;=  \rm sign  \left( \sum_{i=1}^n \alpha_iy_i\Phi({\bf x}_i)^T \Phi({\bf x}) + b\right)\\
+&amp;= \rm sign  \left( \sum_{i=1}^n \alpha_iy_iK({\bf x}_i,{\bf x}) + b\right) \\
+&amp;= \rm sign  \left( \sum_{SV} \alpha_iy_iK({\bf x}_i,{\bf x}) + b\right)
+\end{align}
+\]</span></p>
+<p>最后的SV表示支持向量。</p>
 <p>于是就得到了<strong>核支持向量机</strong>。</p>
-<h3 id="核函数的选择"><a href="#核函数的选择" class="headerlink" title="核函数的选择"></a>核函数的选择</h3><p>SVM引入了核函数之后，摆脱了对映射后高纬度$\tilde d$的内积计算。因此在实际问题中，我们通过指定核函数而非映射方式$\Phi(x)$。</p>
+<h3 id="核函数的选择">核函数的选择</h3>
+<p>SVM引入了核函数之后，摆脱了对映射后高纬度<span class="math inline">\(\tilde d\)</span>的内积计算。因此在实际问题中，我们通过指定核函数而非映射方式<span class="math inline">\(\Phi(x)\)</span>。</p>
 <p>核函数隐式的定义了一个特征空间，而我们希望在这个特征空间中，我们的样本线性可分。因此核函数的选择是十分重要的，如果<strong>核函数选择不合适，意味着将样本映射到了一个不合适的特征空间，很可能性能不佳。</strong></p>
 <p>下面介绍常见的多项式核和高斯核。</p>
-<h4 id="多项式核"><a href="#多项式核" class="headerlink" title="多项式核"></a>多项式核</h4><p>多项式核写作:</p>
-<script type="math/tex; mode=display">
-K({\bf x}, {\bf x}') = (\zeta + \gamma {\bf x^\mathsf{T}x}')^d \tag{1-1}</script><p>当多项式核中的$\zeta = 0, \gamma = 1, d = 1$时，退化为线性核。</p>
+<h4 id="多项式核">多项式核</h4>
+<p>多项式核写作: <span class="math display">\[
+K({\bf x}, {\bf x}&#39;) = (\zeta + \gamma {\bf x^\mathsf{T}x}&#39;)^d \tag{1-1}
+\]</span> 当多项式核中的<span class="math inline">\(\zeta = 0, \gamma = 1, d = 1\)</span>时，退化为线性核。</p>
 <p>下图为林轩田老师给出的多项式核中不同参数的效果，其中带方框的点是支持向量。</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/polynomial-kernel-function.png" alt="Polynomial-kernel"></p>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/polynomial-kernel-function.png" alt="Polynomial-kernel" /><figcaption>Polynomial-kernel</figcaption>
+</figure>
 <p>我们很难在训练前说哪一个比较好，往往需要进行交叉验证等来判断。</p>
-<p>但是这个例子说明了我们把核函数换掉，SVM的边界也随之改变（说明我们需要进行核函数选择）。在实践中，应记住”linear first”， 从线性核这种简单模型开始尝试。</p>
-<h4 id="高斯核"><a href="#高斯核" class="headerlink" title="高斯核"></a>高斯核</h4><p>高斯核可以方便的计算<strong>无限维度</strong>的内积，如下：</p>
-<script type="math/tex; mode=display">
+<p>但是这个例子说明了我们把核函数换掉，SVM的边界也随之改变（说明我们需要进行核函数选择）。在实践中，应记住&quot;linear first&quot;， 从线性核这种简单模型开始尝试。</p>
+<h4 id="高斯核">高斯核</h4>
+<p>高斯核可以方便的计算<strong>无限维度</strong>的内积，如下： <span class="math display">\[
 \begin{align*}
-K({\bf x}, {\bf x}') &= \exp(-({\bf x}-{\bf x}')^2) \\
-&= \exp(-{\bf x}^2)\exp(-{\bf x}'^2)\exp(2{\bf xx'}) \\
-&= \exp(-{\bf x}^2)\exp(-{\bf x}'^2)\left(\sum_{i=0}^\infty\frac{(2{\bf xx'})^i}{i!}\right) \hspace{3ex}{\rm Taylor\  展开} \ \exp(x) = \sum_{n=0}^{\infty} \frac{x^n}{n!}\\
-&= \sum_{i=0}^\infty\left(\exp(-{\bf x}^2)\exp(-{\bf x}'^2)\sqrt{\frac{2^i}{i!} }\sqrt{\frac{2^i}{i!} } ({\bf x})^i({\bf x}')^i\right) \\
-&= \Phi({\bf x})^\mathsf{T}\Phi({\bf x}')
-\end{align*}</script><p>即多项式变换将<strong>x</strong>映射到一个无限维的空间中：</p>
-<script type="math/tex; mode=display">
-\Phi({\bf x}) = \exp(-{\bf x}^2)\cdot \left(1, \sqrt{\frac{2}{1!} }{\bf x}, \sqrt{\frac{2^2}{2!} }{\bf x}^2,\ldots\right)</script><p>更一般的，<strong>高斯核函数</strong>写为：</p>
-<script type="math/tex; mode=display">
-K({\bf x},{\bf x}') = \rm exp \left(- \frac{|\!|{\bf x} - {\bf x}'|\!|^2}{2\sigma^2}\ \right) \tag{1-2}</script><p>带入核支持向量机得到：</p>
-<script type="math/tex; mode=display">
+K({\bf x}, {\bf x}&#39;) &amp;= \exp(-({\bf x}-{\bf x}&#39;)^2) \\
+&amp;= \exp(-{\bf x}^2)\exp(-{\bf x}&#39;^2)\exp(2{\bf xx&#39;}) \\
+&amp;= \exp(-{\bf x}^2)\exp(-{\bf x}&#39;^2)\left(\sum_{i=0}^\infty\frac{(2{\bf xx&#39;})^i}{i!}\right) \hspace{3ex}{\rm Taylor\  展开} \ \exp(x) = \sum_{n=0}^{\infty} \frac{x^n}{n!}\\
+&amp;= \sum_{i=0}^\infty\left(\exp(-{\bf x}^2)\exp(-{\bf x}&#39;^2)\sqrt{\frac{2^i}{i!} }\sqrt{\frac{2^i}{i!} } ({\bf x})^i({\bf x}&#39;)^i\right) \\
+&amp;= \Phi({\bf x})^\mathsf{T}\Phi({\bf x}&#39;)
+\end{align*}
+\]</span> 即多项式变换将<strong>x</strong>映射到一个无限维的空间中： <span class="math display">\[
+\Phi({\bf x}) = \exp(-{\bf x}^2)\cdot \left(1, \sqrt{\frac{2}{1!} }{\bf x}, \sqrt{\frac{2^2}{2!} }{\bf x}^2,\ldots\right)
+\]</span> 更一般的，<strong>高斯核函数</strong>写为： <span class="math display">\[
+K({\bf x},{\bf x}&#39;) = \rm exp \left(- \frac{|\!|{\bf x} - {\bf x}&#39;|\!|^2}{2\sigma^2}\ \right) \tag{1-2}
+\]</span> 带入核支持向量机得到： <span class="math display">\[
 \begin{align*}
-g_{\rm SVM}({\bf x}) &= {\rm sign}\left(\sum_{\rm SV}\alpha_iy_i K({\bf x}_i, {\bf x})+b\right)  \\
-&= {\rm sign}\left(\sum_{\rm SV}\alpha_iy_i \exp\left(\frac{|\!|{\bf x}-{\bf x}_i|\!|^2}{2\sigma^2}\right)+b\right)  
-\end{align*}</script><p>上述的式子中，此时SVM实际上是以支持向量为中心的高斯函数的线性组合，因此高斯核函数通常也称为<strong>RBF核</strong>（Radial Basis Function kernel,  Radial 就是长得像高斯函数的(只和$x_i$到中心$x$的距离有关)，Basis function就是拿来做线性组合的)。</p>
+g_{\rm SVM}({\bf x}) &amp;= {\rm sign}\left(\sum_{\rm SV}\alpha_iy_i K({\bf x}_i, {\bf x})+b\right)  \\
+&amp;= {\rm sign}\left(\sum_{\rm SV}\alpha_iy_i \exp\left(\frac{|\!|{\bf x}-{\bf x}_i|\!|^2}{2\sigma^2}\right)+b\right)  
+\end{align*}
+\]</span> 上述的式子中，此时SVM实际上是以支持向量为中心的高斯函数的线性组合，因此高斯核函数通常也称为<strong>RBF核</strong>（Radial Basis Function kernel, Radial 就是长得像高斯函数的(只和<span class="math inline">\(x_i\)</span>到中心<span class="math inline">\(x\)</span>的距离有关)，Basis function就是拿来做线性组合的)。</p>
 <p>至此，可以小小总结一下我们SVM一路的”进化“：</p>
 <ul>
-<li>使用$\bf z = \Phi(x)$  =&gt;   高效的核函数<strong>K(x, x’)</strong></li>
-</ul>
-<ul>
-<li>保存最优的<strong>w</strong>， =&gt; 保存较少的支持向量和相应的$\alpha_i$</li>
+<li><p>使用<span class="math inline">\(\bf z = \Phi(x)\)</span> =&gt; 高效的核函数<strong>K(x, x')</strong></p></li>
+<li><p>保存最优的<strong>w</strong>， =&gt; 保存较少的支持向量和相应的<span class="math inline">\(\alpha_i\)</span></p></li>
 </ul>
 <p>而使用高斯核函数可以映射到无限多维空间！而我们的鲁棒性保证则是最大边界的性质。</p>
 <p>当然，SVM也是会过拟合的。</p>
 <p>林轩田老师又给出了下面的图：</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/gaussian-kernel-function.png" alt="gaussian-kernel-function"></p>
-<p>注：林轩田老师的高斯核函数为$K({\bf x},{\bf x}’) = \rm e{\bf x}p \left(- \gamma|!|{\bf x} - {\bf x}’|!|^2 \right)$，和本文的其实是一样的</p>
-<p>可以看出，$\gamma$越大，高斯函数越尖锐，模型越容易过拟合。可以想象，当$\gamma \rightarrow \infty$时，高斯函数$K({\bf x}, {\bf x}’) = [![{\bf x} = {\bf x}’]!]$</p>
-<h4 id="核函数比较"><a href="#核函数比较" class="headerlink" title="核函数比较"></a>核函数比较</h4><ul>
-<li><strong>线性核函数</strong>$K({\bf x, x}’) = {\bf x^Tx}’$ 实际上没有进行特征空间变换。最安全也最快。最后得到的模型可解释性强：<strong>w</strong>会给出每个特征的权重，支持向量会给出每个数据点的重要性。缺点是：数据可能不是线性可分的。<strong>对文本数据通常使用线性核函数</strong>。</li>
-<li><strong>多项式核</strong>$K({\bf x}, {\bf x}’) = (\zeta + \gamma {\bf x^\mathsf{T}x}’)^d$比线性核更通用，参数d直接描述了被映射空间的复杂度。但它参数较多，调参较难。<strong>多项式核可能适用于d比较小的场景</strong>，因为当d很大的时候计算不稳定。不稳定表现在：当$|\zeta + \gamma {\bf x^\mathsf{T}x}’ | \lt 1$时，核函数逼近0，当$|\zeta + \gamma {\bf x^\mathsf{T}x}’ | \gt 1$,核函数值会非常大。 </li>
-<li><strong>高斯核</strong>$K({\bf x},{\bf x}’) = \rm e{\bf x}p \left(- \frac{|!|{\bf x} - {\bf x}’|!|^2}{2\sigma^2} \right)$,可以计算出更复杂的边界，相比多项式核只有一个参数，容易调参。但是由于映射到了无限维空间，没有一个直观的<strong>w</strong>来解释模型。此外，它的计算也比较复杂，容易过拟合。</li>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/gaussian-kernel-function.png" alt="gaussian-kernel-function" /><figcaption>gaussian-kernel-function</figcaption>
+</figure>
+<p>注：林轩田老师的高斯核函数为<span class="math inline">\(K({\bf x},{\bf x}&#39;) = \rm e{\bf x}p \left(- \gamma|\!|{\bf x} - {\bf x}&#39;|\!|^2\ \right)\)</span>，和本文的其实是一样的</p>
+<p>可以看出，<span class="math inline">\(\gamma\)</span>越大，高斯函数越尖锐，模型越容易过拟合。可以想象，当<span class="math inline">\(\gamma \rightarrow \infty\)</span>时，高斯函数<span class="math inline">\(K({\bf x}, {\bf x}&#39;) = [\![{\bf x} = {\bf x}&#39;]\!]\)</span></p>
+<h4 id="核函数比较">核函数比较</h4>
+<ul>
+<li><strong>线性核函数</strong><span class="math inline">\(K({\bf x, x}&#39;) = {\bf x^Tx}&#39;\)</span> 实际上没有进行特征空间变换。最安全也最快。最后得到的模型可解释性强：<strong>w</strong>会给出每个特征的权重，支持向量会给出每个数据点的重要性。缺点是：数据可能不是线性可分的。<strong>对文本数据通常使用线性核函数</strong>。</li>
+<li><strong>多项式核</strong><span class="math inline">\(K({\bf x}, {\bf x}&#39;) = (\zeta + \gamma {\bf x^\mathsf{T}x}&#39;)^d\)</span>比线性核更通用，参数d直接描述了被映射空间的复杂度。但它参数较多，调参较难。<strong>多项式核可能适用于d比较小的场景</strong>，因为当d很大的时候计算不稳定。不稳定表现在：当<span class="math inline">\(|\zeta + \gamma {\bf x^\mathsf{T}x}&#39; | \lt 1\)</span>时，核函数逼近0，当<span class="math inline">\(|\zeta + \gamma {\bf x^\mathsf{T}x}&#39; | \gt 1\)</span>,核函数值会非常大。</li>
+<li><strong>高斯核</strong><span class="math inline">\(K({\bf x},{\bf x}&#39;) = \rm e{\bf x}p \left(- \frac{|\!|{\bf x} - {\bf x}&#39;|\!|^2}{2\sigma^2}\ \right)\)</span>,可以计算出更复杂的边界，相比多项式核只有一个参数，容易调参。但是由于映射到了无限维空间，没有一个直观的<strong>w</strong>来解释模型。此外，它的计算也比较复杂，容易过拟合。</li>
 </ul>
-<h3 id="核函数的性质"><a href="#核函数的性质" class="headerlink" title="核函数的性质"></a>核函数的性质</h3><p>核函数实际上是x和x’映射到新的特征空间的相似度衡量。（向量本身就表示相似性，如正交的时候我们就说一点都不像）。当然不是所有的相似性都能用一个合法的核函数表示。如果一个函数K是合法的核函数，K必须满足下面两个条件（<strong>Mercer条件</strong>）：</p>
+<h3 id="核函数的性质">核函数的性质</h3>
+<p>核函数实际上是x和x'映射到新的特征空间的相似度衡量。（向量本身就表示相似性，如正交的时候我们就说一点都不像）。当然不是所有的相似性都能用一个合法的核函数表示。如果一个函数K是合法的核函数，K必须满足下面两个条件（<strong>Mercer条件</strong>）：</p>
 <ul>
 <li>K是对称的</li>
 <li>K必须是半正定的</li>
 </ul>
 <p>此外，核函数还可以通过函数组合得到，</p>
 <ul>
-<li>K1，K2为核函数，对于任意正数$\gamma_1, \gamma_2$，其线性组合也是核函数： $\gamma_1K_1 + \gamma_2K_2$</li>
-<li>K1，K2为核函数，核函数的直积也是核函数：$K1\otimes K_2({\bf x,z}) = K_1({\bf x,z})K_2({\bf x,z})$</li>
-<li>K1为核函数，则对于任意函数g(<strong>x</strong>)， $g({\bf x})k_1({\bf x, z})g({\bf z})$也是核函数</li>
+<li>K1，K2为核函数，对于任意正数<span class="math inline">\(\gamma_1, \gamma_2\)</span>，其线性组合也是核函数： <span class="math inline">\(\gamma_1K_1 + \gamma_2K_2\)</span></li>
+<li>K1，K2为核函数，核函数的直积也是核函数：<span class="math inline">\(K1\otimes K_2({\bf x,z}) = K_1({\bf x,z})K_2({\bf x,z})\)</span></li>
+<li>K1为核函数，则对于任意函数g(<strong>x</strong>)， <span class="math inline">\(g({\bf x})k_1({\bf x, z})g({\bf z})\)</span>也是核函数</li>
 </ul>
-<h2 id="软间隔SVM"><a href="#软间隔SVM" class="headerlink" title="软间隔SVM"></a>软间隔SVM</h2><p>前面提到的SVM都是硬间隔的，所谓的硬间隔，就是要求所有的样本都分对，此外还要求每个样本离分离超平面有一定的距离。为了解决线性不可分的情况，使用了核函数进行特征空间的变换，然而，即使我们进行特征空间变换后把样本完全的分开，也有可能这个“线性可分”是因为噪声点而过拟合造成的。（很多情况下，训练数据中有一些噪声点，把这些噪声点去除后，剩下的大部分样本组成的特征空间是线性可分的。）</p>
-<p>因此，我们可以对SVM适当的放松条件，不再要求所有的点都分对，而是对不能满足约束的样本进行一些“惩罚”，为此引入惩罚因子$\xi_i \ge 0$，并写出<strong>软间隔SVM</strong>的形式如下：</p>
-<script type="math/tex; mode=display">
+<h2 id="软间隔svm">软间隔SVM</h2>
+<p>前面提到的SVM都是硬间隔的，所谓的硬间隔，就是要求所有的样本都分对，此外还要求每个样本离分离超平面有一定的距离。为了解决线性不可分的情况，使用了核函数进行特征空间的变换，然而，即使我们进行特征空间变换后把样本完全的分开，也有可能这个“线性可分”是因为噪声点而过拟合造成的。（很多情况下，训练数据中有一些噪声点，把这些噪声点去除后，剩下的大部分样本组成的特征空间是线性可分的。）</p>
+<p>因此，我们可以对SVM适当的放松条件，不再要求所有的点都分对，而是对不能满足约束的样本进行一些“惩罚”，为此引入惩罚因子<span class="math inline">\(\xi_i \ge 0\)</span>，并写出<strong>软间隔SVM</strong>的形式如下： <span class="math display">\[
 \begin{align*}
-\min_{ {\bf w}, b,\xi }\hspace{2ex}&\frac{1}{2}{\bf w^Tw} + C\cdot \sum_{i=1}^n \xi_i\\
-{\rm s.t.} \hspace{2ex} &y_i({\bf w^\mathsf{T}x}_i + b) \ge 1 -\xi_i \\
-\hspace{2ex} &\xi_i \ge0, i=1,2,....,n
-\end{align*}\tag{2-1}</script><p>C为惩罚参数，<strong>C越大说明越不能容忍犯错，尽可能的分对所有的点</strong>，C越小说明对错误的容忍程度越大，间隔可以越宽。</p>
-<p>下图就直观的描述了软间隔SVM，紫色的violation说明该点在间隔内，而紫色的长度就记录了对间隔的违反程度，即$\xi_i$（啰嗦一句，原先我们要求都在间隔外）。</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/soft-margin-svm.png" alt="soft-margin-svm"></p>
-<h3 id="软间隔SVM的对偶问题"><a href="#软间隔SVM的对偶问题" class="headerlink" title="软间隔SVM的对偶问题"></a>软间隔SVM的对偶问题</h3><p>和之前硬边界的SVM一样，我们求解对偶问题。</p>
-<p>首先同样写出拉格朗日函数：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta}) =  \frac{1}{2}{\bf w^\mathsf{T}w} + C\cdot \sum_{i=1}^n \xi_i + \sum_{i=1}^n\alpha_i(1 - \xi_i - y_i({\bf w^Tx_i}+b)) -\sum_{i=1}^n\beta_i\xi_i</script><p>$\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta})$对${\bf w}, b, \xi_i$的极小得</p>
-<script type="math/tex; mode=display">
+\min_{ {\bf w}, b,\xi }\hspace{2ex}&amp;\frac{1}{2}{\bf w^Tw} + C\cdot \sum_{i=1}^n \xi_i\\
+{\rm s.t.} \hspace{2ex} &amp;y_i({\bf w^\mathsf{T}x}_i + b) \ge 1 -\xi_i \\
+\hspace{2ex} &amp;\xi_i \ge0, i=1,2,....,n
+\end{align*}\tag{2-1}
+\]</span> C为惩罚参数，<strong>C越大说明越不能容忍犯错，尽可能的分对所有的点</strong>，C越小说明对错误的容忍程度越大，间隔可以越宽。</p>
+<p>下图就直观的描述了软间隔SVM，紫色的violation说明该点在间隔内，而紫色的长度就记录了对间隔的违反程度，即<span class="math inline">\(\xi_i\)</span>（啰嗦一句，原先我们要求都在间隔外）。</p>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/soft-margin-svm.png" alt="soft-margin-svm" /><figcaption>soft-margin-svm</figcaption>
+</figure>
+<h3 id="软间隔svm的对偶问题">软间隔SVM的对偶问题</h3>
+<p>和之前硬边界的SVM一样，我们求解对偶问题。</p>
+<p>首先同样写出拉格朗日函数： <span class="math display">\[
+\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta}) =  \frac{1}{2}{\bf w^\mathsf{T}w} + C\cdot \sum_{i=1}^n \xi_i + \sum_{i=1}^n\alpha_i(1 - \xi_i - y_i({\bf w^Tx_i}+b)) -\sum_{i=1}^n\beta_i\xi_i
+\]</span> <span class="math inline">\(\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta})\)</span>对<span class="math inline">\({\bf w}, b, \xi_i\)</span>的极小得 <span class="math display">\[
 \begin{align*}
-\frac{\partial \mathcal{L} }{\partial \bf w}  &= {\bf w}-\sum_{i=1}^n\alpha_iy_i{\bf x_i} =0\\
-\frac{\partial \mathcal{L} }{\partial b } &=  -\sum_{i=1}^n\alpha_iy_i  =0\\
-\frac{\partial \mathcal{L} }{\partial \xi_i} &=  C  - \alpha_i  - \beta_i =0\\
-\end{align*}</script><p>整理得：</p>
-<script type="math/tex; mode=display">
+\frac{\partial \mathcal{L} }{\partial \bf w}  &amp;= {\bf w}-\sum_{i=1}^n\alpha_iy_i{\bf x_i} =0\\
+\frac{\partial \mathcal{L} }{\partial b } &amp;=  -\sum_{i=1}^n\alpha_iy_i  =0\\
+\frac{\partial \mathcal{L} }{\partial \xi_i} &amp;=  C  - \alpha_i  - \beta_i =0\\
+\end{align*}
+\]</span> 整理得： <span class="math display">\[
 \begin{align*}
 {\bf w} =\sum_{i=1}^n\alpha_iy_i{\bf x_i}\\
  \sum_{i=1}^n\alpha_iy_i  =0\\
  C  - \alpha_i  - \beta_i =0\tag{2-2}
-\end{align*}</script><p>带入拉格朗日函数得：</p>
-<script type="math/tex; mode=display">
-\min_{ {\bf w},b, {\boldsymbol \xi} }\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta}) = - \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j{\bf x_i^T x_j} + \sum_{i=1}^n\alpha_i</script><p>在对$\min_{ {\bf w},b, {\boldsymbol \xi} }\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta})$求极大，得到下式：</p>
-<script type="math/tex; mode=display">
+\end{align*}
+\]</span> 带入拉格朗日函数得： <span class="math display">\[
+\min_{ {\bf w},b, {\boldsymbol \xi} }\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta}) = - \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j{\bf x_i^T x_j} + \sum_{i=1}^n\alpha_i
+\]</span> 在对<span class="math inline">\(\min_{ {\bf w},b, {\boldsymbol \xi} }\mathcal{L}({\bf w},b, {\boldsymbol \xi}, {\boldsymbol \alpha}, {\boldsymbol \beta})\)</span>求极大，得到下式： <span class="math display">\[
 \begin{align*}
-\max_{ {\boldsymbol \alpha} }\hspace{2ex}& \sum_{i=1}^n\alpha_i -  \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j{\bf x_i^T x_j} \\
+\max_{ {\boldsymbol \alpha} }\hspace{2ex}&amp; \sum_{i=1}^n\alpha_i -  \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j{\bf x_i^T x_j} \\
 {\rm s.t.} 
-\hspace{2ex} & \sum_{i=1}^n\alpha_iy_i  =0\\
-\hspace{2ex} & \alpha_i \ge 0\\ 
-\hspace{2ex} & \beta_i \ge 0\\
-\hspace{2ex} & C - \alpha_i -\beta_i = 0\\\tag{2-3}
-\end{align*}</script><p>前面提到过，<strong>w</strong>无关了，所以不写${\bf w} =\sum_{i=1}^n\alpha_iy_i{\bf x_i}$<br>又因为可以利用等式约束去除$\beta_i$， $\beta_i \ge 0 \Rightarrow C - \alpha_i \ge 0$</p>
-<p>于是2-3可以化简为:</p>
-<script type="math/tex; mode=display">
+\hspace{2ex} &amp; \sum_{i=1}^n\alpha_iy_i  =0\\
+\hspace{2ex} &amp; \alpha_i \ge 0\\ 
+\hspace{2ex} &amp; \beta_i \ge 0\\
+\hspace{2ex} &amp; C - \alpha_i -\beta_i = 0\\\tag{2-3}
+\end{align*}
+\]</span> 前面提到过，<strong>w</strong>无关了，所以不写<span class="math inline">\({\bf w} =\sum_{i=1}^n\alpha_iy_i{\bf x_i}\)</span> 又因为可以利用等式约束去除<span class="math inline">\(\beta_i\)</span>， <span class="math inline">\(\beta_i \ge 0 \Rightarrow C - \alpha_i \ge 0\)</span></p>
+<p>于是2-3可以化简为: <span class="math display">\[
 \begin{align*}
-\max_{ {\boldsymbol \alpha} }\hspace{2ex}& \sum_{i=1}^n\alpha_i -  \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j{\bf x_i^T x_j} \\
+\max_{ {\boldsymbol \alpha} }\hspace{2ex}&amp; \sum_{i=1}^n\alpha_i -  \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_jy_iy_j{\bf x_i^T x_j} \\
 {\rm s.t.} 
-\hspace{2ex} & \sum_{i=1}^n\alpha_iy_i  =0\\
-\hspace{2ex} & 0  \le \alpha_i \le C\tag{2-4}
-\end{align*}</script><p>2-4即为我们的<strong>软间隔SVM对偶问题</strong>。其对应的KKT条件为：</p>
+\hspace{2ex} &amp; \sum_{i=1}^n\alpha_iy_i  =0\\
+\hspace{2ex} &amp; 0  \le \alpha_i \le C\tag{2-4}
+\end{align*}
+\]</span> 2-4即为我们的<strong>软间隔SVM对偶问题</strong>。其对应的KKT条件为：</p>
 <ul>
-<li>主问题可行：$y_i({\bf w^\mathsf{T}x}_i + b) \ge 1 -\xi_i ; \hspace{2ex} \xi_i \ge 0$</li>
-<li>对偶问题可行：$\alpha_i \ge 0; \hspace{2ex} \beta_i \ge 0$</li>
-<li>互补松弛：$\alpha_i(1 - \xi_i - y_i({\bf w^Tx_i}+b))  = 0; \hspace{2ex} \beta_i\xi_i = 0$</li>
-<li>2-2的条件: ${\bf w} = \sum_{i=1}^n\alpha_iy_i{\bf x_i} ; \hspace{2ex} \sum_{i=1}^n\alpha_iy_i  =0 ;\hspace{2ex} C  - \alpha_i  - \beta_i =0\\$</li>
+<li>主问题可行：<span class="math inline">\(y_i({\bf w^\mathsf{T}x}_i + b) \ge 1 -\xi_i ; \hspace{2ex} \xi_i \ge 0\)</span></li>
+<li>对偶问题可行：<span class="math inline">\(\alpha_i \ge 0; \hspace{2ex} \beta_i \ge 0\)</span></li>
+<li>互补松弛：<span class="math inline">\(\alpha_i(1 - \xi_i - y_i({\bf w^Tx_i}+b)) = 0; \hspace{2ex} \beta_i\xi_i = 0\)</span></li>
+<li>2-2的条件: <span class="math inline">\({\bf w} = \sum_{i=1}^n\alpha_iy_i{\bf x_i} ; \hspace{2ex} \sum_{i=1}^n\alpha_iy_i =0 ;\hspace{2ex} C - \alpha_i - \beta_i =0\\\)</span></li>
 </ul>
-<p>2-4和硬间隔的对偶SVM对比发现，其实就是多了限制$\alpha_i \le C$。</p>
-<h3 id="软间隔SVM的支持向量"><a href="#软间隔SVM的支持向量" class="headerlink" title="软间隔SVM的支持向量"></a>软间隔SVM的支持向量</h3><p>分析软间隔SVM对偶问题的KKT条件，可以得出结论：</p>
-<ul>
-<li>当$\alpha_i = 0$ 此时不是支持向量</li>
-<li>当$\alpha_i \gt 0 \Rightarrow 1 - \xi_i - y_i({\bf w^Tx_i}+b) = 0$，此时为支持向量，但可以细分为两种情况<ul>
-<li>$\alpha_i &lt; C \Rightarrow \beta_i\ne0 ;  \xi_i =0$, 此时样本i正好在间隔上，称为<strong>自由的支持向量free support vector</strong>。</li>
-<li>$\alpha_i = C \Rightarrow  \beta_i=0 ;  \xi_i &gt;0$，此时${\bf x_i}$在间隔内，$\xi_i$反应了和间隔的距离。称为<strong>受限支持向量bounded support vector</strong>。此时又分为三种情况：<ul>
-<li>$\xi_i \lt 1$ ，分类正确，${\bf x_i}$在间隔边界和超平面之间</li>
-<li>$\xi_i = 1$ ，${\bf x_i}$在超平面上</li>
-<li>$\xi_i \gt 1$ ，分类错误，${\bf x_i}$在超平面误分一侧</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<p>2-4和硬间隔的对偶SVM对比发现，其实就是多了限制<span class="math inline">\(\alpha_i \le C\)</span>。</p>
+<h3 id="软间隔svm的支持向量">软间隔SVM的支持向量</h3>
+<p>分析软间隔SVM对偶问题的KKT条件，可以得出结论： - 当<span class="math inline">\(\alpha_i = 0\)</span> 此时不是支持向量 - 当<span class="math inline">\(\alpha_i \gt 0 \Rightarrow 1 - \xi_i - y_i({\bf w^Tx_i}+b) = 0\)</span>，此时为支持向量，但可以细分为两种情况 - <span class="math inline">\(\alpha_i &lt; C \Rightarrow \beta_i\ne0 ; \ \xi_i =0\)</span>, 此时样本i正好在间隔上，称为<strong>自由的支持向量free support vector</strong>。 - <span class="math inline">\(\alpha_i = C \Rightarrow \beta_i=0 ; \ \xi_i &gt;0\)</span>，此时<span class="math inline">\({\bf x_i}\)</span>在间隔内，<span class="math inline">\(\xi_i\)</span>反应了和间隔的距离。称为<strong>受限支持向量bounded support vector</strong>。此时又分为三种情况： - <span class="math inline">\(\xi_i \lt 1\)</span> ，分类正确，<span class="math inline">\({\bf x_i}\)</span>在间隔边界和超平面之间 - <span class="math inline">\(\xi_i = 1\)</span> ，<span class="math inline">\({\bf x_i}\)</span>在超平面上 - <span class="math inline">\(\xi_i \gt 1\)</span> ，分类错误，<span class="math inline">\({\bf x_i}\)</span>在超平面误分一侧</p>
 <p>由此可以看出，软间隔SVM最终模型仅和支持向量有关，引入软间隔后仍保持稀疏性。</p>
-<p> 下面是林轩田老师给的图，自由支持向量用方框标出，受限支持向量以三角标出。</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/soft-margin-svm-support-vector.png" alt="soft-margin-svm-support-vector"></p>
-<h3 id="求解对偶问题"><a href="#求解对偶问题" class="headerlink" title="求解对偶问题"></a>求解对偶问题</h3><p>假设求解出了$\alpha$, 那么根据KKT条件, ${\bf w} = \sum_{i=1}^n \alpha_iy_i{\bf x_i}$</p>
-<p>那b呢？模仿之前的硬间隔SVM对偶问题，选取一个$\alpha_i \gt 0$ 可得$b = y_i - y_i\xi_i - {\bf w^\mathsf{T}x}_i$，然而这样需要求解$\xi_i$,因此可以看看另外一个互补松弛条件。$\beta_i\xi_i = 0 \Rightarrow (C - \alpha_i)\xi_i = 0$,即当$\alpha_i \lt C \Rightarrow \xi_i = 0$，因此<strong>选取任意的自由的支持向量</strong>即可求解$b = y_i  - {\bf w^\mathsf{T}x}_i$</p>
+<p>下面是林轩田老师给的图，自由支持向量用方框标出，受限支持向量以三角标出。</p>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/soft-margin-svm-support-vector.png" alt="soft-margin-svm-support-vector" /><figcaption>soft-margin-svm-support-vector</figcaption>
+</figure>
+<h3 id="求解对偶问题">求解对偶问题</h3>
+<p>假设求解出了<span class="math inline">\(\alpha\)</span>, 那么根据KKT条件, <span class="math inline">\({\bf w} = \sum_{i=1}^n \alpha_iy_i{\bf x_i}\)</span></p>
+<p>那b呢？模仿之前的硬间隔SVM对偶问题，选取一个<span class="math inline">\(\alpha_i \gt 0\)</span> 可得<span class="math inline">\(b = y_i - y_i\xi_i - {\bf w^\mathsf{T}x}_i\)</span>，然而这样需要求解<span class="math inline">\(\xi_i\)</span>,因此可以看看另外一个互补松弛条件。<span class="math inline">\(\beta_i\xi_i = 0 \Rightarrow (C - \alpha_i)\xi_i = 0\)</span>,即当<span class="math inline">\(\alpha_i \lt C \Rightarrow \xi_i = 0\)</span>，因此<strong>选取任意的自由的支持向量</strong>即可求解<span class="math inline">\(b = y_i - {\bf w^\mathsf{T}x}_i\)</span></p>
 <p>当然，极少数的情况下，没有自由的支持向量，那么b就只能通过一系列不等式得出，此时可能有不止一个b存在。</p>
-<h3 id="模型选择"><a href="#模型选择" class="headerlink" title="模型选择"></a>模型选择</h3><p>值得注意的是，虽然是软间隔，但仍然可能过拟合。</p>
+<h3 id="模型选择">模型选择</h3>
+<p>值得注意的是，虽然是软间隔，但仍然可能过拟合。</p>
 <p>下面是林轩田老师给出的使用高斯核函数的软间隔SVM的不同参数效果图：</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/soft-margin-svm-gaussian-kernel-parameter.png" alt="soft-margin-svm-gaussian-kernel-parameter"></p>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/soft-margin-svm-gaussian-kernel-parameter.png" alt="soft-margin-svm-gaussian-kernel-parameter" /><figcaption>soft-margin-svm-gaussian-kernel-parameter</figcaption>
+</figure>
 <p>小的C可能会欠拟合，大的C可能会过拟合。因此要小心的选择参数。</p>
 <p>如何选择参数呢，常用的就是交叉验证的方法。</p>
-<p>这里推导一个有趣的公式—-使用留一交叉验证（即样本数m，m折的交叉验证）的留一误差的上界是:</p>
-<script type="math/tex; mode=display">
-\rm E_{LOOCV} =\frac{\text{SV_num}}{m}\tag{2-5}</script><p>简单证明如下：</p>
+<p>这里推导一个有趣的公式---使用留一交叉验证（即样本数m，m折的交叉验证）的留一误差的上界是: <span class="math display">\[
+\rm E_{LOOCV} =\frac{\text{SV_num}}{m}\tag{2-5}
+\]</span> 简单证明如下：</p>
 <ul>
-<li>设总的数据集为$g$ ，此时验证集为样本点$({\bf x_n}, y_n)$</li>
-<li>若最优的$\alpha_n = 0$ ,则该点不是支持向量。<ul>
-<li>若把该点去掉，求解出的$\{\alpha_1,\alpha_2,\cdots, \alpha_{n-1}\}$仍然是最优的</li>
-<li>也就是去除非支持向量的点求解出的$g^-$和不去掉求解出的$g$是一样的，又因为非支持向量肯定分类正确，于是有：$e_{\rm non-SV} = {\rm err}(g^-, {\rm non\text{-}SV})  =  {\rm err}(g, {\rm non\text{-}SV}) = 0$</li>
-</ul>
-</li>
-<li>而如果是支持向量有：$e_{\rm SV} \le 1$</li>
+<li>设总的数据集为<span class="math inline">\(g\)</span> ，此时验证集为样本点<span class="math inline">\(({\bf x_n}, y_n)\)</span></li>
+<li>若最优的<span class="math inline">\(\alpha_n = 0\)</span> ,则该点不是支持向量。
+<ul>
+<li>若把该点去掉，求解出的<span class="math inline">\(\{\alpha_1,\alpha_2,\cdots, \alpha_{n-1}\}\)</span>仍然是最优的</li>
+<li>也就是去除非支持向量的点求解出的<span class="math inline">\(g^-\)</span>和不去掉求解出的<span class="math inline">\(g\)</span>是一样的，又因为非支持向量肯定分类正确，于是有：<span class="math inline">\(e_{\rm non-SV} = {\rm err}(g^-, {\rm non\text{-}SV}) = {\rm err}(g, {\rm non\text{-}SV}) = 0\)</span></li>
+</ul></li>
+<li>而如果是支持向量有：<span class="math inline">\(e_{\rm SV} \le 1\)</span></li>
 <li>求和取平均得到式2-5</li>
 </ul>
 <p>因此，留一交叉验证的error的上界是支持向量个数的比例。如果一个算法的支持向量数比较少，那么它过拟合的风险可能就比较小。因此在调参的时候，可以排除一些支持向量数太多的模型，然后再去验证剩下的模型。</p>
-<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>回顾一下软间隔SVM原始问题2-1：</p>
-<script type="math/tex; mode=display">
+<h2 id="其它">其它</h2>
+<p>回顾一下软间隔SVM原始问题2-1： <span class="math display">\[
 \begin{align*}
-\min_{ {\bf w}, b,\xi}\hspace{2ex}&\frac{1}{2}{\bf w^Tw} + C\cdot \sum_{i=1}^n \xi_i\\
-{\rm s.t.} \hspace{2ex} &y_i({\bf w^\mathsf{T}x}_i + b) \ge 1 -\xi_i \\
-\hspace{2ex} &\xi_i \ge0, i=1,2,....,n
-\end{align*}</script><p>$\xi_i$描述了对间隔的破坏程度，啰嗦的分析一下有两种情况：</p>
+\min_{ {\bf w}, b,\xi}\hspace{2ex}&amp;\frac{1}{2}{\bf w^Tw} + C\cdot \sum_{i=1}^n \xi_i\\
+{\rm s.t.} \hspace{2ex} &amp;y_i({\bf w^\mathsf{T}x}_i + b) \ge 1 -\xi_i \\
+\hspace{2ex} &amp;\xi_i \ge0, i=1,2,....,n
+\end{align*}
+\]</span> <span class="math inline">\(\xi_i\)</span>描述了对间隔的破坏程度，啰嗦的分析一下有两种情况：</p>
 <ul>
-<li>该点破坏了间隔边界，$\xi_i = 1 - y_i({\bf w^T}{\bf x}_i + b)  \gt 0$</li>
-<li>该点没有破坏边界，$\xi_i = 0$</li>
+<li>该点破坏了间隔边界，<span class="math inline">\(\xi_i = 1 - y_i({\bf w^T}{\bf x}_i + b) \gt 0\)</span></li>
+<li>该点没有破坏边界，<span class="math inline">\(\xi_i = 0\)</span></li>
 </ul>
-<p>因此，我们可以把软间隔SVM 2-1写为一个没有限制的优化问题：</p>
-<script type="math/tex; mode=display">
+<p>因此，我们可以把软间隔SVM 2-1写为一个没有限制的优化问题： <span class="math display">\[
 \min_{ {\bf w}, b}\hspace{2ex}\frac{1}{2}{\bf w^\mathsf{T}w} + C\cdot \sum_{i=1}^n \max \left(  1 - y_i({\bf w^T}{\bf x}_i + b) , 0\right)\\
-\tag{3-1}</script><p>如果你学过<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-regularization/">正则化</a>，会发现上面的式子和正则化是十分相似的，正则化更一般的形式是：</p>
-<script type="math/tex; mode=display">
-\min_f \hspace{2ex} \Omega(f) + C\sum_{i=1}^n l\left( f({\bf x_i}) , y_i\right) \tag{3-2}</script><p>式3-2中$\Omega(f)$称为<strong>结构风险</strong>，用于描述模型f的某些性质，第二项$l\left( f({\bf x_i}) , y_i\right)$则称<strong>为经验风险</strong>，用于描述模型和训练数据的契合程度。</p>
+\tag{3-1}
+\]</span> 如果你学过<a target="_blank" rel="noopener" href="https://www.hrwhisper.me/machine-learning-regularization/">正则化</a>，会发现上面的式子和正则化是十分相似的，正则化更一般的形式是： <span class="math display">\[
+\min_f \hspace{2ex} \Omega(f) + C\sum_{i=1}^n l\left( f({\bf x_i}) , y_i\right) \tag{3-2}
+\]</span> 式3-2中<span class="math inline">\(\Omega(f)\)</span>称为<strong>结构风险</strong>，用于描述模型f的某些性质，第二项<span class="math inline">\(l\left( f({\bf x_i}) , y_i\right)\)</span>则称<strong>为经验风险</strong>，用于描述模型和训练数据的契合程度。</p>
 <p>我们的式3-1的第一项是<strong>w</strong>的长度，描述了模型本身的复杂度，第二项则是样本中的误差和。换句话说，<strong>大间隔其实就是正则化的一种体现</strong>，代表选择的超平面要少。而软间隔则是一种特殊的损失函数，称为<strong>hinge损失</strong>。参数C出现在3-1和3-2中，若C越大，则代表越小的正则化。</p>
 <p>将软间隔SVM看作一种正则化，我们可以将其理论延伸到其它模型，与其它模型建立联系。</p>
-<h3 id="Hinge损失"><a href="#Hinge损失" class="headerlink" title="Hinge损失"></a>Hinge损失</h3><p>上一小节已经剧透过，3-1第二项为hinge损失，其它常见的0-1损失替代函数有：</p>
+<h3 id="hinge损失">Hinge损失</h3>
+<p>上一小节已经剧透过，3-1第二项为hinge损失，其它常见的0-1损失替代函数有：</p>
 <ul>
-<li>hinge损失： $l_{hinge}(z) = \max \left(  1 - z ,  0\right)$</li>
-<li>指数损失： $l_{exp}(z) = \exp(-z)$</li>
-<li>对率损失：$l_{log}(z) = \log(1+\exp(-z))$</li>
+<li>hinge损失： <span class="math inline">\(l_{hinge}(z) = \max \left( 1 - z , 0\right)\)</span></li>
+<li>指数损失： <span class="math inline">\(l_{exp}(z) = \exp(-z)\)</span></li>
+<li>对率损失：<span class="math inline">\(l_{log}(z) = \log(1+\exp(-z))\)</span></li>
 </ul>
 <p>我们什么始化用到这些损失函数呢？ 对率损失其实是逻辑回归采用的，而指数损失将在后面介绍的Adaboost模型中用到。</p>
 <p>这里使用了周志华老师的图来作为对比(PS: 该图的log是以2为底的，这样正好为0-1损失的上界):</p>
-<p><img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/hinge-exponential-logistic-loss-function.png" alt="hinge-exponential-logistic-loss-function"></p>
+<figure>
+<img src="../images/machine-learning-support-vector-machine-2-kernel-function-and-soft-margin-svm/hinge-exponential-logistic-loss-function.png" alt="hinge-exponential-logistic-loss-function" /><figcaption>hinge-exponential-logistic-loss-function</figcaption>
+</figure>
 <p>上面提到的hinge、指数、对率损失（以2为底）函数都是0-1损失函数的上界。</p>
 <p>hinge和逻辑回归使用的损失函数（对率损失）十分相似：</p>
 <ul>
@@ -365,55 +377,58 @@ g_{\rm SVM}({\bf x}) &= {\rm sign}\left(\sum_{\rm SV}\alpha_iy_i K({\bf x}_i, {\
 <p>支持向量机和对率回归的优化目标相近。通常情形下它们的性能也相当。</p>
 <p>对率回归的优势主要在于其输出具有自然的的概率意义，即在给出预测标记的同时也给出了概率，而支持向量机的输出不具有概率意义，要得到概率输出需要进行特殊处理。此外对率回归可以直接用于多分类任务，支持向量机为此则需要进行推广[Platt, 2000]。</p>
 <p>另一方面，hinge损失有一快“平坦”的区域（就是z &gt;=1），这使得支持向量机的解具有稀疏性。而对率损失函数是光滑的单调递减函数，不能导出类似支持向量的概念，因此，对率回归的解依赖于更多的训练样本，其预测开销更大。</p>
-<p>——From《机器学习》 周志华 P132-133</p>
+<p>----From《机器学习》 周志华 P132-133</p>
 </blockquote>
-<h3 id="概率SVM—Platt模型"><a href="#概率SVM—Platt模型" class="headerlink" title="概率SVM—Platt模型"></a>概率SVM—Platt模型</h3><p>周志华老师上面总结得很好，逻辑回归一个好处就是直接输出概率，现在我们来讨论如何让SVM模型也有概率输出。</p>
+<h3 id="概率svm--platt模型">概率SVM--Platt模型</h3>
+<p>周志华老师上面总结得很好，逻辑回归一个好处就是直接输出概率，现在我们来讨论如何让SVM模型也有概率输出。</p>
 <p>有两种naive的想法：</p>
-<ol>
+<ol type="1">
 <li>先跑软间隔SVM得到超平面参数<strong>w</strong>和b，然后将它们直接放在Logistic函数（就是那个s的曲线也叫sigmoid函数）计算。这种做法在实际中效果不错，但是失去了我们推导逻辑回归时采用的最大似然的思想等。</li>
 <li>先跑软间隔SVM得到超平面参数<strong>w</strong>和b，将这个结果作为逻辑回归的初始权重，然后使用逻辑回归算法得到最后的分类函数。但是这种方法和直接使用逻辑回归的方法结果差不多，并且丢失了SVM的核方法等特性。</li>
 </ol>
 <p>如果能融合上面两种想法就好了。分析一下：</p>
-<p>SVM得到的结果${\bf w}_{\rm SVM}^\mathsf{T}{\boldsymbol{\Phi}({\bf x})} + b_{\rm SVM}$本质上是一个分数，把这个分数进行放缩和平移，加大自由度。即$g({\bf x}) = \theta(A \cdot ({\bf w}_{\rm SVM}^\mathsf{T}{\boldsymbol{\Phi}({\bf x})} + b_{\rm SVM}) + B)$。然后通过逻辑回归训练A和B两个参数来达到使用MLE的目的和效果。这个算法本质上还是SVM，因此对偶、核技巧都可以使用。从几何上说，SVM找出分割面的法向量，然后用逻辑回归进行平移放缩微调。通常，如果SVM的解比较好，A &gt; 0 而B接近0.</p>
-<p>因此，新的问题为：</p>
-<script type="math/tex; mode=display">
-\min_{A,B}\hspace{2ex}\frac{1}{N}\sum_{n=1}^N \log\left(1+\exp\left(-y_n(A\cdot (\underbrace{ {\bf w}_{\rm SVM}^\mathsf{T}{\boldsymbol{\Phi}({\bf x}_n)} + b_{\rm SVM} }_{\boldsymbol{\Phi}_{\rm SVM}({\bf x}_n)}) + B)\right)\right)\tag{3-3}</script><p>很复杂？其实是两步：</p>
-<ol>
+<p>SVM得到的结果<span class="math inline">\({\bf w}_{\rm SVM}^\mathsf{T}{\boldsymbol{\Phi}({\bf x})} + b_{\rm SVM}\)</span>本质上是一个分数，把这个分数进行放缩和平移，加大自由度。即<span class="math inline">\(g({\bf x}) = \theta(A \cdot ({\bf w}_{\rm SVM}^\mathsf{T}{\boldsymbol{\Phi}({\bf x})} + b_{\rm SVM}) + B)\)</span>。然后通过逻辑回归训练A和B两个参数来达到使用MLE的目的和效果。这个算法本质上还是SVM，因此对偶、核技巧都可以使用。从几何上说，SVM找出分割面的法向量，然后用逻辑回归进行平移放缩微调。通常，如果SVM的解比较好，A &gt; 0 而B接近0.</p>
+<p>因此，新的问题为： <span class="math display">\[
+\min_{A,B}\hspace{2ex}\frac{1}{N}\sum_{n=1}^N \log\left(1+\exp\left(-y_n(A\cdot (\underbrace{ {\bf w}_{\rm SVM}^\mathsf{T}{\boldsymbol{\Phi}({\bf x}_n)} + b_{\rm SVM} }_{\boldsymbol{\Phi}_{\rm SVM}({\bf x}_n)}) + B)\right)\right)\tag{3-3}
+\]</span> 很复杂？其实是两步：</p>
+<ol type="1">
 <li>解SVM</li>
 <li>解逻辑回归（梯度下降等都行）</li>
 </ol>
 <p>这个方法称为Platt模型。</p>
-<h3 id="核Logistic回归"><a href="#核Logistic回归" class="headerlink" title="核Logistic回归"></a>核Logistic回归</h3><p>上面的问题3-3并没有直接在转换后的空间$\mathcal{Z}$求解逻辑回归，而是通过核函数把数据变换到$\mathcal{Z}$空间中。由于没有直接在$\mathcal{Z}$空间求解逻辑回归，因此可能不是该空间最好的逻辑回归的解。如果要在$\mathcal{Z}$空间中找逻辑回归的最优解怎么做？</p>
+<h3 id="核logistic回归">核Logistic回归</h3>
+<p>上面的问题3-3并没有直接在转换后的空间<span class="math inline">\(\mathcal{Z}\)</span>求解逻辑回归，而是通过核函数把数据变换到<span class="math inline">\(\mathcal{Z}\)</span>空间中。由于没有直接在<span class="math inline">\(\mathcal{Z}\)</span>空间求解逻辑回归，因此可能不是该空间最好的逻辑回归的解。如果要在<span class="math inline">\(\mathcal{Z}\)</span>空间中找逻辑回归的最优解怎么做？</p>
 <p>像SVM一样用核方法？但是逻辑回归不是二次规划问题。</p>
-<p>回想之前的SVM，不仅在求解<strong>w</strong>的时候用到了$\mathcal{Z}$空间的内积，更重要的是，在之后预测的时候，将<strong>w</strong>表示成了一堆已经看过的<strong>z</strong>的线性组合，即${\bf w^Tz} + b=  \sum_{i=1}^n \alpha_iy_i\Phi({\bf x_i}) \Phi({\bf x}) + b=\sum_{i=1}^n \alpha_iy_iK({\bf x_i,x}) + b$。换句话说，<strong>w表示成了z的线性组合，是能使用核方法的关键</strong>。</p>
+<p>回想之前的SVM，不仅在求解<strong>w</strong>的时候用到了<span class="math inline">\(\mathcal{Z}\)</span>空间的内积，更重要的是，在之后预测的时候，将<strong>w</strong>表示成了一堆已经看过的<strong>z</strong>的线性组合，即<span class="math inline">\({\bf w^Tz} + b= \sum_{i=1}^n \alpha_iy_i\Phi({\bf x_i}) \Phi({\bf x}) + b=\sum_{i=1}^n \alpha_iy_iK({\bf x_i,x}) + b\)</span>。换句话说，<strong>w表示成了z的线性组合，是能使用核方法的关键</strong>。</p>
 <p>那么，如果我们的<strong>w</strong>能被<strong>z</strong>表示，那不就可以使用核函数了么！</p>
 <p>接下来证明如下（这个定理称为<strong>表示定理</strong>）：</p>
 <blockquote>
-<p>对于任何带有L2正则化的线性模型</p>
-<script type="math/tex; mode=display">
-\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w^\mathsf{T}w} + \frac{1}{n}\sum_{i=1}^n {\rm err}(y_i, {\bf w^\mathsf{T}z}_i)</script><p>其最优的${\bf w_*}=\sum_{i=1}^n\beta_i{\bf z_i}$</p>
+<p>对于任何带有L2正则化的线性模型 <span class="math display">\[
+\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w^\mathsf{T}w} + \frac{1}{n}\sum_{i=1}^n {\rm err}(y_i, {\bf w^\mathsf{T}z}_i)
+\]</span> 其最优的<span class="math inline">\({\bf w_*}=\sum_{i=1}^n\beta_i{\bf z_i}\)</span></p>
 </blockquote>
-<p>我们可以将最优的${\bf w_*}$分解为两个向量${\bf w}_{||}$和${\bf w}_{\perp}$，即${\bf w}_\ast = {\bf w}_{||} + {\bf w}_\perp$。其中${\bf w}_{||} \in {\rm span}({\bf z}_i), {\bf w}_{\perp} \perp {\rm span}({\bf z}_i)$</p>
+<p>我们可以将最优的<span class="math inline">\({\bf w_*}\)</span>分解为两个向量<span class="math inline">\({\bf w}_{||}\)</span>和<span class="math inline">\({\bf w}_{\perp}\)</span>，即<span class="math inline">\({\bf w}_\ast = {\bf w}_{||} + {\bf w}_\perp\)</span>。其中<span class="math inline">\({\bf w}_{||} \in {\rm span}({\bf z}_i), {\bf w}_{\perp} \perp {\rm span}({\bf z}_i)\)</span></p>
 <ul>
-<li>由于正交的内积为0，因此有${\rm err}(y_n, {\bf w_\ast^\mathsf{T}z}_n) = {\rm err}(y_n, ({\bf w_|} + {\bf w}_\perp)^\mathsf{T}{\bf z}_n) = {\rm err}(y_n, {\bf w_|^\mathsf{T}z}_n)$，即$\bf w_*$和$\bf w_{||}$有相同的error</li>
-<li>又因为${\bf w}_\ast^\mathsf{T}{\bf w}_\ast = {\bf w_|^\mathsf{T}w_|} + 2{\bf w_|^\mathsf{T}w_\perp} + {\bf w_\perp^\mathsf{T}w_\perp} = {\bf w_|^\mathsf{T}w_|} + {\bf w_\perp^\mathsf{T}w_\perp} &gt; {\bf w_|^\mathsf{T}w_|}$这意味着$\bf w_{||}$比最优的$\bf w_*$的目标值更小，是矛盾的，因此${\bf w}_\perp = {\bf 0}$</li>
-<li>所以最优解可以用$\bf z$的线性组合表示。由此得证。</li>
+<li>由于正交的内积为0，因此有<span class="math inline">\({\rm err}(y_n, {\bf w_\ast^\mathsf{T}z}_n) = {\rm err}(y_n, ({\bf w_\|} + {\bf w}_\perp)^\mathsf{T}{\bf z}_n) = {\rm err}(y_n, {\bf w_\|^\mathsf{T}z}_n)\)</span>，即<span class="math inline">\(\bf w_*\)</span>和<span class="math inline">\(\bf w_{||}\)</span>有相同的error</li>
+<li>又因为<span class="math inline">\({\bf w}_\ast^\mathsf{T}{\bf w}_\ast = {\bf w_\|^\mathsf{T}w_\|} + 2{\bf w_\|^\mathsf{T}w_\perp} + {\bf w_\perp^\mathsf{T}w_\perp} = {\bf w_\|^\mathsf{T}w_\|} + {\bf w_\perp^\mathsf{T}w_\perp} &gt; {\bf w_\|^\mathsf{T}w_\|}\)</span>这意味着<span class="math inline">\(\bf w_{||}\)</span>比最优的<span class="math inline">\(\bf w_*\)</span>的目标值更小，是矛盾的，因此<span class="math inline">\({\bf w}_\perp = {\bf 0}\)</span></li>
+<li>所以最优解可以用<span class="math inline">\(\bf z\)</span>的线性组合表示。由此得证。</li>
 </ul>
-<p>接下来定义L2正则项的逻辑回归，</p>
-<script type="math/tex; mode=display">
-\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w}^\mathsf{T}{\bf w} + \frac{1}{n}\sum_{i=1}^n \log(1+\exp(-y_i{\bf w}^\mathsf{T}{\bf z}_i))</script><p>由表示定理，最优的${\bf w_<em>}=\sum_{i=1}^n\beta_i{\bf z_i}$。将该式代入原始问题，可以将原来关于w的问题转化成关于β的问题，即<em>*核逻辑回归（Kernel Logistic Regression）</em></em>：</p>
-<script type="math/tex; mode=display">
+<p>接下来定义L2正则项的逻辑回归， <span class="math display">\[
+\min_{\bf w}\hspace{2ex}\frac{\lambda}{n}{\bf w}^\mathsf{T}{\bf w} + \frac{1}{n}\sum_{i=1}^n \log(1+\exp(-y_i{\bf w}^\mathsf{T}{\bf z}_i))
+\]</span> 由表示定理，最优的<span class="math inline">\({\bf w_*}=\sum_{i=1}^n\beta_i{\bf z_i}\)</span>。将该式代入原始问题，可以将原来关于w的问题转化成关于β的问题，即<strong>核逻辑回归（Kernel Logistic Regression）</strong>： <span class="math display">\[
 \min_{\boldsymbol{\beta} } 
 \frac{\lambda}{n} \sum_{i=1}^n\sum_{i=1}^n\beta_i\beta_j K({\bf x}_i, {\bf x}_j)
-+ \frac{1}{n}\sum_{i=1}^n\log\left(1+\exp\left(-y_i\sum_{j=1}^n\beta_j K({\bf x}_i, {\bf x}_j)\right)\right)\tag{3-4}</script><p>这是没有约束的优化问题，可以用梯度下降等方法求解。</p>
++ \frac{1}{n}\sum_{i=1}^n\log\left(1+\exp\left(-y_i\sum_{j=1}^n\beta_j K({\bf x}_i, {\bf x}_j)\right)\right)\tag{3-4}
+\]</span> 这是没有约束的优化问题，可以用梯度下降等方法求解。</p>
 <p>林轩田老师讲解了另一个视角来理解核逻辑回归问题：</p>
 <ul>
-<li>3-4最后一项$\sum_{j=1}^n\beta_j K({\bf x}_i, {\bf x}_j)$可以看成是先求$\bf x_i$和其它数据点$\bf x_1,\cdots x_m$的相似度（前面讲过核函数从某种意义上讲是相似度的一种体现），然后将这个相似度和变量$\beta$求内积，其实是一种线性模型。</li>
-<li>前面的项$\sum_{i=1}^n\sum_{i=1}^n\beta_i\beta_j K({\bf x}_i, {\bf x}_j)$写成矩阵的形式是：$\boldsymbol{\beta}^\mathsf{T}{\rm K}\boldsymbol{\beta}$，本质上是一个正则化。</li>
-<li>因此核逻辑回归可以看成是关于$\beta$的线性模型，用核函数转换数据，并且用核函数来正则化。(我们原先的理解是将<strong>w</strong>嵌入到核函数的隐式转换并作L2正则)</li>
+<li>3-4最后一项<span class="math inline">\(\sum_{j=1}^n\beta_j K({\bf x}_i, {\bf x}_j)\)</span>可以看成是先求<span class="math inline">\(\bf x_i\)</span>和其它数据点<span class="math inline">\(\bf x_1,\cdots x_m\)</span>的相似度（前面讲过核函数从某种意义上讲是相似度的一种体现），然后将这个相似度和变量<span class="math inline">\(\beta\)</span>求内积，其实是一种线性模型。</li>
+<li>前面的项<span class="math inline">\(\sum_{i=1}^n\sum_{i=1}^n\beta_i\beta_j K({\bf x}_i, {\bf x}_j)\)</span>写成矩阵的形式是：<span class="math inline">\(\boldsymbol{\beta}^\mathsf{T}{\rm K}\boldsymbol{\beta}\)</span>，本质上是一个正则化。</li>
+<li>因此核逻辑回归可以看成是关于<span class="math inline">\(\beta\)</span>的线性模型，用核函数转换数据，并且用核函数来正则化。(我们原先的理解是将<strong>w</strong>嵌入到核函数的隐式转换并作L2正则)</li>
 </ul>
-<p>核逻辑回归和SVM相比，其系数$\beta_i$通常不为0。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<p>核逻辑回归和SVM相比，其系数<span class="math inline">\(\beta_i\)</span>通常不为0。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li>机器学习技法 - 林轩田</li>
 <li>《统计学习方法》 - 李航</li>
 <li>《机器学习》 - 周志华</li>
@@ -634,12 +649,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -651,6 +672,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -659,13 +682,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -684,7 +708,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

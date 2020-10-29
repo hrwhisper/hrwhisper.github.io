@@ -117,33 +117,39 @@
   <p>本次题解包括</p>
 <ul>
 <li><strong>84</strong>. Largest Rectangle in Histogram</li>
-<li><strong>85</strong>. Maximal Rectangle<a id="more"></a>
-<h3 id="84-Largest-Rectangle-in-Histogram"><a href="#84-Largest-Rectangle-in-Histogram" class="headerlink" title="84. Largest Rectangle in Histogram"></a>84. Largest Rectangle in Histogram</h3></li>
+<li><strong>85</strong>. Maximal Rectangle <a id="more"></a> ### 84. Largest Rectangle in Histogram</li>
 </ul>
 <blockquote>
 <p>Given <em>n</em> non-negative integers representing the histogram’s bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.</p>
-<p><img src="https://leetcode.com/static/images/problemset/histogram.png" alt="img"></p>
+<figure>
+<img src="https://leetcode.com/static/images/problemset/histogram.png" alt="img" /><figcaption>img</figcaption>
+</figure>
 <p>Above is a histogram where width of each bar is 1, given height = <code>[2,1,5,6,2,3]</code>.</p>
-<p><img src="https://leetcode.com/static/images/problemset/histogram_area.png" alt="img"></p>
+<figure>
+<img src="https://leetcode.com/static/images/problemset/histogram_area.png" alt="img" /><figcaption>img</figcaption>
+</figure>
 <p>The largest rectangle is shown in the shaded area, which has area = <code>10</code> unit.</p>
-<p>For example,<br>Given heights = <code>[2,1,5,6,2,3]</code>,<br>return <code>10</code>.</p>
+<p>For example, Given heights = <code>[2,1,5,6,2,3]</code>, return <code>10</code>.</p>
 </blockquote>
 <p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/largest-rectangle-in-histogram/">leetcode Largest Rectangle in Histogram</a></p>
 <p>题目大意：给定数组height表示矩形的高度，求矩形围城的矩形区域最大面积。</p>
 <p>思路：很容易想到O(n^2)方法，枚举起始，枚举结束。。。用栈的话可以有O(N)的方法。</p>
 <p>用一个栈来维护一个递增序列的下标：</p>
-<ol>
+<ol type="1">
 <li>如果当前的高度不大于栈顶的元素高度，那么pop并更新直到比当前元素的高度小的时候。更新的时候需要注意的是，用栈顶的高度作为计算的高（这样做的原因是栈顶的高一定比到当前下标i之间的元素来的小，这样就相当于有了起点和终点，这个区间可以采用当前栈顶的高）所以宽度为i - 1 - q.top() （i不计算在内，故-1,）当q为空时候，说明当前高度是“有史以来”最小的，宽度应该为i。</li>
 <li>否则把当前下标入栈。</li>
 <li>当全部元素都过完一遍，但是栈不为空的时候，可以想象为height[n]==int_min的时候，按第一步进行更新。</li>
 </ol>
 <p><strong>C++</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">	 <span class="function"><span class="keyword">int</span> <span class="title">largestRectangleArea</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;height)</span> </span>&#123;</span><br><span class="line">		 <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">		 <span class="keyword">int</span> n = height.size();</span><br><span class="line">		 <span class="keyword">int</span> ans = <span class="number">0</span>, curArea;</span><br><span class="line">		 <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">			 <span class="keyword">while</span> (!q.empty() &amp;&amp; height[q.top()] &gt;= height[i])&#123;</span><br><span class="line">				 <span class="keyword">int</span> h = height[q.top()];</span><br><span class="line">				 q.pop();</span><br><span class="line">				 <span class="keyword">int</span> width = q.empty() ? i  : i - <span class="number">1</span> - q.top();</span><br><span class="line">				 <span class="keyword">if</span> (width * h &gt; ans) ans = h*width;</span><br><span class="line">			 &#125;</span><br><span class="line">			 q.push(i);</span><br><span class="line">		 &#125;</span><br><span class="line"></span><br><span class="line">		 <span class="keyword">while</span> (!q.empty())&#123;</span><br><span class="line">			 <span class="keyword">int</span> h = height[q.top()];</span><br><span class="line">			 q.pop();</span><br><span class="line">			 <span class="keyword">int</span> width = q.empty() ? n : n - <span class="number">1</span>  - q.top();</span><br><span class="line">			 <span class="keyword">if</span> (width * h &gt; ans) ans = h * width;</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">return</span> ans;</span><br><span class="line">	 &#125;</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p><strong>Python</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">largestRectangleArea</span>(<span class="params">self, heights</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type heights: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        q = []</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i, height <span class="keyword">in</span> enumerate(heights):</span><br><span class="line">            <span class="keyword">while</span> q <span class="keyword">and</span> heights[q[<span class="number">-1</span>]] &gt; height:</span><br><span class="line">                h = heights[q.pop()]</span><br><span class="line">                w = i - <span class="number">1</span> - q[<span class="number">-1</span>] <span class="keyword">if</span> q <span class="keyword">else</span> i</span><br><span class="line">                ans = max(ans, h * w)</span><br><span class="line">            q.append(i)</span><br><span class="line">        n = len(heights)</span><br><span class="line">        <span class="keyword">while</span> q:</span><br><span class="line">            h = heights[q.pop()]</span><br><span class="line">            w = n - <span class="number">1</span> - q[<span class="number">-1</span>] <span class="keyword">if</span> q <span class="keyword">else</span> n</span><br><span class="line">            ans = max(ans, h * w)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="85-Maximal-Rectangle"><a href="#85-Maximal-Rectangle" class="headerlink" title="85. Maximal Rectangle"></a>85. Maximal Rectangle</h3><blockquote>
-<p>Given a 2D binary matrix filled with 0’s and 1’s, find the largest rectangle containing all ones and return its area.</p>
+<p> </p>
+<hr />
+<h3 id="maximal-rectangle">85. Maximal Rectangle</h3>
+<blockquote>
+<p>Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing all ones and return its area.</p>
 </blockquote>
 <p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximal-rectangle/">leetcode Maximal Rectangle</a></p>
 <p>题目大意：给定由0和1组成的矩阵，求由1构成的最大矩阵。如：</p>
@@ -152,19 +158,23 @@
 <p>思路：设dp[i][j]为(i,j)这列上连续1的个数，然后就相当于求给定矩形高度，求最大矩形面积。。</p>
 <p>你就秒懂之一图流：</p>
 <p>（到最后一行可以转化为给定高度为：0,1,2,3的矩形， 求其最大矩形面积）</p>
-<p><img src="../images/leetcode-largest-rectangle-in-histogram-and-leercode-maximal-rectangle/QQ截图20150226231110.jpg" alt="QQ截图20150226231110"></p>
+<figure>
+<img src="../images/leetcode-largest-rectangle-in-histogram-and-leercode-maximal-rectangle/QQ截图20150226231110.jpg" alt="QQ截图20150226231110" /><figcaption>QQ截图20150226231110</figcaption>
+</figure>
 <p>就是上面那一题。</p>
 <p>leetcode两题放一起真是用心良苦。。</p>
 <p><strong>C++</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">largestRectangleArea</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; heights)</span> </span>&#123;</span><br><span class="line">		<span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">		<span class="keyword">int</span> ans = <span class="number">0</span>, n = heights.size();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">			<span class="keyword">while</span> (!q.empty() &amp;&amp; heights[i] &lt;= heights[q.top()]) &#123;</span><br><span class="line">				<span class="keyword">int</span> h = heights[q.top()];</span><br><span class="line">				q.pop();</span><br><span class="line">				<span class="keyword">int</span> w = q.empty() ? i : i - <span class="number">1</span> - q.top();</span><br><span class="line">				<span class="keyword">if</span> (w * h &gt; ans) ans = w * h;</span><br><span class="line">			&#125;</span><br><span class="line">			q.push(i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">			<span class="keyword">int</span> h = heights[q.top()];</span><br><span class="line">			q.pop();</span><br><span class="line">			<span class="keyword">int</span> w = q.empty() ? n : n - <span class="number">1</span> - q.top();</span><br><span class="line">			<span class="keyword">if</span> (w * h &gt; ans) ans = w * h;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">maximalRectangle</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; matrix)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (matrix.empty() || matrix[<span class="number">0</span>].empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">pre_sum</span><span class="params">(matrix[<span class="number">0</span>].size(), <span class="number">0</span>)</span></span>;</span><br><span class="line">		<span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; matrix.size(); ++i) &#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; matrix[<span class="number">0</span>].size(); ++j) &#123;</span><br><span class="line">				pre_sum[j] = matrix[i][j] == <span class="string">&#x27;0&#x27;</span> ? <span class="number">0</span> : pre_sum[j] + <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			ans = max(ans, largestRectangleArea(pre_sum));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p><strong>Python</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">largestRectangleArea</span>(<span class="params">self, heights</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type heights: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        q = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(heights)):</span><br><span class="line">            <span class="keyword">while</span> q <span class="keyword">and</span> heights[i] &lt;= heights[q[<span class="number">-1</span>]]:</span><br><span class="line">                h = heights[q.pop()]</span><br><span class="line">                w = i - <span class="number">1</span> - q[<span class="number">-1</span>] <span class="keyword">if</span> q <span class="keyword">else</span> i</span><br><span class="line">                ans = max(ans, h * w)</span><br><span class="line">            q.append(i)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> q:</span><br><span class="line">            h = heights[q.pop()]</span><br><span class="line">            w = len(heights) - <span class="number">1</span> - q[<span class="number">-1</span>] <span class="keyword">if</span> q <span class="keyword">else</span> len(heights)</span><br><span class="line">            ans = max(ans, h * w)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maximalRectangle</span>(<span class="params">self, matrix</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type matrix: List[List[str]]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> matrix <span class="keyword">or</span> <span class="keyword">not</span> matrix[<span class="number">0</span>]: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        pre_sum = [<span class="number">0</span>] * len(matrix[<span class="number">0</span>])</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(matrix)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(matrix[<span class="number">0</span>])):</span><br><span class="line">                pre_sum[j] = <span class="number">0</span> <span class="keyword">if</span> matrix[i][j] == <span class="string">&#x27;0&#x27;</span> <span class="keyword">else</span> pre_sum[j] + <span class="number">1</span></span><br><span class="line">            ans = max(ans, self.largestRectangleArea(pre_sum))</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>本文是leetcode如下的题解</p>
 <ul>
 <li><strong>84</strong>. Largest Rectangle in Histogram</li>
 <li><strong>85</strong>. Maximal Rectangle</li>
 </ul>
-<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
+<p>更多题解可以查看： <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/leetcode-algorithm-solution/" class="uri">https://www.hrwhisper.me/leetcode-algorithm-solution/</a></p>
  
       <!-- reward -->
       
@@ -380,12 +390,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -397,6 +413,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -405,13 +423,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -430,7 +449,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

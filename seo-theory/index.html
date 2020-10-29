@@ -114,15 +114,13 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>为什么要学SEO？ 又不进行商业用途</p>
+  <h2 id="写在前面">写在前面</h2>
+<p>为什么要学SEO？ 又不进行商业用途</p>
 <ul>
 <li>WEB开发的时候，你会更加的规范</li>
 <li>知识上的扩充</li>
-<li><p>让过多人看到你的博客站点</p>
-<a id="more"></a>
-<h2 id="一些说明"><a href="#一些说明" class="headerlink" title="一些说明"></a>一些说明</h2></li>
-<li><p>搜索引擎不喜欢flash和js生成的内容</p>
-</li>
+<li><p>让过多人看到你的博客站点 <a id="more"></a> ## 一些说明</p></li>
+<li>搜索引擎不喜欢flash和js生成的内容</li>
 <li>跳转用301跳转，其他跳转如JS跳转，302跳转不建议使用</li>
 <li>建议采用静态URL</li>
 <li>搜索引擎一般把二级域名当作独立站点看</li>
@@ -131,87 +129,115 @@
 <li><strong>SEO最根本的方法还是要提高网站内容质量</strong></li>
 <li>不要在标题中加入搜索次数高，但与本页面无关的关键词</li>
 <li>pagerank工具条已经不再更新，所以新站的PR值永远是0了</li>
-<li>域名的年龄也是一个影响排名的因素</li>
+<li><p>域名的年龄也是一个影响排名的因素</p></li>
 </ul>
-<h2 id="网站目标"><a href="#网站目标" class="headerlink" title="网站目标"></a>网站目标</h2><p>需要了解网站的目标，如信息类网站靠显示广告赢利，网站目标是尽量增加页面访问数(PV)，电子商务网站，以在线销售为目标，电子商务网站希望的是能转化的高质量目标流量，关键词研究的重点在于挑选和优化最相关的、交易类的关键词。</p>
+<p> </p>
+<h2 id="网站目标">网站目标</h2>
+<p>需要了解网站的目标，如信息类网站靠显示广告赢利，网站目标是尽量增加页面访问数(PV)，电子商务网站，以在线销售为目标，电子商务网站希望的是能转化的高质量目标流量，关键词研究的重点在于挑选和优化最相关的、交易类的关键词。</p>
 <p>博主博客则主要只是想提高自己的排名，让更多人看到这个站点，交到更多的朋友~</p>
-<h2 id="爬取和收录"><a href="#爬取和收录" class="headerlink" title="爬取和收录"></a>爬取和收录</h2><h3 id="Robots文件"><a href="#Robots文件" class="headerlink" title="Robots文件"></a>Robots文件</h3><p>百度搜索淘宝网，会发现如下:</p>
-<p><img src="../images/seo-theory/seo-robots-taobao.png" alt="seo-robots-taobao"></p>
+<h2 id="爬取和收录">爬取和收录</h2>
+<h3 id="robots文件">Robots文件</h3>
+<p>百度搜索淘宝网，会发现如下:</p>
+<figure>
+<img src="../images/seo-theory/seo-robots-taobao.png" alt="seo-robots-taobao" /><figcaption>seo-robots-taobao</figcaption>
+</figure>
 <p>robots.txt是何方神圣？</p>
 <p>搜索引擎访问任何一个网站到时候，都会先访问根目录下robots.txt文件。</p>
 <p>robot.txt如果禁止搜索引擎抓取某些文件或目录，爬虫将遵守协议，不抓取被禁止的网址。</p>
 <p>如下面的代码将禁止除google外所有搜索抓取任何内容</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent:  Googlebot</span><br><span class="line">Disallow:</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: &#x2F;</span><br></pre></td></tr></table></figure>
-<h3 id="使用noindex-meata-robots标签"><a href="#使用noindex-meata-robots标签" class="headerlink" title="使用noindex meata robots标签"></a>使用noindex meata robots标签</h3><p>如果你想禁止某些页面被收录，你可以：</p>
+<p> </p>
+<h3 id="使用noindex-meata-robots标签">使用noindex meata robots标签</h3>
+<p>如果你想禁止某些页面被收录，你可以：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;noindex&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><strong>noindex 和 robots.txt区别：前者是禁止收录，后者是禁止抓取</strong></p>
-<h3 id="nofollow"><a href="#nofollow" class="headerlink" title="nofollow"></a>nofollow</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;URL&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;nofollow&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="nofollow">nofollow</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;URL&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;nofollow&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>比如github上个人主页：</p>
-<p><img src="../images/seo-theory/seo-github-nofollow.png" alt="seo-github-nofollow"></p>
+<figure>
+<img src="../images/seo-theory/seo-github-nofollow.png" alt="seo-github-nofollow" /><figcaption>seo-github-nofollow</figcaption>
+</figure>
 <p>nofollow标签用于告诉搜索引擎不要跟踪这个标签。</p>
 <p>通常用于博客评论、论坛回帖上。</p>
 <p>因为如果你的站点指向了垃圾站点，那么会影响你的网站的排名。而博客、论坛回帖可能有垃圾留言。用了nofollow能阻止搜索引擎的爬行和传递权重。</p>
 <p>Nofollow 的另一个用途就是，在写文章并引用某个网站，但是并不想把您的权重传递给它。如揭发垃圾站点的时候。</p>
 <p>PS：交换友情链接使用nofollow是无耻的行为。</p>
-<h3 id="速度影响抓取"><a href="#速度影响抓取" class="headerlink" title="速度影响抓取"></a>速度影响抓取</h3><p>网站来说，当下载页面所用的时间明显上升时，抓取的页面数量就极具下降。因为搜索引擎在一个特定的网站上爬行和抓取的总时间是有限的（除非网站规模小，用不完google给这个网站爬行的总时间）</p>
-<h2 id="URL静态化"><a href="#URL静态化" class="headerlink" title="URL静态化"></a>URL静态化</h2><p>网页内容一般都是由程序实时生成，而不是在服务器上真的有相应的HTML文件存在。搜索引擎一般不喜欢动态的URL，因为它可能造成大量重复的内容。</p>
+<h3 id="速度影响抓取">速度影响抓取</h3>
+<p>网站来说，当下载页面所用的时间明显上升时，抓取的页面数量就极具下降。因为搜索引擎在一个特定的网站上爬行和抓取的总时间是有限的（除非网站规模小，用不完google给这个网站爬行的总时间）</p>
+<h2 id="url静态化">URL静态化</h2>
+<p>网页内容一般都是由程序实时生成，而不是在服务器上真的有相应的HTML文件存在。搜索引擎一般不喜欢动态的URL，因为它可能造成大量重复的内容。</p>
 <p>比如下面的两个URL，这两个仅仅是参数的不同，却会被认为是两个页面</p>
 <p>xxx.com/a.php?color=blue&amp;id=123</p>
 <p>xxx.com/a.php?id=123&amp;color=blue</p>
-<h3 id="伪静态"><a href="#伪静态" class="headerlink" title="伪静态"></a>伪静态</h3><p>一般静态化的方法是用服务器的URL重写模块（如果服务器是apache，那么就是mod_rewrite模块），这种方法叫做伪静态，因为它只是通过URL重写技术来让网址看起来像静态的。但对搜索引擎来说，真正的静态和伪静态没有区别。</p>
+<h3 id="伪静态">伪静态</h3>
+<p>一般静态化的方法是用服务器的URL重写模块（如果服务器是apache，那么就是mod_rewrite模块），这种方法叫做伪静态，因为它只是通过URL重写技术来让网址看起来像静态的。但对搜索引擎来说，真正的静态和伪静态没有区别。</p>
 <p>wordpress在设置-固定链接可以设置伪静态的URL格式。</p>
 <p>也可以通过修改 .htaccess 来自定义URL规则，包括301转向</p>
-<h3 id="URL设计"><a href="#URL设计" class="headerlink" title="URL设计"></a>URL设计</h3><ol>
+<h3 id="url设计">URL设计</h3>
+<ol type="1">
 <li>使用单词，最好包含关键词，或者描述性的词</li>
 <li>越短越好，一个短的URL点击率比长的高2.5倍</li>
 <li>百度尤其喜欢目录层次少的页面</li>
 <li>不建议使用中文URL，否则会被base64编码，看起来就像乱码一样。</li>
 <li>词和词之间用 - 隔开</li>
 </ol>
-<h2 id="301重定向"><a href="#301重定向" class="headerlink" title="301重定向"></a>301重定向</h2><h3 id="什么是301重定向"><a href="#什么是301重定向" class="headerlink" title="什么是301重定向"></a>什么是301重定向</h3><p>301重定向是服务器返回给用户/爬虫的HTTP响应报文的头部，说明本网址<strong>永久</strong>迁移到另一个地址。</p>
+<p> </p>
+<h2 id="重定向">301重定向</h2>
+<h3 id="什么是301重定向">什么是301重定向</h3>
+<p>301重定向是服务器返回给用户/爬虫的HTTP响应报文的头部，说明本网址<strong>永久</strong>迁移到另一个地址。</p>
 <p>其他常见状态码：</p>
 <ul>
-<li>200  OK</li>
-<li>202 请求被接受，但处理尚未完成</li>
+<li>200  OK</li>
+<li>202 请求被接受，但处理尚未完成</li>
 <li>301 redirect 重定向</li>
 <li>302 临时性转向</li>
-<li>400 由于语法格式有误，服务器无法理解此请求。 不作修改，客户程序就无法重复此请求。</li>
+<li>400 由于语法格式有误，服务器无法理解此请求。 不作修改，客户程序就无法重复此请求。</li>
 <li>401 未授权</li>
 <li>403 禁止访问</li>
-<li>404  页面未找到</li>
-<li>5XX  服务器出错</li>
+<li>404  页面未找到</li>
+<li>5XX  服务器出错</li>
 </ul>
-<h3 id="为什么用301重定向"><a href="#为什么用301重定向" class="headerlink" title="为什么用301重定向"></a>为什么用301重定向</h3><ul>
+<h3 id="为什么用301重定向">为什么用301重定向</h3>
+<ul>
 <li>除了301转向外，搜索引擎对其他的如JS转向，302转向很敏感，因为作弊者常用这些方法。</li>
 <li>301重定向可以传递权重。B已经永久迁移到A站点，那么B的权重将累计到A</li>
 </ul>
-<h3 id="一些说明-1"><a href="#一些说明-1" class="headerlink" title="一些说明"></a>一些说明</h3><ul>
+<h3 id="一些说明">一些说明</h3>
+<ul>
 <li>百度对301转向反应很慢。</li>
 <li>可以用.hataccess 进行301重定向</li>
 </ul>
-<h2 id="重复内容的危害"><a href="#重复内容的危害" class="headerlink" title="重复内容的危害"></a>重复内容的危害</h2><h3 id="产生重复内容的原因"><a href="#产生重复内容的原因" class="headerlink" title="产生重复内容的原因"></a>产生重复内容的原因</h3><p>主要有:</p>
+<p> </p>
+<h2 id="重复内容的危害">重复内容的危害</h2>
+<h3 id="产生重复内容的原因">产生重复内容的原因</h3>
+<p>主要有:</p>
 <ul>
 <li>URL规范化没做好，如把404的重定向到首页（搜索引擎人为有大量和首页一样的页面）</li>
 <li>被人转载和抄袭</li>
 <li><p>镜像网站</p>
 <ul>
 <li>如七牛CDN的话，强烈建议用robot.txt禁止抓取</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h3 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h3><p>搜索引擎会从多个页面中尽量挑选出真正原创的版本，或者用户体验最好的版本，给予应有的排名，而其他复制的版本不再搜索结果中或者排在比较后面的位置。但搜索引擎来判断可能把本来是原创的页面判断成转载的内容，这使得原创内容排名不好，像被“惩罚”了一样。</p>
-<h3 id="消除复制内容"><a href="#消除复制内容" class="headerlink" title="消除复制内容"></a>消除复制内容</h3><p>同站下的复制内容如果是URL问题找出解决即可。下面只说明防止被复制和转载。</p>
+<h3 id="危害">危害</h3>
+<p>搜索引擎会从多个页面中尽量挑选出真正原创的版本，或者用户体验最好的版本，给予应有的排名，而其他复制的版本不再搜索结果中或者排在比较后面的位置。但搜索引擎来判断可能把本来是原创的页面判断成转载的内容，这使得原创内容排名不好，像被“惩罚”了一样。</p>
+<h3 id="消除复制内容">消除复制内容</h3>
+<p>同站下的复制内容如果是URL问题找出解决即可。下面只说明防止被复制和转载。</p>
 <p>有的转载会表明出处，但是有的就不会。</p>
 <p>可以加入版权信息：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> ‘本博客若无特殊说明则由 &lt;a href=”‘.get_site_url().<span class="string">&#x27;” title=”‘. get_the_author().&#x27;</span>”&gt;’. get_the_author() .<span class="string">&#x27;&lt;/a&gt; 原创发布&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘转载请点名出处：&lt;a href=”‘.get_site_url().&#x27;</span>” title=”‘.get_bloginfo().<span class="string">&#x27;”&gt;’ .get_bloginfo().&#x27;</span>&lt;/a&gt; &gt; ‘;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ‘&lt;a href=”‘.get_permalink().<span class="string">&#x27;” title=”‘.get_the_title().&#x27;</span>”&gt;’ .get_the_title().<span class="string">&#x27;&lt;/a&gt;&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘本文地址：&lt;a href=”‘.get_permalink().&#x27;</span>” title=”‘.get_the_title().<span class="string">&#x27;”&gt;’ .get_permalink().&#x27;</span>&lt;/a&gt;’;</span><br></pre></td></tr></table></figure>
 <p>这样对于直接复制的网址（一般也是用爬虫抓取）就直接把这些版权信息抓过去了。对于搜索引擎来说，<strong>指向原处的链接是判断原创的最重要的信号。</strong></p>
-<h2 id="站点地图"><a href="#站点地图" class="headerlink" title="站点地图"></a>站点地图</h2><h3 id="sitemap和-Sitemap"><a href="#sitemap和-Sitemap" class="headerlink" title="sitemap和 Sitemap"></a>sitemap和 Sitemap</h3><p>前者是html版本的，后者是XML版本的，就差了首字母大写。站点地图有助于用户对网站结构的了解，搜索引擎可以更容易地去发现并抓取网站上的内容。</p>
+<h2 id="站点地图">站点地图</h2>
+<h3 id="sitemap和-sitemap">sitemap和 Sitemap</h3>
+<p>前者是html版本的，后者是XML版本的，就差了首字母大写。站点地图有助于用户对网站结构的了解，搜索引擎可以更容易地去发现并抓取网站上的内容。</p>
 <p>XML只是辅助的方法，它只是通知搜索引擎这些页面的存在，并不一定被收录，所以良好的网页结构是更重要滴。</p>
 <p>wordpress可以用 Yoast SEO插件来生成XML站点地图。</p>
-<h3 id="robots-txt-中-sitemap"><a href="#robots-txt-中-sitemap" class="headerlink" title="robots.txt 中 sitemap"></a>robots.txt 中 sitemap</h3><p>所有主流搜索引擎都支持robot.txt中指定网站站点地图的位置。</p>
+<h3 id="robots.txt-中-sitemap">robots.txt 中 sitemap</h3>
+<p>所有主流搜索引擎都支持robot.txt中指定网站站点地图的位置。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post_tag-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;category-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;page-sitemap.xml</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: &#x2F;wp-admin&#x2F;</span><br></pre></td></tr></table></figure>
-<p>参考  (<a target="_blank" rel="noopener" href="http://www.sitemaps.org/protocol.html#submit_robots)&gt;">http://www.sitemaps.org/protocol.html#submit_robots)&gt;</a></p>
-<h3 id="在站长工具提交站点地图"><a href="#在站长工具提交站点地图" class="headerlink" title="在站长工具提交站点地图"></a>在站长工具提交站点地图</h3><p>先注册账号-验证网站所有权-上传Sitemaps（有的可能需要申请，如搜狗）</p>
+<p>参考  (http://www.sitemaps.org/protocol.html#submit_robots)&gt;</p>
+<h3 id="在站长工具提交站点地图">在站长工具提交站点地图</h3>
+<p>先注册账号-验证网站所有权-上传Sitemaps（有的可能需要申请，如搜狗）</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwiss6iI99jJAhXRcI4KHbuJBSwQFggdMAA&amp;url=https%3A%2F%2Fwww.google.com%2Fwebmasters%2Ftools&amp;usg=AFQjCNHqwDOfb6H9OJMj1ATaXnSnHDCleg">google</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.bing.com/toolbox/webmaster/">bing</a></li>
@@ -219,14 +245,18 @@
 <li><a target="_blank" rel="noopener" href="http://zhanzhang.haosou.com/">360</a></li>
 <li><a target="_blank" rel="noopener" href="http://zhanzhang.sogou.com/index.php/site/index">sougou</a></li>
 </ul>
-<h2 id="页面优化"><a href="#页面优化" class="headerlink" title="页面优化"></a>页面优化</h2><ul>
+<p> </p>
+<h2 id="页面优化">页面优化</h2>
+<ul>
 <li>建议title紧接在<code>&lt;head&gt;</code>后，这样搜索引擎就可以快速找到title标签</li>
 <li>可以使用google 站长工具 搜索外观-HTML建议部分查看需要改进的地方</li>
-<li>为每个网页创建独特的标题标签，如分页中可以在标题前加入第X页来区别，如第二页-标题  第三天页-标题</li>
+<li>为每个网页创建独特的标题标签，如分页中可以在标题前加入第X页来区别，如第二页-标题  第三天页-标题</li>
 <li><strong>描述标签对关键词排名没有影响，但对点击率有一定的影响。（因为可能被拿来做搜索页的摘要）</strong></li>
 <li>关键词标签现在没卵用，不建议浪费时间写</li>
 </ul>
-<h2 id="正文优化"><a href="#正文优化" class="headerlink" title="正文优化"></a>正文优化</h2><p><strong>wordpress 插件YOAST SEO</strong> 在编辑文章的时候会给出优化建议</p>
+<p> </p>
+<h2 id="正文优化">正文优化</h2>
+<p><strong>wordpress 插件YOAST SEO</strong> 在编辑文章的时候会给出优化建议</p>
 <ul>
 <li>篇幅不大的页面出现两三次关键词即可，长的出现4~6次，不要堆积关键词。</li>
 <li>正文前50~100个词中有较高的权重</li>
@@ -235,27 +265,32 @@
 <ul>
 <li>最好文件名和 alt 文本是简短而描述性很强</li>
 <li>当图片作为链接使用时，一定要提供 alt 文本（切忌过长）</li>
+</ul></li>
+<li>合理使用H标签使得文章层次分明</li>
+<li><p>自然写作，其实优化就差不多了，只要有意识的想一下近义词即可。</p></li>
 </ul>
-</li>
-<li><p>合理使用H标签使得文章层次分明</p>
-</li>
-<li>自然写作，其实优化就差不多了，只要有意识的想一下近义词即可。</li>
-</ul>
-<h2 id="W3C验证"><a href="#W3C验证" class="headerlink" title="W3C验证"></a>W3C验证</h2><p>一般同不通过对页面排名没有明显的影响。实际上绝大部分页面都无法百分百的通过W3C验证。搜索引擎也明白这一点。</p>
+<p> </p>
+<h2 id="w3c验证">W3C验证</h2>
+<p>一般同不通过对页面排名没有明显的影响。实际上绝大部分页面都无法百分百的通过W3C验证。搜索引擎也明白这一点。</p>
 <p>所以，尽量更正验证报告中的错误，警告可以忽略。</p>
-<p>W3C验证地址：  <a target="_blank" rel="noopener" href="https://validator.w3.org/">https://validator.w3.org/</a></p>
+<p>W3C验证地址：  <a target="_blank" rel="noopener" href="https://validator.w3.org/" class="uri">https://validator.w3.org/</a></p>
 <p>ps:博主blog除了个别多说评论页面有表情的提示无alt属性没通过验证外，其他的均通过W3C验证。</p>
-<h2 id="链接建设"><a href="#链接建设" class="headerlink" title="链接建设"></a>链接建设</h2><h3 id="锚文字"><a href="#锚文字" class="headerlink" title="锚文字"></a>锚文字</h3><p>先介绍基本概念，锚文字。</p>
+<h2 id="链接建设">链接建设</h2>
+<h3 id="锚文字">锚文字</h3>
+<p>先介绍基本概念，锚文字。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;&quot; &gt;细语呢喃&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
 <p>这里的“细语呢喃”就是锚文字。</p>
-<h3 id="内部链接"><a href="#内部链接" class="headerlink" title="内部链接"></a>内部链接</h3><p>选择描述性文字——您选择的用作链接的锚文本应该至少能够提供被链接页面 的基本信息。</p>
+<h3 id="内部链接">内部链接</h3>
+<p>选择描述性文字——您选择的用作链接的锚文本应该至少能够提供被链接页面 的基本信息。</p>
 <p>避免如下情况：</p>
 <ul>
-<li>使用与目标页面主题无关的锚文字，比如“页面”、“文章”或是“点击这里”</li>
-<li>直接使用页面的 URL 作为锚文本（只有少数情况下，这样的方法是 合适的，比如推广或者是引用了某个网址）</li>
+<li> 使用与目标页面主题无关的锚文字，比如“页面”、“文章”或是“点击这里”</li>
+<li> 直接使用页面的 URL 作为锚文本（只有少数情况下，这样的方法是 合适的，比如推广或者是引用了某个网址）</li>
 <li>用一个长句子或是一篇短文来实现的过长的锚文本</li>
 </ul>
-<h3 id="外部链接"><a href="#外部链接" class="headerlink" title="外部链接"></a>外部链接</h3><p>外部链接使得被链接的页面及整个域名权重提高，外部链接越多，发出链接的网站本身权重越高，说明链接的页面受更多人信任，该域名就有更多的权重。</p>
+<p> </p>
+<h3 id="外部链接">外部链接</h3>
+<p>外部链接使得被链接的页面及整个域名权重提高，外部链接越多，发出链接的网站本身权重越高，说明链接的页面受更多人信任，该域名就有更多的权重。</p>
 <p>权重和信任度与特定关键词或主题没有直接关系。如果你的网站有来自央视、百度、清华大学、华尔街日报这种权重极高网站的链接，你的网站的权重会有质的提升，不管网站目标关键词是什么，排名都会有帮助。</p>
 <ul>
 <li>外部链接也可以叫做反向链接</li>
@@ -277,18 +312,25 @@
 <li>CMS主题模板 （如wordpress主题）</li>
 <li>社会化媒体网站（如豆瓣、知乎、新浪微博 ，大部分由nofollow）</li>
 </ul>
-<h2 id="SEO效果监测"><a href="#SEO效果监测" class="headerlink" title="SEO效果监测"></a>SEO效果监测</h2><p>主要监测下面三项，看看优化后是否有效果</p>
+<p> </p>
+<h2 id="seo效果监测">SEO效果监测</h2>
+<p>主要监测下面三项，看看优化后是否有效果</p>
 <ul>
 <li>收录数</li>
 <li>外链数</li>
 <li>关键词的排名</li>
 </ul>
-<h2 id="SEO作弊及惩罚"><a href="#SEO作弊及惩罚" class="headerlink" title="SEO作弊及惩罚"></a>SEO作弊及惩罚</h2><h3 id="白帽、黑帽、灰帽"><a href="#白帽、黑帽、灰帽" class="headerlink" title="白帽、黑帽、灰帽"></a>白帽、黑帽、灰帽</h3><ul>
+<p> </p>
+<h2 id="seo作弊及惩罚">SEO作弊及惩罚</h2>
+<h3 id="白帽黑帽灰帽">白帽、黑帽、灰帽</h3>
+<ul>
 <li>黑帽(Blackhat)：作弊方式的SEO方法，不符合搜索引擎质量规范</li>
 <li>白帽(Whitehat)：符合搜索引擎网站质量规范的SEO</li>
 <li>灰帽SEO(Greyhat)：介于白帽和黑帽之间的优化方法</li>
 </ul>
-<h3 id="黑帽的手法"><a href="#黑帽的手法" class="headerlink" title="黑帽的手法"></a>黑帽的手法</h3><p><strong>黑帽SEO迟早被搜索引擎惩罚，不要使用这种方法。</strong></p>
+<p> </p>
+<h3 id="黑帽的手法">黑帽的手法</h3>
+<p><strong>黑帽SEO迟早被搜索引擎惩罚，不要使用这种方法。</strong></p>
 <p>黑帽包括如下：</p>
 <ul>
 <li>隐藏文字： 如和背景颜色相近或相同的文字，来堆积关键词</li>
@@ -299,14 +341,18 @@
 <li>链接农场/大规模站群：一个站长有一群网站，这些网站互相交叉链接。或者用这些网站共同推一个主网站</li>
 <li>链接到坏邻居：自己的网站链接到被判断出作弊并被惩罚的网站，可能被牵连。</li>
 </ul>
-<h3 id="搜索引擎的惩罚方式"><a href="#搜索引擎的惩罚方式" class="headerlink" title="搜索引擎的惩罚方式"></a>搜索引擎的惩罚方式</h3><ul>
+<p> </p>
+<h3 id="搜索引擎的惩罚方式">搜索引擎的惩罚方式</h3>
+<ul>
 <li>惩罚主要的关键词</li>
 <li>所有的关键词排名全面下降</li>
 <li>PR值下降</li>
 <li>负6惩罚，负30，负950（排名下降的固定名次）</li>
 <li>如果一个IP地址上的大部分网站都被惩罚，那么这个IP地址或整个服务器可能被牵连（虽然比较少见），所以独立IP比共享IP好。</li>
 </ul>
-<h2 id="Google和百度的区别"><a href="#Google和百度的区别" class="headerlink" title="Google和百度的区别"></a>Google和百度的区别</h2><ul>
+<p> </p>
+<h2 id="google和百度的区别">Google和百度的区别</h2>
+<ul>
 <li>Google很容易收录新网站和新页面，不过Google有沙盒效应，收录门槛很低，获得好的排名比较难。百度对于新网站考核期长，不容易被收录。而一旦被收录，比较容易获得排名和流量。网站刚开始时的原创性对百度来说比较重要。</li>
 <li>百度有比较大的首页优势，而Google对所有页面一视同仁，不管是首页还是内页。</li>
 <li>Google对外部链接比较重视。对关键词反而没有那么敏感。百度相反。</li>
@@ -314,27 +360,28 @@
 <li>百度对网站更新比较看重。google除非是有时效性的网站外，没有多大要求。</li>
 <li>Google现在会读取、解析js和css文件，渲染出和用户看到的一样的页面内容和布局。</li>
 </ul>
-<h2 id="移动适配"><a href="#移动适配" class="headerlink" title="移动适配"></a>移动适配</h2><p>可以简历专用的和PC版不一样的URL，但还是推荐响应式设计（也叫自适应设计 responsive design）。</p>
+<p> </p>
+<h2 id="移动适配">移动适配</h2>
+<p>可以简历专用的和PC版不一样的URL，但还是推荐响应式设计（也叫自适应设计 responsive design）。</p>
 <ul>
 <li>wordpress_如果主题没有响应式，可以安装 wptouch</li>
 </ul>
 <p>移动自适应站百度建议加上以下标志，帮助百度理解页面适用于PC和手机</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name&#x3D;&quot;applicable-device&quot;content&#x3D;&quot;pc,mobile&quot;&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li><p><a target="_blank" rel="noopener" href="http://www.google.com.hk/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCgQFjAA&amp;url=http%3A%2F%2Fwww.google.com%2Fwebmasters%2Fdocs%2Fsearch-engine-optimization-starter-guide.pdf&amp;ei=cDCtTf31G5CmuAO7u6jcCg&amp;usg=AFQjCNEMj8KHxhxQz9cMLoMxMDiLdrAbJw&amp;sig2=HZhP2MQXYGKjO52CxLm6Tw">Google Search Engine Optimization Starter Guide</a></p>
 <ul>
-<li>汉化版 ：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1c0NvJuo">http://pan.baidu.com/s/1c0NvJuo</a> 密码：miix</li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://wenku.baidu.com/view/ec4457d4b14e852458fb5793.html">百度搜索引擎优化指南</a></p>
-</li>
+<li>汉化版 ：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1c0NvJuo" class="uri">http://pan.baidu.com/s/1c0NvJuo</a> 密码：miix</li>
+</ul></li>
+<li><a target="_blank" rel="noopener" href="http://wenku.baidu.com/view/ec4457d4b14e852458fb5793.html">百度搜索引擎优化指南</a></li>
 <li><p>《SEO 实战密码 第3版》 Zac</p>
 <ul>
 <li>很详细，虽然有些现在过时的内容。</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<p>可以看 <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/seo-in-action/">本博客的SEO实战记录</a></p>
+<p> </p>
+<p>可以看 <a target="_blank" rel="noopener" href="https://www.hrwhisper.me/seo-in-action/">本博客的SEO实战记录</a></p>
  
       <!-- reward -->
       
@@ -550,12 +597,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -567,6 +620,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -575,13 +630,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -600,7 +656,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {

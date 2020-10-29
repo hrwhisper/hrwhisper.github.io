@@ -114,32 +114,46 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>python numpy的学习笔记<br><a id="more"></a><br>要使用numpy，首先需要import进来：</p>
+  <p>python numpy的学习笔记 <a id="more"></a> 要使用numpy，首先需要import进来：</p>
 <p>建议使用别名np，因为你会发现这几乎是一个大家都在用的写法！</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br></pre></td></tr></table></figure>
-<h2 id="一、创建数组"><a href="#一、创建数组" class="headerlink" title="一、创建数组"></a>一、创建数组</h2><h3 id="1-和list类似，可以直接用arange来表示范围："><a href="#1-和list类似，可以直接用arange来表示范围：" class="headerlink" title="1.和list类似，可以直接用arange来表示范围："></a>1.和list类似，可以直接用arange来表示范围：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(10)</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="一创建数组">一、创建数组</h2>
+<h3 id="和list类似可以直接用arange来表示范围">1.和list类似，可以直接用arange来表示范围：</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(10)</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[0 1 2 3 4 5 6 7 8 9]</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>从[2,20)间隔为3的等差数列</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(2,20,3)</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ 2  5  8 11 14 17]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>类似arange，linspace从[start , stop ] 生成num个数，Num个数间隔相等。（默认为float）</p>
 <p>linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print np.linspace(0, 2, 9)</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ 0.    0.25  0.5   0.75  1.    1.25  1.5   1.75  2.  ]</span><br></pre></td></tr></table></figure>
-<h3 id="2-用list-tuple创建数组-list也可以是二维的"><a href="#2-用list-tuple创建数组-list也可以是二维的" class="headerlink" title="2.用list/tuple创建数组(list也可以是二维的)"></a>2.用list/tuple创建数组(list也可以是二维的)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([range(5)])</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
-<h3 id="3-快速生成x-y的全零数组"><a href="#3-快速生成x-y的全零数组" class="headerlink" title="3.快速生成x*y的全零数组"></a>3.快速生成x*y的全零数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d&#x3D;(2,3) #(2,3,4)变为3维</span><br><span class="line">print np.zeros(d)</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="用listtuple创建数组list也可以是二维的">2.用list/tuple创建数组(list也可以是二维的)</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([range(5)])</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="快速生成xy的全零数组">3.快速生成x*y的全零数组</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d&#x3D;(2,3) #(2,3,4)变为3维</span><br><span class="line">print np.zeros(d)</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[ 0.  0.  0.]</span><br><span class="line"> [ 0.  0.  0.]]</span><br></pre></td></tr></table></figure>
-<p>默认生成的类型是浮点型<br>可以用dtype改为int</p>
+<p> </p>
+<p>默认生成的类型是浮点型 可以用dtype改为int</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d &#x3D; (4, 5)</span><br><span class="line">print np.ones(d, dtype&#x3D;int)</span><br></pre></td></tr></table></figure>
 <p>还可以通过zeros_like生成相同形状的全0数组，如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img &#x3D; np.zeros_like(image)</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>0~1的随机数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.rand(5)</span><br></pre></td></tr></table></figure>
-<h3 id="3-一维转化为二维数组-reshape"><a href="#3-一维转化为二维数组-reshape" class="headerlink" title="3.一维转化为二维数组 reshape"></a>3.一维转化为二维数组 reshape</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a&#x3D; np.arange(10)</span><br><span class="line">a &#x3D; a.reshape(2, 5)</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="一维转化为二维数组-reshape">3.一维转化为二维数组 reshape</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a&#x3D; np.arange(10)</span><br><span class="line">a &#x3D; a.reshape(2, 5)</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[0 1 2 3 4]</span><br><span class="line"> [5 6 7 8 9]]</span><br></pre></td></tr></table></figure>
 <p>PS:</p>
@@ -147,83 +161,121 @@
 <p>下面这句在a=np.arange(10)等价于a = a.reshape(2, 5)</p>
 <p>在a=np.arange(20)等价于a = a.reshape(4, 5)！</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a.reshape(-1, 5)</span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>甚至可以转化为更高维的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(20)</span><br><span class="line">a &#x3D; a.reshape(2,2,5)</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[[[ 0  1  2  3  4]</span><br><span class="line">  [ 5  6  7  8  9]]</span><br><span class="line"></span><br><span class="line"> [[10 11 12 13 14]</span><br><span class="line">  [15 16 17 18 19]]]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> </p>
 <p>当然，也可以二维转化一维的：<strong>ravel</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([[1,2,3],[4,5,6]])</span><br><span class="line">print np.ravel(a)</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1 2 3 4 5 6]</span><br></pre></td></tr></table></figure>
-<h3 id="4-切割vsplit和hsplit"><a href="#4-切割vsplit和hsplit" class="headerlink" title="4. 切割vsplit和hsplit"></a>4. 切割vsplit和hsplit</h3><p>vsplit和hsplit用法差不多，差别在于：vsplit来进行分行，而hsplit来分列（即作用于同一行中）。</p>
+<p> </p>
+<h3 id="切割vsplit和hsplit">4. 切割vsplit和hsplit</h3>
+<p>vsplit和hsplit用法差不多，差别在于：vsplit来进行分行，而hsplit来分列（即作用于同一行中）。</p>
 <p>numpy.vsplit(ary, indices_or_sections)</p>
-<h4 id="（1）指定切分个数（需要行数能被切分的个数整除）"><a href="#（1）指定切分个数（需要行数能被切分的个数整除）" class="headerlink" title="（1）指定切分个数（需要行数能被切分的个数整除）"></a>（1）指定切分个数（需要行数能被切分的个数整除）</h4><p>看下面的代码，生成了6*3的数组，用vsplit切分为3个。</p>
+<h4 id="指定切分个数需要行数能被切分的个数整除">（1）指定切分个数（需要行数能被切分的个数整除）</h4>
+<p>看下面的代码，生成了6*3的数组，用vsplit切分为3个。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(18).reshape(-1,3)</span><br><span class="line">print a,&#39;\n&#39;</span><br><span class="line">print np.vsplit(a,3)</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[[ 0  1  2]</span><br><span class="line"> [ 3  4  5]</span><br><span class="line"> [ 6  7  8]</span><br><span class="line"> [ 9 10 11]</span><br><span class="line"> [12 13 14]</span><br><span class="line"> [15 16 17]] </span><br><span class="line"></span><br><span class="line">[array([[0, 1, 2],</span><br><span class="line">       [3, 4, 5]]), array([[ 6,  7,  8],</span><br><span class="line">       [ 9, 10, 11]]), array([[12, 13, 14],</span><br><span class="line">       [15, 16, 17]])]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="（2）指定位置切分"><a href="#（2）指定位置切分" class="headerlink" title="（2）指定位置切分"></a>（2）指定位置切分</h4><p>我只改动了最后一行，将vsplit第二个参数改为一个List，来指定切分的位置。</p>
+<p> </p>
+<h4 id="指定位置切分">（2）指定位置切分</h4>
+<p>我只改动了最后一行，将vsplit第二个参数改为一个List，来指定切分的位置。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(18).reshape(-1,3)</span><br><span class="line">print a,&#39;\n&#39;</span><br><span class="line">print np.vsplit(a,[1,5])</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[[ 0  1  2]</span><br><span class="line"> [ 3  4  5]</span><br><span class="line"> [ 6  7  8]</span><br><span class="line"> [ 9 10 11]</span><br><span class="line"> [12 13 14]</span><br><span class="line"> [15 16 17]] </span><br><span class="line"></span><br><span class="line">[array([[0, 1, 2]]), array([[ 3,  4,  5],</span><br><span class="line">       [ 6,  7,  8],</span><br><span class="line">       [ 9, 10, 11],</span><br><span class="line">       [12, 13, 14]]), array([[15, 16, 17]])]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="5-查看数组属性"><a href="#5-查看数组属性" class="headerlink" title="5.查看数组属性"></a>5.查看数组属性</h3><p>ndim :维度<br>shape:各维度的大小<br>size:全部的元素个数<br>dtype:查看元素类型<br>type:数组的类型</p>
+<p> </p>
+<h3 id="查看数组属性">5.查看数组属性</h3>
+<p>ndim :维度 shape:各维度的大小 size:全部的元素个数 dtype:查看元素类型 type:数组的类型</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(20)</span><br><span class="line">a &#x3D; a.reshape(2,2,5)</span><br><span class="line">print a.ndim    #a的维度</span><br><span class="line">print a.shape   #a的各维度的大小</span><br><span class="line">print a.size    #a的全部的元素个数</span><br><span class="line">print a.dtype   #a的元素类型</span><br><span class="line">print type(a)   #a的类型</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line">(2L, 2L, 5L)</span><br><span class="line">20</span><br><span class="line">int32</span><br><span class="line">&lt;type &#39;numpy.ndarray&#39;&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="二、数组操作"><a href="#二、数组操作" class="headerlink" title="二、数组操作"></a>二、数组操作</h2><h3 id="1-四则运算"><a href="#1-四则运算" class="headerlink" title="1.四则运算"></a>1.四则运算</h3><p>+’，’-‘，’*’，’/‘运算都是基于全部的数组元素的</p>
+<p> </p>
+<h2 id="二数组操作">二、数组操作</h2>
+<h3 id="四则运算">1.四则运算</h3>
+<p>+'，'-'，'*'，'/'运算都是基于全部的数组元素的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([1,2])</span><br><span class="line">b&#x3D; np.array([3,4])</span><br><span class="line">print a+b</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[4 6]</span><br></pre></td></tr></table></figure>
-<h3 id="2-开根号-指数"><a href="#2-开根号-指数" class="headerlink" title="2.开根号/指数"></a>2.开根号/指数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([1,2])</span><br><span class="line">print np.sqrt(a)    </span><br><span class="line">print np.exp(a)     </span><br><span class="line">print np.square(a)</span><br><span class="line">print np.power(a,5)</span><br><span class="line">print a ** 5        #可以用Power也可以直接 ** ,当然这么写比较爽</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="开根号指数">2.开根号/指数</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([1,2])</span><br><span class="line">print np.sqrt(a)    </span><br><span class="line">print np.exp(a)     </span><br><span class="line">print np.square(a)</span><br><span class="line">print np.power(a,5)</span><br><span class="line">print a ** 5        #可以用Power也可以直接 ** ,当然这么写比较爽</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[ 1.          1.41421356]</span><br><span class="line">[ 2.71828183  7.3890561 ]</span><br><span class="line">[1 4]</span><br><span class="line">[ 1 32]</span><br><span class="line">[ 1 32]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="3-数组最大最小值"><a href="#3-数组最大最小值" class="headerlink" title="3.数组最大最小值"></a>3.数组最大最小值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(20).reshape(4,5)</span><br><span class="line">print a</span><br><span class="line">print a.min()</span><br><span class="line">print a.max()</span><br><span class="line">print a.sum()</span><br><span class="line">print a.min(axis&#x3D;0) #minimun element in each column</span><br><span class="line">print a.min(axis&#x3D;1) #minimun element in each row</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="数组最大最小值">3.数组最大最小值</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(20).reshape(4,5)</span><br><span class="line">print a</span><br><span class="line">print a.min()</span><br><span class="line">print a.max()</span><br><span class="line">print a.sum()</span><br><span class="line">print a.min(axis&#x3D;0) #minimun element in each column</span><br><span class="line">print a.min(axis&#x3D;1) #minimun element in each row</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[[ 0  1  2  3  4]</span><br><span class="line"> [ 5  6  7  8  9]</span><br><span class="line"> [10 11 12 13 14]</span><br><span class="line"> [15 16 17 18 19]]</span><br><span class="line">0</span><br><span class="line">19</span><br><span class="line">190</span><br><span class="line">[0 1 2 3 4]</span><br><span class="line">[ 0  5 10 15]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>numpy.ptp(a, axis=None, out=None)</p>
 <p>返回最大和最小值之差</p>
-<h3 id="4-数组的均值-中位数"><a href="#4-数组的均值-中位数" class="headerlink" title="4.数组的均值/中位数"></a>4.数组的均值/中位数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy</span><br><span class="line">a &#x3D;range(5) +[1000]</span><br><span class="line">print a</span><br><span class="line">print numpy.mean(a),numpy.median(a)</span><br></pre></td></tr></table></figure>
+<h3 id="数组的均值中位数">4.数组的均值/中位数</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy</span><br><span class="line">a &#x3D;range(5) +[1000]</span><br><span class="line">print a</span><br><span class="line">print numpy.mean(a),numpy.median(a)</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[0, 1, 2, 3, 4, 1000]</span><br><span class="line">168.333333333 2.5</span><br></pre></td></tr></table></figure>
-<h3 id="5-数组取值"><a href="#5-数组取值" class="headerlink" title="5.数组取值"></a>5.数组取值</h3><p>可以直接用下标对齐取值，注意直接赋值的话是浅拷贝！（即a赋给b，意味着b指向了a对应数据的内存地址）</p>
+<p> </p>
+<h3 id="数组取值">5.数组取值</h3>
+<p>可以直接用下标对齐取值，注意直接赋值的话是浅拷贝！（即a赋给b，意味着b指向了a对应数据的内存地址）</p>
 <p>想要真正的复制一份a给b，可以使用copy：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([[1, 2], [3, 4]])</span><br><span class="line">b &#x3D; a           #浅拷贝！</span><br><span class="line">c &#x3D; a.copy()  #深拷贝 np.copy(a)</span><br><span class="line">print a[1,1],a[1][1] </span><br><span class="line">b[1][1]&#x3D;5</span><br><span class="line">print a[1][1],b[1][1],c[1][1]</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4 4</span><br><span class="line">5 5 4</span><br></pre></td></tr></table></figure>
-<p><strong>利用’:’可以访问到某一维的全部数据:</strong></p>
+<p> </p>
+<p><strong>利用':'可以访问到某一维的全部数据:</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(20).reshape(4, 5)</span><br><span class="line">print a</span><br><span class="line">print &#39;\n&#39;,a[:,[1,3]] #取出a的每一行的第2个和第4个元素</span><br><span class="line">print &#39;\n&#39;,a[:,2][a[:,0] &gt; 5] #取出a中的第3列的元素，如果该行第1个元素 ＞５</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[[ 0  1  2  3  4]</span><br><span class="line"> [ 5  6  7  8  9]</span><br><span class="line"> [10 11 12 13 14]</span><br><span class="line"> [15 16 17 18 19]]</span><br><span class="line"></span><br><span class="line">[[ 1  3]</span><br><span class="line"> [ 6  8]</span><br><span class="line"> [11 13]</span><br><span class="line"> [16 18]]</span><br><span class="line"></span><br><span class="line">[12 17]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="6-数组拼接"><a href="#6-数组拼接" class="headerlink" title="6.数组拼接"></a>6.数组拼接</h3><p>使用hstack 横向拼接</p>
+<p> </p>
+<h3 id="数组拼接">6.数组拼接</h3>
+<p>使用hstack 横向拼接</p>
 <p>使用vstack 纵向拼接</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import numpy.linalg as nlg</span><br><span class="line">a &#x3D; np.array([1,2,3])</span><br><span class="line">b &#x3D; np.array([4,5,6])</span><br><span class="line">c &#x3D; np.hstack([a,b])</span><br><span class="line">d &#x3D; np.vstack([a,b])</span><br><span class="line">print c</span><br><span class="line">print d</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[1 2 3 4 5 6]</span><br><span class="line">[[1 2 3]</span><br><span class="line"> [4 5 6]]</span><br></pre></td></tr></table></figure>
-<h2 id="三、矩阵对象"><a href="#三、矩阵对象" class="headerlink" title="三、矩阵对象"></a>三、矩阵对象</h2><p>矩阵对象和数组的主要有两点差别：</p>
+<p> </p>
+<h2 id="三矩阵对象">三、矩阵对象</h2>
+<p>矩阵对象和数组的主要有两点差别：</p>
 <ul>
 <li>矩阵是二维的，而数组的可以是任意正整数维</li>
-<li>矩阵的’<em>‘操作符进行的是矩阵乘法，乘号左侧的矩阵列和乘号右侧的矩阵行要相等，而在数组中’</em>‘操作符进行的是每一元素的对应相乘，乘号两侧的数组每一维大小需要一致</li>
+<li>矩阵的'<em>'操作符进行的是矩阵乘法，乘号左侧的矩阵列和乘号右侧的矩阵行要相等，而在数组中'</em>'操作符进行的是每一元素的对应相乘，乘号两侧的数组每一维大小需要一致</li>
 </ul>
-<h3 id="1-创建矩阵"><a href="#1-创建矩阵" class="headerlink" title="1.创建矩阵"></a>1.创建矩阵</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(5)</span><br><span class="line">a &#x3D; np.mat(a)  #use np.mat(a) or np.asmatrix(a)</span><br><span class="line">print a,type(a)</span><br><span class="line"></span><br><span class="line">b &#x3D; np.mat(&#39;1.0 2.0; 3.0 4.0&#39;) # you can use np.matrix()</span><br><span class="line">print b,type(b)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="创建矩阵">1.创建矩阵</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(5)</span><br><span class="line">a &#x3D; np.mat(a)  #use np.mat(a) or np.asmatrix(a)</span><br><span class="line">print a,type(a)</span><br><span class="line"></span><br><span class="line">b &#x3D; np.mat(&#39;1.0 2.0; 3.0 4.0&#39;) # you can use np.matrix()</span><br><span class="line">print b,type(b)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[0 1 2 3 4]] &lt;class &#39;numpy.matrixlib.defmatrix.matrix&#39;&gt;</span><br><span class="line">[[ 1.  2.]</span><br><span class="line"> [ 3.  4.]] &lt;class &#39;numpy.matrixlib.defmatrix.matrix&#39;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-矩阵乘法"><a href="#2-矩阵乘法" class="headerlink" title="2.矩阵乘法"></a>2.矩阵乘法</h3><p>为了比较和数组的乘法，特地将b设为单位阵。</p>
+<p> </p>
+<h3 id="矩阵乘法">2.矩阵乘法</h3>
+<p>为了比较和数组的乘法，特地将b设为单位阵。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([[1, 2], [3, 4]])</span><br><span class="line">b &#x3D; np.array([[1, 0], [0, 1]])</span><br><span class="line">print &#39;a&#x3D;&#39;, a, &#39;\nb&#x3D;&#39;, b</span><br><span class="line">print</span><br><span class="line">print &#39;array : a*b:&#39;</span><br><span class="line">print a * b</span><br><span class="line">print &#39;matrix: a*b:&#39;</span><br><span class="line">print np.asmatrix(a) * np.asmatrix(b)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a&#x3D; [[1 2]</span><br><span class="line"> [3 4]] </span><br><span class="line">b&#x3D; [[1 0]</span><br><span class="line"> [0 1]]</span><br><span class="line"></span><br><span class="line">array : a*b:</span><br><span class="line">[[1 0]</span><br><span class="line"> [0 4]]</span><br><span class="line">matrix: a*b:</span><br><span class="line">[[1 2]</span><br><span class="line"> [3 4]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="3-矩阵转置"><a href="#3-矩阵转置" class="headerlink" title="3.矩阵转置"></a>3.矩阵转置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([[1, 2, 3], [4, 5, 6]])</span><br><span class="line">print np.transpose(a)   #对于数组，用transpose</span><br><span class="line">print np.matrix(a).T    #对于矩阵，直接T</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="矩阵转置">3.矩阵转置</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.array([[1, 2, 3], [4, 5, 6]])</span><br><span class="line">print np.transpose(a)   #对于数组，用transpose</span><br><span class="line">print np.matrix(a).T    #对于矩阵，直接T</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[1 4]</span><br><span class="line"> [2 5]</span><br><span class="line"> [3 6]]</span><br><span class="line">[[1 4]</span><br><span class="line"> [2 5]</span><br><span class="line"> [3 6]]</span><br></pre></td></tr></table></figure>
-<h3 id="4-矩阵求逆"><a href="#4-矩阵求逆" class="headerlink" title="4.矩阵求逆"></a>4.矩阵求逆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import numpy.linalg as nlg</span><br><span class="line">a &#x3D; np.mat([[1,2],[4,4]]) </span><br><span class="line">print a</span><br><span class="line">b &#x3D; nlg.inv(a)</span><br><span class="line">print a*b</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="矩阵求逆">4.矩阵求逆</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import numpy.linalg as nlg</span><br><span class="line">a &#x3D; np.mat([[1,2],[4,4]]) </span><br><span class="line">print a</span><br><span class="line">b &#x3D; nlg.inv(a)</span><br><span class="line">print a*b</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[1 2]</span><br><span class="line"> [4 4]]</span><br><span class="line">[[ 1.  0.]</span><br><span class="line"> [ 0.  1.]]</span><br></pre></td></tr></table></figure>
-<h3 id="5-特征值和特征向量"><a href="#5-特征值和特征向量" class="headerlink" title="5.特征值和特征向量"></a>5.特征值和特征向量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import numpy.linalg as nlg</span><br><span class="line">a &#x3D; np.random.rand(3,3)</span><br><span class="line">eig_value, eig_vector &#x3D; nlg.eig(a)</span><br><span class="line">print &quot;eigen value:&quot;</span><br><span class="line">print eig_value</span><br><span class="line">print &quot;eigen vector:&quot;</span><br><span class="line">print eig_vector</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h3 id="特征值和特征向量">5.特征值和特征向量</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import numpy.linalg as nlg</span><br><span class="line">a &#x3D; np.random.rand(3,3)</span><br><span class="line">eig_value, eig_vector &#x3D; nlg.eig(a)</span><br><span class="line">print &quot;eigen value:&quot;</span><br><span class="line">print eig_value</span><br><span class="line">print &quot;eigen vector:&quot;</span><br><span class="line">print eig_vector</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eigen value:</span><br><span class="line">[ 1.35205837 -0.22652725  0.12474347]</span><br><span class="line">eigen vector:</span><br><span class="line">[[-0.66475046 -0.42263921  0.031526  ]</span><br><span class="line"> [-0.54161542  0.70097608 -0.45506146]</span><br><span class="line"> [-0.51454792 -0.57446378  0.88990178]]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="四、其它"><a href="#四、其它" class="headerlink" title="四、其它"></a>四、其它</h2><h3 id="1-缺失值处理"><a href="#1-缺失值处理" class="headerlink" title="1.缺失值处理"></a>1.缺失值处理</h3><p>NumPy用nan作为缺失值，可以用isnan判定：</p>
+<p> </p>
+<h2 id="四其它">四、其它</h2>
+<h3 id="缺失值处理">1.缺失值处理</h3>
+<p>NumPy用nan作为缺失值，可以用isnan判定：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.random.rand(2,2)</span><br><span class="line">a[0, 1] &#x3D; np.nan</span><br><span class="line">print np.isnan(a)</span><br></pre></td></tr></table></figure>
 <p>nan_to_num()可用来将nan替换成0</p>
-<h3 id="2-统计函数"><a href="#2-统计函数" class="headerlink" title="2.统计函数"></a>2.统计函数</h3><p><strong>np.bincount(a)</strong>：对整数数组中各个元素出现的次数进行统计，它要求数组中所有元素<strong>都是非负</strong>的，返回值中，第i个元素表示第i个元素在a中出现的次数。</p>
-<h3 id="3-比较函数"><a href="#3-比较函数" class="headerlink" title="3.比较函数"></a>3.比较函数</h3><p>直接用==比较</p>
+<h3 id="统计函数"> 2.统计函数</h3>
+<p><strong>np.bincount(a)</strong>：对整数数组中各个元素出现的次数进行统计，它要求数组中所有元素<strong>都是非负</strong>的，返回值中，第i个元素表示第i个元素在a中出现的次数。</p>
+<h3 id="比较函数"> 3.比较函数</h3>
+<p>直接用==比较</p>
 <ul>
 <li>对于相同长度的，返回一个numpy数组，每个元素为相应位置上是否相等.</li>
 <li>长度不相同，返回False</li>
@@ -231,7 +283,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">a &#x3D; np.arange(5)</span><br><span class="line">b &#x3D; np.array([0,1,2,4,3])</span><br><span class="line">print a&#x3D;&#x3D;b</span><br><span class="line">print a&#x3D;&#x3D;np.array([0,1,2,4,3,5])</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ True  True  True False False]</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
-<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><ul>
+<p> </p>
+<h2 id="参考资料">参考资料：</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://app.wmcloud.com/mercury/community/share/54ca15f9f9f06c276f651a56">量化分析师的Python日记【第3天：一大波金融Library来袭之numpy篇】</a></li>
 <li>python 科学计算 -张若愚</li>
 </ul>
@@ -450,12 +504,18 @@ AV.init({
 // https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
 function showTime(Counter) {
   console.log("show time");
-	let query = new AV.Query(Counter);
-  query.greaterThanOrEqualTo("time", 0);		
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
   query.find().then((results) => {
       if (results.length > 0) {
         let data = results;
-        $('.leancloud_visitors').each(function() {
+        obj.each(function() {
           let url = $(this).attr('id').trim();		
           for (let i = 0; i < data.length; i++) {
             let object = data[i];
@@ -467,6 +527,8 @@ function showTime(Counter) {
           }
         });
       }
+  }).catch((error) => {
+    console.error(error);
   });
 }
 
@@ -475,13 +537,14 @@ function addCount(Counter) {
 	url = obj.attr('id').trim();
   title = obj.attr('data-flag-title').trim();
 
-  const query = new AV.Query('Counter');
+  const query = new AV.Query(Counter);
   query.equalTo("url", url);
 
 	query.find().then((results) => {
 			if (results.length > 0) {
 				var counter = results[0];
-				counter.increment("time", 1);
+        counter.increment("time", 1);
+        counter.set("title", title);
 				counter.save(null, {fetchWhenSave: true}).then(() => {
           let content = counter.get('time');
           $(document.getElementById(url)).text(content);
@@ -500,7 +563,9 @@ function addCount(Counter) {
           console.log('Failed to create' + error.message);
         });
 			}
-	});
+	}).catch((error) => {
+    console.error(error);
+  });
 }
 
 $(function() {
