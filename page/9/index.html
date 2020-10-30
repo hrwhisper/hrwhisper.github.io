@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -17,21 +17,21 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="细语呢喃">
-<meta property="og:url" content="http://example.com/page/9/index.html">
+<meta property="og:url" content="https://www.hrwhisper.me/page/9/index.html">
 <meta property="og:site_name" content="细语呢喃">
 <meta property="og:description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/page/9/">
+<link rel="canonical" href="https://www.hrwhisper.me/page/9/">
 
 
 <script id="page-configurations">
@@ -40,7 +40,7 @@
     sidebar: "",
     isHome : true,
     isPost : false,
-    lang   : 'en'
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -48,6 +48,15 @@
   
 
 
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d6a8cb42bd9ae728375b6726daa75e95";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -84,7 +93,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -115,16 +124,31 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-categories">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">25</span></a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/leetcode-algorithm-solution/" rel="section"><i class="fa fa-archive fa-fw"></i>leetcode</a>
+
+  </li>
+        <li class="menu-item menu-item-friends">
+
+    <a href="/friend-link/" rel="section"><i class="fa fa-link fa-fw"></i>friends</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about-me/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
       <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
       </li>
   </ul>
@@ -140,7 +164,7 @@
   </span>
   <div class="search-input-container">
     <input autocomplete="off" autocapitalize="off"
-           placeholder="Searching..." spellcheck="false"
+           placeholder="搜索..." spellcheck="false"
            type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
@@ -160,6 +184,11 @@
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -172,11 +201,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/windows-jsp-application-to-linux/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/windows-jsp-application-to-linux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -195,26 +224,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-04-07 11:30:39" itemprop="dateCreated datePublished" datetime="2015-04-07T11:30:39+08:00">2015-04-07</time>
+              <time title="创建时间：2015-04-07 11:30:39" itemprop="dateCreated datePublished" datetime="2015-04-07T11:30:39+08:00">2015-04-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发环境/开发工具</span></a>
                 </span>
             </span>
 
           
-            <span id="/windows-jsp-application-to-linux/" class="post-meta-item leancloud_visitors" data-flag-title="Win下的JSP应用向Linux迁移" title="Views">
+            <span id="/windows-jsp-application-to-linux/" class="post-meta-item leancloud_visitors" data-flag-title="Win下的JSP应用向Linux迁移" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -223,7 +252,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/windows-jsp-application-to-linux/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/windows-jsp-application-to-linux/" itemprop="commentCount"></span>
@@ -245,7 +274,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/windows-jsp-application-to-linux/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -267,11 +296,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/some-tricks-for-using-kindle/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/some-tricks-for-using-kindle/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -290,26 +319,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-04-06 13:16:56" itemprop="dateCreated datePublished" datetime="2015-04-06T13:16:56+08:00">2015-04-06</time>
+              <time title="创建时间：2015-04-06 13:16:56" itemprop="dateCreated datePublished" datetime="2015-04-06T13:16:56+08:00">2015-04-06</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E6%8A%80%E6%9C%AF%E6%94%B9%E5%8F%98%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index"><span itemprop="name">技术改变生活</span></a>
                 </span>
             </span>
 
           
-            <span id="/some-tricks-for-using-kindle/" class="post-meta-item leancloud_visitors" data-flag-title="kindle 技巧 整理" title="Views">
+            <span id="/some-tricks-for-using-kindle/" class="post-meta-item leancloud_visitors" data-flag-title="kindle 技巧 整理" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -318,7 +347,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/some-tricks-for-using-kindle/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/some-tricks-for-using-kindle/" itemprop="commentCount"></span>
@@ -345,7 +374,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/some-tricks-for-using-kindle/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -367,11 +396,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/i-want-to-talk-to-the-world/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/i-want-to-talk-to-the-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -390,30 +419,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-04-05 21:47:26" itemprop="dateCreated datePublished" datetime="2015-04-05T21:47:26+08:00">2015-04-05</time>
+              <time title="创建时间：2015-04-05 21:47:26" itemprop="dateCreated datePublished" datetime="2015-04-05T21:47:26+08:00">2015-04-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/whisper/" itemprop="url" rel="index"><span itemprop="name">whisper</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/whisper/%E8%B0%81%E7%9A%84%E5%91%A2%E5%96%83/" itemprop="url" rel="index"><span itemprop="name">谁的呢喃</span></a>
                 </span>
             </span>
 
           
-            <span id="/i-want-to-talk-to-the-world/" class="post-meta-item leancloud_visitors" data-flag-title="我也想和这世界谈谈" title="Views">
+            <span id="/i-want-to-talk-to-the-world/" class="post-meta-item leancloud_visitors" data-flag-title="我也想和这世界谈谈" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -422,7 +451,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/i-want-to-talk-to-the-world/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/i-want-to-talk-to-the-world/" itemprop="commentCount"></span>
@@ -444,7 +473,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/i-want-to-talk-to-the-world/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -466,11 +495,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/python-running-environment-opencv-mysqldb/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/python-running-environment-opencv-mysqldb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -489,26 +518,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-04-01 09:28:37" itemprop="dateCreated datePublished" datetime="2015-04-01T09:28:37+08:00">2015-04-01</time>
+              <time title="创建时间：2015-04-01 09:28:37" itemprop="dateCreated datePublished" datetime="2015-04-01T09:28:37+08:00">2015-04-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发环境/开发工具</span></a>
                 </span>
             </span>
 
           
-            <span id="/python-running-environment-opencv-mysqldb/" class="post-meta-item leancloud_visitors" data-flag-title="python 相关 环境" title="Views">
+            <span id="/python-running-environment-opencv-mysqldb/" class="post-meta-item leancloud_visitors" data-flag-title="python 相关 环境" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -517,7 +546,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/python-running-environment-opencv-mysqldb/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/python-running-environment-opencv-mysqldb/" itemprop="commentCount"></span>
@@ -544,7 +573,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/python-running-environment-opencv-mysqldb/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -566,11 +595,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/get-a-good-score-you-like-at-4399/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/get-a-good-score-you-like-at-4399/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -589,30 +618,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-30 19:12:10" itemprop="dateCreated datePublished" datetime="2015-03-30T19:12:10+08:00">2015-03-30</time>
+              <time title="创建时间：2015-03-30 19:12:10" itemprop="dateCreated datePublished" datetime="2015-03-30T19:12:10+08:00">2015-03-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
                 </span>
             </span>
 
           
-            <span id="/get-a-good-score-you-like-at-4399/" class="post-meta-item leancloud_visitors" data-flag-title="教你如何刷 4399 小游戏的分数！" title="Views">
+            <span id="/get-a-good-score-you-like-at-4399/" class="post-meta-item leancloud_visitors" data-flag-title="教你如何刷 4399 小游戏的分数！" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -621,7 +650,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/get-a-good-score-you-like-at-4399/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/get-a-good-score-you-like-at-4399/" itemprop="commentCount"></span>
@@ -644,7 +673,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/get-a-good-score-you-like-at-4399/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -666,11 +695,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/filename-extension-cheat-exe-to-gif-jpg-bmp/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/filename-extension-cheat-exe-to-gif-jpg-bmp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -689,30 +718,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-28 23:03:04" itemprop="dateCreated datePublished" datetime="2015-03-28T23:03:04+08:00">2015-03-28</time>
+              <time title="创建时间：2015-03-28 23:03:04" itemprop="dateCreated datePublished" datetime="2015-03-28T23:03:04+08:00">2015-03-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
                 </span>
             </span>
 
           
-            <span id="/filename-extension-cheat-exe-to-gif-jpg-bmp/" class="post-meta-item leancloud_visitors" data-flag-title="将exe伪装为后缀名为图片格式！（GIF/JPG/BMP均可）" title="Views">
+            <span id="/filename-extension-cheat-exe-to-gif-jpg-bmp/" class="post-meta-item leancloud_visitors" data-flag-title="将exe伪装为后缀名为图片格式！（GIF/JPG/BMP均可）" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -721,7 +750,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/filename-extension-cheat-exe-to-gif-jpg-bmp/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/filename-extension-cheat-exe-to-gif-jpg-bmp/" itemprop="commentCount"></span>
@@ -747,7 +776,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/filename-extension-cheat-exe-to-gif-jpg-bmp/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -769,11 +798,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/learning-notes-for-python-numpy/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/learning-notes-for-python-numpy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -792,30 +821,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-28 11:51:08" itemprop="dateCreated datePublished" datetime="2015-03-28T11:51:08+08:00">2015-03-28</time>
+              <time title="创建时间：2015-03-28 11:51:08" itemprop="dateCreated datePublished" datetime="2015-03-28T11:51:08+08:00">2015-03-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/python-learning/" itemprop="url" rel="index"><span itemprop="name">python learning</span></a>
                 </span>
             </span>
 
           
-            <span id="/learning-notes-for-python-numpy/" class="post-meta-item leancloud_visitors" data-flag-title="python 科学计算 — numpy 学习笔记" title="Views">
+            <span id="/learning-notes-for-python-numpy/" class="post-meta-item leancloud_visitors" data-flag-title="python 科学计算 — numpy 学习笔记" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -824,7 +853,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/learning-notes-for-python-numpy/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/learning-notes-for-python-numpy/" itemprop="commentCount"></span>
@@ -846,7 +875,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/learning-notes-for-python-numpy/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -868,11 +897,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/linux-eclipse-perl-environment/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/linux-eclipse-perl-environment/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -891,26 +920,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-25 21:24:03" itemprop="dateCreated datePublished" datetime="2015-03-25T21:24:03+08:00">2015-03-25</time>
+              <time title="创建时间：2015-03-25 21:24:03" itemprop="dateCreated datePublished" datetime="2015-03-25T21:24:03+08:00">2015-03-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发环境/开发工具</span></a>
                 </span>
             </span>
 
           
-            <span id="/linux-eclipse-perl-environment/" class="post-meta-item leancloud_visitors" data-flag-title="Linux 下安装eclipse 及 perl 插件" title="Views">
+            <span id="/linux-eclipse-perl-environment/" class="post-meta-item leancloud_visitors" data-flag-title="Linux 下安装eclipse 及 perl 插件" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -919,7 +948,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/linux-eclipse-perl-environment/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/linux-eclipse-perl-environment/" itemprop="commentCount"></span>
@@ -941,7 +970,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/linux-eclipse-perl-environment/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -963,11 +992,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/sublime-text2-python-matplotlib-not-work-solution/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/sublime-text2-python-matplotlib-not-work-solution/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -986,26 +1015,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-22 15:04:45" itemprop="dateCreated datePublished" datetime="2015-03-22T15:04:45+08:00">2015-03-22</time>
+              <time title="创建时间：2015-03-22 15:04:45" itemprop="dateCreated datePublished" datetime="2015-03-22T15:04:45+08:00">2015-03-22</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发环境/开发工具</span></a>
                 </span>
             </span>
 
           
-            <span id="/sublime-text2-python-matplotlib-not-work-solution/" class="post-meta-item leancloud_visitors" data-flag-title="解决sublime text2编辑python的一些问题" title="Views">
+            <span id="/sublime-text2-python-matplotlib-not-work-solution/" class="post-meta-item leancloud_visitors" data-flag-title="解决sublime text2编辑python的一些问题" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1014,7 +1043,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/sublime-text2-python-matplotlib-not-work-solution/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/sublime-text2-python-matplotlib-not-work-solution/" itemprop="commentCount"></span>
@@ -1039,7 +1068,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/sublime-text2-python-matplotlib-not-work-solution/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1061,11 +1090,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/learning-notes-for-python-matplotlib/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/learning-notes-for-python-matplotlib/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1084,30 +1113,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-22 12:55:52" itemprop="dateCreated datePublished" datetime="2015-03-22T12:55:52+08:00">2015-03-22</time>
+              <time title="创建时间：2015-03-22 12:55:52" itemprop="dateCreated datePublished" datetime="2015-03-22T12:55:52+08:00">2015-03-22</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/python-learning/" itemprop="url" rel="index"><span itemprop="name">python learning</span></a>
                 </span>
             </span>
 
           
-            <span id="/learning-notes-for-python-matplotlib/" class="post-meta-item leancloud_visitors" data-flag-title="python matplotlib 库学习笔记" title="Views">
+            <span id="/learning-notes-for-python-matplotlib/" class="post-meta-item leancloud_visitors" data-flag-title="python matplotlib 库学习笔记" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1116,7 +1145,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/learning-notes-for-python-matplotlib/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/learning-notes-for-python-matplotlib/" itemprop="commentCount"></span>
@@ -1139,7 +1168,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/learning-notes-for-python-matplotlib/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1161,11 +1190,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/python-web-crawler-login-baidu/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/python-web-crawler-login-baidu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1184,30 +1213,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-18 16:04:36" itemprop="dateCreated datePublished" datetime="2015-03-18T16:04:36+08:00">2015-03-18</time>
+              <time title="创建时间：2015-03-18 16:04:36" itemprop="dateCreated datePublished" datetime="2015-03-18T16:04:36+08:00">2015-03-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/python-learning/" itemprop="url" rel="index"><span itemprop="name">python learning</span></a>
                 </span>
             </span>
 
           
-            <span id="/python-web-crawler-login-baidu/" class="post-meta-item leancloud_visitors" data-flag-title="python 爬虫之模拟登陆实战（二）百度" title="Views">
+            <span id="/python-web-crawler-login-baidu/" class="post-meta-item leancloud_visitors" data-flag-title="python 爬虫之模拟登陆实战（二）百度" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1216,7 +1245,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/python-web-crawler-login-baidu/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/python-web-crawler-login-baidu/" itemprop="commentCount"></span>
@@ -1239,7 +1268,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/python-web-crawler-login-baidu/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1261,11 +1290,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/python-web-crawler-login-vruc/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/python-web-crawler-login-vruc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1284,30 +1313,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-17 11:03:05" itemprop="dateCreated datePublished" datetime="2015-03-17T11:03:05+08:00">2015-03-17</time>
+              <time title="创建时间：2015-03-17 11:03:05" itemprop="dateCreated datePublished" datetime="2015-03-17T11:03:05+08:00">2015-03-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/python-learning/" itemprop="url" rel="index"><span itemprop="name">python learning</span></a>
                 </span>
             </span>
 
           
-            <span id="/python-web-crawler-login-vruc/" class="post-meta-item leancloud_visitors" data-flag-title="python 爬虫之模拟登陆实战（一）微人大" title="Views">
+            <span id="/python-web-crawler-login-vruc/" class="post-meta-item leancloud_visitors" data-flag-title="python 爬虫之模拟登陆实战（一）微人大" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1316,7 +1345,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/python-web-crawler-login-vruc/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/python-web-crawler-login-vruc/" itemprop="commentCount"></span>
@@ -1338,7 +1367,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/python-web-crawler-login-vruc/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1360,11 +1389,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/python-web-crawler-instruction/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/python-web-crawler-instruction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1383,30 +1412,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-15 22:31:34" itemprop="dateCreated datePublished" datetime="2015-03-15T22:31:34+08:00">2015-03-15</time>
+              <time title="创建时间：2015-03-15 22:31:34" itemprop="dateCreated datePublished" datetime="2015-03-15T22:31:34+08:00">2015-03-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/python-learning/" itemprop="url" rel="index"><span itemprop="name">python learning</span></a>
                 </span>
             </span>
 
           
-            <span id="/python-web-crawler-instruction/" class="post-meta-item leancloud_visitors" data-flag-title="python 爬虫 入门" title="Views">
+            <span id="/python-web-crawler-instruction/" class="post-meta-item leancloud_visitors" data-flag-title="python 爬虫 入门" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1415,7 +1444,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/python-web-crawler-instruction/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/python-web-crawler-instruction/" itemprop="commentCount"></span>
@@ -1439,7 +1468,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/python-web-crawler-instruction/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1461,11 +1490,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/memory-about-my-middle-school/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/memory-about-my-middle-school/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1484,30 +1513,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-15 16:47:51" itemprop="dateCreated datePublished" datetime="2015-03-15T16:47:51+08:00">2015-03-15</time>
+              <time title="创建时间：2015-03-15 16:47:51" itemprop="dateCreated datePublished" datetime="2015-03-15T16:47:51+08:00">2015-03-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/whisper/" itemprop="url" rel="index"><span itemprop="name">whisper</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/whisper/%E8%B0%81%E7%9A%84%E5%91%A2%E5%96%83/" itemprop="url" rel="index"><span itemprop="name">谁的呢喃</span></a>
                 </span>
             </span>
 
           
-            <span id="/memory-about-my-middle-school/" class="post-meta-item leancloud_visitors" data-flag-title="『记忆与印象』刻在骨髓里的地方" title="Views">
+            <span id="/memory-about-my-middle-school/" class="post-meta-item leancloud_visitors" data-flag-title="『记忆与印象』刻在骨髓里的地方" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1516,7 +1545,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/memory-about-my-middle-school/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/memory-about-my-middle-school/" itemprop="commentCount"></span>
@@ -1539,7 +1568,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/memory-about-my-middle-school/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1561,11 +1590,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/java-android-environment-genymotion-emulator/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/java-android-environment-genymotion-emulator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1584,26 +1613,26 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-13 19:37:50" itemprop="dateCreated datePublished" datetime="2015-03-13T19:37:50+08:00">2015-03-13</time>
+              <time title="创建时间：2015-03-13 19:37:50" itemprop="dateCreated datePublished" datetime="2015-03-13T19:37:50+08:00">2015-03-13</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开发环境/开发工具</span></a>
                 </span>
             </span>
 
           
-            <span id="/java-android-environment-genymotion-emulator/" class="post-meta-item leancloud_visitors" data-flag-title="Java和Android开发环境配置 || 使用genymotion模拟器" title="Views">
+            <span id="/java-android-environment-genymotion-emulator/" class="post-meta-item leancloud_visitors" data-flag-title="Java和Android开发环境配置 || 使用genymotion模拟器" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1612,7 +1641,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/java-android-environment-genymotion-emulator/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/java-android-environment-genymotion-emulator/" itemprop="commentCount"></span>
@@ -1639,7 +1668,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/java-android-environment-genymotion-emulator/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1661,11 +1690,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/forgive-her-hurt-me/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/forgive-her-hurt-me/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1684,30 +1713,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-10 21:15:14" itemprop="dateCreated datePublished" datetime="2015-03-10T21:15:14+08:00">2015-03-10</time>
+              <time title="创建时间：2015-03-10 21:15:14" itemprop="dateCreated datePublished" datetime="2015-03-10T21:15:14+08:00">2015-03-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/whisper/" itemprop="url" rel="index"><span itemprop="name">whisper</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/whisper/%E8%B0%81%E7%9A%84%E5%91%A2%E5%96%83/" itemprop="url" rel="index"><span itemprop="name">谁的呢喃</span></a>
                 </span>
             </span>
 
           
-            <span id="/forgive-her-hurt-me/" class="post-meta-item leancloud_visitors" data-flag-title="原谅" title="Views">
+            <span id="/forgive-her-hurt-me/" class="post-meta-item leancloud_visitors" data-flag-title="原谅" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1716,7 +1745,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/forgive-her-hurt-me/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/forgive-her-hurt-me/" itemprop="commentCount"></span>
@@ -1738,7 +1767,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/forgive-her-hurt-me/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1760,11 +1789,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/leetcode-math/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-math/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1783,30 +1812,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-10 12:39:39" itemprop="dateCreated datePublished" datetime="2015-03-10T12:39:39+08:00">2015-03-10</time>
+              <time title="创建时间：2015-03-10 12:39:39" itemprop="dateCreated datePublished" datetime="2015-03-10T12:39:39+08:00">2015-03-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
                 </span>
             </span>
 
           
-            <span id="/leetcode-math/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 数学" title="Views">
+            <span id="/leetcode-math/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 数学" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1815,7 +1844,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/leetcode-math/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/leetcode-math/" itemprop="commentCount"></span>
@@ -1856,7 +1885,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/leetcode-math/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1878,11 +1907,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/reading-notes-pinang-caichongda/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/reading-notes-pinang-caichongda/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -1901,30 +1930,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-08 15:49:17" itemprop="dateCreated datePublished" datetime="2015-03-08T15:49:17+08:00">2015-03-08</time>
+              <time title="创建时间：2015-03-08 15:49:17" itemprop="dateCreated datePublished" datetime="2015-03-08T15:49:17+08:00">2015-03-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/study/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a>
                 </span>
             </span>
 
           
-            <span id="/reading-notes-pinang-caichongda/" class="post-meta-item leancloud_visitors" data-flag-title="『读书笔记』皮囊" title="Views">
+            <span id="/reading-notes-pinang-caichongda/" class="post-meta-item leancloud_visitors" data-flag-title="『读书笔记』皮囊" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -1933,7 +1962,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/reading-notes-pinang-caichongda/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/reading-notes-pinang-caichongda/" itemprop="commentCount"></span>
@@ -1957,7 +1986,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/reading-notes-pinang-caichongda/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1979,11 +2008,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/leetcode-dynamic-programming/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-dynamic-programming/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -2002,30 +2031,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-08 11:04:16" itemprop="dateCreated datePublished" datetime="2015-03-08T11:04:16+08:00">2015-03-08</time>
+              <time title="创建时间：2015-03-08 11:04:16" itemprop="dateCreated datePublished" datetime="2015-03-08T11:04:16+08:00">2015-03-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
                 </span>
             </span>
 
           
-            <span id="/leetcode-dynamic-programming/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 动态规划（DP）" title="Views">
+            <span id="/leetcode-dynamic-programming/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 动态规划（DP）" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -2034,7 +2063,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/leetcode-dynamic-programming/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/leetcode-dynamic-programming/" itemprop="commentCount"></span>
@@ -2079,7 +2108,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/leetcode-dynamic-programming/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -2101,11 +2130,11 @@
       
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/leetcode-datastructure/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-datastructure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
       <meta itemprop="name" content="hrwhisper">
       <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
     </span>
@@ -2124,30 +2153,30 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2015-03-08 10:07:38" itemprop="dateCreated datePublished" datetime="2015-03-08T10:07:38+08:00">2015-03-08</time>
+              <time title="创建时间：2015-03-08 10:07:38" itemprop="dateCreated datePublished" datetime="2015-03-08T10:07:38+08:00">2015-03-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
                 </span>
-                  , 
+                  ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
                 </span>
             </span>
 
           
-            <span id="/leetcode-datastructure/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 数据结构" title="Views">
+            <span id="/leetcode-datastructure/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 数据结构" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">Views: </span>
+              <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -2156,7 +2185,7 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Valine: </span>
+      <span class="post-meta-item-text">Valine：</span>
     
     <a title="valine" href="/leetcode-datastructure/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/leetcode-datastructure/" itemprop="commentCount"></span>
@@ -2192,7 +2221,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/leetcode-datastructure/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -2214,7 +2243,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2258,10 +2287,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          站点概览
         </li>
       </ul>
 
@@ -2272,27 +2301,29 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hrwhisper"
+      src="/images/site/avatar.jpg">
   <p class="site-author-name" itemprop="name">hrwhisper</p>
   <div class="site-description" itemprop="description">一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
+          <a href="/archives">
           <span class="site-state-item-count">227</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">25</span>
-        <span class="site-state-item-name">categories</span></a>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
         <span class="site-state-item-count">49</span>
-        <span class="site-state-item-name">tags</span></a>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -2300,15 +2331,14 @@
       <span class="links-of-author-item">
         <a href="https://github.com/hrwhisper" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hrwhisper" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/murmured" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;murmured" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
   </div>
 
 
 
       </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
 
     </div>
   </aside>
@@ -2333,13 +2363,10 @@
   </span>
   <span class="author" itemprop="copyrightHolder">hrwhisper</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
   </div>
 
         
-<div class="busuanzi-count">
-  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-</div>
 
 
 
@@ -2417,7 +2444,6 @@
         });
       };
       if (CONFIG.page.isPost) {
-        if (CONFIG.hostname !== location.hostname) return;
         addCount(Counter);
       } else if (document.querySelectorAll('.post-title-link').length >= 1) {
         showTime(Counter);
@@ -2458,6 +2484,8 @@
 
 
 <script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
 
   <script>
 var pjax = new Pjax({
@@ -2586,7 +2614,7 @@ window.addEventListener('pjax:success', () => {
     };
     (function () {
       var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
       script.defer = true;
       document.head.appendChild(script);
     })();
@@ -2621,7 +2649,7 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       meta       : guest,
       pageSize   : '10' || 10,
       visitor    : false,
-      lang       : '' || 'zh-cn',
+      lang       : 'zh-cn' || 'zh-cn',
       path       : location.pathname,
       recordIP   : false,
       serverURLs : ''
