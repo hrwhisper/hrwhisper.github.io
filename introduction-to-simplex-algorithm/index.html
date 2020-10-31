@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.1.1">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
+  <link rel="mask-icon" href="/images/site/avatar.jpg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="本文将详细的介绍单纯形算法，包括但不限于  LP问题 单纯形算法原理 无界、无解、循环等情况 python代码实现">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://www.hrwhisper.me/images/introduction-to-simplex-algorithm/walk_though_vertex.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/introduction-to-simplex-algorithm/example_for_feasible_solution.png">
 <meta property="article:published_time" content="2016-11-24T09:10:10.000Z">
-<meta property="article:modified_time" content="2020-10-31T02:39:38.807Z">
+<meta property="article:modified_time" content="2020-10-31T13:15:47.561Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="算法">
@@ -63,7 +63,7 @@
   
 
 
-  <script data-pjax>
+  <script>
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -203,7 +203,6 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
-  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -351,15 +350,16 @@
 <p>其实这些不等式组就是线性规划方程（Linear programming formulation）。</p>
 <p>简单的说，线性规划就是在给定限制的情况下，求解目标。</p>
 <h3 id="可行域">可行域</h3>
-<p>来看一个算法导论中的例子，考虑如下的线性规划： $$ <span class="math display">\[\begin{alignat}{2}
+<p>来看一个算法导论中的例子，考虑如下的线性规划： <span class="math display">\[
+\begin{alignat}{2}
 \max\quad &amp;x_1 + x_2&amp;  \\
-
 \mbox{s.t.}\quad
 &amp;4x_1 - x_2 &amp;\leq&amp;{8}  \\ 
 &amp;2x_1 + x_2 &amp; \leq&amp;{10}\\ 
 &amp;5x_1 - 2x_2 &amp; \geq&amp;{-2}\\ 
 &amp;x_1, \quad x_2 &amp;\geq&amp;{0} \\ 
-\end{alignat}\]</span> $$ 我们可以画出下面的图：</p>
+\end{alignat}
+\]</span> 我们可以画出下面的图：</p>
 <figure>
 <img src="../images/introduction-to-simplex-algorithm/example_for_feasible_region.png" alt="example_for_feasible_region" /><figcaption>example_for_feasible_region</figcaption>
 </figure>
@@ -492,14 +492,15 @@
 \]</span> 这样其实就是一个<strong>转动(pivot)</strong>的过程，一次转动选取一个非基本变量（也叫<strong>替入变量</strong>）<span class="math inline">\(x_e\)</span>和一个基本变量（也叫<strong>替出变量</strong>) <span class="math inline">\(x_l\)</span> ，然后替换二者的角色。执行一次转动的过程与之前所描述的线性规划是等价的。</p>
 <p>同样的，将非基本变量设为0，于是得到：<span class="math inline">\((x_1,x_2,x_3,x_4,x_5,x_6,x_7) = (2,0,0,2,0,3,6)\)</span>， Z = -2，说明我们的目标减少到了-2</p>
 <p>接下来是单纯形算法的第三步，就是不断的进行转动，直到无法进行改进为止，继续看看刚才的例子：</p>
-<p>我们接着再执行一次转动，这次我们可以选择增大<span class="math inline">\(x_2\)</span>或者<span class="math inline">\(x_3\)</span>，而不能选择<span class="math inline">\(x_5\)</span>，因为增大<span class="math inline">\(x_5\)</span>之后，z也增大，而我们要求的是最小化z。假设选择了<span class="math inline">\(x_2\)</span>，那么第1个等式限制了<span class="math inline">\(x_2 &lt;=2\)</span> , 第4个等式限制了<span class="math inline">\(x_2&lt;= 2\)</span>，假设我们选择<span class="math inline">\(x_4\)</span>替出变量，于是有： <span class="math inline">\(x_2 = 2-x_3-x_4+x_5\)</span> ，带入得： $$ <span class="math display">\[\begin{alignat}{4}
-
+<p>我们接着再执行一次转动，这次我们可以选择增大<span class="math inline">\(x_2\)</span>或者<span class="math inline">\(x_3\)</span>，而不能选择<span class="math inline">\(x_5\)</span>，因为增大<span class="math inline">\(x_5\)</span>之后，z也增大，而我们要求的是最小化z。假设选择了<span class="math inline">\(x_2\)</span>，那么第1个等式限制了<span class="math inline">\(x_2 &lt;=2\)</span> , 第4个等式限制了<span class="math inline">\(x_2&lt;= 2\)</span>，假设我们选择<span class="math inline">\(x_4\)</span>替出变量，于是有： <span class="math inline">\(x_2 = 2-x_3-x_4+x_5\)</span> ，带入得： <span class="math display">\[
+\begin{alignat}{4}
 &amp;z =  \quad-30   + 8x_3 + 14x_4 -13x_5&amp;  \\
 &amp; x_2 = \quad2  -x_3 -x_4 +x_5&amp;\\ 
 &amp;x_1 =\quad2 - x_5&amp;\\ 
 &amp;x_6=\quad3 - x_3&amp;\\
 &amp; x_7=\quad2x_3 + 3x_4 - 3x_5&amp;\\ 
-\end{alignat}\]</span> $$ 此时，我们的基本解变为<span class="math inline">\((x_1,x_2,x_3,x_4,x_5,x_6,x_7) = (2,2,0,0,0,3,0)\)</span>， Z = -30</p>
+\end{alignat}
+\]</span> 此时，我们的基本解变为<span class="math inline">\((x_1,x_2,x_3,x_4,x_5,x_6,x_7) = (2,2,0,0,0,3,0)\)</span>， Z = -30</p>
 <p>我们可以继续的选择增大<span class="math inline">\(x_5\)</span>，第4个等式具有最严格的限制（<span class="math inline">\(0 - 3x_5 &gt;=0\)</span>），我们有<span class="math inline">\(x_5=\frac{2}{3}x_3 + x_4 - \frac{1}{3}x_7\)</span></p>
 <p>带入得：</p>
 <p><span class="math display">\[
@@ -542,60 +543,56 @@
 <figure>
 <img src="../images/introduction-to-simplex-algorithm/for-example.jpg" alt="for example" /><figcaption>for example</figcaption>
 </figure>
-<p>对于下面的线性规划 $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>对于下面的线性规划 <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;-x_1 - x_2&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp;x_1 - x_2 &amp;\leq{1}  \\ 
 -&amp;x_1 + x_2 &amp; \leq{1}\\ 
 &amp;x_1, \quad x_2 &amp;\geq{0} &amp;\\ 
-\end{alignat}\]</span> $$ 画出区域为：</p>
+\end{alignat}
+\]</span> 画出区域为：</p>
 <figure>
 <img src="../images/introduction-to-simplex-algorithm/example_for_unbounded_case.png" alt="example_for_unbounded_case" /><figcaption>example_for_unbounded_case</figcaption>
 </figure>
 <p>显然可以不断的增大。让我们来看看单纯形算法是如何应对的：</p>
-<p>上述的写成松弛形式为： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>上述的写成松弛形式为： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;-x_1 - x_2&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp;x_1 - x_2 + &amp;x_3 &amp;&amp;={1}  \\ 
 -&amp;x_1 + x_2 &amp;&amp;+x_4&amp; ={1}\\ 
 &amp;x_1, x_2,x_3, x_4 \geq{0} &amp;\\ 
-\end{alignat}\]</span> <span class="math display">\[
-也就是，
-\]</span> <span class="math display">\[\begin{alignat}{2}
-
+\end{alignat}
+\]</span> 也就是， <span class="math display">\[
+\begin{alignat}{2}
 &amp;z &amp;=&amp;-x_1 - x_2&amp;\\
 &amp; x_3 &amp;=&amp; 1 - x_1 + x_2&amp;  \\ 
 &amp;x_4 &amp;=&amp;1 + x_1 - x_2 &amp; \\ 
-\end{alignat}\]</span> <span class="math display">\[
-选择x_1 为替入变量，x_3为替出变量，有：
-\]</span> <span class="math display">\[\begin{alignat}{2}
-
+\end{alignat}
+\]</span> 选择x_1 为替入变量，x_3为替出变量，有： <span class="math display">\[
+\begin{alignat}{2}
 &amp;z &amp;=&amp;-1 - 2x_2 + x_3&amp;\\
 &amp; x_1 &amp;=&amp; 1 + x_2  - x_3&amp;  \\ 
 &amp;x_4 &amp;=&amp;2 - x_3 &amp; \\ 
-\end{alignat}\]</span> $$ 这时候我们只能选择<span class="math inline">\(x_2\)</span> 为替入变量,才能使得目标值变小，但是我们发现，对于<span class="math inline">\(x_2\)</span>没有任何的约束，也就是说，<span class="math inline">\(x_2\)</span>可以无限大，所以这是没有边界的情况。</p>
+\end{alignat}
+\]</span> 这时候我们只能选择<span class="math inline">\(x_2\)</span> 为替入变量,才能使得目标值变小，但是我们发现，对于<span class="math inline">\(x_2\)</span>没有任何的约束，也就是说，<span class="math inline">\(x_2\)</span>可以无限大，所以这是没有边界的情况。</p>
 <p>这个情况是我们有一个替入变量，但是<strong>找不到一个替出变量导致的</strong>，这时候就是无界的情况了，写算法的时候注意判断一下即可。</p>
 <h2 id="单纯形算法的具体实现">单纯形算法的具体实现</h2>
 <p>说了那么多，代码怎么写呢？</p>
-<p>看一下最开始的线性规划的问题（已经是松弛形式）： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>看一下最开始的线性规划的问题（已经是松弛形式）： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;-x_1 -14x_2 - 6x_3&amp;  \\
-
 \mbox{s.t.}\quad
 &amp;x_1 + x_2 +x_3 + x_4   \quad \quad \quad \quad \quad \quad \quad &amp;=&amp;  \quad4&amp;\\ 
 &amp;x_1  \quad \quad \quad \quad \quad \quad \quad+x_5 \quad \quad\quad \quad\quad&amp;=&amp;\quad2&amp;\\ 
 &amp; \quad\quad \quad \quad\quad  x_3 + \quad \quad \quad \quad + x_6&amp;=&amp;\quad3&amp;\\
 &amp; \quad \quad 3x_2 +  x_3\quad\quad \quad \quad\quad \quad \quad +x_7&amp;=&amp;\quad6&amp;\\
 &amp;x_1, \quad x_2 ,\quad x_3, \quad x_4, \quad x_5 ,\quad x_6, \quad x_7\quad &amp;\quad\geq{0} &amp;\\ 
-\end{alignat}\]</span> <span class="math display">\[
-我们可以得到下面的矩阵：
-\]</span> <span class="math display">\[\begin{equation}       %开始数学环境
+\end{alignat}
+\]</span> 我们可以得到下面的矩阵：</p>
+<p><span class="math display">\[
+\begin{equation}       %开始数学环境
 C = \left(                 %左括号
   \begin{array}{c}   
     -1 &amp; -14 &amp; -6&amp; 0 &amp;0 &amp;0 &amp;0\\  %第一行元素
@@ -617,7 +614,8 @@ A =\left(                 %左括号
     0 &amp; 3 &amp; 1&amp; 0 &amp;0 &amp;0 &amp;1\\   %第四行元素
   \end{array}
 \right)                 %右括号
-\end{equation}\]</span> $$</p>
+\end{equation}
+\]</span></p>
 <ul>
 <li>矩阵A：就是约束条件的系数（等号左边的系数）</li>
 <li>矩阵B：就是约束条件的值（等号右边）</li>
@@ -637,14 +635,15 @@ S_1 = \left(
 \end{equation}
 \]</span></p>
 <p>左下角为B，右上角为C，右下角为A，那么左上角呢？我们放的是-z，初始时-z = 0！</p>
-<p>将上面那个矩阵和写成 基本变量 = 非基本变量的形式对比： $$ <span class="math display">\[\begin{alignat}{4}
-
+<p>将上面那个矩阵和写成 基本变量 = 非基本变量的形式对比： <span class="math display">\[
+\begin{alignat}{4}
 &amp;z =  \quad-x_1  -14x_2 - 6x_3&amp;  \\
 &amp; x_4 = \quad4-x_1 - x_2 -x_3 &amp;\\ 
 &amp;x_5 =\quad2 - x_1&amp;\\ 
 &amp;x_6=\quad3 - x_3&amp;\\
 &amp; x_7=\quad6  - 3x_2 - x_3&amp;\\ 
-\end{alignat}\]</span> $$ 我们发现，对于B、C就是一样的，而A取决于基本变量和非基本变量，非基本变量符号相反，基本变量符号相同。</p>
+\end{alignat}
+\]</span> 我们发现，对于B、C就是一样的，而A取决于基本变量和非基本变量，非基本变量符号相反，基本变量符号相同。</p>
 <p>接着以最开始的线性规划求解过程的第二步为例，来看看我们的矩阵是如何进行运算的，第二步我们的结果如下（我们选择了<span class="math inline">\(x_1\)</span>为替入变量，<span class="math inline">\(x_5\)</span>为替出变量）： <span class="math display">\[
 \begin{alignat}{4}
 &amp;z =  \quad-2  -14x_2 - 6x_3 + x_5&amp;  \\
@@ -704,54 +703,48 @@ print(t.mat)</code></pre>
 <p>而且还有无解的情况。(╯‵□′)╯︵┻━┻</p>
 <h3 id="栗子">栗子</h3>
 <h4 id="栗子1">栗子1</h4>
-<p>栗子1登场： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>栗子1登场： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;x_1 + 2x_2&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp;x_1 + x_2 &amp;\leq{2}  \\ 
 &amp;x_1 + x_2 &amp; \geq{1}\\ 
 &amp;x_1, \quad x_2 &amp;\geq{0} &amp;\\ 
-\end{alignat}\]</span> <span class="math display">\[
-首先转化为标准形式（&gt;= 改成 &lt;=, *-1），然后再转化为松弛形式：
-\]</span> <span class="math display">\[\begin{alignat}{2}
-
+\end{alignat}
+\]</span> 首先转化为标准形式（&gt;= 改成 &lt;=, *-1），然后再转化为松弛形式： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;x_1 + 2x_2&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp; x_3 = 2  - x_1 - x_2 \\ 
 &amp;x_4  = -1  + x_1 + x_2\\ 
 &amp;x_1, \quad x_2 , \quad x_3 , \quad x_4 \geq{0} \\ 
-\end{alignat}\]</span> $$ 而我们假设的非基本变量全为0，于是有：<span class="math inline">\((x_1,x_2,x_3,x_4) = (0,0,2,-1)\)</span>，但是<span class="math inline">\(x_4= -1\)</span>是不满足条件的。即初始解不是基本可行解。</p>
+\end{alignat}
+\]</span> 而我们假设的非基本变量全为0，于是有：<span class="math inline">\((x_1,x_2,x_3,x_4) = (0,0,2,-1)\)</span>，但是<span class="math inline">\(x_4= -1\)</span>是不满足条件的。即初始解不是基本可行解。</p>
 <figure>
 <img src="../images/introduction-to-simplex-algorithm/example_for_feasible_solution.png" alt="example_for_feasible_solution" /><figcaption>example_for_feasible_solution</figcaption>
 </figure>
 <h4 id="栗子2">栗子2</h4>
-<p>再比如下面的例子（栗子2）： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>再比如下面的例子（栗子2）： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;x_1 + 2x_2&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp;x_1 + x_2 &amp;\geq{2}  \\ 
 &amp;x_1 + x_2 &amp; \leq{1}\\ 
 &amp;x_1, \quad x_2 &amp;\geq{0} &amp;\\ 
-\end{alignat}\]</span> $$ 其实这个例子就是例子1改变了个符号而已，但是要&gt;=2，然后又要&lt;=1的情况，这个例子显然是无解的。</p>
+\end{alignat}
+\]</span> 其实这个例子就是例子1改变了个符号而已，但是要&gt;=2，然后又要&lt;=1的情况，这个例子显然是无解的。</p>
 <figure>
 <img src="../images/introduction-to-simplex-algorithm/example_for_no_feasible_solution.png" alt="example_for_no_feasible_solution" /><figcaption>example_for_no_feasible_solution</figcaption>
 </figure>
-<p>我们来看看初始解的情况，继续转化为标准形式，然后再转化为松弛形式： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>我们来看看初始解的情况，继续转化为标准形式，然后再转化为松弛形式： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;x_1 + 2x_2&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp; x_3 = -2  + x_1 + x_2 \\ 
 &amp;x_4  = 1  - x_1 - x_2\\ 
 &amp;x_1, \quad x_2 , \quad x_3 , \quad x_4 \geq{0} \\ 
-\end{alignat}\]</span> $$ 同样的，非基本变量全为0，于是有 <span class="math inline">\((x_1,x_2,x_3,x_4) = (0,0,-2,1)\)</span>，但是<span class="math inline">\(x_3 = -2\)</span>是不满足条件的。即初始解不是基本可行解。</p>
+\end{alignat}
+\]</span> 同样的，非基本变量全为0，于是有 <span class="math inline">\((x_1,x_2,x_3,x_4) = (0,0,-2,1)\)</span>，但是<span class="math inline">\(x_3 = -2\)</span>是不满足条件的。即初始解不是基本可行解。</p>
 <h3 id="simplex-beta0.99测试">simplex beta0.99测试</h3>
 <p>在上面的两个例子中，用我们的simplex beta0.99跑有啥结果呢？</p>
 <p>第1个栗子,第一个矩阵为初始的矩阵，接下来是结果和对应的x1,x2值，然后是最后的矩阵</p>
@@ -776,16 +769,15 @@ print(t.mat)</code></pre>
 <li>若有<span class="math inline">\(b_i &lt; 0\)</span>, 我们需要进行初始化操作，判断其是否有解（如栗子2），并返回一个基本可行解，然后运行simplex beta 0.99</li>
 </ul>
 <p>第一种情况就是之前讨论的，这里讨论第二种情况。</p>
-<p>以第一个栗子为例，构造辅助线性规划（auxiliary linear program）如下： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>以第一个栗子为例，构造辅助线性规划（auxiliary linear program）如下： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;x_0&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp;x_1 + x_2   - x_0&amp;\leq&amp;{2}  \\ 
 &amp;-x_1 - x_2 - x_0 &amp; \leq&amp;{-1}\\ 
 &amp;x_1, \quad x_2,\quad x_0 &amp;\geq{0} &amp;\\ 
-\end{alignat}\]</span> $$ 然后求解这个辅助线性规划<span class="math inline">\(L_{aux}\)</span>，<strong>如果<span class="math inline">\(L_{aux}\)</span>的最优解<span class="math inline">\(x_0\)</span>为0的话，说明这个原线性方程组有解</strong>。</p>
+\end{alignat}
+\]</span> 然后求解这个辅助线性规划<span class="math inline">\(L_{aux}\)</span>，<strong>如果<span class="math inline">\(L_{aux}\)</span>的最优解<span class="math inline">\(x_0\)</span>为0的话，说明这个原线性方程组有解</strong>。</p>
 <p>下面是算法导论的证明，它证明的是最大化 <span class="math inline">\(x_0\)</span> 和我们最小化x<span class="math inline">\(x_0\)</span> 是一样的。  </p>
 <figure>
 <img src="../images/introduction-to-simplex-algorithm/proof-for-auxiliary_lp.png" alt="proof for auxiliary_lp" /><figcaption>proof for auxiliary_lp</figcaption>
@@ -884,14 +876,14 @@ print(t.mat)</code></pre>
 <p>我们可以把<span class="math inline">\(x^{(0)}\)</span>分解，<span class="math inline">\(x^{(0)} = λ_1 x^{(1)} + (1 - λ_1)x&#39;\)</span> 其中<span class="math inline">\(λ_1 = p / (p + q)\)</span></p>
 <p>同样的把x‘ 分解，<span class="math inline">\(x&#39;= λ_2 x^{(2)} + (1 - λ_2)x^{(3)}\)</span>其中<span class="math inline">\(λ_2 = r / (r + s)\)</span></p>
 <p>因此有：<span class="math inline">\(x^{(0)} = λ_1 x^{(1)} + (1 - λ_1)λ_2 x^{(2)} + (1 - λ_1) (1 - λ_2)x^{(3)}\)</span>，而<span class="math inline">\(λ_1 + (1 - λ_1)λ_2 + (1 - λ_1) (1 - λ_2) = 1\)</span></p>
-<p>设 <span class="math inline">\(c^Tx^{(1)}\)</span> 小于等于 <span class="math inline">\(c^T x^{(2)}\)</span>， <span class="math inline">\(c^Tx^{(3)}\)</span>，因此有： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>设 <span class="math inline">\(c^Tx^{(1)}\)</span> 小于等于 <span class="math inline">\(c^T x^{(2)}\)</span>， <span class="math inline">\(c^Tx^{(3)}\)</span>，因此有： <span class="math display">\[
+\begin{alignat}{2}
 C^Tx^{(0)} 
 &amp;=λ_1  C^T x^{(1)} + (1 - λ_1)λ_2  C^T x^{(2)} + (1 - λ_1) (1 - λ_2) C^T x^{(3)} \\
 &amp; \geq λ_1  C^T x^{(1)} + (1 - λ_1)λ_2  C^T x^{(1)} + (1 - λ_1) (1 - λ_2) C^T x^{(1)}\\ 
 &amp; =C^Tx^{(1)}
-
-\end{alignat}\]</span> $$ 因此，<span class="math inline">\(x^{(1)}\)</span> 并不比<span class="math inline">\(x^{(0)}\)</span>差。</p>
+\end{alignat}
+\]</span> 因此，<span class="math inline">\(x^{(1)}\)</span> 并不比<span class="math inline">\(x^{(0)}\)</span>差。</p>
 <p>我们可以推广到更多的情况。(见附件的68页)</p>
 <h3 id="多边形的顶点等价于矩阵的基">多边形的顶点等价于矩阵的基</h3>
 <p>上面提到，最优解一定在顶点上，我们不需要考虑内部的点。</p>
@@ -902,19 +894,18 @@ C^Tx^{(0)}
 <p>我们知道，多边形的顶点就是基，且最优解在顶点上，我们需要做的就是，按照一定的规则沿着边遍历顶点，直到不能更新了为止。</p>
 <p>如何从一个顶点到另一个顶点？更新到什么时候为止？</p>
 <p>我们先讨论第一个问题。</p>
-<p>还是一开始介绍单纯形算法的例子： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>还是一开始介绍单纯形算法的例子： <span class="math display">\[
+\begin{alignat}{2}
 \min\quad &amp;-x_1 -14x_2 - 6x_3&amp;  \\
-
 \mbox{s.t.}\quad
 &amp;x_1 + x_2 +x_3 + x_4   \quad \quad \quad \quad \quad \quad \quad &amp;=&amp;  \quad4&amp;\\ 
 &amp;x_1  \quad \quad \quad \quad \quad \quad \quad+x_5 \quad \quad\quad \quad\quad&amp;=&amp;\quad2&amp;\\ 
 &amp; \quad\quad \quad \quad\quad  x_3 + \quad \quad \quad \quad + x_6&amp;=&amp;\quad3&amp;\\
 &amp; \quad \quad 3x_2 +  x_3\quad\quad \quad \quad\quad \quad \quad +x_7&amp;=&amp;\quad6&amp;\\
 &amp;x_1, \quad x_2 ,\quad x_3, \quad x_4, \quad x_5 ,\quad x_6, \quad x_7\quad &amp;\quad\geq{0} &amp;\\ 
-\end{alignat}\]</span> <span class="math display">\[
-其松弛条件系数A，目标函数系数C，用矩阵表示为：
-\]</span> <span class="math display">\[\begin{equation}       %开始数学环境
+\end{alignat}
+\]</span> 其松弛条件系数A，目标函数系数C，用矩阵表示为： <span class="math display">\[
+\begin{equation}       %开始数学环境
 C = \left(                 %左括号
   \begin{array}{c}   
     -1 &amp; -14 &amp; -6&amp; 0 &amp;0 &amp;0 &amp;0\\  %第一行元素
@@ -936,7 +927,8 @@ A =\left(                 %左括号
     0 &amp; 3 &amp; 1&amp; 0 &amp;0 &amp;0 &amp;1\\   %第四行元素
   \end{array}
 \right)                 %右括号
-\end{equation}\]</span> $$ 这里假设我们初始的解X设为<span class="math inline">\((x_1,x_2,x_3 ,x_4 ,x_6,x_7) = (0,0,0,4,2,3,6)\)</span>.就是我们的初始在(0,0,0)的点上。</p>
+\end{equation}
+\]</span> 这里假设我们初始的解X设为<span class="math inline">\((x_1,x_2,x_3 ,x_4 ,x_6,x_7) = (0,0,0,4,2,3,6)\)</span>.就是我们的初始在(0,0,0)的点上。</p>
 <p>我们的初始点用红点来表示，而绿色的线就是我们下一步走的边，如下图所示：</p>
 <figure>
 <img src="../images/introduction-to-simplex-algorithm/walk_though_vertex.png" alt="walk_though_vertex" /><figcaption>walk_though_vertex</figcaption>
@@ -975,7 +967,7 @@ A =\left(
 <p><span class="math inline">\(C^T y \ge C^{T_B} B^{-1}Ay = C^{T_B} B^{-1}b = C^{T_B} X_B = C^Tx.\)</span></p>
 <p>就是说，其它的可行解y不比x好</p>
 </blockquote>
-<p>注意我们旋转的过程中，<span class="math inline">\(C^{T_B}=0\)</span>，或者说$ Σλ_ic_i = 0$ 因此，若<span class="math inline">\(C_N\)</span>（非基的那些） 都 &gt;=0 ，就可以停止了。这和之前的其实还是一样的。</p>
+<p>注意我们旋转的过程中，<span class="math inline">\(C^{T_B}=0\)</span>，或者说<span class="math inline">\(Σλ_ic_i = 0\)</span> 因此，若<span class="math inline">\(C_N\)</span>（非基的那些） 都 &gt;=0 ，就可以停止了。这和之前的其实还是一样的。</p>
 <h3 id="小结">小结</h3>
 <p>用几何的角度看待单纯形算法，主要有几点：</p>
 <ol type="1">
@@ -996,16 +988,15 @@ A =\left(
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_simplex</span>(<span class="params">self, mat, B, m, n</span>):</span></span><br><span class="line">    <span class="keyword">while</span> mat[<span class="number">0</span>, <span class="number">1</span>:].min() &lt; <span class="number">0</span>:</span><br><span class="line">        col = np.where(mat[<span class="number">0</span>, <span class="number">1</span>:] &lt; <span class="number">0</span>)[<span class="number">0</span>][<span class="number">0</span>] + <span class="number">1</span>  <span class="comment"># use Bland&#x27;s method to avoid degeneracy. use mat[0].argmin() ok?</span></span><br><span class="line">        row = np.array([mat[i][<span class="number">0</span>] / mat[i][col] <span class="keyword">if</span> mat[i][col] &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0x7fffffff</span> <span class="keyword">for</span> i <span class="keyword">in</span></span><br><span class="line">                        range(<span class="number">1</span>, mat.shape[<span class="number">0</span>])]).argmin() + <span class="number">1</span>  <span class="comment"># find the theta index</span></span><br><span class="line">        <span class="keyword">if</span> mat[row][col] &lt;= <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">None</span>  <span class="comment"># the theta is ∞, the problem is unbounded</span></span><br><span class="line">        self._pivot(mat, B, row, col)</span><br><span class="line">    <span class="keyword">return</span> mat[<span class="number">0</span>][<span class="number">0</span>] * (<span class="number">1</span> <span class="keyword">if</span> self.max_mode <span class="keyword">else</span> <span class="number">-1</span>), &#123;B[i]: mat[i, <span class="number">0</span>] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, m) <span class="keyword">if</span> B[i] &lt; n&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_pivot</span>(<span class="params">self, mat, B, row, col</span>):</span></span><br><span class="line">    mat[row] /= mat[row][col]</span><br><span class="line">    ids = np.arange(mat.shape[<span class="number">0</span>]) != row</span><br><span class="line">    mat[ids] -= mat[row] * mat[ids, col:col + <span class="number">1</span>]  <span class="comment"># for each i!= row do: mat[i]= mat[i] - mat[row] * mat[i][col]</span></span><br><span class="line">    B[row] = col</span><br></pre></td></tr></table></figure>
 <p>那么执行多少次呢？假设为k次就是O(kmN)</p>
 <p>在绝大多数的情况下，单纯形算法也都是多项式时间的算法，自从1949年单纯形算法提出后，人们也一度的以为它就是多项式时间的，直到有人出来挑事情。。。。(╯‵□′)╯︵┻━┻</p>
-<p>V. Klee and G. L. Minty[1972] 构造了一个例子： $$ <span class="math display">\[\begin{alignat}{2}
-
+<p>V. Klee and G. L. Minty[1972] 构造了一个例子： <span class="math display">\[
+\begin{alignat}{2}
 \max\quad &amp;x_n&amp;  \\
-
 \mbox{s.t.}\quad
-
 &amp; δ &amp;\leq&amp;\quad{x_i}\quad &amp;\leq&amp;{1}&amp;for\quad i=1...n \\ 
 &amp; δx_{i-1}&amp;\leq&amp;\quad{x_i}\quad&amp;\leq&amp;1 -δx_{i-1} \quad&amp;for\quad i=2...n \\ 
 &amp; &amp;&amp;\quad x_i &amp;\geq&amp;{0} &amp;for\quad i=1...n\\ 
-\end{alignat}\]</span> $$</p>
+\end{alignat}
+\]</span></p>
 <p>在这个例子中，单纯形算法将会遍历2<sup>n</sup>个顶点。这个例子提出，说明单纯形算法不是一个多项式时间复杂度的算法。但是为什么它实际运行时是多项式时间复杂度的？这个问题困扰了人们很久，直到2001年 Daniel A. Spielman 和 Shang-Hua Teng 提出了平滑型复杂度理论（smoothed complexity），完美的解决了这个问题。</p>
 <blockquote>
 <ul>
@@ -1041,6 +1032,23 @@ A =\left(
     
     
     
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>hrwhisper
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hrwhisper.me/introduction-to-simplex-algorithm/" title="线性规划-单纯形算法详解">https://www.hrwhisper.me/introduction-to-simplex-algorithm/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
         <div class="reward-container">
   <div>请我喝杯咖啡吧~</div>
   <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
@@ -1180,6 +1188,9 @@ A =\left(
         <a href="https://weibo.com/murmured" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;murmured" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
       </span>
   </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -1218,7 +1229,7 @@ A =\left(
 
 
 
-<script data-pjax>
+<script>
   (function() {
     function leancloudSelector(url) {
       url = encodeURI(url);
@@ -1316,7 +1327,6 @@ A =\left(
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="/lib/pjax/pjax.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -1329,67 +1339,6 @@ A =\left(
 
 
 <script src="/js/next-boot.js"></script>
-
-<script src="/js/bookmark.js"></script>
-
-  <script>
-var pjax = new Pjax({
-  selectors: [
-    'head title',
-    '#page-configurations',
-    '.content-wrap',
-    '.post-toc-wrap',
-    '.languages',
-    '#pjax'
-  ],
-  switches: {
-    '.post-toc-wrap': Pjax.switches.innerHTML
-  },
-  analytics: false,
-  cacheBust: false,
-  scrollTo : !CONFIG.bookmark.enable
-});
-
-window.addEventListener('pjax:success', () => {
-  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
-    var code = element.text || element.textContent || element.innerHTML || '';
-    var parent = element.parentNode;
-    parent.removeChild(element);
-    var script = document.createElement('script');
-    if (element.id) {
-      script.id = element.id;
-    }
-    if (element.className) {
-      script.className = element.className;
-    }
-    if (element.type) {
-      script.type = element.type;
-    }
-    if (element.src) {
-      script.src = element.src;
-      // Force synchronous loading of peripheral JS.
-      script.async = false;
-    }
-    if (element.dataset.pjax !== undefined) {
-      script.dataset.pjax = '';
-    }
-    if (code !== '') {
-      script.appendChild(document.createTextNode(code));
-    }
-    parent.appendChild(script);
-  });
-  NexT.boot.refresh();
-  // Define Motion Sequence & Bootstrap Motion.
-  if (CONFIG.motion.enable) {
-    NexT.motion.integrator
-      .init()
-      .add(NexT.motion.middleWares.subMenu)
-      .add(NexT.motion.middleWares.postList)
-      .bootstrap();
-  }
-  NexT.utils.updateSidebarPosition();
-});
-</script>
 
 
 
@@ -1414,7 +1363,6 @@ window.addEventListener('pjax:success', () => {
 
 
 
-    <div id="pjax">
   
 
   
@@ -1461,6 +1409,7 @@ window.addEventListener('pjax:success', () => {
       var script = document.createElement('script');
       script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
       script.defer = true;
+      // script.setAttribute("data-pjax", "");
       document.head.appendChild(script);
     })();
   } else {
@@ -1503,6 +1452,5 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
 });
 </script>
 
-    </div>
 </body>
 </html>
