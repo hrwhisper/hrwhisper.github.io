@@ -227,22 +227,22 @@ h6 {
   margin: 20px 0 15px;
 }
 h1 {
-  font-size: 1.5em;
+  font-size: 1.675em;
 }
 h2 {
-  font-size: 1.375em;
+  font-size: 1.55em;
 }
 h3 {
-  font-size: 1.25em;
+  font-size: 1.425em;
 }
 h4 {
-  font-size: 1.125em;
+  font-size: 1.3em;
 }
 h5 {
-  font-size: 1em;
+  font-size: 1.175em;
 }
 h6 {
-  font-size: 0.875em;
+  font-size: 1.05em;
 }
 p {
   margin: 0 0 20px 0;
@@ -1220,7 +1220,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #e3ffff;
+  background: #1d52be;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1777,6 +1777,9 @@ pre .javascript .function {
 .post-body h5:hover .header-anchor,
 .post-body h6:hover .header-anchor {
   visibility: visible;
+}
+.post-body h2 {
+  border-bottom: 1px solid #ccc;
 }
 .post-body iframe,
 .post-body img,
