@@ -21,12 +21,12 @@
     var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="博主大清早在被窝里看看手机，浏览下博客，发现 Error establishing a database connection，显然是数据库挂了&#x3D; &#x3D; 貌似就是作死直接LAMP的下场（linux + apache +mysql + php） 博主立刻从床上弹起来，开电脑，重起mysql，就又可以了。 那么，虽然博主最近起不来→_→今天因为这个立马爬起来，但是总不能老是出错吧！ 于是开启了优化方案。">
+  <meta name="description" content="博主大清早在被窝里看看手机，浏览下博客，发现 Error establishing a database connection，显然是数据库挂了&#x3D; &#x3D; 貌似就是作死直接LAMP的下场（linux + apache +mysql + php） 博主立刻从床上弹起来，开电脑，重起mysql，就又可以了。 那么，虽然博主最近起不来→_→今天因为这个立马爬起来，但是总不能老是出错吧！ 于是开启了优">
 <meta property="og:type" content="article">
 <meta property="og:title" content="apache 在低配置服务器下的优化">
 <meta property="og:url" content="https://www.hrwhisper.me/optimizing-apache-for-low-memory-ram-vps/index.html">
 <meta property="og:site_name" content="细语呢喃">
-<meta property="og:description" content="博主大清早在被窝里看看手机，浏览下博客，发现 Error establishing a database connection，显然是数据库挂了&#x3D; &#x3D; 貌似就是作死直接LAMP的下场（linux + apache +mysql + php） 博主立刻从床上弹起来，开电脑，重起mysql，就又可以了。 那么，虽然博主最近起不来→_→今天因为这个立马爬起来，但是总不能老是出错吧！ 于是开启了优化方案。">
+<meta property="og:description" content="博主大清早在被窝里看看手机，浏览下博客，发现 Error establishing a database connection，显然是数据库挂了&#x3D; &#x3D; 貌似就是作死直接LAMP的下场（linux + apache +mysql + php） 博主立刻从床上弹起来，开电脑，重起mysql，就又可以了。 那么，虽然博主最近起不来→_→今天因为这个立马爬起来，但是总不能老是出错吧！ 于是开启了优">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.hrwhisper.me/images/optimizing-apache-for-low-memory-ram-vps/optimizing-apache-for-low-memory-ram-vps-top-apache-use.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/optimizing-apache-for-low-memory-ram-vps/apache-word-on-prefork.png">
@@ -36,8 +36,8 @@
 <meta property="article:modified_time" content="2020-10-19T14:35:48.812Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="wordpress">
-<meta property="article:tag" content="Centos">
 <meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Centos">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.hrwhisper.me/images/optimizing-apache-for-low-memory-ram-vps/optimizing-apache-for-low-memory-ram-vps-top-apache-use.png">
 
@@ -421,8 +421,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/wordpress/" rel="tag"># wordpress</a>
-              <a href="/tags/Centos/" rel="tag"># Centos</a>
               <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Centos/" rel="tag"># Centos</a>
           </div>
 
         
@@ -512,7 +512,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">228</span>
+          <span class="site-state-item-count">249</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -524,7 +524,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-count">52</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

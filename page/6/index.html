@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-shuffle-array/">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/site/avatar.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/leetcode-shuffle-array/" class="post-title-link" itemprop="url">leetcode Shuffle an Array</a>
+            <a href="/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/" class="post-title-link" itemprop="url">C动态内存管理 | Malloc 的原理 | 堆溢出攻击</a>
         </h2>
 
         <div class="post-meta">
@@ -235,7 +235,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2016-08-12 09:57:34" itemprop="dateCreated datePublished" datetime="2016-08-12T09:57:34+08:00">2016-08-12</time>
+              <time title="创建时间：2017-02-01 19:18:54" itemprop="dateCreated datePublished" datetime="2017-02-01T19:18:54+08:00">2017-02-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,16 +243,16 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
+                  <a href="/categories/study/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
                 </span>
             </span>
 
           
-            <span id="/leetcode-shuffle-array/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Shuffle an Array" title="阅读次数">
+            <span id="/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/" class="post-meta-item leancloud_visitors" data-flag-title="C动态内存管理 | Malloc 的原理 | 堆溢出攻击" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -267,8 +267,8 @@
       </span>
       <span class="post-meta-item-text">评论数：</span>
     
-    <a title="valine" href="/leetcode-shuffle-array/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-shuffle-array/" itemprop="commentCount"></span>
+    <a title="valine" href="/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -283,223 +283,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<h3 id="leetcode-shuffle-an-array">leetcode Shuffle an Array</h3>
-<p>Shuffle a set of numbers without duplicates.</p>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Init an array with set 1, 2, and 3.</span><br><span class="line">int[] nums &#x3D; &#123;1,2,3&#125;;</span><br><span class="line">Solution solution &#x3D; new Solution(nums);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Shuffle the array [1,2,3] and return its result. Any permutation of [1,2,3] must equally likely to be returned.</span><br><span class="line">solution.shuffle();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Resets the array back to its original configuration [1,2,3].</span><br><span class="line">solution.reset();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Returns the random shuffling of array [1,2,3].</span><br><span class="line">solution.shuffle();</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/leetcode-shuffle-array/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-ransom-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/leetcode-ransom-note/" class="post-title-link" itemprop="url">leetcode Ransom Note</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-11 11:35:05" itemprop="dateCreated datePublished" datetime="2016-08-11T11:35:05+08:00">2016-08-11</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/leetcode-ransom-note/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Ransom Note" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/leetcode-ransom-note/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-ransom-note/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<h3 id="leetcode-ransom-note">leetcode Ransom Note</h3>
-<p>Given &gt; an  &gt; arbitrary &gt; ransom &gt; note &gt; string  &gt; and  &gt; another  &gt; string  &gt; containing  &gt; letters from &gt; all  &gt; the  &gt; magazines, &gt; write  &gt; a  &gt; function  &gt; that  &gt; will  &gt; return  &gt; true  &gt; if  &gt; the  &gt; ransom  &gt; note  &gt; can  &gt; be  &gt; constructed  &gt; from  &gt; the  &gt; magazines ;  &gt; otherwise,  &gt; it  &gt; will  &gt; return  &gt; false.</p>
-<p>Each  &gt; letter &gt; in &gt; the &gt; magazine  &gt; string  &gt; can &gt; only  &gt; be &gt; used  &gt; once &gt; in &gt; your  &gt; ransom &gt; note.</p>
-<p><strong>Note:</strong> You may assume that both strings contain only lowercase letters.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">canConstruct(&quot;a&quot;, &quot;b&quot;) -&gt; false</span><br><span class="line">canConstruct(&quot;aa&quot;, &quot;ab&quot;) -&gt; false</span><br><span class="line">canConstruct(&quot;aa&quot;, &quot;aab&quot;) -&gt; true</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/leetcode-ransom-note/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-random-sample-from-array-or-linked-list/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/leetcode-random-sample-from-array-or-linked-list/" class="post-title-link" itemprop="url">leetcode 随机采样</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-10 10:10:01" itemprop="dateCreated datePublished" datetime="2016-08-10T10:10:01+08:00">2016-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/leetcode-random-sample-from-array-or-linked-list/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 随机采样" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/leetcode-random-sample-from-array-or-linked-list/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-random-sample-from-array-or-linked-list/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文包括</p>
+          <p>本文介绍如下内容</p>
 <ul>
-<li><ol start="382" type="1">
-<li>Linked List Random Node</li>
-</ol></li>
-<li>528. Random Pick with Weight</li>
-<li>蓄水池抽样
+<li>C/C++中动态内存语句使用如malloc等</li>
+<li>介绍dlmalloc 内存管理的实现</li>
+<li>利用dlmalloc的数据结构进行堆溢出攻击的原理</li>
+<li>堆溢出攻击实验
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/leetcode-random-sample-from-array-or-linked-list/#more" rel="contents">
+              <a class="btn" href="/c-dynamic-memory-allocation-and-the-data-struct-of-malloc-and-heap-overflow-attack/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -523,7 +315,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-insert-delete-getrandom-o1-duplicates-allowed/">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/wordpress-comment-email-notice-and-wordpress-latex-and-wordpress-reward/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/site/avatar.jpg">
@@ -537,7 +329,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/" class="post-title-link" itemprop="url">leetcode Insert Delete GetRandom O(1) - Duplicates allowed</a>
+            <a href="/wordpress-comment-email-notice-and-wordpress-latex-and-wordpress-reward/" class="post-title-link" itemprop="url">三个 wordpress 技巧</a>
         </h2>
 
         <div class="post-meta">
@@ -547,7 +339,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2016-08-09 10:01:07" itemprop="dateCreated datePublished" datetime="2016-08-09T10:01:07+08:00">2016-08-09</time>
+              <time title="创建时间：2017-01-28 17:02:58" itemprop="dateCreated datePublished" datetime="2017-01-28T17:02:58+08:00">2017-01-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -555,16 +347,16 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
+                  <a href="/categories/others/" itemprop="url" rel="index"><span itemprop="name">others</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
+                  <a href="/categories/others/%E5%BB%BA%E7%AB%99%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">建站经验</span></a>
                 </span>
             </span>
 
           
-            <span id="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Insert Delete GetRandom O(1) - Duplicates allowed" title="阅读次数">
+            <span id="/wordpress-comment-email-notice-and-wordpress-latex-and-wordpress-reward/" class="post-meta-item leancloud_visitors" data-flag-title="三个 wordpress 技巧" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -579,8 +371,8 @@
       </span>
       <span class="post-meta-item-text">评论数：</span>
     
-    <a title="valine" href="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/" itemprop="commentCount"></span>
+    <a title="valine" href="/wordpress-comment-email-notice-and-wordpress-latex-and-wordpress-reward/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/wordpress-comment-email-notice-and-wordpress-latex-and-wordpress-reward/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -595,337 +387,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<h3 id="leetcode-insert-delete-getrandom-o1---duplicates-allowed">leetcode Insert Delete GetRandom O(1) - Duplicates allowed</h3>
-<p>Design a data structure that supports all following operations in <em>average</em> <strong>O(1)</strong> time.</p>
-<p><strong>Note: Duplicate elements are allowed.</strong></p>
-<ol type="1">
-<li><code>insert(val)</code>: Inserts an item val to the collection.</li>
-<li><code>remove(val)</code>: Removes an item val from the collection if present.</li>
-<li><code>getRandom</code>: Returns a random element from current collection of elements. The probability of each element being returned is <strong>linearly related</strong> to the number of same value the collection contains.</li>
-</ol>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Init an empty collection.</span><br><span class="line">RandomizedCollection collection &#x3D; new RandomizedCollection();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts 1 to the collection. Returns true as the collection did not contain 1.</span><br><span class="line">collection.insert(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts another 1 to the collection. Returns false as the collection contained 1. Collection now contains [1,1].</span><br><span class="line">collection.insert(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts 2 to the collection, returns true. Collection now contains [1,1,2].</span><br><span class="line">collection.insert(2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; getRandom should return 1 with the probability 2&#x2F;3, and returns 2 with the probability 1&#x2F;3.</span><br><span class="line">collection.getRandom();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Removes 1 from the collection, returns true. Collection now contains [1,2].</span><br><span class="line">collection.remove(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; getRandom should return 1 and 2 both equally likely.</span><br><span class="line">collection.getRandom();</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-insert-delete-getrandom-o1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/leetcode-insert-delete-getrandom-o1/" class="post-title-link" itemprop="url">leetcode Insert Delete GetRandom O(1)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-04 13:22:50" itemprop="dateCreated datePublished" datetime="2016-08-04T13:22:50+08:00">2016-08-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/leetcode-insert-delete-getrandom-o1/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Insert Delete GetRandom O(1)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/leetcode-insert-delete-getrandom-o1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-insert-delete-getrandom-o1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<h3 id="leetcode-insert-delete-getrandom-o1">leetcode Insert Delete GetRandom O(1)</h3>
-<p>Design a data structure that supports all following operations in <strong>O(1)</strong> time.</p>
-<ol type="1">
-<li><code>insert(val)</code>: Inserts an item val to the set if not already present.</li>
-<li><code>remove(val)</code>: Removes an item val from the set if present.</li>
-<li><code>getRandom</code>: Returns a random element from current set of elements. Each element must have the <strong>same probability</strong> of being returned.</li>
-</ol>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Init an empty set.</span><br><span class="line">RandomizedSet randomSet &#x3D; new RandomizedSet();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts 1 to the set. Returns true as 1 was inserted successfully.</span><br><span class="line">randomSet.insert(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Returns false as 2 does not exist in the set.</span><br><span class="line">randomSet.remove(2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts 2 to the set, returns true. Set now contains [1,2].</span><br><span class="line">randomSet.insert(2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; getRandom should return either 1 or 2 randomly.</span><br><span class="line">randomSet.getRandom();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Removes 1 from the set, returns true. Set now contains [2].</span><br><span class="line">randomSet.remove(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2 was already in the set, so return false.</span><br><span class="line">randomSet.insert(2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Since 1 is the only number in the set, getRandom always return 1.</span><br><span class="line">randomSet.getRandom();</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/leetcode-insert-delete-getrandom-o1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-kth-smallest-element-sorted-matrix/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/leetcode-kth-smallest-element-sorted-matrix/" class="post-title-link" itemprop="url">leetcode Kth Smallest Element in a Sorted Matrix</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-01 11:01:40" itemprop="dateCreated datePublished" datetime="2016-08-01T11:01:40+08:00">2016-08-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/leetcode-kth-smallest-element-sorted-matrix/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Kth Smallest Element in a Sorted Matrix" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/leetcode-kth-smallest-element-sorted-matrix/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-kth-smallest-element-sorted-matrix/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<h3 id="leetcode-kth-smallest-element-in-a-sorted-matrix">leetcode Kth Smallest Element in a Sorted Matrix</h3>
-<p>Given a <em>n</em> x <em>n</em> matrix where each of the rows and columns are sorted in ascending order, find the kth smallest element in the matrix.</p>
-<p>Note that it is the kth smallest element in the sorted order, not the kth distinct element.</p>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">matrix &#x3D; [</span><br><span class="line">   [ 1,  5,  9],</span><br><span class="line">   [10, 11, 13],</span><br><span class="line">   [12, 13, 15]</span><br><span class="line">],</span><br><span class="line">k &#x3D; 8,</span><br><span class="line"></span><br><span class="line">return 13.</span><br></pre></td></tr></table></figure>
-<p><strong>Note:</strong> You may assume k is always valid, 1 ≤ k ≤ n2.</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/leetcode-kth-smallest-element-sorted-matrix/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-contains-duplicate-i-ii-iii/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/leetcode-contains-duplicate-i-ii-iii/" class="post-title-link" itemprop="url">leetcode Contains Duplicate 整理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-30 15:13:09" itemprop="dateCreated datePublished" datetime="2016-07-30T15:13:09+08:00">2016-07-30</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/leetcode-contains-duplicate-i-ii-iii/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Contains Duplicate 整理" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/leetcode-contains-duplicate-i-ii-iii/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-contains-duplicate-i-ii-iii/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本次题解包括：</p>
+          <p>本文时wordpress三个技巧集合，内容包括</p>
 <ul>
-<li><strong>217</strong> Contains Duplicate</li>
-<li><strong>219</strong> Contains Duplicate II</li>
-<li><strong>220</strong> Contains Duplicate III
+<li>wordpress评论回复邮件通知</li>
+<li>wordpress下支持latex的方法</li>
+<li>wordpress打赏模块
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/leetcode-contains-duplicate-i-ii-iii/#more" rel="contents">
+              <a class="btn" href="/wordpress-comment-email-notice-and-wordpress-latex-and-wordpress-reward/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -949,7 +418,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-combination-sum-iv/">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/site/avatar.jpg">
@@ -963,7 +432,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/leetcode-combination-sum-iv/" class="post-title-link" itemprop="url">leetcode Combination Sum IV</a>
+            <a href="/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/" class="post-title-link" itemprop="url">验证码简介 以及用tesseract -OCR识别验证码</a>
         </h2>
 
         <div class="post-meta">
@@ -973,7 +442,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2016-07-25 13:43:31" itemprop="dateCreated datePublished" datetime="2016-07-25T13:43:31+08:00">2016-07-25</time>
+              <time title="创建时间：2017-01-27 23:50:14" itemprop="dateCreated datePublished" datetime="2017-01-27T23:50:14+08:00">2017-01-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -981,16 +450,16 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
+                  <a href="/categories/study/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
                 </span>
             </span>
 
           
-            <span id="/leetcode-combination-sum-iv/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Combination Sum IV" title="阅读次数">
+            <span id="/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/" class="post-meta-item leancloud_visitors" data-flag-title="验证码简介 以及用tesseract -OCR识别验证码" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -1005,8 +474,8 @@
       </span>
       <span class="post-meta-item-text">评论数：</span>
     
-    <a title="valine" href="/leetcode-combination-sum-iv/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-combination-sum-iv/" itemprop="commentCount"></span>
+    <a title="valine" href="/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1021,15 +490,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<h3 id="leetcode-combination-sum-iv">leetcode Combination Sum IV</h3>
-<p>Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.</p>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">nums &#x3D; [1, 2, 3]</span><br><span class="line">target &#x3D; 4</span><br><span class="line"></span><br><span class="line">The possible combination ways are:</span><br><span class="line">(1, 1, 1, 1)</span><br><span class="line">(1, 1, 2)</span><br><span class="line">(1, 2, 1)</span><br><span class="line">(1, 3)</span><br><span class="line">(2, 1, 1)</span><br><span class="line">(2, 2)</span><br><span class="line">(3, 1)</span><br><span class="line"></span><br><span class="line">Note that different sequences are counted as different combinations.</span><br><span class="line"></span><br><span class="line">Therefore the output is 7.</span><br></pre></td></tr></table></figure>
-<p><strong>Follow up:</strong> What if negative numbers are allowed in the given array? How does it change the problem? What limitation we need to add to the question to allow negative numbers?
+          <p>本文内容：</p>
+<ul>
+<li>简单介绍验证码</li>
+<li>用tesseract -OCR识别验证码
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/leetcode-combination-sum-iv/#more" rel="contents">
+              <a class="btn" href="/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1053,7 +520,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-2-sum-3-sum-4-sum-3-sum-closest-k-sum/">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/diary-2017-01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/site/avatar.jpg">
@@ -1067,7 +534,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/leetcode-2-sum-3-sum-4-sum-3-sum-closest-k-sum/" class="post-title-link" itemprop="url">leetcode K sum 整理</a>
+            <a href="/diary-2017-01/" class="post-title-link" itemprop="url">让我再想想标题=v=</a>
         </h2>
 
         <div class="post-meta">
@@ -1077,7 +544,511 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2016-07-25 08:23:37" itemprop="dateCreated datePublished" datetime="2016-07-25T08:23:37+08:00">2016-07-25</time>
+              <time title="创建时间：2017-01-01 23:36:29" itemprop="dateCreated datePublished" datetime="2017-01-01T23:36:29+08:00">2017-01-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/whisper/" itemprop="url" rel="index"><span itemprop="name">whisper</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/whisper/%E6%B2%99%E6%B5%B7%E6%8B%BE%E8%B4%9D/" itemprop="url" rel="index"><span itemprop="name">沙海拾贝</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/diary-2017-01/" class="post-meta-item leancloud_visitors" data-flag-title="让我再想想标题=v=" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/diary-2017-01/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/diary-2017-01/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          这是一篇加密文章
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/diary-2017-01/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/ucas-auto-comment-course-script/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
+      <meta itemprop="name" content="hrwhisper">
+      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="细语呢喃">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/ucas-auto-comment-course-script/" class="post-title-link" itemprop="url">国科大 UCAS 自动评价课程、教师</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-12-26 08:57:27" itemprop="dateCreated datePublished" datetime="2016-12-26T08:57:27+08:00">2016-12-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%94%B9%E5%8F%98%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index"><span itemprop="name">技术改变生活</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/code/OtherCodes/" itemprop="url" rel="index"><span itemprop="name">OtherCodes</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/ucas-auto-comment-course-script/" class="post-meta-item leancloud_visitors" data-flag-title="国科大 UCAS 自动评价课程、教师" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/ucas-auto-comment-course-script/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/ucas-auto-comment-course-script/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>国科大评价课程有二十多个勾，没有评价又看不到成绩，然后又很懒怎么办~
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/ucas-auto-comment-course-script/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/diary-2016-12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
+      <meta itemprop="name" content="hrwhisper">
+      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="细语呢喃">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/diary-2016-12/" class="post-title-link" itemprop="url">还没想好标题？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-12-21 16:08:23" itemprop="dateCreated datePublished" datetime="2016-12-21T16:08:23+08:00">2016-12-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/whisper/" itemprop="url" rel="index"><span itemprop="name">whisper</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/whisper/%E6%B2%99%E6%B5%B7%E6%8B%BE%E8%B4%9D/" itemprop="url" rel="index"><span itemprop="name">沙海拾贝</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/diary-2016-12/" class="post-meta-item leancloud_visitors" data-flag-title="还没想好标题？" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/diary-2016-12/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/diary-2016-12/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          这是一篇加密文章
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/diary-2016-12/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/introduction-to-simplex-algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
+      <meta itemprop="name" content="hrwhisper">
+      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="细语呢喃">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/introduction-to-simplex-algorithm/" class="post-title-link" itemprop="url">线性规划-单纯形算法详解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-11-24 17:10:10" itemprop="dateCreated datePublished" datetime="2016-11-24T17:10:10+08:00">2016-11-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/introduction-to-simplex-algorithm/" class="post-meta-item leancloud_visitors" data-flag-title="线性规划-单纯形算法详解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/introduction-to-simplex-algorithm/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/introduction-to-simplex-algorithm/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文将详细的介绍单纯形算法，包括但不限于</p>
+<ul>
+<li>LP问题</li>
+<li>单纯形算法原理</li>
+<li>无界、无解、循环等情况</li>
+<li>python代码实现
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/introduction-to-simplex-algorithm/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/say-goodbye-to-the-past/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
+      <meta itemprop="name" content="hrwhisper">
+      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="细语呢喃">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/say-goodbye-to-the-past/" class="post-title-link" itemprop="url">往事如烟</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-10-18 17:19:03" itemprop="dateCreated datePublished" datetime="2016-10-18T17:19:03+08:00">2016-10-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/whisper/" itemprop="url" rel="index"><span itemprop="name">whisper</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/whisper/%E8%B0%81%E7%9A%84%E5%91%A2%E5%96%83/" itemprop="url" rel="index"><span itemprop="name">谁的呢喃</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/say-goodbye-to-the-past/" class="post-meta-item leancloud_visitors" data-flag-title="往事如烟" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/say-goodbye-to-the-past/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/say-goodbye-to-the-past/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr />
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/say-goodbye-to-the-past/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-arrays/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
+      <meta itemprop="name" content="hrwhisper">
+      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="细语呢喃">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/leetcode-arrays/" class="post-title-link" itemprop="url">leetcode 数组</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-10-10 14:11:49" itemprop="dateCreated datePublished" datetime="2016-10-10T14:11:49+08:00">2016-10-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1094,7 +1065,7 @@
             </span>
 
           
-            <span id="/leetcode-2-sum-3-sum-4-sum-3-sum-closest-k-sum/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode K sum 整理" title="阅读次数">
+            <span id="/leetcode-arrays/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 数组" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -1109,8 +1080,8 @@
       </span>
       <span class="post-meta-item-text">评论数：</span>
     
-    <a title="valine" href="/leetcode-2-sum-3-sum-4-sum-3-sum-closest-k-sum/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-2-sum-3-sum-4-sum-3-sum-closest-k-sum/" itemprop="commentCount"></span>
+    <a title="valine" href="/leetcode-arrays/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-arrays/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1127,23 +1098,17 @@
       
           <p>本次题解包括</p>
 <ul>
-<li><ol type="1">
-<li><strong>Two Sum</strong></li>
-</ol></li>
-<li><ol start="15" type="1">
-<li><strong>3Sum</strong></li>
-</ol></li>
-<li><ol start="16" type="1">
-<li><strong>3Sum Closest</strong></li>
-</ol></li>
-<li><ol start="18" type="1">
-<li><strong>4Sum</strong></li>
-</ol></li>
-<li><ol start="167" type="1">
-<li><strong>Two Sum II - Input array is sorted</strong>
+<li><strong>26</strong>. Remove Duplicates from Sorted Array</li>
+<li><strong>27</strong>. Remove Element</li>
+<li><strong>88</strong>. Merge Sorted Array</li>
+<li><strong>209</strong>. Minimum Size Subarray Sum</li>
+<li><strong>238</strong>. Product of Array Except Self</li>
+<li><strong>713</strong>. Subarray Product Less Than K</li>
+<li><strong>717</strong>. 1-bit and 2-bit Characters</li>
+<li><strong>798</strong>. Smallest Rotation with Highest Score
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/leetcode-2-sum-3-sum-4-sum-3-sum-closest-k-sum/#more" rel="contents">
+              <a class="btn" href="/leetcode-arrays/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1167,7 +1132,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-wiggle-subsequence/">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/site/avatar.jpg">
@@ -1181,7 +1146,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/leetcode-wiggle-subsequence/" class="post-title-link" itemprop="url">leetcode Wiggle Subsequence</a>
+            <a href="/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/" class="post-title-link" itemprop="url">C语言函数调用过程 | 缓冲区溢出攻击</a>
         </h2>
 
         <div class="post-meta">
@@ -1191,7 +1156,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2016-07-21 10:30:19" itemprop="dateCreated datePublished" datetime="2016-07-21T10:30:19+08:00">2016-07-21</time>
+              <time title="创建时间：2016-10-04 02:30:22" itemprop="dateCreated datePublished" datetime="2016-10-04T02:30:22+08:00">2016-10-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1199,16 +1164,16 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
+                  <a href="/categories/study/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
                 </span>
             </span>
 
           
-            <span id="/leetcode-wiggle-subsequence/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Wiggle Subsequence" title="阅读次数">
+            <span id="/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/" class="post-meta-item leancloud_visitors" data-flag-title="C语言函数调用过程 | 缓冲区溢出攻击" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -1223,8 +1188,8 @@
       </span>
       <span class="post-meta-item-text">评论数：</span>
     
-    <a title="valine" href="/leetcode-wiggle-subsequence/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-wiggle-subsequence/" itemprop="commentCount"></span>
+    <a title="valine" href="/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1239,17 +1204,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<h3 id="leetcode-wiggle-subsequence">leetcode Wiggle Subsequence</h3>
-<p>A sequence of numbers is called a <strong>wiggle sequence</strong> if the differences between successive numbers strictly alternate between positive and negative. The first difference (if one exists) may be either positive or negative. A sequence with fewer than two elements is trivially a wiggle sequence.</p>
-<p>For example, <code>[1,7,4,9,2,5]</code> is a wiggle sequence because the differences (6,-3,5,-7,3) are alternately positive and negative. In contrast,<code>[1,4,7,2,5]</code> and <code>[1,7,4,5,5]</code> are not wiggle sequences, the first because its first two differences are positive and the second because its last difference is zero.</p>
-<p>Given a sequence of integers, return the length of the longest subsequence that is a wiggle sequence. A subsequence is obtained by deleting some number of elements (eventually, also zero) from the original sequence, leaving the remaining elements in their original order.</p>
-<p><strong>Examples:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,7,4,9,2,5]</span><br><span class="line">Output: 6</span><br><span class="line">The entire sequence is a wiggle sequence.</span><br><span class="line"></span><br><span class="line">Input: [1,17,5,10,13,15,10,5,16,8]</span><br><span class="line">Output: 7</span><br><span class="line">There are several subsequences that achieve this length. One is [1,17,10,13,10,16,8].</span><br><span class="line"></span><br><span class="line">Input: [1,2,3,4,5,6,7,8,9]</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
-<p><strong>Follow up:</strong> Can you do it in O(<em>n</em>) time?
+          <p>C语言的函数调用过程是怎么样的呢？如何传递参数？运行后如何从函数跳转回来？
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/leetcode-wiggle-subsequence/#more" rel="contents">
+              <a class="btn" href="/understanding-stack-frame-of-function-call-and-buffer-overflow-attack/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1272,7 +1230,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1339,7 +1297,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">228</span>
+          <span class="site-state-item-count">249</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1351,7 +1309,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-count">52</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
