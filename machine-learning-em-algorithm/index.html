@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+ <script data-ad-client="ca-pub-1580254183546533" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
@@ -63,7 +64,6 @@
         gtag('config', 'UA-69270533-1');
       }
     </script>
- <script data-ad-client="ca-pub-ca-pub-1580254183546533" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
   <script>
     var _hmt = _hmt || [];
@@ -646,7 +646,7 @@ g(Q, \theta) =  \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}\tag
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#em%E7%AE%97%E6%B3%95%E7%9A%84%E5%BC%95%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">EM算法的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1"><span class="nav-number">1.1.</span> <span class="nav-text">极大似然估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#em-%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">EM 算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">数学基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%B8%E5%87%BD%E6%95%B0-convex-functions"><span class="nav-number">2.1.</span> <span class="nav-text">凸函数 Convex functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jensen%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">Jensen不等式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%B9%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">凹函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#em%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">EM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B6%E6%95%9B%E6%80%A7%E8%AF%81%E6%98%8E"><span class="nav-number">3.1.</span> <span class="nav-text">收敛性证明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E9%A1%BE%E7%A1%AC%E5%B8%81%E4%BE%8B%E5%AD%90"><span class="nav-number">3.2.</span> <span class="nav-text">回顾硬币例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#em%E7%AE%97%E6%B3%95%E6%9C%80%E4%BC%98%E8%A7%A3"><span class="nav-number">3.3.</span> <span class="nav-text">EM算法最优解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#em%E7%AE%97%E6%B3%95%E7%9A%84%E5%BC%95%E5%85%A5"><span class="nav-text">EM算法的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1"><span class="nav-text">极大似然估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#em-%E7%AE%97%E6%B3%95"><span class="nav-text">EM 算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="nav-text">数学基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%B8%E5%87%BD%E6%95%B0-convex-functions"><span class="nav-text">凸函数 Convex functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jensen%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-text">Jensen不等式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%B9%E5%87%BD%E6%95%B0"><span class="nav-text">凹函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#em%E7%AE%97%E6%B3%95"><span class="nav-text">EM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B6%E6%95%9B%E6%80%A7%E8%AF%81%E6%98%8E"><span class="nav-text">收敛性证明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E9%A1%BE%E7%A1%AC%E5%B8%81%E4%BE%8B%E5%AD%90"><span class="nav-text">回顾硬币例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#em%E7%AE%97%E6%B3%95%E6%9C%80%E4%BC%98%E8%A7%A3"><span class="nav-text">EM算法最优解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -661,7 +661,7 @@ g(Q, \theta) =  \sum_{z_i}Q_i(z_i) \log \frac{p(x_i, z_i; \theta)}{Q_i(z_i)}\tag
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">249</span>
+          <span class="site-state-item-count">250</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

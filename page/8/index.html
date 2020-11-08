@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+ <script data-ad-client="ca-pub-1580254183546533" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
@@ -56,7 +57,6 @@
         gtag('config', 'UA-69270533-1');
       }
     </script>
- <script data-ad-client="ca-pub-ca-pub-1580254183546533" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
   <script>
     var _hmt = _hmt || [];
@@ -207,6 +207,115 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-insert-delete-getrandom-o1-duplicates-allowed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
+      <meta itemprop="name" content="hrwhisper">
+      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="细语呢喃">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/" class="post-title-link" itemprop="url">leetcode Insert Delete GetRandom O(1) - Duplicates allowed</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-08-09 10:01:07" itemprop="dateCreated datePublished" datetime="2016-08-09T10:01:07+08:00">2016-08-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Insert Delete GetRandom O(1) - Duplicates allowed" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<h3 id="leetcode-insert-delete-getrandom-o1---duplicates-allowed">leetcode Insert Delete GetRandom O(1) - Duplicates allowed</h3>
+<p>Design a data structure that supports all following operations in <em>average</em> <strong>O(1)</strong> time.</p>
+<p><strong>Note: Duplicate elements are allowed.</strong></p>
+<ol type="1">
+<li><code>insert(val)</code>: Inserts an item val to the collection.</li>
+<li><code>remove(val)</code>: Removes an item val from the collection if present.</li>
+<li><code>getRandom</code>: Returns a random element from current collection of elements. The probability of each element being returned is <strong>linearly related</strong> to the number of same value the collection contains.</li>
+</ol>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Init an empty collection.</span><br><span class="line">RandomizedCollection collection &#x3D; new RandomizedCollection();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts 1 to the collection. Returns true as the collection did not contain 1.</span><br><span class="line">collection.insert(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts another 1 to the collection. Returns false as the collection contained 1. Collection now contains [1,1].</span><br><span class="line">collection.insert(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Inserts 2 to the collection, returns true. Collection now contains [1,1,2].</span><br><span class="line">collection.insert(2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; getRandom should return 1 with the probability 2&#x2F;3, and returns 2 with the probability 1&#x2F;3.</span><br><span class="line">collection.getRandom();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Removes 1 from the collection, returns true. Collection now contains [1,2].</span><br><span class="line">collection.remove(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; getRandom should return 1 and 2 both equally likely.</span><br><span class="line">collection.getRandom();</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/leetcode-insert-delete-getrandom-o1-duplicates-allowed/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1170,115 +1279,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/leetcode-find-k-pairs-smallest-sums/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/leetcode-find-k-pairs-smallest-sums/" class="post-title-link" itemprop="url">leetcode Find K Pairs with Smallest Sums</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-07 16:27:29" itemprop="dateCreated datePublished" datetime="2016-07-07T16:27:29+08:00">2016-07-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index"><span itemprop="name">code</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/leetcode-find-k-pairs-smallest-sums/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode Find K Pairs with Smallest Sums" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/leetcode-find-k-pairs-smallest-sums/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/leetcode-find-k-pairs-smallest-sums/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<h3 id="leetcode-find-k-pairs-with-smallest-sums">leetcode Find K Pairs with Smallest Sums</h3>
-<p>You are given two integer arrays <strong>nums1</strong> and <strong>nums2</strong> sorted in ascending order and an integer <strong>k</strong>.</p>
-<p>Define a pair <strong>(u,v)</strong> which consists of one element from the first array and one element from the second array.</p>
-<p>Find the k pairs <strong>(u1,v1),(u2,v2) ...(uk,vk)</strong> with the smallest sums.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,7,11], nums2 &#x3D; [2,4,6],  k &#x3D; 3</span><br><span class="line"></span><br><span class="line">Return: [1,2],[1,4],[1,6]</span><br><span class="line"></span><br><span class="line">The first 3 pairs are returned from the sequence:</span><br><span class="line">[1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,1,2], nums2 &#x3D; [1,2,3],  k &#x3D; 2</span><br><span class="line"></span><br><span class="line">Return: [1,1],[1,1]</span><br><span class="line"></span><br><span class="line">The first 2 pairs are returned from the sequence:</span><br><span class="line">[1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Given nums1 &#x3D; [1,2], nums2 &#x3D; [3],  k &#x3D; 3 </span><br><span class="line"></span><br><span class="line">Return: [1,3],[2,3]</span><br><span class="line"></span><br><span class="line">All possible pairs are returned from the sequence:</span><br><span class="line">[1,3],[2,3]</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/leetcode-find-k-pairs-smallest-sums/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1349,7 +1349,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">249</span>
+          <span class="site-state-item-count">250</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
