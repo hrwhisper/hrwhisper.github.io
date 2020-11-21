@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
+  <link rel="mask-icon" href="/images/site/avatar.jpg" color="#222">
+  <meta name="google-site-verification" content="fMKqXfnCsLFKKj0NjoZZApB_BuqLVUiJxtRkj-rznU4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Overview 这是一篇来自Uber行为预测的文章。 和VectorNet类似，没有用语义地图来对网络进行encode，而是提出了LaneGCN，它使用多个邻接矩阵扩展图的卷积操作，并沿车道进行尺度扩张。为了能够获取复杂车辆和地图的交互，提出了融合网络fusion network进行建模，它包括actor-to-lane, lane-to-lane, lane-to-actor 和 acto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Paper Weekly】 Learning Lane Graph Representations for Motion Forecasting">
+<meta property="og:url" content="https://www.hrwhisper.me/uber-learning-lane-graph-Representations-for-motion-forecasting/index.html">
+<meta property="og:site_name" content="细语呢喃">
+<meta property="og:description" content="Overview 这是一篇来自Uber行为预测的文章。 和VectorNet类似，没有用语义地图来对网络进行encode，而是提出了LaneGCN，它使用多个邻接矩阵扩展图的卷积操作，并沿车道进行尺度扩张。为了能够获取复杂车辆和地图的交互，提出了融合网络fusion network进行建模，它包括actor-to-lane, lane-to-lane, lane-to-actor 和 acto">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/overall-architecture.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/actor-net.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/fpn-net.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/map-net.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/laneGCN-architecture.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/all-network.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/argoverse-benchmark.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/ablation-study-of-modules.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/ablation-study-of-lane-graph-operators.png">
+<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/hard-cases.png">
+<meta property="article:published_time" content="2020-11-21T02:53:07.000Z">
+<meta property="article:modified_time" content="2020-11-21T13:06:41.347Z">
+<meta property="article:author" content="hrwhisper">
+<meta property="article:tag" content="prediction">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="self-driving car">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hrwhisper.me/images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/overall-architecture.png">
+
+<link rel="canonical" href="https://www.hrwhisper.me/uber-learning-lane-graph-Representations-for-motion-forecasting/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Paper Weekly】 Learning Lane Graph Representations for Motion Forecasting | 细语呢喃</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-69270533-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-69270533-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d6a8cb42bd9ae728375b6726daa75e95";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">细语呢喃</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">技术改变生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">26</span></a>
+
+  </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/leetcode-algorithm-solution/" rel="section"><i class="fa fa-archive fa-fw"></i>leetcode</a>
+
+  </li>
+        <li class="menu-item menu-item-friends">
+
+    <a href="/friend-link/" rel="section"><i class="fa fa-link fa-fw"></i>friends</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about-me/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/uber-learning-lane-graph-Representations-for-motion-forecasting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/site/avatar.jpg">
+      <meta itemprop="name" content="hrwhisper">
+      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="细语呢喃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Paper Weekly】 Learning Lane Graph Representations for Motion Forecasting
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-21 10:53:07" itemprop="dateCreated datePublished" datetime="2020-11-21T10:53:07+08:00">2020-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" itemprop="url" rel="index"><span itemprop="name">自动驾驶</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/uber-learning-lane-graph-Representations-for-motion-forecasting/" class="post-meta-item leancloud_visitors" data-flag-title="【Paper Weekly】 Learning Lane Graph Representations for Motion Forecasting" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/uber-learning-lane-graph-Representations-for-motion-forecasting/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/uber-learning-lane-graph-Representations-for-motion-forecasting/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="overview">Overview</h2>
+<p>这是一篇来自Uber行为预测的文章。</p>
+<p>和VectorNet类似，没有用语义地图来对网络进行encode，而是提出了<code>LaneGCN</code>，它使用多个邻接矩阵扩展图的卷积操作，并沿车道进行尺度扩张。为了能够获取复杂车辆和地图的交互，提出了融合网络<code>fusion network</code>进行建模，它包括actor-to-lane, lane-to-lane, lane-to-actor 和 actor-to-actor。</p>
+<p>这篇paper提出的方法在Argoverse数据集上取得了SOTA的效果。</p>
+<a id="more"></a>
+<h3 id="过往方法的缺点">过往方法的缺点</h3>
+<p>同样也是在说语义地图的方法的缺点</p>
+<ol type="1">
+<li>rasterization 的过程不可避免的会导致信息的丢失</li>
+<li>使用二维卷积捕捉地图图结构复杂的拓扑结构，效率可能会很低</li>
+</ol>
+<h3 id="主要贡献">主要贡献</h3>
+<ol type="1">
+<li>提出laneGCN，可以有效捕捉复杂的车道拓扑结构和长时依赖</li>
+<li>将actor和车道表征为图中的节点，使用1D CNN和LaneGCN，分别提取actor和车道的节点特征，利用A2L, L2L, L2A, A2A来捕捉交互特征</li>
+<li>在Argoverse数据集上取得SOTA的效果</li>
+</ol>
+<h3 id="和vectornet的对比">和VectorNet的对比</h3>
+<blockquote>
+<p>First, VectorNet uses vanilla graph networks with undirected full connections, while we build a sparsely connected lane graph following the map topology and propose task specific multi-type and dilated graph operators.</p>
+<p>Second, VectorNet uses polyline-level nodes for interaction, while our LaneGCN uses polyline segments as map nodes to capture higher resolution. Note that in our approach nodes in different polylines can interact with each other through dilated connections.</p>
+</blockquote>
+<ul>
+<li>VectorNet使用无向全连接的普通图网络（Vanilla GCN），本文根据地图的拓扑构建了稀疏的图，并提出空洞卷积来扩展图的操作</li>
+<li>VectorNet使用折线级的节点进行交互，而我们的LaneGCN使用折线段作为地图节点以获取更高的分辨率。注意，在我们的方法中，不同折线中的节点可以扩展连接的相互作用。</li>
+</ul>
+<h2 id="网络结构">网络结构</h2>
+<p><img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/overall-architecture.png" alt="overall-architecture" /> 主要是几个部分：</p>
+<ul>
+<li>ActorNet从观察到的过去轨迹中提取行动者的特征</li>
+<li>HDMap中构造车道图像并使用LaneGCN提取地图特征。</li>
+<li>然后使用FusionNet融合模型模拟actor和车道图之间的交互，并预测未来的轨迹</li>
+</ul>
+<h3 id="actornet">ActorNet</h3>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/actor-net.png" alt="actor-net" /><figcaption>actor-net</figcaption>
+</figure>
+<p>对于actor过去的轨迹 <span class="math inline">\(\{\Delta P_{-(T-1)}, ..., \Delta P_{-1}, \Delta P_{0} \}\)</span>, （<span class="math inline">\(\Delta P_t)\)</span>为2D的坐标），可以构造出模型的输入：</p>
+<ul>
+<li>模型输入： <span class="math inline">\((x, y, mask) * T\)</span>， mask代表不足T的长度则补0</li>
+<li>模型：用3组多1D的CNN，每组包含2个残差块 + FPN网络</li>
+<li>模型输出： <span class="math inline">\((128, 1)\)</span></li>
+</ul>
+<p>这里简单的介绍下FPN网络，结构如下图</p>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/fpn-net.png" alt="fpn-net" /><figcaption>fpn-net</figcaption>
+</figure>
+<p>FPN网络提出来是用在目标检测的任务上。</p>
+<ol type="1">
+<li>图a代表将图片进行缩放，对每个缩放的图（也就是不同的尺度）都进行预测，但是这个耗时毕竟大</li>
+<li>图b是经典的做法，通过cnn提取特征，然后最后一层得到的feature map用来检测物体，但是小物体在小的feature map上体现不是很明显，效果不好。如Faster R-CNN</li>
+<li>图c从图b进行改进，是一种多尺度的方法：大的物体用小的特征图，小的物体用大的特征图，代表是SSD</li>
+<li>图d更进一步，顶层特征通过上采样和低层特征做融合，能得到更好的特征表达</li>
+</ol>
+<h3 id="mapnet">MapNet</h3>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/map-net.png" alt="map-net" /><figcaption>map-net</figcaption>
+</figure>
+<p>一些定义：</p>
+<ul>
+<li>将Lane node定义为车道中心线任意两个相邻点的连线，它的坐标就是两点之间的平均坐标。</li>
+<li>对于Lane node A, 它的前继和后继就是可以直接从A到达的相邻节点；比如图3右图的橙色和蓝色节点</li>
+<li>而它的左右邻居定义为最近的节点（l2距离），比如图3右图的紫色和绿色</li>
+</ul>
+<p>因此可以定义4个N * N的矩阵<span class="math inline">\(\{A_i\}_{i \in\{pre,suc,left,right\}}\)</span>， <span class="math inline">\(A_{i,j,k} = 1\)</span> 表示节点k对于节点j是第i种type的关系。</p>
+<h4 id="传统gcn">传统GCN</h4>
+<p>不熟悉GCN可以参考： <a target="_blank" rel="noopener" href="http://tkipf.github.io/graph-convolutional-networks/">graph-convolutional-networks</a></p>
+<p>广泛使用的Graph convolution operator定义为： <span class="math display">\[
+Y = LXW
+\]</span> X为节点的特征，W是权重的矩阵，L为归一化的拉普拉斯矩阵： <span class="math display">\[
+L = D^{-1/2} (I + A) D^{-1/2}
+\]</span> 其中D为度矩阵，A为邻接矩阵，I为单位阵。</p>
+<p>但是这个普通的卷积方法在我们要处理的case中是比较没效率的：</p>
+<blockquote>
+<p>First, it is not clear what kind of node feature will preserve the information in the lane graphs.</p>
+<p>Second, a single graph Laplacian can not capture the connection type, i.e., losing the directional information carried by the connection type.</p>
+<p>Third, it is not straightforward to handle long range dependencies, e.g., akin dilated convolution, within this form of graph convolution.</p>
+</blockquote>
+<p>基于上面的几个缺点，提出了LaneConv的操作</p>
+<h4 id="node-feature">Node Feature:</h4>
+<p>考虑节点的shape（大小和方向）还有坐标： <span class="math display">\[
+x_i = \text{MLP}_{shape}(v_i^{end} - v_i^{start}) + \text{MLP}_{loc}(v_i) 
+\]</span></p>
+<p>MLP就是多层感知机， <span class="math inline">\(v_i^{end}\)</span>和 <span class="math inline">\(v_i^{start}\)</span>是节点i的start和end的point的坐标，<span class="math inline">\(v_i\)</span>就是第i个节点的坐标； <span class="math inline">\(x_i\)</span>是节点特征矩阵<span class="math inline">\(X\)</span>的第i行，代表第i个lane节点的特征。</p>
+<h4 id="laneconv基本操作">LaneConv基本操作</h4>
+<p><span class="math display">\[
+Y = XW_0 + \sum_{i\in \{pre,suc,left,right\}} A_iXW_i
+\]</span></p>
+<p><span class="math inline">\(A_i\)</span>和<span class="math inline">\(W_i\)</span>是邻接矩阵和权重矩阵，i代表对应的关系。</p>
+<p>这里有个问题，用了4个矩阵<span class="math inline">\(A\)</span>，相比直接一个A表示连接关系的区别？</p>
+<p>个人认为是 对不同的连接关系可以用不同的权重来表达，提取的信息会更加的丰富</p>
+<h4 id="dilated-laneconv-空洞lane卷积">Dilated LaneConv: 空洞lane卷积</h4>
+<p>学习CNN种空洞卷积提升感受野的操作，提出了k-dilation LaneConv： <span class="math display">\[
+Y = XW_0 + A^k_{pre}XW_{pre,k} + A^k_{suc}XW_{suc, k}
+\]</span> <span class="math inline">\(A^k_{pre}\)</span>是矩阵<span class="math inline">\(A_{pre}\)</span>的k次方，这使得我们可以通过k步来传递信息。</p>
+<p>注意：Dilated LaneConv只用在前继和后继上。</p>
+<h4 id="laneconv的最终形式">LaneConv的最终形式</h4>
+<p><span class="math display">\[
+Y = XW_0 + \sum_{i\in \{left,right\}} A_iXW_i + \sum_{c=1}^C \left( A^{k_c}_{pre}XW_{pre,k_c} + A^{k_c}_{suc}XW_{suc, k_c} \right)
+\]</span></p>
+<p>实践中，采用了<code>LaneConv(1, 2, 4, 8, 16, 32)</code>，见图4</p>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/laneGCN-architecture.png" alt="laneGCN-architecture" /><figcaption>laneGCN-architecture</figcaption>
+</figure>
+<h3 id="fusionnet">FusionNet</h3>
+<p>先前的工作更多的是处理actor之间的交互，actor和地图的交互相关研究较少。</p>
+<p>融合模块由四个网络子模块组成，用于处理actor和车道节点之间所有的信息流，actors to lanes (A2L), lanes to lanes (L2L), lanes to actors (L2A) and actors to actors (A2A)</p>
+<ul>
+<li>A2L引入了实时交通信息, 如堵塞或使用的车道</li>
+<li>L2L通过传播交通信息来更新lane节点的特征</li>
+<li>L2A将更新地图特征并与实时交通信息进行融合，反馈给actor</li>
+<li>A2A处理actor之间的交互并输出actor的特征，然后用于轨迹的预测</li>
+</ul>
+<p>L2L采用了之前说的LaneGCN方法，对于其他的A2L,L2A,A2A采用了spatial attention layer，它们三个建模方式是一样的，以A2L举例来说：给定actor节点i，通过context的lane node j来聚合特征：</p>
+<p><span class="math display">\[
+y_i = x_i W_0 + \sum_j \phi\left(concat\left(x_i, \Delta_{i,j}, x_j\right)W_1 \right)W_2
+\]</span></p>
+<p>类似的<span class="math inline">\(x_i\)</span>是第i个节点的特征，W为权重矩阵，<span class="math inline">\(\phi\)</span>代表<code>layer normalization + RELU</code>，<span class="math inline">\(\Delta_{ij} = \text{MLP}(v_j - v_i)\)</span> context的节点定义为l2距离小于一定阈值的节点， A2L, L2A 和A2A 分别设置为7，6，和100米。</p>
+<hr />
+<p>PS: 感觉这里原文表达有些问题，如A2L应该是更新lane的节点特征，上面的式子感觉actor i也会更新。 另外，这里的attention和论文引用的transform的self-attention感觉diff也比较大，似乎attention只是体现在W矩阵中</p>
+<p>最后完整的网络如下：</p>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/all-network.png" alt="all-network" /><figcaption>all-network</figcaption>
+</figure>
+<h3 id="prediction-header">Prediction Header</h3>
+<p>使用两个分支，一个分支是回归模型，用来预测k个轨迹，一个分支是分类模型，用来对每个模态进行打分</p>
+<h3 id="learning">Learning</h3>
+<p><span class="math display">\[
+L = L_{cls} + \alpha L_{reg}
+\]</span> 分类采用了max-margin的loss，其中，M为actor的总数，K为轨迹生成的数量，<span class="math inline">\(\hat{k}\)</span>为k条轨迹中具有最小FDE的那条轨迹，以此为label，c为分类模型的置信度输出。 <span class="math display">\[
+L_{cls} = \frac{1}{M(K-1)} \sum_{m=1}^M \sum_{k \ne \hat{k}} \max\left(0, c_{m,k} + \epsilon - c_{m,\hat{k}} \right)
+\]</span></p>
+<p>回归用smooth-l1 loss （每个时刻都统计损失） <span class="math display">\[
+L_{reg} = \frac{1}{MT} \sum_{m=1}^{M} \sum_{t=1}^T reg(\boldsymbol{p}_{m,t}^{\hat{k}} - \boldsymbol{p}_{m,t}^{*})
+\]</span> 其中，<span class="math inline">\({p}_{t}^{*}\)</span>是ground truth在t时刻的BEV的坐标， <span class="math inline">\(reg(\boldsymbol{x}) = \sum_i d(x_i)\)</span>，<span class="math inline">\(d(x_i)\)</span>就是smooth l1 loss: <span class="math display">\[
+d(x_i)=\left\{
+\begin{aligned}
+ 0.5x_i^2 &amp;&amp; if \left\lVert x_i \right\rVert &lt; 1\\
+\left\lVert x_i\right\rVert - 0.5 &amp;&amp; otherwise,
+\end{aligned}
+\right.
+\]</span> <span class="math inline">\(\left\lVert x_i\right\rVert\)</span>是 <span class="math inline">\(x_i\)</span>的L1 norm</p>
+<h2 id="实验">实验</h2>
+<h3 id="dataset">Dataset</h3>
+<p>Argoverse: 5s轨迹，前2s作为历史信息输入， 后3s预测</p>
+<p>训练、验证、测试集数量分别是205942, 39472和78143</p>
+<h3 id="implementation-details">Implementation Details</h3>
+<p>对所有actor和lane距离主车 &lt; 100m的作为输入，以T=0时刻主车为中心，主车t=-1和t=0作为x轴的正半轴。</p>
+<p>使用了4个TITAN-X GPU训练， batchsize设为128， learning rate初始设置为<span class="math inline">\(1\times10^{-3}\)</span>, 32个epoch后降为<span class="math inline">\(1\times10^{-4}\)</span>，训练总共36epoch。</p>
+<h3 id="实验分析">实验分析</h3>
+<h4 id="和其他模型对比">和其他模型对比</h4>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/argoverse-benchmark.png" alt="argoverse-benchmark" /><figcaption>argoverse-benchmark</figcaption>
+</figure>
+<p>SOTA的效果</p>
+<h4 id="importance-of-each-module">Importance of each module</h4>
+<p>实验2表明 1. 所有的网络都有一定的性能提升，证明了LaneGCN和网络结构的有效性 2. A2L and L2L 比只用 L2A 效果好很多，说明 actor向map传递了很多有效的信息</p>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/ablation-study-of-modules.png" alt="ablation-study-of-modules" /><figcaption>ablation-study-of-modules</figcaption>
+</figure>
+<h3 id="lane-graph-operators">Lane Graph Operators</h3>
+<p>表3说明</p>
+<ol type="1">
+<li>加入残差块能有效的提高性能</li>
+<li>multi-type(前继后继、左右邻居) 和空洞卷积也能提高性能</li>
+</ol>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/ablation-study-of-lane-graph-operators.png" alt="ablation-study-of-lane-graph-operators" /><figcaption>ablation-study-of-lane-graph-operators</figcaption>
+</figure>
+<h3 id="qualitative-results">Qualitative Results</h3>
+<p>给了4个hard case，如下</p>
+<figure>
+<img src="../images/2020-11-21-learning-lane-graph-Representations-for-motion-forecasting/hard-cases.png" alt="hard-cases" /><figcaption>hard-cases</figcaption>
+</figure>
+<ol type="1">
+<li>第1行其他的模型都丢失了右转的模态，而本文的模型可以成功预测</li>
+<li>第2行是在无保护左转的路口, 车辆已经在路口中停留超过2s,缺少历史的信息, 但是本文的模型还是能成功的预测</li>
+<li>第3行说本文提出的方法比其他的三个都好一些,(轨迹短一些, 虽然也没有很好, 感觉是矮子里拔将军)</li>
+<li>第4行猛加速都没预测对</li>
+</ol>
+<h2 id="小结">小结</h2>
+<p>Uber提出的这篇论文感觉laneGcn还是值得借鉴的。</p>
+<p>但是感觉后面fusion net部分讲得不是特别清楚，如attention感觉不太对，而且估计耗时也毕竟大。</p>
+<h2 id="参考文献">参考文献</h2>
+<ul>
+<li>Liang M, Yang B, Hu R, et al. Learning lane graph representations for motion forecasting[C]//European Conference on Computer Vision. Springer, Cham, 2020: 541-556.</li>
+<li>Lin T Y, Dollár P, Girshick R, et al. Feature pyramid networks for object detection[C]//Proceedings of the IEEE conference on computer vision and pattern recognition. 2017: 2117-2125.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>hrwhisper
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hrwhisper.me/uber-learning-lane-graph-Representations-for-motion-forecasting/" title="【Paper Weekly】 Learning Lane Graph Representations for Motion Forecasting">https://www.hrwhisper.me/uber-learning-lane-graph-Representations-for-motion-forecasting/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        <div class="reward-container">
+  <div>请我喝杯咖啡吧~</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/donate/wechat_pay.png" alt="hrwhisper 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/donate/alipay.jpg" alt="hrwhisper 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/prediction/" rel="tag"># prediction</a>
+              <a href="/tags/paper/" rel="tag"># paper</a>
+              <a href="/tags/self-driving-car/" rel="tag"># self-driving car</a>
+              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/waymo-vectornet/" rel="prev" title="【Paper Weekly】VectorNet Encoding HD Maps and Agent Dynamics From Vectorized Representation">
+      <i class="fa fa-chevron-left"></i> 【Paper Weekly】VectorNet Encoding HD Maps and Agent Dynamics From Vectorized Representation
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#overview"><span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E5%BE%80%E6%96%B9%E6%B3%95%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-text">过往方法的缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="nav-text">主要贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%92%8Cvectornet%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-text">和VectorNet的对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#actornet"><span class="nav-text">ActorNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapnet"><span class="nav-text">MapNet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9Fgcn"><span class="nav-text">传统GCN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#node-feature"><span class="nav-text">Node Feature:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#laneconv%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">LaneConv基本操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dilated-laneconv-%E7%A9%BA%E6%B4%9Elane%E5%8D%B7%E7%A7%AF"><span class="nav-text">Dilated LaneConv: 空洞lane卷积</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#laneconv%E7%9A%84%E6%9C%80%E7%BB%88%E5%BD%A2%E5%BC%8F"><span class="nav-text">LaneConv的最终形式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fusionnet"><span class="nav-text">FusionNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prediction-header"><span class="nav-text">Prediction Header</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#learning"><span class="nav-text">Learning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dataset"><span class="nav-text">Dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#implementation-details"><span class="nav-text">Implementation Details</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%88%86%E6%9E%90"><span class="nav-text">实验分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%92%8C%E5%85%B6%E4%BB%96%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94"><span class="nav-text">和其他模型对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#importance-of-each-module"><span class="nav-text">Importance of each module</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lane-graph-operators"><span class="nav-text">Lane Graph Operators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#qualitative-results"><span class="nav-text">Qualitative Results</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hrwhisper"
+      src="/images/site/avatar.jpg">
+  <p class="site-author-name" itemprop="name">hrwhisper</p>
+  <div class="site-description" itemprop="description">一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">253</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hrwhisper" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hrwhisper" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/murmured" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;murmured" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+      <script data-ad-client="ca-pub-1580254183546533" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hrwhisper</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz","app_key":"b26lBsbwmVyxTSnNrsBrnv3U","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+      script.defer = true;
+      // script.setAttribute("data-pjax", "");
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz',
+      appKey     : 'b26lBsbwmVyxTSnNrsBrnv3U',
+      placeholder: "在上方填上邮箱地址可以收到我回复的邮件哦~",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
