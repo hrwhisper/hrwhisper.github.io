@@ -31,15 +31,13 @@
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201116233423730.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201116233730408.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201116233919807.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201118221535377.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201118221551835.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201118221744670.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201118221833780.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201118221853500.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201118221923469.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/2020-11-16-vectornet/image-20201118221955865.png">
 <meta property="article:published_time" content="2020-11-16T15:30:57.000Z">
-<meta property="article:modified_time" content="2020-11-21T10:26:40.262Z">
+<meta property="article:modified_time" content="2020-12-12T12:07:13.279Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="prediction">
 <meta property="article:tag" content="paper">
@@ -361,17 +359,18 @@ v_i^{(l + 1)} = \phi_{rel} \left( g_{enc}\left(v_i^{(l)}\right), \phi_{agg}\left
 <ul>
 <li><p><span class="math inline">\(\{p_i^{(l)}\}\)</span>代表polyline节点的集合</p></li>
 <li><p><span class="math inline">\(\mathcal{A}\)</span>代表邻接矩阵，实践中采用全链接</p></li>
-<li><p>GNN()代表 一层的GNN网络，实践中采用的是self attention layer： <span class="math display">\[
+<li><p><span class="math inline">\(GNN()\)</span>代表 一层的GNN网络，实践中采用的是self attention layer： <span class="math display">\[
 \text{GNN}\left(P\right) = \text{softmax} \left(P_QP_K^T\right) P_V
 \]</span> 其中，<span class="math inline">\(P\)</span>是node的feature matrix，<span class="math inline">\(P_Q,P_k,P_v\)</span>则是它的线性投影。</p></li>
 </ul>
 <h3 id="轨迹生成">轨迹生成</h3>
-<p>论文中直接采用了MLP，当然也可以使用MultiPath的方法</p>
-<figure>
-<img src="../images/2020-11-16-vectornet/image-20201118221535377.png" alt="image-20201118221535377" /><figcaption>image-20201118221535377</figcaption>
-</figure>
+<p>经过了全局的网络之后，就生成了节点的特征<span class="math inline">\(P_i^{(L_t)}\)</span>，其中<span class="math inline">\(L_t\)</span>是全局GNN网络的层数。然后将<span class="math inline">\(P_i^{(L_t)}\)</span>放入decoder进行轨迹的生成： <span class="math display">\[
+\boldsymbol{v_i^{future}} = \phi_{traj}\left(P_i^{(L_t)}\right)
+\]</span> 论文中，decoder <span class="math inline">\(\phi_{traj}()\)</span>使用的是MLP，当然也可以用MultiPath的方法。</p>
 <h3 id="多任务训练">多任务训练</h3>
-<p>为了鼓励我们的全局交互图更好地捕捉不同轨迹和地图之间的交互，我们提出了一个辅助的图像补全任务。在训练过程中，我们随机掩盖一些节点的特征，然后尝试去还原被掩盖的节点特征： <img src="../images/2020-11-16-vectornet/image-20201118221551835.png" alt="image-20201118221551835" /></p>
+<p>为了让全局交互图能更好地捕捉不同轨迹和地图元素之间的交互信息，论文还提出了一个辅助的任务：在训练过程中，随机mask掉一些节点的特征，然后尝试去还原被掩盖的节点特征： <span class="math display">\[
+\boldsymbol{\hat{P}_i} = \phi_{node}\left(P_i^{(L_t)}\right)
+\]</span> 这里节点的decoder <span class="math inline">\(\phi_{node}()\)</span> 也是一个MLP，只在训练的时候使用。</p>
 <h3 id="损失函数">损失函数</h3>
 <p><span class="math display">\[
 \mathcal{L} = \mathcal{L}_{traj} + \alpha \mathcal{L}_{node}
