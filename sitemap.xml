@@ -1710,13 +1710,6 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/emotion-at-a-paper-6-about-me/</loc>
-    
-    <lastmod>2020-10-19</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://www.hrwhisper.me/emotion-at-a-paper-5/</loc>
     
     <lastmod>2020-10-19</lastmod>
@@ -1724,7 +1717,7 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/emotion-at-a-paper-3/</loc>
+    <loc>https://www.hrwhisper.me/emotion-at-a-paper-6-about-me/</loc>
     
     <lastmod>2020-10-19</lastmod>
     
@@ -1732,6 +1725,13 @@
   
   <url>
     <loc>https://www.hrwhisper.me/emotion-at-a-paper-2/</loc>
+    
+    <lastmod>2020-10-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.hrwhisper.me/emotion-at-a-paper-3/</loc>
     
     <lastmod>2020-10-19</lastmod>
     
@@ -1773,14 +1773,14 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/centos-not-permit-root-login-and-use-rsa-public-key-authentication/</loc>
+    <loc>https://www.hrwhisper.me/can-not-open-gephi-solution/</loc>
     
     <lastmod>2020-10-19</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/can-not-open-gephi-solution/</loc>
+    <loc>https://www.hrwhisper.me/centos-not-permit-root-login-and-use-rsa-public-key-authentication/</loc>
     
     <lastmod>2020-10-19</lastmod>
     
@@ -1831,13 +1831,6 @@
 
   
   <url>
-    <loc>https://www.hrwhisper.me/tags/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2021-01-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.hrwhisper.me/tags/hexo/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
@@ -1846,6 +1839,13 @@
   
   <url>
     <loc>https://www.hrwhisper.me/tags/Wordpress/</loc>
+    <lastmod>2021-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.hrwhisper.me/tags/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1881,6 +1881,20 @@
   
   <url>
     <loc>https://www.hrwhisper.me/tags/Cool/</loc>
+    <lastmod>2021-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.hrwhisper.me/tags/windows10/</loc>
+    <lastmod>2021-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.hrwhisper.me/tags/windwos10-mobile/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1957,14 +1971,7 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/tags/windows10/</loc>
-    <lastmod>2021-01-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.hrwhisper.me/tags/windwos10-mobile/</loc>
+    <loc>https://www.hrwhisper.me/tags/Linux/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1972,13 +1979,6 @@
   
   <url>
     <loc>https://www.hrwhisper.me/tags/Centos/</loc>
-    <lastmod>2021-01-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.hrwhisper.me/tags/Linux/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -2090,14 +2090,14 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/tags/lumia/</loc>
+    <loc>https://www.hrwhisper.me/tags/machine-learning-math/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/tags/machine-learning-math/</loc>
+    <loc>https://www.hrwhisper.me/tags/lumia/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -2218,14 +2218,14 @@
 
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/whisper/</loc>
+    <loc>https://www.hrwhisper.me/categories/others/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/others/</loc>
+    <loc>https://www.hrwhisper.me/categories/whisper/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -2239,14 +2239,21 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/whisper/%E8%B0%81%E7%9A%84%E5%91%A2%E5%96%83/</loc>
+    <loc>https://www.hrwhisper.me/categories/others/%E5%BB%BA%E7%AB%99%E7%BB%8F%E9%AA%8C/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/others/%E5%BB%BA%E7%AB%99%E7%BB%8F%E9%AA%8C/</loc>
+    <loc>https://www.hrwhisper.me/categories/%E7%94%9F%E4%BA%A7%E5%8A%9B/</loc>
+    <lastmod>2021-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.hrwhisper.me/categories/whisper/%E8%B0%81%E7%9A%84%E5%91%A2%E5%96%83/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -2281,13 +2288,6 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/%E7%94%9F%E4%BA%A7%E5%8A%9B/</loc>
-    <lastmod>2021-01-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.hrwhisper.me/categories/study/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
@@ -2302,14 +2302,14 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/whisper/%E6%B2%99%E6%B5%B7%E6%8B%BE%E8%B4%9D/</loc>
+    <loc>https://www.hrwhisper.me/categories/study/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/study/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://www.hrwhisper.me/categories/whisper/%E6%B2%99%E6%B5%B7%E6%8B%BE%E8%B4%9D/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -2379,14 +2379,14 @@
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/study/WEB%E5%89%8D%E7%AB%AF/</loc>
+    <loc>https://www.hrwhisper.me/categories/code/%E6%AF%94%E8%B5%9B/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.hrwhisper.me/categories/code/%E6%AF%94%E8%B5%9B/</loc>
+    <loc>https://www.hrwhisper.me/categories/study/WEB%E5%89%8D%E7%AB%AF/</loc>
     <lastmod>2021-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
