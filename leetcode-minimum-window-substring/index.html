@@ -29,7 +29,7 @@
 <meta property="og:description" content="leetcode Minimum Window Substring Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n). For example, S &#x3D; &quot;ADOBECODEBANC&amp;quo">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-02-24T12:18:32.000Z">
-<meta property="article:modified_time" content="2020-10-26T15:19:35.030Z">
+<meta property="article:modified_time" content="2021-01-08T13:32:16.855Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -291,8 +291,10 @@
 <p>For example, <strong>S</strong> = <code>&quot;ADOBECODEBANC&quot;</code> <strong>T</strong> = <code>&quot;ABC&quot;</code></p>
 <p>Minimum window is <code>&quot;BANC&quot;</code>.</p>
 <p><strong>Note:</strong> If there is no such window in S that covers all characters in T, return the emtpy string <code>&quot;&quot;</code>.</p>
-<p>If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S. <a id="more"></a> 题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-window-substring/">leetcode Minimum Window Substring</a></p>
+<p>If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.</p>
 </blockquote>
+<a id="more"></a>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-window-substring/">leetcode Minimum Window Substring</a></p>
 <p>题目大意: 给定两个字符串S和T，求在S中的一个窗格，使得T中所有字母都出现。</p>
 <p>思路：</p>
 <p>又是two pointers的思想。一个指针指向出现的所有字符的结尾，然后用一个开头指针看看能不能将窗格变短。</p>

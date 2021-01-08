@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://www.hrwhisper.me/images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code1_after_pre_process.jpg">
 <meta property="og:image" content="https://www.hrwhisper.me/images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/ucas_code2_after_pre_process.jpg">
 <meta property="article:published_time" content="2017-01-27T15:50:14.000Z">
-<meta property="article:modified_time" content="2020-10-21T14:51:19.143Z">
+<meta property="article:modified_time" content="2021-01-08T13:42:14.095Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI">
 <meta name="twitter:card" content="summary">
@@ -298,8 +298,10 @@
         <p>本文内容：</p>
 <ul>
 <li>简单介绍验证码</li>
-<li>用tesseract -OCR识别验证码 <a id="more"></a> ## 现在验证码</li>
+<li>用tesseract -OCR识别验证码</li>
 </ul>
+<a id="more"></a>
+<h2 id="现在验证码">现在验证码</h2>
 <p>简单的验证码比如如下：</p>
 <ul>
 <li><img src="../images/introction-of-verification-code-and-using-tesseract-ocr-crack-verification-code/easy-code.jpg" /></li>
@@ -512,7 +514,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">验证码的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E4%B8%BB%E8%A6%81%E5%8E%9F%E7%90%86"><span class="nav-text">验证码主要原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81%E7%A0%B4%E8%A7%A3"><span class="nav-text">简单的验证码破解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ucas%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81"><span class="nav-text">UCAS的验证码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85ocr"><span class="nav-text">安装ocr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python%E4%BB%A3%E7%A0%81"><span class="nav-text">python代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E9%AB%98%E8%AF%86%E5%88%AB%E7%8E%87"><span class="nav-text">提高识别率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%AF%86%E5%88%AB%E7%8E%87"><span class="nav-text">测试识别率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E9%AA%8C%E8%AF%81%E7%A0%81"><span class="nav-text">现在验证码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">验证码的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E4%B8%BB%E8%A6%81%E5%8E%9F%E7%90%86"><span class="nav-text">验证码主要原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81%E7%A0%B4%E8%A7%A3"><span class="nav-text">简单的验证码破解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ucas%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81"><span class="nav-text">UCAS的验证码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85ocr"><span class="nav-text">安装ocr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python%E4%BB%A3%E7%A0%81"><span class="nav-text">python代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E9%AB%98%E8%AF%86%E5%88%AB%E7%8E%87"><span class="nav-text">提高识别率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%AF%86%E5%88%AB%E7%8E%87"><span class="nav-text">测试识别率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

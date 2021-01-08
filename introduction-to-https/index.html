@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://www.hrwhisper.me/images/introduction-to-https/https-process.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/introduction-to-https/https-process-key.png">
 <meta property="article:published_time" content="2017-02-21T03:21:13.000Z">
-<meta property="article:modified_time" content="2020-10-19T14:35:48.744Z">
+<meta property="article:modified_time" content="2021-01-08T13:42:14.098Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="HTTPS">
 <meta name="twitter:card" content="summary">
@@ -289,7 +289,9 @@
 
       
         <p>前几篇博文都是有关HTTPS的东西，有人可能会问，什么是HTTPS？为什么要用HTTPS？</p>
-<p>因此，本文主要来解答这些疑惑 <a id="more"></a> ## Https的故事</p>
+<p>因此，本文主要来解答这些疑惑</p>
+<a id="more"></a>
+<h2 id="https的故事">Https的故事</h2>
 <ol type="1">
 <li>Alice和Bob是情人，他们每周都要写信。Alice 写好后，送到邮局，邮局通过若干个快递员到Bob，Bob回信过程类似。这是可以看成的简单的http的传输。</li>
 <li>有一天，Alice觉得，要是写的信中途被人拆开了呢？毕竟一些小秘密不想让人知道啊。于是和Bob商定，采用加密的方法写。加密的方法比如使用古典密码的方案，如凯撒密码（A-&gt;E，B-&gt;F，即每个字母向右移动4个，(y + 4) mod 26）。这样加密了信的内容。</li>
@@ -479,7 +481,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81https"><span class="nav-text">为什么需要HTTPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#https%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">Https的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%97%AE%E5%80%99clinethello"><span class="nav-text">1. 客户端问候Clinethello</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%97%AE%E5%80%99severhello"><span class="nav-text">2. 服务器问候SeverHello</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%9B%9E%E5%BA%94"><span class="nav-text">3. 客户端回应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%9C%80%E5%90%8E%E5%9B%9E%E5%BA%94"><span class="nav-text">4. 服务器的最后回应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#https%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-text">Https的几个问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E5%AF%86%E9%92%A5"><span class="nav-text">会话密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E5%92%8C%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="nav-text">数字签名和数字证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https%E4%B8%80%E5%AE%9A%E5%AE%89%E5%85%A8%E4%B9%88"><span class="nav-text">Https一定安全么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hsts%E5%8D%8F%E8%AE%AE"><span class="nav-text">HSTS协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#https%E7%9A%84%E6%95%85%E4%BA%8B"><span class="nav-text">Https的故事</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81https"><span class="nav-text">为什么需要HTTPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#https%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">Https的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%97%AE%E5%80%99clinethello"><span class="nav-text">1. 客户端问候Clinethello</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%97%AE%E5%80%99severhello"><span class="nav-text">2. 服务器问候SeverHello</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%9B%9E%E5%BA%94"><span class="nav-text">3. 客户端回应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%9C%80%E5%90%8E%E5%9B%9E%E5%BA%94"><span class="nav-text">4. 服务器的最后回应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#https%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-text">Https的几个问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E5%AF%86%E9%92%A5"><span class="nav-text">会话密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E5%92%8C%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="nav-text">数字签名和数字证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https%E4%B8%80%E5%AE%9A%E5%AE%89%E5%85%A8%E4%B9%88"><span class="nav-text">Https一定安全么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hsts%E5%8D%8F%E8%AE%AE"><span class="nav-text">HSTS协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -29,11 +29,11 @@
 <meta property="og:description" content="leetcode Increasing Triplet Subsequence Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array. Formally the function should: Return true if there exi">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-02-16T06:12:56.000Z">
-<meta property="article:modified_time" content="2020-10-26T15:19:34.906Z">
+<meta property="article:modified_time" content="2021-01-08T13:32:16.850Z">
 <meta property="article:author" content="hrwhisper">
-<meta property="article:tag" content="C++">
-<meta property="article:tag" content="算法">
 <meta property="article:tag" content="python">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="C++">
 <meta property="article:tag" content="leetcode">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -295,8 +295,10 @@
 <p>Formally the function should:</p>
 <p>Return true if there exists <em>i, j, k</em> such that <em>arr[i]</em> &lt; <em>arr[j]</em> &lt; <em>arr[k]</em> given 0 ≤ <em>i</em> &lt; <em>j</em> &lt; <em>k</em> ≤ <em>n</em>-1 else return false.Your algorithm should run in O(<em>n</em>) time complexity and O(<em>1</em>) space complexity.</p>
 <p><strong>Examples:</strong> Given <code>[1, 2, 3, 4, 5]</code>, return <code>true</code>.</p>
-<p>Given <code>[5, 4, 3, 2, 1]</code>, return <code>false</code>. <a id="more"></a> 题目地址: <a target="_blank" rel="noopener" href="https://leetcode.com/problems/increasing-triplet-subsequence/">leetcode Increasing Triplet Subsequence</a></p>
+<p>Given <code>[5, 4, 3, 2, 1]</code>, return <code>false</code>.</p>
 </blockquote>
+<a id="more"></a>
+<p>题目地址: <a target="_blank" rel="noopener" href="https://leetcode.com/problems/increasing-triplet-subsequence/">leetcode Increasing Triplet Subsequence</a></p>
 <p>题意：给定一个长度为n的乱序的数组arr，让你求是否有i,j,k三个数，使得 arr[i] &lt; arr[j] &lt; arr[k] ( 0 ≤ i &lt; j &lt; k ≤ n-1)</p>
 <p>思路：</p>
 <p>设 x1为到目前为止的最小值 ，  x2为到目前为止至少有一个数比x2小的最小的数。</p>
@@ -361,9 +363,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/C/" rel="tag"># C++</a>
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
               <a href="/tags/leetcode/" rel="tag"># leetcode</a>
               <a href="/tags/Java/" rel="tag"># Java</a>
           </div>

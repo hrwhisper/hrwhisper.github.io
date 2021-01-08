@@ -33,13 +33,13 @@
 <meta property="og:image" content="https://www.hrwhisper.me/images/algorithm-heap-priority-queue/binary-heap-deleteMin.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/algorithm-heap-priority-queue/binary-heap-delete.png">
 <meta property="article:published_time" content="2015-07-08T09:14:52.000Z">
-<meta property="article:modified_time" content="2020-11-18T14:41:24.550Z">
+<meta property="article:modified_time" content="2021-01-08T13:42:14.025Z">
 <meta property="article:author" content="hrwhisper">
+<meta property="article:tag" content="算法">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="Data Structure">
 <meta property="article:tag" content="heap">
 <meta property="article:tag" content="priority-queue">
-<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.hrwhisper.me/images/algorithm-heap-priority-queue/binary-heap-.png">
 
@@ -298,8 +298,10 @@
 <ul>
 <li>push</li>
 <li>pop</li>
-<li>堆的创建及其他应用 <a id="more"></a> ## 优先队列</li>
+<li>堆的创建及其他应用</li>
 </ul>
+<a id="more"></a>
+<h2 id="优先队列">优先队列</h2>
 <p>在多任务环境中，操作系统必须决定在若干进程中运行哪个进程。我们知道，有一些任务应当具有优先权，对这些特殊的应用似乎需要一类特殊的队列，称之为优先队列(priority queue)。</p>
 <p>优先队列至少应该实现insert和deleteMin操作。</p>
 <p>一些简单的实现如下：</p>
@@ -411,11 +413,11 @@
 
       <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/C/" rel="tag"># C++</a>
               <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
               <a href="/tags/heap/" rel="tag"># heap</a>
               <a href="/tags/priority-queue/" rel="tag"># priority-queue</a>
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           </div>
 
         
@@ -490,7 +492,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E5%A0%86"><span class="nav-text">二叉堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">堆的基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#insert"><span class="nav-text">1.insert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deletemin"><span class="nav-text">2.deleteMin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E7%9A%84%E5%85%B6%E5%AE%83%E6%93%8D%E4%BD%9C"><span class="nav-text">堆的其它操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#decreasekeypx"><span class="nav-text">1.decreaseKey(p,x)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#increasekeypx"><span class="nav-text">2.increaseKey(p,x)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#removep"><span class="nav-text">3.remove(p)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bulidheap"><span class="nav-text">4.bulidHeap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%A0%86"><span class="nav-text">5.最大堆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97"><span class="nav-text">优先队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E5%A0%86"><span class="nav-text">二叉堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">堆的基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#insert"><span class="nav-text">1.insert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deletemin"><span class="nav-text">2.deleteMin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E7%9A%84%E5%85%B6%E5%AE%83%E6%93%8D%E4%BD%9C"><span class="nav-text">堆的其它操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#decreasekeypx"><span class="nav-text">1.decreaseKey(p,x)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#increasekeypx"><span class="nav-text">2.increaseKey(p,x)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#removep"><span class="nav-text">3.remove(p)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bulidheap"><span class="nav-text">4.bulidHeap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%A0%86"><span class="nav-text">5.最大堆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

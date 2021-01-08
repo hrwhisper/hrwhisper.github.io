@@ -29,10 +29,10 @@
 <meta property="og:description" content="leetcode Design Twitter Design a simplified version of Twitter where users can post tweets, follow&#x2F;unfollow another user and is able to see the 10 most recent tweets in the user&#39;s news feed. Your des">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-06-11T09:01:23.000Z">
-<meta property="article:modified_time" content="2020-10-26T15:19:34.737Z">
+<meta property="article:modified_time" content="2021-01-08T13:32:16.837Z">
 <meta property="article:author" content="hrwhisper">
-<meta property="article:tag" content="Data Structure">
 <meta property="article:tag" content="python">
+<meta property="article:tag" content="Data Structure">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary">
 
@@ -298,9 +298,9 @@
 </ol>
 <p><strong>Example:</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Twitter twitter &#x3D; new Twitter();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; User 1 posts a new tweet (id &#x3D; 5).</span><br><span class="line">twitter.postTweet(1, 5);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; User 1&#39;s news feed should return a list with 1 tweet id -&gt; [5].</span><br><span class="line">twitter.getNewsFeed(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; User 1 follows user 2.</span><br><span class="line">twitter.follow(1, 2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; User 2 posts a new tweet (id &#x3D; 6).</span><br><span class="line">twitter.postTweet(2, 6);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; User 1&#39;s news feed should return a list with 2 tweet ids -&gt; [6, 5].</span><br><span class="line">&#x2F;&#x2F; Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5.</span><br><span class="line">twitter.getNewsFeed(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; User 1 unfollows user 2.</span><br><span class="line">twitter.unfollow(1, 2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; User 1&#39;s news feed should return a list with 1 tweet id -&gt; [5],</span><br><span class="line">&#x2F;&#x2F; since user 1 is no longer following user 2.</span><br><span class="line">twitter.getNewsFeed(1);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
 <a id="more"></a>
 <p>题目地址：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/design-twitter/">leetcode Design Twitter</a></p>
-</blockquote>
 <p>题意：要求设计一个数据结构，使其能满足twitter的4种基本操作，发推、获得关注用户和自身最新10条推文、关注用户和取消关注。</p>
 <p>思路：水题。和上一题一样，不明白为啥为hard。  可能难点就在于，直接写出无bug 的code吧。</p>
 <p>需要那些非法的情况需要进行考虑吧。比如：</p>
@@ -359,8 +359,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
               <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
               <a href="/tags/leetcode/" rel="tag"># leetcode</a>
           </div>
 

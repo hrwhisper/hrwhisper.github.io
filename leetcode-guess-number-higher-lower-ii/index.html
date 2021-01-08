@@ -29,11 +29,11 @@
 <meta property="og:description" content="leetcode Guess Number Higher or Lower II We are playing the Guess Game. The game is as follows: I pick a number from 1 to n. You have to guess which number I picked. Every time you guess wrong, I&#39;ll">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-16T08:39:15.000Z">
-<meta property="article:modified_time" content="2020-10-26T15:19:34.865Z">
+<meta property="article:modified_time" content="2021-01-08T13:32:16.848Z">
 <meta property="article:author" content="hrwhisper">
-<meta property="article:tag" content="C++">
-<meta property="article:tag" content="算法">
 <meta property="article:tag" content="python">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="C++">
 <meta property="article:tag" content="leetcode">
 <meta property="article:tag" content="dynamic programming">
 <meta property="article:tag" content="Java">
@@ -305,8 +305,12 @@
 <li>Take a small example (n = 3). What do you end up paying in the worst case?</li>
 <li>Check out <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Minimax">this article</a> if you're still stuck.</li>
 <li>The purely recursive implementation of minimax would be worthless for even a small n. You MUST use dynamic programming.</li>
-<li>As a follow-up, how would you modify your code to solve the problem of minimizing the expected loss, instead of the worst-case loss? <a id="more"></a> 题目地址: <a target="_blank" rel="noopener" href="https://leetcode.com/problems/guess-number-higher-or-lower-ii/">leetcode Guess Number Higher or Lower II</a></li>
+<li>As a follow-up, how would you modify your code to solve the problem of minimizing the expected loss, instead of the worst-case loss?</li>
 </ol>
+</blockquote>
+<blockquote>
+<a id="more"></a>
+<p>题目地址: <a target="_blank" rel="noopener" href="https://leetcode.com/problems/guess-number-higher-or-lower-ii/">leetcode Guess Number Higher or Lower II</a></p>
 </blockquote>
 <p>题意：给定一个数字n，从1~n中选取一个数字y让你猜。在猜的过程中，会告诉你你当前猜的数字x是比y大还是小，猜错的话，需要付$x。给定n,我们最少需要多少的钱来确保我们猜出y呢？</p>
 <p>思路：在 <a href="https://www.hrwhisper.me/leetcode-guess-number-higher-lower/">374 Guess Number Higher or Lower</a> 中，我们采用二分法来进行查找，但这题并不是用二分法。</p>
@@ -381,9 +385,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/C/" rel="tag"># C++</a>
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
               <a href="/tags/leetcode/" rel="tag"># leetcode</a>
               <a href="/tags/dynamic-programming/" rel="tag"># dynamic programming</a>
               <a href="/tags/Java/" rel="tag"># Java</a>

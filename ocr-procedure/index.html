@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://www.hrwhisper.me/images/ocr-procedure/ocr-other-testfile.jpg">
 <meta property="og:image" content="https://www.hrwhisper.me/images/ocr-procedure/ocr-other-testfile-result.jpg">
 <meta property="article:published_time" content="2015-06-21T03:11:40.000Z">
-<meta property="article:modified_time" content="2020-10-19T14:35:48.811Z">
+<meta property="article:modified_time" content="2021-01-08T13:42:14.072Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="python">
@@ -299,7 +299,9 @@
         <blockquote>
 <p> OCR （Optical Character Recognition，光学字符识别）是指电子设备（例如扫描仪或数码相机）检查纸上打印的字符，通过检测暗、亮的模式确定其形状，然后用字符识别方法将形状翻译成计算机文字的过程；即，针对印刷体字符，采用光学的方式将纸质文档中的文字转换成为黑白点阵的图像文件，并通过识别软件将图像中的文字转换成文本格式，供文字处理软件进一步编辑加工的技术。</p>
 </blockquote>
-<p>本文初步介绍了 OCR 识别 的基本过程。 <a id="more"></a> ## 一、问题分析</p>
+<p>本文初步介绍了 OCR 识别 的基本过程。</p>
+<a id="more"></a>
+<h2 id="一问题分析">一、问题分析</h2>
 <p>图像中的文字识别可以看为图像分类的问题。即根据形状来判断是属于哪个字母。对于分类问题，一般需要训练数据和测试数据，分类器我采用支持向量机（SVM）</p>
 <h2 id="二具体过程">二、具体过程</h2>
 <h3 id="a-训练样本的输入">a) 训练样本的输入</h3>
@@ -488,7 +490,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="nav-text">二、具体过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-%E8%AE%AD%E7%BB%83%E6%A0%B7%E6%9C%AC%E7%9A%84%E8%BE%93%E5%85%A5"><span class="nav-text">a) 训练样本的输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b%E6%B5%8B%E8%AF%95%E6%A0%B7%E6%9C%AC%E7%9A%84%E8%AF%BB%E5%85%A5"><span class="nav-text">b)测试样本的读入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-%E7%BA%A0%E9%94%99"><span class="nav-text">c) 纠错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-%E5%85%B6%E4%BB%96%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%8F%8A%E7%BB%93%E6%9E%9C"><span class="nav-text">d) 其他测试数据及结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%B0%8F%E7%BB%93"><span class="nav-text">三、小结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-text">一、问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="nav-text">二、具体过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-%E8%AE%AD%E7%BB%83%E6%A0%B7%E6%9C%AC%E7%9A%84%E8%BE%93%E5%85%A5"><span class="nav-text">a) 训练样本的输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b%E6%B5%8B%E8%AF%95%E6%A0%B7%E6%9C%AC%E7%9A%84%E8%AF%BB%E5%85%A5"><span class="nav-text">b)测试样本的读入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-%E7%BA%A0%E9%94%99"><span class="nav-text">c) 纠错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-%E5%85%B6%E4%BB%96%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%8F%8A%E7%BB%93%E6%9E%9C"><span class="nav-text">d) 其他测试数据及结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%B0%8F%E7%BB%93"><span class="nav-text">三、小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
