@@ -21,12 +21,12 @@
     var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="BERT英文全称是：Bidirectional Encoder Representations from Transformers，即双向Transformer的encoder。 BERT提出的时候刷新了11项NLP任务的记录，可以说开创了一个新的时代。">
+  <meta name="description" content="BERT英文全称是：Bidirectional Encoder Representations from Transformers，即双向Transformer的encoder。 BERT提出的时候刷新了11项NLP任务的记录，可以说开创了一个新的时代。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【深度学习】BERT">
 <meta property="og:url" content="https://www.hrwhisper.me/deep-learning-bert/index.html">
 <meta property="og:site_name" content="细语呢喃">
-<meta property="og:description" content="BERT英文全称是：Bidirectional Encoder Representations from Transformers，即双向Transformer的encoder。 BERT提出的时候刷新了11项NLP任务的记录，可以说开创了一个新的时代。">
+<meta property="og:description" content="BERT英文全称是：Bidirectional Encoder Representations from Transformers，即双向Transformer的encoder。 BERT提出的时候刷新了11项NLP任务的记录，可以说开创了一个新的时代。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-bert/elmo.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-bert/elmo-multi-layer.png">
@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-bert/bert-fine-tuning-question-answer-task-example.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-bert/bert-fine-tuning-question-answer-task.png">
 <meta property="article:published_time" content="2020-04-06T13:50:16.000Z">
-<meta property="article:modified_time" content="2020-11-03T14:56:07.544Z">
+<meta property="article:modified_time" content="2021-01-31T14:38:48.109Z">
 <meta property="article:author" content="hrwhisper">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="Deep Learning">
@@ -408,6 +408,8 @@
 <figure>
 <img src="../images/deep-learning-bert/bert-fine-tuning-question-answer-task.png" alt="bert-fine-tuning-question-answer-task" /><figcaption>bert-fine-tuning-question-answer-task</figcaption>
 </figure>
+<h3 id="小结">小结</h3>
+<p>BERT相比ELMO和GPT模型，实现了真正的双向多层语言模型（ELMO为双向分别训练，GPT只用了单向的transformer），并显示的对句子关系建模。</p>
 <h2 id="erine">Erine</h2>
 <p>https://zhuanlan.zhihu.com/p/59436589</p>
 <h2 id="参考">参考</h2>
@@ -541,7 +543,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%90%91%E9%87%8F%E5%AF%B9%E6%AF%94"><span class="nav-text">词向量对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elmo"><span class="nav-text">ELMO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bert"><span class="nav-text">BERT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="nav-text">预训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#masked-lm"><span class="nav-text">Masked LM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#next-sentence-prediction"><span class="nav-text">Next Sentence Prediction</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5"><span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fine-tuning"><span class="nav-text">Fine Tuning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#single-sentence-classification-task"><span class="nav-text">Single Sentence Classification Task</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#single-sentence-tagging-tasks"><span class="nav-text">Single Sentence tagging tasks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sentence-pair-classification-task"><span class="nav-text">Sentence pair classification task</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#question-answer-task"><span class="nav-text">Question Answer task</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#erine"><span class="nav-text">Erine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%90%91%E9%87%8F%E5%AF%B9%E6%AF%94"><span class="nav-text">词向量对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elmo"><span class="nav-text">ELMO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bert"><span class="nav-text">BERT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="nav-text">预训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#masked-lm"><span class="nav-text">Masked LM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#next-sentence-prediction"><span class="nav-text">Next Sentence Prediction</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5"><span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fine-tuning"><span class="nav-text">Fine Tuning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#single-sentence-classification-task"><span class="nav-text">Single Sentence Classification Task</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#single-sentence-tagging-tasks"><span class="nav-text">Single Sentence tagging tasks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sentence-pair-classification-task"><span class="nav-text">Sentence pair classification task</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#question-answer-task"><span class="nav-text">Question Answer task</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#erine"><span class="nav-text">Erine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

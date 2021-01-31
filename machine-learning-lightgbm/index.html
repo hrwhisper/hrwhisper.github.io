@@ -21,12 +21,12 @@
     var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="本文介绍LightGBM，它是一款常用的GBDT工具包，由微软亚洲研究院（MSRA）进行开发，在Github上开源的三天内收获1000 star。其速度比XGBoost快，并且精度也相当的不错。 接下来看看其算法的内容。 注意其设计理念：   单个机器在不牺牲速度的情况下，尽可能多地用上更多的数据； 多机并行的时候，通信的代价尽可能地低，并且在计算上可以做到线性加速。   于是其使用分布式 GBD">
+  <meta name="description" content="本文介绍LightGBM，它是一款常用的GBDT工具包，由微软亚洲研究院（MSRA）进行开发，在Github上开源的三天内收获1000 star。其速度比XGBoost快，并且精度也相当的不错。 接下来看看其算法的内容。 注意其设计理念：   单个机器在不牺牲速度的情况下，尽可能多地用上更多的数据； 多机并行的时候，通信的代价尽可能地低，并且在计算上可以做到线性加速。   于是其">
 <meta property="og:type" content="article">
 <meta property="og:title" content="『我爱机器学习』集成学习（四）LightGBM">
 <meta property="og:url" content="https://www.hrwhisper.me/machine-learning-lightgbm/index.html">
 <meta property="og:site_name" content="细语呢喃">
-<meta property="og:description" content="本文介绍LightGBM，它是一款常用的GBDT工具包，由微软亚洲研究院（MSRA）进行开发，在Github上开源的三天内收获1000 star。其速度比XGBoost快，并且精度也相当的不错。 接下来看看其算法的内容。 注意其设计理念：   单个机器在不牺牲速度的情况下，尽可能多地用上更多的数据； 多机并行的时候，通信的代价尽可能地低，并且在计算上可以做到线性加速。   于是其使用分布式 GBD">
+<meta property="og:description" content="本文介绍LightGBM，它是一款常用的GBDT工具包，由微软亚洲研究院（MSRA）进行开发，在Github上开源的三天内收获1000 star。其速度比XGBoost快，并且精度也相当的不错。 接下来看看其算法的内容。 注意其设计理念：   单个机器在不牺牲速度的情况下，尽可能多地用上更多的数据； 多机并行的时候，通信的代价尽可能地低，并且在计算上可以做到线性加速。   于是其">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.hrwhisper.me/images/machine-learning-lightgbm/LightGBM-histogram.png">
 <meta property="og:image" content="https://www.hrwhisper.me/images/machine-learning-lightgbm/LightGBM-histogram-algorithm.jpg">
