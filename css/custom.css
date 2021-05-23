@@ -14,14 +14,26 @@
 .search-form-wrap {
   right: 8rem;
 }
-@media (min-width: 95rem) {
+@media (min-width: 768px) {
   .outer,
   .wrap {
     width: 95rem !important;
   }
 }
-@media (max-width: 95rem) {
+@media (max-width: 768px) {
   .tocbot {
     display: none !important;
+  }
+  .sidebar {
+    left: 0;
+  }
+  .sidebar.on {
+    left: -8rem;
+  }
+  .content {
+    transform: translateX(8rem);
+  }
+  .content.on {
+    transform: translateX(0);
   }
 }
