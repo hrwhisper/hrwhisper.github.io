@@ -1,314 +1,120 @@
 <!DOCTYPE html>
+
+
 <html lang="zh-CN">
+
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
-  <link rel="mask-icon" href="/images/site/avatar.jpg" color="#222">
-  <meta name="google-site-verification" content="fMKqXfnCsLFKKj0NjoZZApB_BuqLVUiJxtRkj-rznU4">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="身为手握Lumia 1020的拍照神器，又身为windows insider会员，昨天升级10512，发现国行还是没有安卓子系统，怒刷港版，然后升级之~于是开始玩起APK。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验">
-<meta property="og:url" content="https://www.hrwhisper.me/lumia-1020-windows-10-mobile-build-10512-install-android-apk/index.html">
-<meta property="og:site_name" content="细语呢喃">
-<meta property="og:description" content="身为手握Lumia 1020的拍照神器，又身为windows insider会员，昨天升级10512，发现国行还是没有安卓子系统，怒刷港版，然后升级之~于是开始玩起APK。">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150813_0001-614x1024.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0030.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/adb-install-win10-mobile.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0021-614x1024.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0023.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0022.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0001.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0004.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0005.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0006.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0010.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0012.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0002.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0013.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0015.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0015.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0026.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0020.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0016-614x1024.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0016.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0029.png">
-<meta property="article:published_time" content="2015-08-14T04:57:20.000Z">
-<meta property="article:modified_time" content="2020-10-20T14:43:15.426Z">
-<meta property="article:author" content="hrwhisper">
-<meta property="article:tag" content="windwos10 mobile">
-<meta property="article:tag" content="lumia">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.hrwhisper.me/images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150813_0001-614x1024.png">
-
-<link rel="canonical" href="https://www.hrwhisper.me/lumia-1020-windows-10-mobile-build-10512-install-android-apk/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验 | 细语呢喃</title>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-69270533-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-69270533-1');
-      }
-    </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/images/site/avatar.jpg" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
 
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
 
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?d6a8cb42bd9ae728375b6726daa75e95";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
+  
+<link rel="stylesheet" href="/css/custom.css">
 
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
 
+  
+  
 
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+  
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+</html>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-lumia-1020-windows-10-mobile-build-10512-install-android-apk"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验
+</h1>
+ 
 
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">细语呢喃</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">技术改变生活</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">26</span></a>
-
-  </li>
-        <li class="menu-item menu-item-leetcode">
-
-    <a href="/leetcode-algorithm-solution/" rel="section"><i class="fa fa-archive fa-fw"></i>leetcode</a>
-
-  </li>
-        <li class="menu-item menu-item-friends">
-
-    <a href="/friend-link/" rel="section"><i class="fa fa-link fa-fw"></i>friends</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about-me/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</div>
     </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
+     
+    <div class="article-meta">
+      <a href="/lumia-1020-windows-10-mobile-build-10512-install-android-apk/" class="article-date">
+  <time datetime="2015-08-14T04:57:20.000Z" itemprop="datePublished">2015-08-14</time>
+</a> 
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/others/">others</a> / <a class="article-category-link" href="/categories/others/%E4%B8%80%E4%BA%9B%E4%B8%9C%E4%B8%9C%E8%AF%84%E6%B5%8B/">一些东东评测</a>
   </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/lumia-1020-windows-10-mobile-build-10512-install-android-apk/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+ 
+       
+        
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.1k</span>
+        </span>
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">4 分钟</span>
+        </span>
     </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2015-08-14 12:57:20" itemprop="dateCreated datePublished" datetime="2015-08-14T12:57:20+08:00">2015-08-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/others/" itemprop="url" rel="index"><span itemprop="name">others</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/others/%E4%B8%80%E4%BA%9B%E4%B8%9C%E4%B8%9C%E8%AF%84%E6%B5%8B/" itemprop="url" rel="index"><span itemprop="name">一些东东评测</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/lumia-1020-windows-10-mobile-build-10512-install-android-apk/" class="post-meta-item leancloud_visitors" data-flag-title="Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/lumia-1020-windows-10-mobile-build-10512-install-android-apk/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/lumia-1020-windows-10-mobile-build-10512-install-android-apk/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</div>
 
       
-        <p>身为手握Lumia 1020的拍照神器，又身为windows insider会员，昨天升级10512，发现国行还是没有安卓子系统，怒刷港版，然后升级之~于是开始玩起APK。 <a id="more"></a> 一图流证明不是安卓： 手机已超过win10正式版版本（电脑为10.0.10240）</p>
+       
+        <div class="word_count">
+    <span class="post-meta-item-icon">
+        <i class="ri-eye-fill"></i> 
+        阅读数:<span id="/lumia-1020-windows-10-mobile-build-10512-install-android-apk/" data-flag-title="Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验" class="leancloud_visitors">0</span>次
+    </span>
+</div>
+      
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>身为手握Lumia 1020的拍照神器，又身为windows insider会员，昨天升级10512，发现国行还是没有安卓子系统，怒刷港版，然后升级之~于是开始玩起APK。 <a id="more"></a> 一图流证明不是安卓： 手机已超过win10正式版版本（电脑为10.0.10240）</p>
 <p><img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150813_0001-614x1024.png" alt="wp_ss_20150813_0001" /> <img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0030.png" alt="wp_ss_20150813_0001" /></p>
 <p>安装的方法很简单</p>
 <ul>
@@ -317,20 +123,20 @@
 </ul>
 <p><em>PS:学过安卓开发的都懂，adb是啥玩意~</em></p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/adb-install-win10-mobile.png" alt="adb install win10 mobile" /><figcaption>adb install win10 mobile</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/adb-install-win10-mobile.png" alt="adb install win10 mobile" /><figcaption aria-hidden="true">adb install win10 mobile</figcaption>
 </figure>
 <h2 id="常用软件测试">常用软件测试</h2>
 <h3 id="qq空间">QQ空间</h3>
 <p>wp上有二坑：支付宝和QQ空间 虽然我这两个都没怎么用~</p>
 <p>QQ空间如下，完美运行，支付宝除了摄像头之外 其余暂未发现问题（这个太多人弄了，我就不搞了）</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0021-614x1024.png" alt="wp_ss_20150814_0021" /><figcaption>wp_ss_20150814_0021</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0021-614x1024.png" alt="wp_ss_20150814_0021" /><figcaption aria-hidden="true">wp_ss_20150814_0021</figcaption>
 </figure>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0023.png" alt="wp_ss_20150814_0021" /><figcaption>wp_ss_20150814_0021</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0023.png" alt="wp_ss_20150814_0021" /><figcaption aria-hidden="true">wp_ss_20150814_0021</figcaption>
 </figure>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0022.png" alt="wp_ss_20150814_0022" /><figcaption>wp_ss_20150814_0022</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0022.png" alt="wp_ss_20150814_0022" /><figcaption aria-hidden="true">wp_ss_20150814_0022</figcaption>
 </figure>
 <h3 id="qq-hd">QQ HD</h3>
 <p>QQ微信啥的有设备锁，不让你上，不过QQ HD和QQ轻聊版都可以~</p>
@@ -339,508 +145,710 @@
 <p>PS：QQ轻聊版？咱还不如用原版的QQ呢~</p>
 <p>再PS：QQ hd横屏感觉叼叼的</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0001.png" alt="wp_ss_20150814_0001" /><figcaption>wp_ss_20150814_0001</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0001.png" alt="wp_ss_20150814_0001" /><figcaption aria-hidden="true">wp_ss_20150814_0001</figcaption>
 </figure>
 <h3 id="贴吧">贴吧</h3>
 <p>其实wp的原版贴吧就可以用了=v= 我也不常刷，不过安卓版的明显UI啥的好看啊~推荐使用</p>
 <p>PS:这货双击返回键回桌面是没用哒<sub>直接强关了吧</sub></p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0004.png" alt="wp_ss_20150814_0003" /><figcaption>wp_ss_20150814_0003</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0004.png" alt="wp_ss_20150814_0003" /><figcaption aria-hidden="true">wp_ss_20150814_0003</figcaption>
 </figure>
 <h3 id="网易新闻">网易新闻</h3>
 <p>同贴吧，wp版的也是可以用的，但安卓版UI好看，体验也比较好，推荐使用</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0005.png" alt="wp_ss_20150814_0005" /><figcaption>wp_ss_20150814_0005</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0005.png" alt="wp_ss_20150814_0005" /><figcaption aria-hidden="true">wp_ss_20150814_0005</figcaption>
 </figure>
 <h3 id="知乎">知乎</h3>
 <p>终于可以愉快的刷知乎了，终于可以摆脱第三方客户端了！不解释，强烈推荐~</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0006.png" alt="wp_ss_20150814_0008" /><figcaption>wp_ss_20150814_0008</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0006.png" alt="wp_ss_20150814_0008" /><figcaption aria-hidden="true">wp_ss_20150814_0008</figcaption>
 </figure>
 <h3 id="豆瓣">豆瓣</h3>
 <p>哇咔咔<sub>终于可以愉快的刷豆瓣了</sub></p>
 <p>虽然那个豆瓣pro不错，但是官方版的用起来总是比较爽的~</p>
 <p>=v= 没发现啥问题，强烈推荐</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0010.png" alt="wp_ss_20150814_0009" /><figcaption>wp_ss_20150814_0009</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0010.png" alt="wp_ss_20150814_0009" /><figcaption aria-hidden="true">wp_ss_20150814_0009</figcaption>
 </figure>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0012.png" alt="wp_ss_20150814_0011" /><figcaption>wp_ss_20150814_0011</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0012.png" alt="wp_ss_20150814_0011" /><figcaption aria-hidden="true">wp_ss_20150814_0011</figcaption>
 </figure>
 <h3 id="lofter">Lofter</h3>
 <p>有的图片会出现加载失败的情况。</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0002.png" alt="wp_ss_20150814_0002" /><figcaption>wp_ss_20150814_0002</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0002.png" alt="wp_ss_20150814_0002" /><figcaption aria-hidden="true">wp_ss_20150814_0002</figcaption>
 </figure>
 <h3 id="微博">微博</h3>
 <p>微博和知乎、豆瓣、lofter逼格比起来低了好多，wp上的马马虎虎都可以用了（说马马虎虎是因为没有夜间模式，虽然我都不怎么刷微博），这个安卓的图片的略缩图可能会加载失败，但是点进去又正常。视频可用。</p>
 <p>总结，没有wp版的刷的爽，不推荐使用。等着通用APP吧</p>
 <p><img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0013.png" alt="wp_ss_20150814_0014" />]</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0015.png" alt="wp_ss_20150814_0015" /><figcaption>wp_ss_20150814_0015</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0015.png" alt="wp_ss_20150814_0015" /><figcaption aria-hidden="true">wp_ss_20150814_0015</figcaption>
 </figure>
 <h3 id="qq安全中心">QQ安全中心</h3>
 <p>当年玩游戏的时候。。wp没有。。。现在可以用了= =倒是没玩了。。。推荐使用</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0015.png" alt="wp_ss_20150814_0015" /><figcaption>wp_ss_20150814_0015</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0015.png" alt="wp_ss_20150814_0015" /><figcaption aria-hidden="true">wp_ss_20150814_0015</figcaption>
 </figure>
 <h3 id="京东">京东</h3>
 <p>运行OK~ 可以抛弃原来的WP客户端了~</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0026.png" alt="wp_ss_20150814_0024" /><figcaption>wp_ss_20150814_0024</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0026.png" alt="wp_ss_20150814_0024" /><figcaption aria-hidden="true">wp_ss_20150814_0024</figcaption>
 </figure>
 <h3 id="淘宝hd">淘宝HD</h3>
 <p>淘宝的直接安装会失败，但HD可以。体验比WP的好多了，推荐使用。</p>
 <p>PS:搜索和淘宝HD文字重叠，但不影响使用（点那个搜索图标完全正常）</p>
 <p>当然，要是你横屏显示那完美哒~</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0020.png" alt="wp_ss_20150814_0018" /><figcaption>wp_ss_20150814_0018</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0020.png" alt="wp_ss_20150814_0018" /><figcaption aria-hidden="true">wp_ss_20150814_0018</figcaption>
 </figure>
 <h2 id="下面是自己写的app测试">下面是自己写的APP测试</h2>
 <h3 id="sasa">SASA</h3>
 <p>这个我写的APK<sub>运行十分正常</sub>能在自己手机上跑太爽了！</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0016-614x1024.png" alt="wp_ss_20150814_0017" /><figcaption>wp_ss_20150814_0017</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0016-614x1024.png" alt="wp_ss_20150814_0017" /><figcaption aria-hidden="true">wp_ss_20150814_0017</figcaption>
 </figure>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0016.png" alt="wp_ss_20150814_0016" /><figcaption>wp_ss_20150814_0016</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0016.png" alt="wp_ss_20150814_0016" /><figcaption aria-hidden="true">wp_ss_20150814_0016</figcaption>
 </figure>
 <h3 id="人大助手">人大助手</h3>
 <p>这个也是我写的也没啥问题~</p>
 <figure>
-<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0029.png" alt="wp_ss_20150814_0027" /><figcaption>wp_ss_20150814_0027</figcaption>
+<img src="../images/lumia-1020-windows-10-mobile-build-10512-install-android-apk/wp_ss_20150814_0029.png" alt="wp_ss_20150814_0027" /><figcaption aria-hidden="true">wp_ss_20150814_0027</figcaption>
 </figure>
 <h2 id="总结">总结</h2>
 <p>windows 10 mobile迈出了重大的一步，可以说wp的应用缺乏的情况大幅改善，对windows生态具有重大的意义。</p>
 <p>人家说兼容安卓会引起开发者流失，但更重要的是，如果没有用户，更不会有开发者。这个互联网的时代，用户反倒是最关键的，先解决最大的问题是应用的匮乏，才能吸引到足够的用户。有了足够的用户，开发者才会重视这个蛋糕。否则，我们骂支付婊，支付婊只是说推出通用应用，然而，还未知何时何日。</p>
 <p>从build 10166到build 10512的安卓子环境从100+MB减少到了96MB，证明微软当前仍在对其进行调优。当前的APK安装主要问题是，摄像头开启有问题。博主个人认为这是安卓和wp的API不同造成的，如果对该环境修改，比如当使用安卓摄像头API自动跳转为wp的，我认为是可行的。就等着微软的动作了。</p>
 <p>最后，期待过几个月吃掉IOS应用安装，还有通用应用（艺龙旅行通用应用掉渣天啊，飞一样的流畅）的崛起（QQ、微博、微信都有）。</p>
-
-    </div>
-
-    
-    
-    
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>hrwhisper
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://www.hrwhisper.me/lumia-1020-windows-10-mobile-build-10512-install-android-apk/" title="Lumia 1020 (windows 10 mobile build 10512) 安装 APK 是怎样的一种体验">https://www.hrwhisper.me/lumia-1020-windows-10-mobile-build-10512-install-android-apk/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-        <div class="reward-container">
-  <div>请我喝杯咖啡吧~</div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    打赏
-  </button>
-  <div id="qr" style="display: none;">
+ 
+      <!-- reward -->
       
-      <div style="display: inline-block;">
-        <img src="/images/donate/wechat_pay.png" alt="hrwhisper 微信支付">
-        <p>微信支付</p>
-      </div>
-      
-      <div style="display: inline-block;">
-        <img src="/images/donate/alipay.jpg" alt="hrwhisper 支付宝">
-        <p>支付宝</p>
-      </div>
-
-  </div>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/windwos10-mobile/" rel="tag"># windwos10 mobile</a>
-              <a href="/tags/lumia/" rel="tag"># lumia</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/postgraduate-recommendation-summer-campus/" rel="prev" title="保研夏令营">
-      <i class="fa fa-chevron-left"></i> 保研夏令营
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/windows10-start-menu-and-cortana-stop-work-solution/" rel="next" title="windows 10 出现 关键错误：开始菜单和cortana停止工作 解决办法">
-      windows 10 出现 关键错误：开始菜单和cortana停止工作 解决办法 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-    <div class="comments" id="valine-comments"></div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
         </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
           
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
         </li>
       </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95"><span class="nav-text">常用软件测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#qq%E7%A9%BA%E9%97%B4"><span class="nav-text">QQ空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#qq-hd"><span class="nav-text">QQ HD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%B4%E5%90%A7"><span class="nav-text">贴吧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E6%98%93%E6%96%B0%E9%97%BB"><span class="nav-text">网易新闻</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E4%B9%8E"><span class="nav-text">知乎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B1%86%E7%93%A3"><span class="nav-text">豆瓣</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lofter"><span class="nav-text">Lofter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E5%8D%9A"><span class="nav-text">微博</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#qq%E5%AE%89%E5%85%A8%E4%B8%AD%E5%BF%83"><span class="nav-text">QQ安全中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%AC%E4%B8%9C"><span class="nav-text">京东</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%98%E5%AE%9Dhd"><span class="nav-text">淘宝HD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E9%9D%A2%E6%98%AF%E8%87%AA%E5%B7%B1%E5%86%99%E7%9A%84app%E6%B5%8B%E8%AF%95"><span class="nav-text">下面是自己写的APP测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sasa"><span class="nav-text">SASA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%BA%E5%A4%A7%E5%8A%A9%E6%89%8B"><span class="nav-text">人大助手</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="hrwhisper"
-      src="/images/site/avatar.jpg">
-  <p class="site-author-name" itemprop="name">hrwhisper</p>
-  <div class="site-description" itemprop="description">一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">254</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">26</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">55</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/hrwhisper" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hrwhisper" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://weibo.com/murmured" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;murmured" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
       </div>
-      <script data-ad-client="ca-pub-1580254183546533" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 2013 – 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">hrwhisper</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
-  </div>
 
-        
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.hrwhisper.me/lumia-1020-windows-10-mobile-build-10512-install-android-apk/" alt="微信分享二维码">
+    </div>
+</div>
 
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lumia/" rel="tag">lumia</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windwos10-mobile/" rel="tag">windwos10 mobile</a></li></ul>
 
-
-
-
-
-<script>
-  (function() {
-    function leancloudSelector(url) {
-      url = encodeURI(url);
-      return document.getElementById(url).querySelector('.leancloud-visitors-count');
-    }
-
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            leancloudSelector(url).innerText = counter.time + 1;
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              });
-          } else {
-              Counter('post', '/classes/Counter', { title, url, time: 1 })
-                .then(response => response.json())
-                .then(() => {
-                  leancloudSelector(url).innerText = 1;
-                })
-                .catch(error => {
-                  console.error('Failed to create', error);
-                });
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.id);
-      });
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          for (let url of entries) {
-            let target = results.find(item => item.url === url);
-            leancloudSelector(url).innerText = target ? target.time : 0;
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz","app_key":"b26lBsbwmVyxTSnNrsBrnv3U","server_url":null,"security":false};
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${api_server}/1.1${url}`, {
-          method,
-          headers: {
-            'X-LC-Id'     : app_id,
-            'X-LC-Key'    : app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    }
-
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
-
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(response => response.json())
-        .then(({ api_server }) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
-</script>
-
-
-      </div>
     </footer>
   </div>
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+   
+  <nav class="article-nav">
+    
+      <a href="/windows10-start-menu-and-cortana-stop-work-solution/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            windows 10 出现 关键错误：开始菜单和cortana停止工作 解决办法
+          
+        </div>
+      </a>
+    
+    
+      <a href="/postgraduate-recommendation-summer-campus/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">保研夏令营</div>
+      </a>
+    
+  </nav>
 
-<script src="/js/utils.js"></script>
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
 
-<script src="/js/motion.js"></script>
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
 
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
 
-<script src="/js/schemes/muse.js"></script>
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
 
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
 
-<script src="/js/next-boot.js"></script>
+ 
+     
+</article>
 
-
-
-
-  
-
-
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2021
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
       
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+
+ 
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script>
+<script type="text/javascript">
+var leancloud_app_id  = 'fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz';
+var leancloud_app_key = 'b26lBsbwmVyxTSnNrsBrnv3U';
+
+AV.init({
+    appId: leancloud_app_id,
+    appKey: leancloud_app_key
+});
+
+// https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
+function showTime(Counter) {
+  console.log("show time");
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
+  query.find().then((results) => {
+      if (results.length > 0) {
+        let data = results;
+        obj.each(function() {
+          let url = $(this).attr('id').trim();		
+          for (let i = 0; i < data.length; i++) {
+            let object = data[i];
+            let content = object.get('time');
+            let _url = object.get('url');
+            if(url == _url){
+              $(this).text(content);
+            }
+          }
+        });
+      }
+  }).catch((error) => {
+    console.error(error);
+  });
+}
+
+function addCount(Counter) {
+  const obj = $(".leancloud_visitors");
+	url = obj.attr('id').trim();
+  title = obj.attr('data-flag-title').trim();
+
+  const query = new AV.Query(Counter);
+  query.equalTo("url", url);
+
+	query.find().then((results) => {
+			if (results.length > 0) {
+				var counter = results[0];
+        counter.increment("time", 1);
+        counter.set("title", title);
+				counter.save(null, {fetchWhenSave: true}).then(() => {
+          let content = counter.get('time');
+          $(document.getElementById(url)).text(content);
+        }, (error)=> {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+        });
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+        newcounter.set("time", 1);
+        newcounter.save(null, {fetchWhenSave: true}).then(() => {
+          var content = newcounter.get('time');
+          $(document.getElementById(url)).text(content);
+        }, (error)=> {
+          console.log('Failed to create' + error.message);
+        });
+			}
+	}).catch((error) => {
+    console.error(error);
+  });
+}
+
+$(function() {
+  var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+	  showTime(Counter);
+  }
+}); 
+</script>
+
+
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/avatar.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
 
 <script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	  scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
-      script.defer = true;
-      // script.setAttribute("data-pjax", "");
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
   }
 </script>
 
-    
+<!-- Katex -->
 
-  
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
 
 
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
-    });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : 'fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz',
-      appKey     : 'b26lBsbwmVyxTSnNrsBrnv3U',
-      placeholder: "在上方填上邮箱地址可以收到我回复的邮件哦~",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : false,
-      lang       : 'zh-cn' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : true,
-      serverURLs : ''
-    });
-  }, window.Valine);
-});
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
 </script>
 
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
 </body>
+
 </html>

@@ -1,355 +1,166 @@
 <!DOCTYPE html>
+
+
 <html lang="zh-CN">
+
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
-  <link rel="mask-icon" href="/images/site/avatar.jpg" color="#222">
-  <meta name="google-site-verification" content="fMKqXfnCsLFKKj0NjoZZApB_BuqLVUiJxtRkj-rznU4">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.hrwhisper.me","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="在transformer提出前，比如做机器翻译，常用的是seq2seq的模型。这类模型以RNN作为基本的结构，每一个时刻的输入依赖于上一个时刻的输出，难以并行化计算（当然也可以用CNN来做，如textCNN，CNN可以比较好的做到并行）；此外，RNN容易忘记较早看到的信息，尽管有LSTM、GRU使用门的机制来缓解这个问题，但对于特别长的句子，仍旧是有问题的。Transformer的提出正是解决了上">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【深度学习】Attention is All You Need : Transformer模型">
-<meta property="og:url" content="https://www.hrwhisper.me/deep-learning-attention-is-all-you-need-transformer/index.html">
-<meta property="og:site_name" content="细语呢喃">
-<meta property="og:description" content="在transformer提出前，比如做机器翻译，常用的是seq2seq的模型。这类模型以RNN作为基本的结构，每一个时刻的输入依赖于上一个时刻的输出，难以并行化计算（当然也可以用CNN来做，如textCNN，CNN可以比较好的做到并行）；此外，RNN容易忘记较早看到的信息，尽管有LSTM、GRU使用门的机制来缓解这个问题，但对于特别长的句子，仍旧是有问题的。Transformer的提出正是解决了上">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/transformer.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/seq2seq-model-to-attention.jpeg">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention1.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention2.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention3.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/replace-rnn-by-self-attention.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v2.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v3.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/multi-head-attention.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/multi-head-attention-pytorch.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/transformer-encoder.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/positional-encoding.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/batch-normalization-vs-layer-normalization.png">
-<meta property="og:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/transformer-decoder.png">
-<meta property="article:published_time" content="2020-03-29T14:36:25.000Z">
-<meta property="article:modified_time" content="2020-10-19T14:35:48.727Z">
-<meta property="article:author" content="hrwhisper">
-<meta property="article:tag" content="Machine Learning">
-<meta property="article:tag" content="Deep Learning">
-<meta property="article:tag" content="Machine Learning model">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.hrwhisper.me/images/deep-learning-attention-is-all-you-need-transformer/transformer.png">
-
-<link rel="canonical" href="https://www.hrwhisper.me/deep-learning-attention-is-all-you-need-transformer/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>【深度学习】Attention is All You Need : Transformer模型 | 细语呢喃</title>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="c,c++,java,python,leetcode,algorithm,reading,life,moods,machine-learning,data-mining,deep-learning,AI" />
+   
+  <meta name="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。" />
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-69270533-1"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-69270533-1');
-      }
-    </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    【深度学习】Attention is All You Need : Transformer模型 |  一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/images/site/avatar.jpg" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
 
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
 
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?d6a8cb42bd9ae728375b6726daa75e95";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
+  
+<link rel="stylesheet" href="/css/custom.css">
 
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
 
+  
+  
 
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+  
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+</html>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-deep-learning-attention-is-all-you-need-transformer"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  【深度学习】Attention is All You Need : Transformer模型
+</h1>
+ 
 
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">细语呢喃</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">技术改变生活</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">26</span></a>
-
-  </li>
-        <li class="menu-item menu-item-leetcode">
-
-    <a href="/leetcode-algorithm-solution/" rel="section"><i class="fa fa-archive fa-fw"></i>leetcode</a>
-
-  </li>
-        <li class="menu-item menu-item-friends">
-
-    <a href="/friend-link/" rel="section"><i class="fa fa-link fa-fw"></i>friends</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about-me/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</div>
     </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
+     
+    <div class="article-meta">
+      <a href="/deep-learning-attention-is-all-you-need-transformer/" class="article-date">
+  <time datetime="2020-03-29T14:36:25.000Z" itemprop="datePublished">2020-03-29</time>
+</a> 
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/study/">study</a> / <a class="article-category-link" href="/categories/study/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
   </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.hrwhisper.me/deep-learning-attention-is-all-you-need-transformer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/site/avatar.jpg">
-      <meta itemprop="name" content="hrwhisper">
-      <meta itemprop="description" content="一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。">
+ 
+       
+        
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">5k</span>
+        </span>
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="细语呢喃">
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">23 分钟</span>
+        </span>
     </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          【深度学习】Attention is All You Need : Transformer模型
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-29 22:36:25" itemprop="dateCreated datePublished" datetime="2020-03-29T22:36:25+08:00">2020-03-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">study</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/study/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/deep-learning-attention-is-all-you-need-transformer/" class="post-meta-item leancloud_visitors" data-flag-title="【深度学习】Attention is All You Need : Transformer模型" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/deep-learning-attention-is-all-you-need-transformer/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/deep-learning-attention-is-all-you-need-transformer/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</div>
 
       
-        <p>在transformer提出前，比如做机器翻译，常用的是seq2seq的模型。这类模型以RNN作为基本的结构，每一个时刻的输入依赖于上一个时刻的输出，难以并行化计算（当然也可以用CNN来做，如textCNN，CNN可以比较好的做到并行）；此外，RNN容易忘记较早看到的信息，尽管有LSTM、GRU使用门的机制来缓解这个问题，但对于特别长的句子，仍旧是有问题的。Transformer的提出正是解决了上述两个问题。 <a id="more"></a></p>
+       
+        <div class="word_count">
+    <span class="post-meta-item-icon">
+        <i class="ri-eye-fill"></i> 
+        阅读数:<span id="/deep-learning-attention-is-all-you-need-transformer/" data-flag-title="【深度学习】Attention is All You Need : Transformer模型" class="leancloud_visitors">0</span>次
+    </span>
+</div>
+      
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>在transformer提出前，比如做机器翻译，常用的是seq2seq的模型。这类模型以RNN作为基本的结构，每一个时刻的输入依赖于上一个时刻的输出，难以并行化计算（当然也可以用CNN来做，如textCNN，CNN可以比较好的做到并行）；此外，RNN容易忘记较早看到的信息，尽管有LSTM、GRU使用门的机制来缓解这个问题，但对于特别长的句子，仍旧是有问题的。Transformer的提出正是解决了上述两个问题。 <a id="more"></a></p>
 <p>首先来看看Transformer的结构：</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/transformer.png" alt="transformer" /><figcaption>transformer</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/transformer.png" alt="transformer" /><figcaption aria-hidden="true">transformer</figcaption>
 </figure>
-<p>看上去很复杂，但大体上，也是分为Encoder和Decoder，以机器翻译为例，Encoder输入“机器学习&quot;,Decoder输出”Machine learning“。</p>
+<p>看上去很复杂，但大体上，也是分为Encoder和Decoder，以机器翻译为例，Encoder输入“机器学习",Decoder输出”Machine learning“。</p>
 <p>下面对Encoder和Decoder分别进行讲解。不过在此之前，会先介绍Self-Attention机制，因为transformer中大量的采用了这个机制。</p>
 <h2 id="self-attention">Self-Attention</h2>
 <p>想必在此之前，你已经听过了Seq2Seq模型中的Attention机制，那么它和Self Attetion有什么区别呢？我们先对了Seq2Seq模型中的Attention机制做一个简短的回顾，然后在切入主题。</p>
 <h3 id="attetion-in-seq2seq-model">Attetion in Seq2Seq model</h3>
 <p>前面提到过，seq2seq model在面对长句子的时候表现不佳，那么怎么办呢？2015年救星Attention诞生了。这个过程下面的图很生动的说明了这个情况：</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-model-to-attention.jpeg" alt="seq2seq-model-to-attention" /><figcaption>seq2seq-model-to-attention</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-model-to-attention.jpeg" alt="seq2seq-model-to-attention" /><figcaption aria-hidden="true">seq2seq-model-to-attention</figcaption>
 </figure>
 <p>注意到，一开始的Encoder-Decoder将input的sequence都encode为一个向量，而有了attention之后，多了好几个向量。这几个向量是怎么来的呢？</p>
 <p>这里借用李宏毅老师的PPT来向大家说明。Attention相当于权重，比如你要翻译某个词的时候，可能会更加的注意输入句子某几个词。</p>
 <p>下面的<span class="math inline">\(h^1,h^2,h^3,h^4\)</span>是对应的输出句子4个时刻的隐向量（而不是最后LSTM输出的y，因为y可能维度比较大），而<span class="math inline">\(\alpha_0^1\)</span>则代表<span class="math inline">\(z^0\)</span>和<span class="math inline">\(h^1\)</span>的权重，即需要关注第一个词的程度有多少。</p>
 <p><span class="math inline">\(\alpha_0^1\)</span>是怎么得到的呢？可以想象为一个黑盒，输入是<span class="math inline">\(h^1\)</span>和<span class="math inline">\(z^0\)</span>。中间的部分可以是简单的<span class="math inline">\(z\)</span>和<span class="math inline">\(h\)</span>的余弦距离，而可以是一个简单的网络。</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention1.png" alt="seq2seq-attention1" /><figcaption>seq2seq-attention1</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention1.png" alt="seq2seq-attention1" /><figcaption aria-hidden="true">seq2seq-attention1</figcaption>
 </figure>
 <p>对每个词都用<span class="math inline">\(z^0\)</span>和<span class="math inline">\(h^i\)</span>跑一遍，就得到了<span class="math inline">\(\alpha_0^1,\alpha_0^2,\alpha_0^3,\alpha_0^4\)</span>，然后进行softmax概率归一化，得到<span class="math inline">\(\hat{a}_0^1，\hat{a}_0^2，\hat{a}_0^3，\hat{a}_0^4\)</span>，接着和<span class="math inline">\(h^i\)</span>相乘，就得到了<span class="math inline">\(c^0=\sum{\hat{a}_0^ih^i}\)</span>，这个<span class="math inline">\(c^0\)</span>就是Decoder的输入</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention2.png" alt="seq2seq-attention2" /><figcaption>seq2seq-attention2</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention2.png" alt="seq2seq-attention2" /><figcaption aria-hidden="true">seq2seq-attention2</figcaption>
 </figure>
 <p>对输出的每个时刻都重复上述的过程，相当于每个时刻对每个输入的x的权重是不一样的，得到的c也是不一样的。</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention3.png" alt="seq2seq-attention3" /><figcaption>seq2seq-attention3</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/seq2seq-attention3.png" alt="seq2seq-attention3" /><figcaption aria-hidden="true">seq2seq-attention3</figcaption>
 </figure>
 <p>这就是Seq2seq中的attention，简单的说就是细化Decoder每个时刻需要注意的x，从而得到不同的Decoder输入<span class="math inline">\(c^i\)</span></p>
 <h3 id="self-attention-1">self-attention</h3>
 <p>那么self attention是怎么样做的呢？</p>
 <p>来个直观的印象：左边的是RNN，有4个时刻，每个时刻输出一个b。而右边是Self-attention，它的输出也是4个b，但是这个是<strong>并行</strong>的计算的！</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/replace-rnn-by-self-attention.png" alt="replace-rnn-by-self-attention" /><figcaption>replace-rnn-by-self-attention</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/replace-rnn-by-self-attention.png" alt="replace-rnn-by-self-attention" /><figcaption aria-hidden="true">replace-rnn-by-self-attention</figcaption>
 </figure>
 <p>这是怎么做的呢？回想之前Encoder和Decoder的权重是由Decoder的状态<span class="math inline">\(z\)</span>乘以encoder的输出<span class="math inline">\(h\)</span>得到的，而self-attention比较巧妙的地方就在于将每个输入x都先做一个线性变化<span class="math inline">\(a^i = Wx^i\)</span>，然后每个<span class="math inline">\(a^i\)</span>都分成了3个子向量<span class="math inline">\(q^i, k^i, v^i\)</span>，分别代表query，key，和value。（在实际的实现中，可以认为q，k, v分别是由3个不同的W乘上x得来）</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v.png" alt="self-attention-q-k-v" /><figcaption>self-attention-q-k-v</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v.png" alt="self-attention-q-k-v" /><figcaption aria-hidden="true">self-attention-q-k-v</figcaption>
 </figure>
 <p>然后拿每个query去对每个key做attention，得到<span class="math inline">\(a_{1,i} = q^1\cdot k^i/\sqrt{d}\)</span>。其中d是q和k的维度，这里除以<span class="math inline">\(\sqrt{d}\)</span>是因为为了防止后过q和k随着维度的增长点积结果过大。</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v2.png" alt="self-attention-q-k-v2" /><figcaption>self-attention-q-k-v2</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v2.png" alt="self-attention-q-k-v2" /><figcaption aria-hidden="true">self-attention-q-k-v2</figcaption>
 </figure>
 <p>接下来也对各个<span class="math inline">\(\alpha_{1,i}\)</span>做softmax，得到<span class="math inline">\(\hat{a}_{1,i}\)</span>，然后每个<span class="math inline">\(\hat{a}_{1,i}\)</span>和对应的<span class="math inline">\(v^i\)</span>相乘并加起来，得到输出<span class="math inline">\(b^1 = \sum_{i}\hat{a}_{1,i}v^i\)</span>。用RNN的话说，这就是在时刻1得到的输出，并且这个输出考虑了整个句子。</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v3.png" alt="self-attention-q-k-v3" /><figcaption>self-attention-q-k-v3</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/self-attention-q-k-v3.png" alt="self-attention-q-k-v3" /><figcaption aria-hidden="true">self-attention-q-k-v3</figcaption>
 </figure>
 <p>用<span class="math inline">\(q^2\)</span>和其他的<span class="math inline">\(k^i\)</span>相乘，也就得到了<span class="math inline">\(a_{2,i}\)</span>。</p>
 <p>这里简单的做一个和Encoder-Decoder中attention的对比：</p>
@@ -357,7 +168,7 @@
 <li>Encoder-Decoder将Decoder中的隐向量<span class="math inline">\(z^i\)</span>和Encoder的隐向量<span class="math inline">\(h^i\)</span>做相似度计算，得到<span class="math inline">\(a^{j}_i\)</span>，表示<span class="math inline">\(i\)</span>时刻对第<span class="math inline">\(j\)</span>个词的关注程度。然后将同一时刻的<span class="math inline">\(a_i^j\)</span>归一化得到<span class="math inline">\(\hat{a}^j_i\)</span>，并和各个对应的隐向量做加权和，得到Decoder的输入<span class="math inline">\(c^i=\sum{\hat{a}_0^1h^i}\)</span>。</li>
 <li>而Self-attention则是首先做一个简单的线性变换，得到<span class="math inline">\(a^i = Wx^i\)</span>，并将<span class="math inline">\(a^i\)</span>分为三个分量<span class="math inline">\(q^i,k^i,v^i\)</span>，分别代表query，key，和value。拿每个query去对每个key做attention，得到<span class="math inline">\(a_{1,i} = q^1\cdot k^i/\sqrt{d}\)</span>， 然后softmax归一化，并和对应的value做加权和，得到输出<span class="math inline">\(b^1 = \sum_{i}\hat{a}_{1,i}v^i\)</span></li>
 </ul>
-<p>可以看出，两个比较类似，Self-attention将Query和Key进行match，得到相应的权重，这大概是叫做”self&quot;的原因。</p>
+<p>可以看出，两个比较类似，Self-attention将Query和Key进行match，得到相应的权重，这大概是叫做”self"的原因。</p>
 <h4 id="self-attention-并行化">self-attention 并行化</h4>
 <p>前面提到过，self-attention能够并行化的计算，这是怎么做到的呢？其实就是用到了矩阵的乘法而已。</p>
 <p>前面得到的query、key、value，很容易就能并行，那么计算attention的时候呢？对于同一时刻<span class="math inline">\(a_{i,j}\)</span>来说容易用矩阵一下子得出： <span class="math display">\[
@@ -391,7 +202,7 @@
 <p>其实就是将原来的<span class="math inline">\(q^i, k^i, v^i\)</span>分为多个，比如两个head的话，则query分为<span class="math inline">\(q^{1,i}, q^{i,2}\)</span>，则key分为<span class="math inline">\(k^{i,1}, k^{i,2}\)</span>，则value分为<span class="math inline">\(v^{i,1}, v^{i,2}\)</span></p>
 <p>第一个头的q和第一个头的k做self-attention，如下图所示。</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/multi-head-attention.png" alt="multi-head-attention" /><figcaption>multi-head-attention</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/multi-head-attention.png" alt="multi-head-attention" /><figcaption aria-hidden="true">multi-head-attention</figcaption>
 </figure>
 <p>用多个head使得有的head可以关注短的信息，而有的关注长的，各司其职。</p>
 <h4 id="multi-head-self-attention-代码实现">Multi-head self-attention 代码实现</h4>
@@ -407,12 +218,12 @@
 </ol>
 <p>整个过程如下面的图所示</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/multi-head-attention-pytorch.png" alt="multi-head-attention-pytorch" /><figcaption>multi-head-attention-pytorch</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/multi-head-attention-pytorch.png" alt="multi-head-attention-pytorch" /><figcaption aria-hidden="true">multi-head-attention-pytorch</figcaption>
 </figure>
 <h2 id="transformer-encoder">Transformer Encoder</h2>
 <p>讲完了self attention，就可以来讲Encoder的部分了：</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/transformer-encoder.png" alt="transformer-encoder" /><figcaption>transformer-encoder</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/transformer-encoder.png" alt="transformer-encoder" /><figcaption aria-hidden="true">transformer-encoder</figcaption>
 </figure>
 <h3 id="输入">输入</h3>
 <p>首先输入经过embedding</p>
@@ -432,7 +243,7 @@ PE_{pos, 2i + 1} = \cos(pos / 10000^{2i/d_{model}})
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PositionalEncoding</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="string">&quot;Implement the PE function.&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, d_model, dropout, max_len=<span class="number">5000</span></span>):</span></span><br><span class="line">        super(PositionalEncoding, self).__init__()</span><br><span class="line">        self.dropout = nn.Dropout(p=dropout)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Compute the positional encodings once in log space.</span></span><br><span class="line">        pe = torch.zeros(max_len, d_model)</span><br><span class="line">        position = torch.arange(<span class="number">0</span>, max_len).unsqueeze(<span class="number">1</span>)</span><br><span class="line">        div_term = torch.exp(torch.arange(<span class="number">0</span>, d_model, <span class="number">2</span>) *</span><br><span class="line">                             -(math.log(<span class="number">10000.0</span>) / d_model))</span><br><span class="line">        pe[:, <span class="number">0</span>::<span class="number">2</span>] = torch.sin(position * div_term)</span><br><span class="line">        pe[:, <span class="number">1</span>::<span class="number">2</span>] = torch.cos(position * div_term)</span><br><span class="line">        pe = pe.unsqueeze(<span class="number">0</span>)</span><br><span class="line">        self.register_buffer(<span class="string">&#x27;pe&#x27;</span>, pe)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x = x + Variable(self.pe[:, :x.size(<span class="number">1</span>)], requires_grad=<span class="literal">False</span>)</span><br><span class="line">        <span class="keyword">return</span> self.dropout(x)</span><br></pre></td></tr></table></figure>
 <p>波的频率和偏移对每个维度是不同的</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/positional-encoding.png" alt="positional-encoding" /><figcaption>positional-encoding</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/positional-encoding.png" alt="positional-encoding" /><figcaption aria-hidden="true">positional-encoding</figcaption>
 </figure>
 <h3 id="encoder-layer细节">Encoder Layer细节</h3>
 <p>上面的encoder的图中，注意到旁边有个N x, 这表明这部分其实是可以重复多次的，在论文中是重复了6次：第1个encoder的输出作为第2个encoder的输入，如此循环。而每个Encoder中包含两个sub-layer，一个是multi-head-attention，一个是简单的全连接网络(feed forward)</p>
@@ -440,7 +251,7 @@ PE_{pos, 2i + 1} = \cos(pos / 10000^{2i/d_{model}})
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Encoder</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="string">&quot;Core encoder is a stack of N layers&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, layer, N</span>):</span></span><br><span class="line">        super(Encoder, self).__init__()</span><br><span class="line">        self.layers = clones(layer, N)</span><br><span class="line">        self.norm = LayerNorm(layer.size)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x, mask</span>):</span></span><br><span class="line">        <span class="string">&quot;Pass the input (and mask) through each layer in turn.&quot;</span></span><br><span class="line">        <span class="keyword">for</span> layer <span class="keyword">in</span> self.layers:</span><br><span class="line">            x = layer(x, mask)</span><br><span class="line">        <span class="keyword">return</span> self.norm(x)</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1607.06450">LayerNorm</a>是Hinton发表的，有些类似Batch Normalization，Batch Normalization是对同一个batch下不同数据的同一纬度进行norm的，而layer则是对同一条data做的，区别见下面的图：</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/batch-normalization-vs-layer-normalization.png" alt="batch-normalization-vs-layer-normalization" /><figcaption>batch-normalization-vs-layer-normalization</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/batch-normalization-vs-layer-normalization.png" alt="batch-normalization-vs-layer-normalization" /><figcaption aria-hidden="true">batch-normalization-vs-layer-normalization</figcaption>
 </figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayerNorm</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="string">&quot;Construct a layernorm module (See citation for details).&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, features, eps=<span class="number">1e-6</span></span>):</span></span><br><span class="line">        super(LayerNorm, self).__init__()</span><br><span class="line">        self.a_2 = nn.Parameter(torch.ones(features))</span><br><span class="line">        self.b_2 = nn.Parameter(torch.zeros(features))</span><br><span class="line">        self.eps = eps</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        mean = x.mean(<span class="number">-1</span>, keepdim=<span class="literal">True</span>)</span><br><span class="line">        std = x.std(<span class="number">-1</span>, keepdim=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> self.a_2 * (x - mean) / (std + self.eps) + self.b_2</span><br></pre></td></tr></table></figure>
 <p>此外，还引入了SublayerConnection（上面图中的Add &amp; Norm），即类似ResNet的残差连接。因此每一个sub layer的输出为：<span class="math inline">\(\mathrm{LayerNorm}(x + \mathrm{Sublayer}(x))\)</span></p>
@@ -456,7 +267,7 @@ FFN(x) = max(0, xW_1 + b_1) W_2 + b_2
 <h2 id="transformer-decoder">Transformer Decoder</h2>
 <p>接下来是Decoder的部分：</p>
 <figure>
-<img src="../images/deep-learning-attention-is-all-you-need-transformer/transformer-decoder.png" alt="transformer-decoder" /><figcaption>transformer-decoder</figcaption>
+<img src="../images/deep-learning-attention-is-all-you-need-transformer/transformer-decoder.png" alt="transformer-decoder" /><figcaption aria-hidden="true">transformer-decoder</figcaption>
 </figure>
 <p>如果你弄懂了Encoder部分，Decoder部分也就没有那么可怕了：</p>
 <ol type="1">
@@ -503,433 +314,634 @@ FFN(x) = max(0, xW_1 + b_1) W_2 + b_2
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/48508221">详解Transformer （Attention Is All You Need）</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/8beafdf30f70">从Seq2seq到Attention模型到Self Attention（一）</a></li>
 </ol>
-
-    </div>
-
-    
-    
-    
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>hrwhisper
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://www.hrwhisper.me/deep-learning-attention-is-all-you-need-transformer/" title="【深度学习】Attention is All You Need : Transformer模型">https://www.hrwhisper.me/deep-learning-attention-is-all-you-need-transformer/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-        <div class="reward-container">
-  <div>请我喝杯咖啡吧~</div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    打赏
-  </button>
-  <div id="qr" style="display: none;">
+ 
+      <!-- reward -->
       
-      <div style="display: inline-block;">
-        <img src="/images/donate/wechat_pay.png" alt="hrwhisper 微信支付">
-        <p>微信支付</p>
-      </div>
-      
-      <div style="display: inline-block;">
-        <img src="/images/donate/alipay.jpg" alt="hrwhisper 支付宝">
-        <p>支付宝</p>
-      </div>
-
-  </div>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
-              <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
-              <a href="/tags/Machine-Learning-model/" rel="tag"># Machine Learning model</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/deep-learning-word2vec/" rel="prev" title="【深度学习】Word2Vec">
-      <i class="fa fa-chevron-left"></i> 【深度学习】Word2Vec
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/deep-learning-bert/" rel="next" title="【深度学习】BERT">
-      【深度学习】BERT <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-    <div class="comments" id="valine-comments"></div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
         </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
           
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
         </li>
       </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#self-attention"><span class="nav-text">Self-Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#attetion-in-seq2seq-model"><span class="nav-text">Attetion in Seq2Seq model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#self-attention-1"><span class="nav-text">self-attention</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#self-attention-%E5%B9%B6%E8%A1%8C%E5%8C%96"><span class="nav-text">self-attention 并行化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-head-self-attention"><span class="nav-text">Multi-head self-attention</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#multi-head-self-attention-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">Multi-head self-attention 代码实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer-encoder"><span class="nav-text">Transformer Encoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5"><span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#encoder-layer%E7%BB%86%E8%8A%82"><span class="nav-text">Encoder Layer细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#encoder-%E5%B0%8F%E7%BB%93"><span class="nav-text">Encoder 小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer-decoder"><span class="nav-text">Transformer Decoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#masked-multi-headed-attention"><span class="nav-text">Masked Multi-Headed Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="nav-text">完整的模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="hrwhisper"
-      src="/images/site/avatar.jpg">
-  <p class="site-author-name" itemprop="name">hrwhisper</p>
-  <div class="site-description" itemprop="description">一个分享机器学习、算法与数据结构，个人学习心得、读书笔记、生活的博客。</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">254</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">26</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">55</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/hrwhisper" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hrwhisper" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://weibo.com/murmured" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;murmured" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
       </div>
-      <script data-ad-client="ca-pub-1580254183546533" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 2013 – 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">hrwhisper</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
-  </div>
 
-        
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.hrwhisper.me/deep-learning-attention-is-all-you-need-transformer/" alt="微信分享二维码">
+    </div>
+</div>
 
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/" rel="tag">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning-model/" rel="tag">Machine Learning model</a></li></ul>
 
-
-
-
-
-<script>
-  (function() {
-    function leancloudSelector(url) {
-      url = encodeURI(url);
-      return document.getElementById(url).querySelector('.leancloud-visitors-count');
-    }
-
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            leancloudSelector(url).innerText = counter.time + 1;
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              });
-          } else {
-              Counter('post', '/classes/Counter', { title, url, time: 1 })
-                .then(response => response.json())
-                .then(() => {
-                  leancloudSelector(url).innerText = 1;
-                })
-                .catch(error => {
-                  console.error('Failed to create', error);
-                });
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.id);
-      });
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          for (let url of entries) {
-            let target = results.find(item => item.url === url);
-            leancloudSelector(url).innerText = target ? target.time : 0;
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz","app_key":"b26lBsbwmVyxTSnNrsBrnv3U","server_url":null,"security":false};
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${api_server}/1.1${url}`, {
-          method,
-          headers: {
-            'X-LC-Id'     : app_id,
-            'X-LC-Key'    : app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    }
-
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
-
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(response => response.json())
-        .then(({ api_server }) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
-</script>
-
-
-      </div>
     </footer>
   </div>
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+   
+  <nav class="article-nav">
+    
+      <a href="/deep-learning-bert/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            【深度学习】BERT
+          
+        </div>
+      </a>
+    
+    
+      <a href="/deep-learning-word2vec/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">【深度学习】Word2Vec</div>
+      </a>
+    
+  </nav>
 
-<script src="/js/utils.js"></script>
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz",
+    app_key: "b26lBsbwmVyxTSnNrsBrnv3U",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
 
-<script src="/js/motion.js"></script>
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
 
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
 
-<script src="/js/schemes/muse.js"></script>
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
 
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
 
-<script src="/js/next-boot.js"></script>
+ 
+     
+</article>
 
-
-
-
-  
-
-
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2013-2021
+        <i class="ri-heart-fill heart_icon"></i> hrwhisper
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
       
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+
+ 
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script>
+<script type="text/javascript">
+var leancloud_app_id  = 'fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz';
+var leancloud_app_key = 'b26lBsbwmVyxTSnNrsBrnv3U';
+
+AV.init({
+    appId: leancloud_app_id,
+    appKey: leancloud_app_key
+});
+
+// https://leancloud.cn/docs/leanstorage_guide-js.html#hash1873238850
+function showTime(Counter) {
+  console.log("show time");
+  const query = new AV.Query(Counter);
+  const obj = $(".leancloud_visitors");
+
+  let urls = [];
+  obj.each(function() {
+    urls.push($(this).attr('id').trim());
+  });
+  query.containedIn('url', urls);
+  query.find().then((results) => {
+      if (results.length > 0) {
+        let data = results;
+        obj.each(function() {
+          let url = $(this).attr('id').trim();		
+          for (let i = 0; i < data.length; i++) {
+            let object = data[i];
+            let content = object.get('time');
+            let _url = object.get('url');
+            if(url == _url){
+              $(this).text(content);
+            }
+          }
+        });
+      }
+  }).catch((error) => {
+    console.error(error);
+  });
+}
+
+function addCount(Counter) {
+  const obj = $(".leancloud_visitors");
+	url = obj.attr('id').trim();
+  title = obj.attr('data-flag-title').trim();
+
+  const query = new AV.Query(Counter);
+  query.equalTo("url", url);
+
+	query.find().then((results) => {
+			if (results.length > 0) {
+				var counter = results[0];
+        counter.increment("time", 1);
+        counter.set("title", title);
+				counter.save(null, {fetchWhenSave: true}).then(() => {
+          let content = counter.get('time');
+          $(document.getElementById(url)).text(content);
+        }, (error)=> {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+        });
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+        newcounter.set("time", 1);
+        newcounter.save(null, {fetchWhenSave: true}).then(() => {
+          var content = newcounter.get('time');
+          $(document.getElementById(url)).text(content);
+        }, (error)=> {
+          console.log('Failed to create' + error.message);
+        });
+			}
+	}).catch((error) => {
+    console.error(error);
+  });
+}
+
+$(function() {
+  var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+	  showTime(Counter);
+  }
+}); 
+</script>
+
+
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/site/avatar.jpg" alt="细语呢喃"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/blog-building">博客建设</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friend-link">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/leetcode-algorithm-solution">leetcode题解</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about-me">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/donate/wechat_pay.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
 
 <script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3',
+    hasInnerContainers: true,
+    scrollSmooth: false,
+	  scrollSmoothDuration: 420,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+	collapseDepth: 2,
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
-      script.defer = true;
-      // script.setAttribute("data-pjax", "");
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
   }
 </script>
 
-    
+<!-- Katex -->
 
-  
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
 
 
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
-    });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : 'fVcjWMD8aI6F0qEfKdUaHa4f-gzGzoHsz',
-      appKey     : 'b26lBsbwmVyxTSnNrsBrnv3U',
-      placeholder: "在上方填上邮箱地址可以收到我回复的邮件哦~",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : false,
-      lang       : 'zh-cn' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : true,
-      serverURLs : ''
-    });
-  }, window.Valine);
-});
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
 </script>
 
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
 </body>
+
 </html>
