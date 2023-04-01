@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -302,7 +302,7 @@
 <li>知识上的扩充</li>
 <li>让过多人看到你的博客站点</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="一些说明">一些说明</h2>
 <ul>
 <li>搜索引擎不喜欢flash和js生成的内容</li>
@@ -330,7 +330,7 @@
 <p>搜索引擎访问任何一个网站到时候，都会先访问根目录下robots.txt文件。</p>
 <p>robot.txt如果禁止搜索引擎抓取某些文件或目录，爬虫将遵守协议，不抓取被禁止的网址。</p>
 <p>如下面的代码将禁止除google外所有搜索抓取任何内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent:  Googlebot</span><br><span class="line">Disallow:</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: &#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent:  Googlebot</span><br><span class="line">Disallow:</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: /</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h3 id="使用noindex-meata-robots标签">使用noindex meata robots标签</h3>
 <p>如果你想禁止某些页面被收录，你可以：</p>
@@ -410,7 +410,7 @@
 <p>同站下的复制内容如果是URL问题找出解决即可。下面只说明防止被复制和转载。</p>
 <p>有的转载会表明出处，但是有的就不会。</p>
 <p>可以加入版权信息：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> ‘本博客若无特殊说明则由 &lt;a href=”‘.get_site_url().<span class="string">&#x27;” title=”‘. get_the_author().&#x27;</span>”&gt;’. get_the_author() .<span class="string">&#x27;&lt;/a&gt; 原创发布&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘转载请点名出处：&lt;a href=”‘.get_site_url().&#x27;</span>” title=”‘.get_bloginfo().<span class="string">&#x27;”&gt;’ .get_bloginfo().&#x27;</span>&lt;/a&gt; &gt; ‘;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ‘&lt;a href=”‘.get_permalink().<span class="string">&#x27;” title=”‘.get_the_title().&#x27;</span>”&gt;’ .get_the_title().<span class="string">&#x27;&lt;/a&gt;&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘本文地址：&lt;a href=”‘.get_permalink().&#x27;</span>” title=”‘.get_the_title().<span class="string">&#x27;”&gt;’ .get_permalink().&#x27;</span>&lt;/a&gt;’;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> ‘本博客若无特殊说明则由 &lt;a href=”‘.<span class="title function_ invoke__">get_site_url</span>().<span class="string">&#x27;” title=”‘. get_the_author().&#x27;</span>”&gt;’. <span class="title function_ invoke__">get_the_author</span>() .<span class="string">&#x27;&lt;/a&gt; 原创发布&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘转载请点名出处：&lt;a href=”‘.get_site_url().&#x27;</span>” title=”‘.<span class="title function_ invoke__">get_bloginfo</span>().<span class="string">&#x27;”&gt;’ .get_bloginfo().&#x27;</span>&lt;/a&gt; &gt; ‘;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ‘&lt;a href=”‘.<span class="title function_ invoke__">get_permalink</span>().<span class="string">&#x27;” title=”‘.get_the_title().&#x27;</span>”&gt;’ .<span class="title function_ invoke__">get_the_title</span>().<span class="string">&#x27;&lt;/a&gt;&lt;br/&gt;’;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ‘本文地址：&lt;a href=”‘.get_permalink().&#x27;</span>” title=”‘.<span class="title function_ invoke__">get_the_title</span>().<span class="string">&#x27;”&gt;’ .get_permalink().&#x27;</span>&lt;/a&gt;’;</span><br></pre></td></tr></table></figure>
 <p>这样对于直接复制的网址（一般也是用爬虫抓取）就直接把这些版权信息抓过去了。对于搜索引擎来说，<strong>指向原处的链接是判断原创的最重要的信号。</strong></p>
 <h2 id="站点地图">站点地图</h2>
 <h3 id="sitemap和-sitemap">sitemap和 Sitemap</h3>
@@ -419,7 +419,7 @@
 <p>wordpress可以用 Yoast SEO插件来生成XML站点地图。</p>
 <h3 id="robots.txt-中-sitemap">robots.txt 中 sitemap</h3>
 <p>所有主流搜索引擎都支持robot.txt中指定网站站点地图的位置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;post_tag-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;category-sitemap.xml</span><br><span class="line">Sitemap: https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;page-sitemap.xml</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: &#x2F;wp-admin&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sitemap: https://www.hrwhisper.me/post-sitemap.xml</span><br><span class="line">Sitemap: https://www.hrwhisper.me/post_tag-sitemap.xml</span><br><span class="line">Sitemap: https://www.hrwhisper.me/category-sitemap.xml</span><br><span class="line">Sitemap: https://www.hrwhisper.me/page-sitemap.xml</span><br><span class="line">User-agent: *</span><br><span class="line">Disallow: /wp-admin/</span><br></pre></td></tr></table></figure>
 <p>参考  (http://www.sitemaps.org/protocol.html#submit_robots)&gt;</p>
 <h3 id="在站长工具提交站点地图">在站长工具提交站点地图</h3>
 <p>先注册账号-验证网站所有权-上传Sitemaps（有的可能需要申请，如搜狗）</p>
@@ -463,7 +463,7 @@
 <h2 id="链接建设">链接建设</h2>
 <h3 id="锚文字">锚文字</h3>
 <p>先介绍基本概念，锚文字。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;www.hrwhisper.me&#x2F;&quot; &gt;细语呢喃&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;https://www.hrwhisper.me/&quot; &gt;细语呢喃&lt;/a&gt;</span><br></pre></td></tr></table></figure>
 <p>这里的“细语呢喃”就是锚文字。</p>
 <h3 id="内部链接">内部链接</h3>
 <p>选择描述性文字——您选择的用作链接的锚文本应该至少能够提供被链接页面 的基本信息。</p>
@@ -552,7 +552,7 @@
 <li>wordpress_如果主题没有响应式，可以安装 wptouch</li>
 </ul>
 <p>移动自适应站百度建议加上以下标志，帮助百度理解页面适用于PC和手机</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name&#x3D;&quot;applicable-device&quot;content&#x3D;&quot;pc,mobile&quot;&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;applicable-device&quot;content=&quot;pc,mobile&quot;&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="参考资料">参考资料</h2>
 <ul>
 <li><p><a target="_blank" rel="noopener" href="http://www.google.com.hk/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCgQFjAA&amp;url=http%3A%2F%2Fwww.google.com%2Fwebmasters%2Fdocs%2Fsearch-engine-optimization-starter-guide.pdf&amp;ei=cDCtTf31G5CmuAO7u6jcCg&amp;usg=AFQjCNEMj8KHxhxQz9cMLoMxMDiLdrAbJw&amp;sig2=HZhP2MQXYGKjO52CxLm6Tw">Google Search Engine Optimization Starter Guide</a></p>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -285,7 +285,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>高斯混合模型（Guassian Mixed Model, 简称GMM）是一种常见的聚类方法，与K-means类似，同样使用了EM算法进行迭代计算。 <a id="more"></a></p>
+        <p>高斯混合模型（Guassian Mixed Model, 简称GMM）是一种常见的聚类方法，与K-means类似，同样使用了EM算法进行迭代计算。 <span id="more"></span></p>
 <h2 id="高斯混合模型">高斯混合模型</h2>
 <p>高斯混合模型假设每个簇的数据都是符合高斯分布的，当前数据呈现的分布就是各个簇的高斯分布叠加在一起的结果。于是高斯混合模型采用<strong>线性组合</strong>来对数据分布进行拟合，理论上高斯混合模型可以拟合出任意类型的分布。</p>
 <p>具体的，我们想要将数据分为K个簇（cluster），可以假设<strong>不同簇中的样本各自服从不同的高斯分布</strong>，K个簇就有K个高斯分布，将K个高斯分布加起来就得到了GMM模型。对于每一个高斯模型，其均值<span class="math inline">\(\mu_k\)</span>和方差<span class="math inline">\(\sigma_k\)</span>都是待估计的参数，此外，每个模型还有一个参数<span class="math inline">\(\alpha_k\)</span>，表示该模型的权重，该参数满足<span class="math inline">\(\sum_{k=1}^K \alpha_k =1\)</span>。 <span class="math display">\[

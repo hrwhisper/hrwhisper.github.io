@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -295,7 +295,7 @@
 <li>线性回归</li>
 <li>逻辑回归</li>
 <li>Softmax</li>
-<li>并行化逻辑回归 <a id="more"></a></li>
+<li>并行化逻辑回归 <span id="more"></span></li>
 </ul>
 <h2 id="线性回归">线性回归</h2>
 <p>回归问题举个简单的例子，如预测股票的价格，输出空间y不再是一个标签，而是一个实数集。</p>
@@ -510,7 +510,7 @@ X^T(h(x) - y)
 \]</span> 看到这里就懂了吧？ 式2-4是2-3等价的矩阵表示。</p>
 <p>因此我们可以用式2-4来写程序~</p>
 <p>这也是《机器学习实战》中倒数第二行式子的由来：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscent</span>(<span class="params">dataMatIn, classLabels</span>):</span></span><br><span class="line">	dataMatrix = np.mat(dataMatIn)</span><br><span class="line">	labelMat = np.mat(classLabels).transpose()</span><br><span class="line">	m, n = np.shape(dataMatrix)</span><br><span class="line">	alpha = <span class="number">0.001</span></span><br><span class="line">	maxCycles = <span class="number">500</span>	</span><br><span class="line">	weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> range(maxCycles):</span><br><span class="line">		h = sigmoid(dataMatrix * weights)</span><br><span class="line">		error = labelMat - h</span><br><span class="line">		weights = weights + alpha * dataMatrix.transpose() * error</span><br><span class="line">	<span class="keyword">return</span> weights.getA()	</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gradAscent</span>(<span class="params">dataMatIn, classLabels</span>):</span><br><span class="line">	dataMatrix = np.mat(dataMatIn)</span><br><span class="line">	labelMat = np.mat(classLabels).transpose()</span><br><span class="line">	m, n = np.shape(dataMatrix)</span><br><span class="line">	alpha = <span class="number">0.001</span></span><br><span class="line">	maxCycles = <span class="number">500</span>	</span><br><span class="line">	weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(maxCycles):</span><br><span class="line">		h = sigmoid(dataMatrix * weights)</span><br><span class="line">		error = labelMat - h</span><br><span class="line">		weights = weights + alpha * dataMatrix.transpose() * error</span><br><span class="line">	<span class="keyword">return</span> weights.getA()	</span><br></pre></td></tr></table></figure>
 <h3 id="另一种似然函数">另一种似然函数</h3>
 <p>在上面推导损失函数2-2的时候，我们y的标签为{0，1}，如果我们我们假设标签为{-1, +1}，那么同样用极大似然估计，会得到很多材料上的另一种类似的似然函数。</p>
 <p>推导如下： <span class="math display">\[

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -291,12 +291,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>国科大评价课程有二十多个勾，没有评价又看不到成绩，然后又很懒怎么办~ <a id="more"></a> 如下图：一共有二十几个，然后又有好多门课</p>
+        <p>国科大评价课程有二十多个勾，没有评价又看不到成绩，然后又很懒怎么办~ <span id="more"></span> 如下图：一共有二十几个，然后又有好多门课</p>
 <p><img src="../images/ucas-auto-comment-course-script/too-many-checkbox-for-comment.jpg" /></p>
 <h2 id="代码">代码</h2>
 <p>通过分析网页的源代码，发现只需要两行代码，然后就可以把那20多个框一下全部选中了。</p>
 <p>下面的代码将所有的都选项选了优：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var tds &#x3D; document.getElementsByTagName(&#39;td&#39;);</span><br><span class="line">for(var i &#x3D; 0; i&lt;tds.length;i++) tds[i].getElementsByTagName(&quot;input&quot;)[0].checked&#x3D;true;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var tds = document.getElementsByTagName(&#x27;td&#x27;);</span><br><span class="line">for(var i = 0; i&lt;tds.length;i++) tds[i].getElementsByTagName(&quot;input&quot;)[0].checked=true;</span><br></pre></td></tr></table></figure>
 <p>如果要全部评价为良，那么("input")[0].checked=true; 中的0改为1，若为合格则2，差则3</p>
 <h2 id="使用方法">使用方法</h2>
 <p>打开课程评价的页面，进入要评价的课程，然后按F12调出chrome的控制台，在下方的标签选Console，然后粘贴上面的代码按回车即可。</p>

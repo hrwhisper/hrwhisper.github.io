@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -291,7 +291,7 @@
       
         <p>第一次打天池的比赛（其实这比赛也是CCF的）~</p>
 <p>初赛排名 13 / 2845，复赛是平台赛，没怎么做</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="题目回顾">题目回顾</h2>
 <p>题目地址：<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/introduction.htm?spm=5176.100066.0.0.2bb92a2cJq6kDm&amp;raceId=231620">商场中精确定位用户所在店铺</a></p>
 <p>题目要求给定一条用户的消费记录，求该用户当前所在的店铺</p>
@@ -561,7 +561,7 @@
 <p>这时候开始B榜了，被df的小哥骗了，说会自动抓取之前最好的A榜来计算B榜的。结果木有，浪费了一次机会。提交掉了快6个千，0.9207…</p>
 <p>最后融了一个新的多分类xgboost，到了0.92115. 排名13</p>
 <p>最后模型如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; [&#39;random forest not price 0.9199&#39;, &#39;binary random forest not price 0.91998&#39;, &#39;binary xgb 0.9149&#39;,&#39;xgb 0.9123&#39;]</span><br><span class="line">weights &#x3D; [78, 80, 34, 5]  # Mean: 0.9240684683620611</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">models = [&#x27;random forest not price 0.9199&#x27;, &#x27;binary random forest not price 0.91998&#x27;, &#x27;binary xgb 0.9149&#x27;,&#x27;xgb 0.9123&#x27;]</span><br><span class="line">weights = [78, 80, 34, 5]  # Mean: 0.9240684683620611</span><br></pre></td></tr></table></figure>
 <p>第二赛季就没怎么打了，线上赛用的PAI平台太坑了。。Create table都要十几分钟。资源限制太不合理了。都没法玩。。对hive也不熟，UDF也不会，分wifi都搞了半天，特征也限制列数不能超过1200好像。也就是BOW wifi会GG。最后水了各个mall取了wifi top 1000，加上经纬度，直接RF多分类，（ps: 用python生成的各个mall的代码）。排45名，挺差的，不过也不怎么在意。</p>
 <h2 id="冠军队的做法对比">冠军队的做法对比</h2>
 <p>候选集直接选取目标mall中所有的shop作为候选，为了避免训练集数据量过大，在训练集中进行样本抽样。具体方法是，保留全部正样本，负样本中随机抽取一定比例加入训练集。实际测试，抽样对于模型的精度影响不大。而预测的时候没有抽样，因为速度快。PS: 多分类用商店的特征得展开，二分类就不用。</p>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -296,7 +296,7 @@
 <ul>
 <li>免费证书获取</li>
 <li>apache ssl配置</li>
-<li>开启ssl后需要注意的事项 <a id="more"></a> ps: 本文是apache下的开启方式，若用nginx，见 <a href="https://www.hrwhisper.me/wordpress-lnmp-site-building/">LNMP站点配置指南</a></li>
+<li>开启ssl后需要注意的事项 <span id="more"></span> ps: 本文是apache下的开启方式，若用nginx，见 <a href="https://www.hrwhisper.me/wordpress-lnmp-site-building/">LNMP站点配置指南</a></li>
 </ul>
 <h2 id="https优缺点">https优缺点</h2>
 <ul>
@@ -383,11 +383,11 @@
 </ul></li>
 </ul></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE wp_posts </span><br><span class="line">SET    post_content &#x3D; ( Replace (post_content, &#39;http:&#x2F;&#x2F;www.hrwhisper.me&#39;, &#39;https:&#x2F;&#x2F;www.hrwhisper.me&#39;) );</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE wp_posts </span><br><span class="line">SET    post_content = ( Replace (post_content, &#x27;http://www.hrwhisper.me&#x27;, &#x27;https://www.hrwhisper.me&#x27;) );</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <ul>
 <li>301重定向HTTP URL到HTTPS（修改.htaccess文件）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTPS&#125; off</span><br><span class="line">RewriteRule ^(.*)$ https:&#x2F;&#x2F;%&#123;HTTP_HOST&#125;%&#123;REQUEST_URI&#125; [R&#x3D;301,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTPS&#125; off</span><br><span class="line">RewriteRule ^(.*)$ https://%&#123;HTTP_HOST&#125;%&#123;REQUEST_URI&#125; [R=301,L]</span><br><span class="line">&lt;/IfModule&gt;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>如果你用了google search console，需要提交https的站点，并重新上传xml站点地图</li>
 </ul>

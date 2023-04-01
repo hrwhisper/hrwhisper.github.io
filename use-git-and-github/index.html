@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -293,7 +293,7 @@
         <h2 id="写在前面">写在前面</h2>
 <p>做软件开发的常常需要进行版本控制，而Git是一个灰常流行的分布式版本控制系统。</p>
 <p>下面来讲讲配置。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="一git入门">一、Git入门</h2>
 <p>windows用户从<a target="_blank" rel="noopener" href="http://msysgit.github.io/">http://msysgit.github.io/</a>下载msysgit，然后按<strong>默认选项</strong>安装即可。</p>
 <p>安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”如下图：</p>
@@ -301,24 +301,24 @@
 <img src="../images/use-git-and-github/open-git-bash.jpg" alt="open git bash" /><figcaption aria-hidden="true">open git bash</figcaption>
 </figure>
 <p>接着输入如下内容：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.name <span class="string">&quot;Your Name&quot;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git config --global user.name <span class="string">&quot;Your Name&quot;</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git config --global user.email <span class="string">&quot;email@example.com&quot;</span></span></span><br></pre></td></tr></table></figure>
 <p>即说明自己的名字和Email地址。（因为Git是分布式版本控制系统，所以，每个机器都必须自报家门）</p>
 <p>输入类似如下图的命令，即进入你想要的git目录，</p>
 <p>博主先进入了e:，并且将这个目录初始化为Git仓库，在该目录下创建一个名为githubTest的文件夹。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> e:\git</span></span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git</span><br><span class="line"><span class="meta">$</span><span class="bash"> git init</span></span><br><span class="line">Initialized empty Git repository in e:/git/.git/</span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git (master)</span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir githubTest</span></span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git (master)</span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> githubTest/</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> e:\git</span></span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git init</span></span><br><span class="line">Initialized empty Git repository in e:/git/.git/</span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git (master)</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">mkdir</span> githubTest</span></span><br><span class="line"></span><br><span class="line">hrsay@HRWHISPER /e/git (master)</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> githubTest/</span></span><br></pre></td></tr></table></figure>
 <figure>
 <img src="../images/use-git-and-github/createDir.jpg" alt="createDir" /><figcaption aria-hidden="true">createDir</figcaption>
 </figure>
 <p>接下来用在下面创建个文件，如readme.txt，在里面写上若干内容。</p>
 <p>接着通过<strong>git add</strong> 命令进行添加操作，用<strong>git commit</strong>进行提交操作</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git add readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git commit -m <span class="string">&quot;add readme file&quot;</span></span></span><br><span class="line">[master (root-commit) 5db86ed] add readme file</span><br><span class="line">1 file changed, 1 insertion(+)</span><br><span class="line">create mode 100644 githubTest/readme.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git add readme.txt</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git commit -m <span class="string">&quot;add readme file&quot;</span></span></span><br><span class="line">[master (root-commit) 5db86ed] add readme file</span><br><span class="line">1 file changed, 1 insertion(+)</span><br><span class="line">create mode 100644 githubTest/readme.txt</span><br></pre></td></tr></table></figure>
 <p>这样，你的仓库里就有一个名为readme.txt的东西啦</p>
 <h2 id="二远程仓库-github">二、远程仓库 github</h2>
 <h3 id="创建ssh-key">1.创建ssh key</h3>
 <p>如果你学过密码学，那你一定知道公钥和私钥。</p>
 <p>我们访问github需要告诉github你的公钥，而你的私钥则要自己保管好。</p>
 <p>所以我们需要创建一个ssh key，打开Git Bash，输入如下命令，</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span></span></span><br></pre></td></tr></table></figure>
 <p>一路回车，使用默认配置即可。</p>
 <p>如下图：</p>
 <figure>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -295,7 +295,7 @@
 <p>貌似就是作死直接LAMP的下场（linux + apache +mysql + php）</p>
 <p>博主立刻从床上弹起来，开电脑，重起mysql，就又可以了。</p>
 <p>那么，虽然博主最近起不来→_→今天因为这个立马爬起来，但是总不能老是出错吧！</p>
-<p>于是开启了优化方案。。发现是由于apache内存占用太高导致mysql没内存用了 <a id="more"></a> 由于囊中羞涩，之前买的是512MB的<a target="_blank" rel="noopener" href="https://m.do.co/c/297665746575">digitalocean</a> (配置 512MB RAM/1 CPU )</p>
+<p>于是开启了优化方案。。发现是由于apache内存占用太高导致mysql没内存用了 <span id="more"></span> 由于囊中羞涩，之前买的是512MB的<a target="_blank" rel="noopener" href="https://m.do.co/c/297665746575">digitalocean</a> (配置 512MB RAM/1 CPU )</p>
 <p>之前重启了下mysql，过了一会儿用top监视一下资源使用：</p>
 <p>这么快又剩下57MB内存了!（58664K / 1024 =57MB）<img src="../images/optimizing-apache-for-low-memory-ram-vps/optimizing-apache-for-low-memory-ram-vps-top-apache-use.png" alt="optimizing-apache-for-low-memory-ram-vps-top-apache-use" /></p>
 <p>必须要采取apche优化措施！</p>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -285,7 +285,7 @@
           <blockquote>
 <h3 id="leetcode-verify-preorder-serialization-of-a-binary-tree">leetcode Verify Preorder Serialization of a Binary Tree</h3>
 <p>One way to serialize a binary tree is to use pre-order traversal. When we encounter a non-null node, we record the node's value. If it is a null node, we record using a sentinel value such as <code>#</code>.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">     _9_</span><br><span class="line">    &#x2F;   \</span><br><span class="line">   3     2</span><br><span class="line">  &#x2F; \   &#x2F; \</span><br><span class="line"> 4   1  #  6</span><br><span class="line">&#x2F; \ &#x2F; \   &#x2F; \</span><br><span class="line"># # # #   # #</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">     _9_</span><br><span class="line">    /   \</span><br><span class="line">   3     2</span><br><span class="line">  / \   / \</span><br><span class="line"> 4   1  #  6</span><br><span class="line">/ \ / \   / \</span><br><span class="line"># # # #   # #</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>For example, the above binary tree can be serialized to the string <code>"9,3,4,#,#,1,#,#,2,#,6,#,#"</code>, where <code>#</code> represents a null node.</p>
 <p>Given a string of comma separated values, verify whether it is a correct preorder traversal serialization of a binary tree. Find an algorithm without reconstructing the tree.</p>
 <p>Each comma separated value in the string must be either an integer or a character <code>'#'</code> representing <code>null</code> pointer.</p>

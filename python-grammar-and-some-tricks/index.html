@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/site/avatar.jpg">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/site/avatar.jpg">
@@ -288,7 +288,7 @@
 
       
         <p>python 技巧 的整理</p>
-<a id="more"></a>
+<span id="more"></span>
 <h1 id="写在前面">写在前面</h1>
 <p>逗比龙和jy 被我洗脑来学python了，还说我是传销。</p>
 <p><img src="../images/python-grammar-and-some-tricks/expression-cry.jpg" alt="expression cry" /> 我这是解救他们于水深火热好么！<img src="../images/python-grammar-and-some-tricks/expression-maimeng.png" alt="expression maimeng" /></p>
@@ -312,155 +312,155 @@
 <h2 id="一输入输出">（一）输入输出</h2>
 <h3 id="输出">1.输出：</h3>
 <p>从Hello word 开始</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print &#39;hello world&#39;</span><br><span class="line">print &#39;hello&#39;,&#39;world&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print &#x27;hello world&#x27;</span><br><span class="line">print &#x27;hello&#x27;,&#x27;world&#x27;</span><br></pre></td></tr></table></figure>
 <p>ps:print 遇到,自动打印一个空格，上面两句打印效果是一样的 : )</p>
 <h3 id="输入">2.输入：</h3>
 <p>读入一行数据，并且打印的demo:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name &#x3D; raw_input()</span><br><span class="line">print name</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name = raw_input()</span><br><span class="line">print name</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h2 id="二一看就会的简单语句">（二）一看就会的简单语句</h2>
 <h3 id="条件">1.条件</h3>
 <p>需要注意的是if /elif/ else后面均有 :</p>
 <p><strong>如果之后的语句只有一句，那么可以写在同一行</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if age &gt;&#x3D; 18:</span><br><span class="line">    print &#39;adult&#39;</span><br><span class="line">elif age &gt;&#x3D; 6:</span><br><span class="line">    print &#39;teenager&#39;</span><br><span class="line">else:</span><br><span class="line">    print &#39;kid&#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if age &gt;= 18:</span><br><span class="line">    print &#x27;adult&#x27;</span><br><span class="line">elif age &gt;= 6:</span><br><span class="line">    print &#x27;teenager&#x27;</span><br><span class="line">else:</span><br><span class="line">    print &#x27;kid&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>这么写也可以 : )</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">age &#x3D; 20</span><br><span class="line">if age &gt;&#x3D; 18:print &#39;adult&#39;</span><br><span class="line">elif age &gt;&#x3D; 6:print &#39;teenager&#39;</span><br><span class="line">else: print &#39;kid&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">age = 20</span><br><span class="line">if age &gt;= 18:print &#x27;adult&#x27;</span><br><span class="line">elif age &gt;= 6:print &#x27;teenager&#x27;</span><br><span class="line">else: print &#x27;kid&#x27;</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h3 id="循环">2.循环</h3>
 <h4 id="for-xx-in-xxx">(1) for xx in xxx <strong>:</strong></h4>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">names &#x3D; [&#39;Michael&#39;, &#39;Bob&#39;, &#39;Tracy&#39;]</span><br><span class="line">for name in names:</span><br><span class="line">    print name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in range(0 ,10 ):</span><br><span class="line">    print i</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">names = [&#x27;Michael&#x27;, &#x27;Bob&#x27;, &#x27;Tracy&#x27;]</span><br><span class="line">for name in names:</span><br><span class="line">    print name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in range(0 ,10 ):</span><br><span class="line">    print i</span><br></pre></td></tr></table></figure>
 <h4 id="while-xx">(2) while xx <strong>:</strong></h4>
 <p>计算100以内所有奇数之和</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sum &#x3D; 0</span><br><span class="line">n &#x3D; 99</span><br><span class="line">while n &gt; 0:</span><br><span class="line">    sum &#x3D; sum + n</span><br><span class="line">    n &#x3D; n - 2</span><br><span class="line">print sum</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sum = 0</span><br><span class="line">n = 99</span><br><span class="line">while n &gt; 0:</span><br><span class="line">    sum = sum + n</span><br><span class="line">    n = n - 2</span><br><span class="line">print sum</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>当然这只是个样例。。</p>
 <p>【高级篇】其实我们可以一行搞定.....：</p>
 <p>range(a,b,c)  a起始位置， b终止位置（不包括b），c步长</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print sum(range(1,100,2))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print sum(range(1,100,2))</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h2 id="三基本数据类型">（三）基本数据类型</h2>
 <h3 id="list"><strong>1. list</strong></h3>
 <p>list和C/C++中的数组很像，无非把{}改为[]</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">classmates &#x3D; [&#39;Michael&#39;, &#39;Bob&#39;, &#39;Tracy&#39;]</span><br><span class="line">print classmates[0]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">classmates = [&#x27;Michael&#x27;, &#x27;Bob&#x27;, &#x27;Tracy&#x27;]</span><br><span class="line">print classmates[0]</span><br></pre></td></tr></table></figure>
 <p>如果要取最后一个元素，除了计算索引位置外，还可以用-1做索引，直接获取最后一个元素：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print classmates[-1] #Tracy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print classmates[-1] #Tracy</span><br></pre></td></tr></table></figure>
 <p>以此类推，可以获取倒数第2个、倒数第3个：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print classmates[-2]  #Bob</span><br><span class="line">print classmates[-3] #Michael</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print classmates[-2]  #Bob</span><br><span class="line">print classmates[-3] #Michael</span><br></pre></td></tr></table></figure>
 <p>添加和删除：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">classmates.append(&#39;Adam&#39;) 添加到末尾</span><br><span class="line">classmates.insert(1, &#39;Jack&#39;) 添加到指定位置</span><br><span class="line">classmates.pop() 删除最后一个元素。要删除指定位置的元素，用pop(i)方法，其中i是索引位置</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">classmates.append(&#x27;Adam&#x27;) 添加到末尾</span><br><span class="line">classmates.insert(1, &#x27;Jack&#x27;) 添加到指定位置</span><br><span class="line">classmates.pop() 删除最后一个元素。要删除指定位置的元素，用pop(i)方法，其中i是索引位置</span><br></pre></td></tr></table></figure>
 <p>要把某个元素替换成别的元素，可以直接赋值给对应的索引位置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classmates[1] &#x3D; &#39;Sarah&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classmates[1] = &#x27;Sarah&#x27;</span><br></pre></td></tr></table></figure>
 <p>ist里面的元素的数据类型也可以不同，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L &#x3D; [&#39;Apple&#39;, 123, True]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L = [&#x27;Apple&#x27;, 123, True]</span><br></pre></td></tr></table></figure>
 <p>list元素也可以是另一个list，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s &#x3D; [&#39;python&#39;, &#39;java&#39;, [&#39;asp&#39;, &#39;php&#39;], &#39;scheme&#39;]</span><br><span class="line">print len(s) #4</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = [&#x27;python&#x27;, &#x27;java&#x27;, [&#x27;asp&#x27;, &#x27;php&#x27;], &#x27;scheme&#x27;]</span><br><span class="line">print len(s) #4</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h3 id="tuple"><strong>2.tuple</strong></h3>
 <p>tuple和list非常类似，但是tuple一旦初始化就不能修改，它也没有append()，insert()这样的方法。其他获取元素的方法和list是一样的，你可以正常地使用classmates[0]，classmates[-1]，但不能赋值成另外的元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classmates &#x3D; (&#39;Michael&#39;, &#39;Bob&#39;, &#39;Tracy&#39;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classmates = (&#x27;Michael&#x27;, &#x27;Bob&#x27;, &#x27;Tracy&#x27;)</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h3 id="dict"><strong>3.dict</strong></h3>
 <p>其他语言中也称为map,使用键-值（key-value）存储</p>
 <p>用Python写一个dict如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d &#x3D; &#123;&#39;Michael&#39;: 95, &#39;Bob&#39;: 75, &#39;Tracy&#39;: 85&#125;</span><br><span class="line">print d[&#39;Michael&#39;]  #95</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;&#x27;Michael&#x27;: 95, &#x27;Bob&#x27;: 75, &#x27;Tracy&#x27;: 85&#125;</span><br><span class="line">print d[&#x27;Michael&#x27;]  #95</span><br></pre></td></tr></table></figure>
 <p>判断key是否存在：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d &#x3D; &#123;&#39;Michael&#39;: 95, &#39;Bob&#39;: 75, &#39;Tracy&#39;: 85&#125;</span><br><span class="line">print &#39;Bob&#39; in d #True</span><br><span class="line">print &#39;bob&#39; in d #False</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;&#x27;Michael&#x27;: 95, &#x27;Bob&#x27;: 75, &#x27;Tracy&#x27;: 85&#125;</span><br><span class="line">print &#x27;Bob&#x27; in d #True</span><br><span class="line">print &#x27;bob&#x27; in d #False</span><br></pre></td></tr></table></figure>
 <p>通过dict提供的get方法，如果key不存在，可以返回None，或者自己指定的value：</p>
 <p>d.get('Thomas') d.get('Thomas', -1)</p>
 <p>要删除一个key，用<code>**pop(key)**</code></p>
 <p> 再来看样例2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#123;&#125;</span><br><span class="line">a.setdefault(&#39;b&#39;,1)</span><br><span class="line">print a.items(),a.keys(),a.values()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = &#123;&#125;</span><br><span class="line">a.setdefault(&#x27;b&#x27;,1)</span><br><span class="line">print a.items(),a.keys(),a.values()</span><br></pre></td></tr></table></figure>
 <p>setdefault('b',1) 如果key b不存在的话，就插入并且值设为1</p>
 <p>而items=keys+values   即key和对应的value</p>
 <h3 id="set"><strong>4.set</strong></h3>
 <p>要创建一个set，需要提供一个list作为输入集合：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s &#x3D; set([1, 2, 3])</span><br><span class="line">print s #set([1, 2, 3])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = set([1, 2, 3])</span><br><span class="line">print s #set([1, 2, 3])</span><br></pre></td></tr></table></figure>
 <p> </p>
 <p>add(key)方法可以添加元素到set中 remove(key)方法可以删除元素：</p>
 <p>set可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集、并集等操作，也可以用in 来判断是否在集合中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s1 &#x3D; set([1, 2, 3])</span><br><span class="line">s2 &#x3D; set([2, 3, 4])</span><br><span class="line">print s1 &amp; s2 #set([2, 3])</span><br><span class="line">print s1  s2 #set([1, 2, 3, 4])</span><br><span class="line">print 1 in s1 #True</span><br><span class="line">print 5 in s1 #False</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s1 = set([1, 2, 3])</span><br><span class="line">s2 = set([2, 3, 4])</span><br><span class="line">print s1 &amp; s2 #set([2, 3])</span><br><span class="line">print s1  s2 #set([1, 2, 3, 4])</span><br><span class="line">print 1 in s1 #True</span><br><span class="line">print 5 in s1 #False</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h2 id="四函数">（四）函数</h2>
 <p><strong>1.定义</strong></p>
 <p><strong>def name (params):</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def my_abs(x):</span><br><span class="line">    if x &gt;&#x3D; 0:</span><br><span class="line">        return x</span><br><span class="line">    else:</span><br><span class="line">        return -x</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def my_abs(x):</span><br><span class="line">    if x &gt;= 0:</span><br><span class="line">        return x</span><br><span class="line">    else:</span><br><span class="line">        return -x</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>2<strong>.通过字符串调用Python函数</strong></p>
 <p>假如遇到下面这种情况：我们的函数名就差几个字母（因为是不同情况下的方法），难道要写个if elif 判断？</p>
 <p>答案是No!这样太丑了！简直不忍直视！</p>
 <p>答案是用eval(func_name)(params)进行调用！</p>
 <p>eg:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">def hrsay_a(content):</span><br><span class="line">    print content</span><br><span class="line">def hrsay_b():</span><br><span class="line">    print &#39;1&#39;</span><br><span class="line"></span><br><span class="line">func_a &#x3D; &#39;hrsay_&#39;+&#39;a&#39;</span><br><span class="line">eval(func_a)(&quot;I&#39;m a handsome boy&quot;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">def hrsay_a(content):</span><br><span class="line">    print content</span><br><span class="line">def hrsay_b():</span><br><span class="line">    print &#x27;1&#x27;</span><br><span class="line"></span><br><span class="line">func_a = &#x27;hrsay_&#x27;+&#x27;a&#x27;</span><br><span class="line">eval(func_a)(&quot;I&#x27;m a handsome boy&quot;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>输出：</p>
 <p>I'm a handsome boy</p>
 <h2 id="五觉得很爽的玩意">（五）觉得很爽的玩意</h2>
 <h3 id="长度">1.长度</h3>
 <p>求任意类型的长度统一：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(xxx)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(xxx)</span><br></pre></td></tr></table></figure>
 <p>不像某语言，又size又length的</p>
 <h3 id="幂运算">2.幂运算</h3>
 <p>python 的幂运算 如x的五次方，不必写pow(x,5)了，这么写太丑了。 直接x <em>* 5 （两个</em> 代表幂运算，perl也有这个）</p>
 <h3 id="切片">3.切片</h3>
 <p>切片是最爽的功能： 看下面的例子你就秒懂了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;range(10,100); #x是个list</span><br><span class="line">print x[:10 ]   #输出前10个</span><br><span class="line">print x[-10 :]   #输出后10个</span><br><span class="line">print x[:10 :3 ]  #输出前10个，每3个取一次</span><br><span class="line">print x[::2 ] #每两个取一次</span><br><span class="line">print x[::-2] #倒着每两次取一个</span><br><span class="line">[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span><br><span class="line">[90, 91, 92, 93, 94, 95, 96, 97, 98, 99]</span><br><span class="line">[10, 13, 16, 19]</span><br><span class="line">[10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x=range(10,100); #x是个list</span><br><span class="line">print x[:10 ]   #输出前10个</span><br><span class="line">print x[-10 :]   #输出后10个</span><br><span class="line">print x[:10 :3 ]  #输出前10个，每3个取一次</span><br><span class="line">print x[::2 ] #每两个取一次</span><br><span class="line">print x[::-2] #倒着每两次取一个</span><br><span class="line">[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span><br><span class="line">[90, 91, 92, 93, 94, 95, 96, 97, 98, 99]</span><br><span class="line">[10, 13, 16, 19]</span><br><span class="line">[10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]</span><br></pre></td></tr></table></figure>
 <p>Python简洁优雅的风格一览无遗啊！！！！</p>
 <h2 id="六循环进阶">（六）循环进阶</h2>
 <h3 id="range和xrange">1. range和xrange</h3>
 <p>range和xrange如果从0开始，都可以省略0。 他们的用法一样: 下面四句都是等价的，即循环从[0,10) 不包括10</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for i in range(10): </span><br><span class="line">for i in range(0,10):</span><br><span class="line">for i in xrange(10): </span><br><span class="line">for i in xrange(0,10):</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for i in range(10): </span><br><span class="line">for i in range(0,10):</span><br><span class="line">for i in xrange(10): </span><br><span class="line">for i in xrange(0,10):</span><br></pre></td></tr></table></figure>
 <p>在Python2中，range直接生成了一个list，占用空间大，而xrange是生成一个迭代器，占用资源小，效率高，推荐后者。</p>
 <p>PS:python3中删除了range的实现，改为xrange的实现方法。同时保留了xrange。</p>
 <h4 id="for-从大到小">2. for 从大到小</h4>
 <p>你以为For循环只能从小到大么？ 一开始学的时候我还觉得不科学，其实不是的。 下面的代码输出从10~1的数：是的，它和切片一样，最后一个都是表示步长</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in xrange(10,0,-1):</span><br><span class="line">    print i</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in xrange(10,0,-1):</span><br><span class="line">    print i</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h1 id="四数组">四、数组</h1>
 <h3 id="数组创建和初始化">数组创建和初始化</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; [0] * 10  #一维数组</span><br><span class="line">b &#x3D; [[0 for j in xrange(10)] for i in xrange(10)] #二维数组</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [0] * 10  #一维数组</span><br><span class="line">b = [[0 for j in xrange(10)] for i in xrange(10)] #二维数组</span><br></pre></td></tr></table></figure>
 <p> </p>
 <p><strong>warning:</strong> 二维数组不能采用如下方法进行初始化（这样只是浅拷贝）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; [[0]*3]*3 #想要生成3*3的二维数组</span><br><span class="line">print a</span><br><span class="line">a[0][0]&#x3D;1</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = [[0]*3]*3 #想要生成3*3的二维数组</span><br><span class="line">print a</span><br><span class="line">a[0][0]=1</span><br><span class="line">print a</span><br></pre></td></tr></table></figure>
 <p>Output:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[0, 0, 0], [0, 0, 0], [0, 0, 0]]</span><br><span class="line">[[1, 0, 0], [1, 0, 0], [1, 0, 0]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[0, 0, 0], [0, 0, 0], [0, 0, 0]]</span><br><span class="line">[[1, 0, 0], [1, 0, 0], [1, 0, 0]]</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h1 id="五字符串">五、字符串</h1>
 <p>写过其他高级语言的都知道，字符串的连接用 + ，字符串复制 = ,分割字符串split</p>
 <h2 id="一字母转化">（一）字母转化</h2>
 <h3 id="大小写转化">1.大小写转化</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name &#x3D; &#39;Hrwhisper&#39;</span><br><span class="line">upper_name &#x3D; name.upper() #大写</span><br><span class="line">lower_name &#x3D; name.lower() #小写</span><br><span class="line">print upper_name</span><br><span class="line">print lower_name</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name = &#x27;Hrwhisper&#x27;</span><br><span class="line">upper_name = name.upper() #大写</span><br><span class="line">lower_name = name.lower() #小写</span><br><span class="line">print upper_name</span><br><span class="line">print lower_name</span><br></pre></td></tr></table></figure>
 <p>输出：</p>
 <p>HRWHISPER hrwhisper</p>
 <h3 id="ascii编码转化">2. ASCII编码转化</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print chr(65)  #A</span><br><span class="line">print ord(&#39;A&#39;) #65</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print chr(65)  #A</span><br><span class="line">print ord(&#x27;A&#x27;) #65</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h2 id="二join">（二）join</h2>
 <h3 id="数组转字符串">数组转字符串</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; range(10)</span><br><span class="line">print &#39;&#39;.join(str(i) for i in a)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = range(10)</span><br><span class="line">print &#x27;&#x27;.join(str(i) for i in a)</span><br></pre></td></tr></table></figure>
 <h3 id="字符串插值">字符串插值</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#39;&#39;.join(str(i) for i in xrange(10))</span><br><span class="line">print &#39;,&#39;.join(a)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = &#x27;&#x27;.join(str(i) for i in xrange(10))</span><br><span class="line">print &#x27;,&#x27;.join(a)</span><br></pre></td></tr></table></figure>
 <h2 id="三切片">（三）切片</h2>
 <h3 id="给定字符串位置进行复制">给定字符串位置进行复制</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#39;&#39;.join(str(i) for i in xrange(10)) #0~9</span><br><span class="line">print a[3:6]    #3~5</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = &#x27;&#x27;.join(str(i) for i in xrange(10)) #0~9</span><br><span class="line">print a[3:6]    #3~5</span><br></pre></td></tr></table></figure>
 <h3 id="翻转字符串">翻转字符串</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#39;&#39;.join(str(i) for i in xrange(10)) #0~9</span><br><span class="line">print a[::-1] #9~0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = &#x27;&#x27;.join(str(i) for i in xrange(10)) #0~9</span><br><span class="line">print a[::-1] #9~0</span><br></pre></td></tr></table></figure>
 <h3 id="字符串排序">字符串排序</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str&#x3D; &quot;&quot;.join((lambda x:(x.sort(),x)[1])(list(str)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str= &quot;&quot;.join((lambda x:(x.sort(),x)[1])(list(str)))</span><br></pre></td></tr></table></figure>
 <h3 id="去除末尾换行">去除末尾换行</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">line &#x3D; str.strip( &#39;&#39;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">line = str.strip( &#x27;&#x27;)</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h1 id="六栈和队列">六、栈和队列</h1>
 <p>python其实并没有这两个玩意，但是有list足矣。</p>
 <h2 id="栈">栈</h2>
 <p>由于栈是后进先出，每次入栈，还是直接append()，出栈我们只需要<strong>pop()</strong>，即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; range(5)</span><br><span class="line">a.append(5)</span><br><span class="line">print a.pop()   #5</span><br><span class="line">print a         #0~4</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = range(5)</span><br><span class="line">a.append(5)</span><br><span class="line">print a.pop()   #5</span><br><span class="line">print a         #0~4</span><br></pre></td></tr></table></figure>
 <h2 id="队列">队列</h2>
 <p>由于栈是先进先出，每次入队,还是直接append()，出队我们只需要<strong>pop(0)</strong>，即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; range(5)</span><br><span class="line">a.append(5)</span><br><span class="line">print a.pop(0) #0</span><br><span class="line">print a         #1~5</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = range(5)</span><br><span class="line">a.append(5)</span><br><span class="line">print a.pop(0) #0</span><br><span class="line">print a         #1~5</span><br></pre></td></tr></table></figure>
 <p>是不是比某写语言爽！！！</p>
 <h1 id="七文件">七、文件</h1>
 <p><strong>推荐</strong>如下写法：每次读取一行，并且自带文件关闭。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open (&#39;e:\My Clippings.txt&#39;) as f:</span><br><span class="line">    for line in f:</span><br><span class="line">        print line</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open (&#x27;e:\My Clippings.txt&#x27;) as f:</span><br><span class="line">    for line in f:</span><br><span class="line">        print line</span><br></pre></td></tr></table></figure>
 <p>毕竟咱总不至于非要这么写吧...</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">try:</span><br><span class="line">    f &#x3D; open(&#39;&#x2F;path&#x2F;to&#x2F;file&#39;, &#39;r&#39;)</span><br><span class="line">    print f.read()</span><br><span class="line">finally:</span><br><span class="line">    if f:</span><br><span class="line">        f.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">try:</span><br><span class="line">    f = open(&#x27;/path/to/file&#x27;, &#x27;r&#x27;)</span><br><span class="line">    print f.read()</span><br><span class="line">finally:</span><br><span class="line">    if f:</span><br><span class="line">        f.close()</span><br></pre></td></tr></table></figure>
 <p> </p>
 <p>对于打开一个文件，可以有如下三种读取方法：</p>
 <ul>
@@ -468,7 +468,7 @@
 <li><strong>read(size)</strong> 每次读取size 个大小，适用于<strong>文件大小未知</strong>。</li>
 <li><strong>readlines()</strong> 每次读取一行，可以来读<strong>配置文件</strong></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for line in f.readlines():</span><br><span class="line">    print(line.strip()) # 把末尾的&#39;\n&#39;删掉</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for line in f.readlines():</span><br><span class="line">    print(line.strip()) # 把末尾的&#x27;\n&#x27;删掉</span><br></pre></td></tr></table></figure>
 <p> </p>
 <h1 id="八类">八、类</h1>
 <h2 id="变量命名">变量命名</h2>
